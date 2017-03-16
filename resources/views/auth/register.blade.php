@@ -60,6 +60,15 @@
                             </div>
                         </div>
 
+                        <divclass="form-group">
+                            <label for="password-confirm" class="col-md-4 control-label">Captcha:</label>
+
+                            <div class="col-md-6">
+                                {!! app('captcha')->display()!!}
+                                {!! $errors->first('g-recaptcha-response','<p class="alert alert-danger">:message</p>')!!}
+                            </div>                            
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
