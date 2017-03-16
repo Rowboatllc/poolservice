@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <divclass="form-group">
+                        <div class="form-group">
                             <label for="password-confirm" class="col-md-4 control-label">Captcha:</label>
 
                             <div class="col-md-6">
