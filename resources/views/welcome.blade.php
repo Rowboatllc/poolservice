@@ -66,7 +66,7 @@
                             <br />
                         </div>
                         <div class="text-center">
-                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
+                                <a href="{{route('user-regis-service')}}" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>

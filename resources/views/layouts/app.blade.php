@@ -17,6 +17,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 
     <!-- Scripts -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.8.24/themes/base/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="//code.jquery.com/ui/1.8.24/jquery-ui.js"></script>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
