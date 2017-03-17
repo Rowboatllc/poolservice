@@ -27,7 +27,7 @@
                             
                         </div>
                         <div class="text-center">
-                                <button type="button" class="btn btn-default">GET SERVICE</button>
+                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                             <p class="text">We can help you find an experienced technician to assess repair needed and advise on how best to proceed.</p>
                         </div>
                         <div class="text-center">
-                                <button type="button" class="btn btn-default">GET SERVICE</button>
+                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             <br />
                         </div>
                         <div class="text-center">
-                                <button type="button" class="btn btn-default">GET SERVICE</button>
+                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
