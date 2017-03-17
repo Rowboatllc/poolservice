@@ -16,7 +16,7 @@
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
-                            <figure><img class="img-circle" src="//cdn.poolservice.com/assets/images/our service/576cb5cdfb47c05d3005bc21/weekly-service.png" alt="weekly-service"></figure>
+                            <figure><img class="img-circle" src="images/weekly-service.png" alt="weekly-service"></figure>
                             <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Weekly</span> <span class="text-color-water">Service</span></span></h2>
                         </div>
                         <div class="text-center">
@@ -36,7 +36,7 @@
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
-                            <figure><img class="img-circle" src="//cdn.poolservice.com/assets/images/our%20service/576cb5affb47c05d275fcb51/pool-repair.png" alt="weekly-service"></figure>
+                            <figure><img class="img-circle" src="images/pool-repair.png" alt="weekly-service"></figure>
                             <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Pool</span> <span class="text-color-water">Repair</span></span></h2>
                         </div>
                         <div class="text-center">
@@ -55,7 +55,7 @@
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
-                            <figure><img class="img-circle" src="//cdn.poolservice.com/assets/images/our%20service/576cb595fb47c05d035f40f1/deep-cleaning.png" alt="weekly-service"></figure>
+                            <figure><img class="img-circle" src="images/deep-cleaning.png" alt="weekly-service"></figure>
                             <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Deep</span> <span class="text-color-water">Cleaning</span></span></h2>
                         </div>
                         <div class="text-center">
@@ -63,6 +63,7 @@
                         </div>
                         <div class="text-center">
                             <p class="text">We offer one time service for those times when all your pool really needs is a good, deepscrub.</p>
+                            <br />
                         </div>
                         <div class="text-center">
                                 <button type="button" class="btn btn-default">GET SERVICE</button>
