@@ -15,7 +15,7 @@ class CreateOrderserviceTable extends Migration
     {
         Schema::create('order_service', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('account_service')->unsigned();
+            $table->integer('account_service')->unsigned()->nullable();
             $table->integer('object_owner')->unsigned();
             $table->integer('zip')->unsigned();
             $table->string('service_type');
