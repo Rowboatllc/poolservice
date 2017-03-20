@@ -23,6 +23,10 @@ class AclRepository {
         
     }
     
+    public function userHasPermission($user, $permission) {
+        
+    }
+    
     public function createPermission($data) {
         
     }
@@ -32,6 +36,10 @@ class AclRepository {
     }
     
     public function groupDettachPermissions($group, $permission) {
+        
+    }
+    
+    public function cachePermission($permission) {
         
     }
     
