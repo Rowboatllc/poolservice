@@ -15,10 +15,13 @@
                     <div class="tab1 tab-pane fade in active">
                         <h3>Tab 1</h3>
                         <div class="tab1content">
-                            <form action="test/abc" method="post" onsubmit="return false;" enctype="multipart/form-data">
+                            <form action="{{ route('nthere') }}" method="post" onsubmit="return false;" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-                                <input name="param.abc" type="text" placeholder="abc" />
-                                <input name="param.edf" type="text" placeholder="edf" />
+                                <input name="param_abc" type="text" placeholder="abc" />
+                                <input name="param_edf" type="text" placeholder="edf" />
+                                <input name="paramkey" type="hidden" value="ohohohoho" />
+                                <input name="ssssssss" type="text" placeholder="edf" />
+                                
                                 <button class="saveParam">Save</button>
                             </form>
                         </div>
