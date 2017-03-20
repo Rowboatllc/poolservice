@@ -4,154 +4,114 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#info-tab" data-toggle="tab">Information <i class="fa"></i></a></li>
-                <li><a href="#address-tab" data-toggle="tab">Address <i class="fa"></i></a></li>
-            </ul>
-            </br>
-            <form id="accountForm" method="post" class="form-horizontal">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="info-tab">
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Full name</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="fullName" />
-                            </div>
-                        </div>
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
+            <form role="form" action="" method="post" class="f1">
 
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Company</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="company" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Job title</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="jobTitle" />
-                            </div>
-                        </div>
+                <h3>Register To Our App</h3>
+                <p>Fill in the form to get instant access</p>
+                <div class="f1-steps">
+                    <div class="f1-progress">
+                        <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" style="width: 12.5%;"></div>
                     </div>
-
-                    <div class="tab-pane" id="address-tab">
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Address</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="address" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">City</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="city" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Country</label>
-                            <div class="col-xs-5">
-                                <select class="form-control" name="country">
-                                    <option value="">Select a country</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
-                                    <option value="IT">Italy</option>
-                                    <option value="JP">Japan</option>
-                                    <option value="RU">Russian</option>
-                                    <option value="US">United State</option>
-                                    <option value="GB">United Kingdom</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="f1-step active">
+                        <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                        <p>about</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                        <p>account</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon"><i class="fa fa-question"></i></div>
+                        <p>question</p>
+                    </div>
+                    <div class="f1-step">
+                        <div class="f1-step-icon"><i class="fa fa-twitter"></i></div>
+                        <p>social</p>
                     </div>
                 </div>
-
-                <div class="form-group" style="margin-top: 15px;">
-                    <div class="col-xs-5 col-xs-offset-3">
-                        <button type="submit" class="btn btn-default">Validate</button>
+                
+                <fieldset>
+                    <h4>Tell us who you are:</h4>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-first-name">First name</label>
+                        <input type="text" require="true" name="f1-first-name" placeholder="First name..." class="f1-first-name form-control" id="f1-first-name">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-last-name">Last name</label>
+                        <input type="text" name="f1-last-name" placeholder="Last name..." class="form-control" id="f1-last-name">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-about-yourself">About yourself</label>
+                        <textarea name="f1-about-yourself" placeholder="About yourself..." 
+                                                class="f1-about-yourself form-control" id="f1-about-yourself"></textarea>
+                    </div>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-next">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <h4>Set up your account:</h4>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-email">Email</label>
+                        <input type="text" name="f1-email" placeholder="Email..." class="f1-email form-control" id="f1-email">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-password">Password</label>
+                        <input type="password" name="f1-password" placeholder="Password..." class="f1-password form-control" id="f1-password">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-repeat-password">Repeat password</label>
+                        <input type="password" name="f1-repeat-password" placeholder="Repeat password..." 
+                                            class="f1-repeat-password form-control" id="f1-repeat-password">
+                    </div>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-previous">Previous</button>
+                        <button type="button" class="btn btn-next">Next</button>
+                    </div>
+                </fieldset>
+                
+                <fieldset>
+                    <h4>Security question:</h4>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-question">Question</label>
+                        <input type="text" name="f1-question" placeholder="Question..." class="f1-question form-control" id="f1-question">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-answer">Answer</label>
+                        <input type="text" name="f1-answer" placeholder="Answer..." class="f1-answer form-control" id="f1-answer">
+                    </div>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-previous">Previous</button>
+                        <button type="button" class="btn btn-next">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <h4>Social media profiles:</h4>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-facebook">Facebook</label>
+                        <input type="text" name="f1-facebook" placeholder="Facebook..." class="f1-facebook form-control" id="f1-facebook">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-twitter">Twitter</label>
+                        <input type="text" name="f1-twitter" placeholder="Twitter..." class="f1-twitter form-control" id="f1-twitter">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="f1-google-plus">Google plus</label>
+                        <input type="text" name="f1-google-plus" placeholder="Google plus..." class="f1-google-plus form-control" id="f1-google-plus">
+                    </div>
+                    <div class="f1-buttons">
+                        <button type="button" class="btn btn-previous">Previous</button>
+                        <button type="submit" class="btn btn-submit">Submit</button>
+                    </div>
+                </fieldset>
+            
             </form>
         </div>
     </div>
 </div>
-<script type="javascript">
-    $(document).ready(function() {
-        $('#accountForm').formValidation({
-            framework: 'bootstrap',
-            excluded: [':disabled'],
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                fullName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The full name is required'
-                        }
-                    }
-                },
-                company: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The company name is required'
-                        }
-                    }
-                },
-                address: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The address is required'
-                        }
-                    }
-                },
-                city: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The city is required'
-                        }
-                    }
-                }
-            }
-        })
-        // Called when a field is invalid
-        .on('err.field.fv', function(e, data) {
-            // data.element --> The field element
-
-            var $tabPane = data.element.parents('.tab-pane'),
-                tabId    = $tabPane.attr('id');
-
-            $('a[href="#' + tabId + '"][data-toggle="tab"]')
-                .parent()
-                .find('i')
-                .removeClass('fa-check')
-                .addClass('fa-times');
-        })
-        // Called when a field is valid
-        .on('success.field.fv', function(e, data) {
-            // data.fv      --> The FormValidation instance
-            // data.element --> The field element
-
-            var $tabPane = data.element.parents('.tab-pane'),
-                tabId    = $tabPane.attr('id'),
-                $icon    = $('a[href="#' + tabId + '"][data-toggle="tab"]')
-                            .parent()
-                            .find('i')
-                            .removeClass('fa-check fa-times');
-
-            // Check if all fields in tab are valid
-            var isValidTab = data.fv.isValidContainer($tabPane);
-            if (isValidTab !== null) {
-                $icon.addClass(isValidTab ? 'fa-check' : 'fa-times');
-            }
-        });
-    });
-</script>
 @endsection
 
 
