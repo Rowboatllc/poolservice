@@ -6,6 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <meta name="description" content="FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS">
+        <meta name="keywords" content="POOL, POOLSERVICE">
+        @yield('head')
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -14,6 +17,13 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         
         <!-- Scripts -->
         <script>
@@ -25,6 +35,12 @@
         <script src="{{ asset('js/nav.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
         
+        <script>
+            window.Laravel = {!! json_encode([
+                'csrfToken' => csrf_token(),
+            ]) !!};
+        </script>
+
     </head>
     <body>
         <div class="container-full">
@@ -42,6 +58,11 @@
                 @include('layouts.footer')
             </footer>
         </div>
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
+        <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
         
     </body>
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\PageRepositoryInterface;
 
 class PageController extends Controller
 {
@@ -11,10 +12,10 @@ class PageController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PageRepositoryInterface $page)
     {
        // $this->middleware('auth');
-        $this->getPageParams();
+        $this->page=$page;
     }
 
     /**
@@ -26,4 +27,5 @@ class PageController extends Controller
     {
         return view('page');
     }
+
 }

@@ -26,3 +26,6 @@ Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
 
+Route::get('/home', 'HomeController@index');
+Route::get('/contact', 'ContactController@index');
+

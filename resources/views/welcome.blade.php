@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row row-eq-height">
-            <div class="col-xs-12 col-lg-4 col-md-6 col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-lg-4 col-md-6 col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-lg-4 col-md-6 col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">

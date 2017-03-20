@@ -76,11 +76,6 @@ ul.navbar-nav {
 .navbar-inverse ul.navbar-nav li .li-social a:hover, 
 .navbar-inverse ul.navbar-nav li .li-social a:focus { border: 0; color: #f35b3f; }
 
-.navbar-brand {
-	width: 162px;
-	background: url(../img/logo.png) left center no-repeat;
-	text-indent: -99999px;
-}
 
 
 /***** Top content *****/
@@ -159,22 +154,4 @@ ul.navbar-nav {
 	.f1 { padding-bottom: 20px; }
 	.f1-buttons button { margin-bottom: 5px; }
 
-}
-
-
-/* Retina-ize images/icons */
-
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1),
-only screen and (        min-device-pixel-ratio: 2),
-only screen and (                min-resolution: 192dpi),
-only screen and (                min-resolution: 2dppx) {
-	
-	/* logo */
-    .navbar-brand {
-    	background-image: url(../img/logo@2x.png) !important; background-repeat: no-repeat !important; background-size: 162px 36px !important;
-    }
-	
 }

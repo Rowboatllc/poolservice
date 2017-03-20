@@ -1,10 +1,5 @@
 @extends('layouts.template')
 
-@section('head')
-    <meta name="description" content="FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS">
-    <meta name="keywords" content="POOL, POOLSERVICE, HOME">
-@endsection
-
 @section('content')
 <div class="panel panel-default panel-service">
     <div class="container">

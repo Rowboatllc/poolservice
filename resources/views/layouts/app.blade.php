@@ -15,22 +15,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-     <!-- CSS -->
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-    <!-- Favicon and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('ico/apple-touch-icon-144-precomposed.png') }}">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('ico/apple-touch-icon-114-precomposed.png') }}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('ico/apple-touch-icon-72-precomposed.png') }}">
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('ico/apple-touch-icon-57-precomposed.png') }}">
-
-    <link rel="img-backgrounds" href="{{ asset('img/backgrounds/1.jpg') }}">
-    <!-- Javascript -->
     
     <script>
         window.Laravel = {!! json_encode([
@@ -102,8 +93,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/common.js') }}"></script>
-    <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery.backstretch.js') }}"></script>
     <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
     <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PageRepositoryInterface;
 
-class HomeController extends Controller
+class ContactController extends Controller
 {
     /**
     * Create a new controller instance.
@@ -25,8 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $this->loadHeadInPage('home');
-        return view('home');
+        $this->loadHeadInPage('contact');
+        return view('contact');
     }
 
 }

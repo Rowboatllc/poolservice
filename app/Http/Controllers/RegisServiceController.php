@@ -10,7 +10,6 @@ class RegisServiceController extends Controller
     }
     public function index()
     {
-        // dd('hahahahahha');
         return view('poolservice');
     }
 }

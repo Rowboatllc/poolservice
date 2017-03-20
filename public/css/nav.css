@@ -133,3 +133,6 @@ body, .panel {
     display: flex;
     flex-direction: column;
 }
+body {
+    font-size: 13px;
+}
