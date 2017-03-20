@@ -17,8 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
+// Route::post('/user-regis-service', array('uses' => 'RegisServiceController'))->name('user-regis-service');
+
 
 Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
+

@@ -5,10 +5,11 @@ namespace App\Repositories;
 class OptionRepository {
 
     private $option;
-    
+
     public function __construct() {
         $this->option = app('App\Models\Options');
     }
+
     public function createOption($key, $value) {
         $option = $this->option;
         $existed = $option->find($key);
@@ -28,6 +29,19 @@ class OptionRepository {
         return $option->save();
     }
 
+    public function createOrReplaceOption($key, $value) {
+        $option = $this->option;
+        $existed = $option->find($key);
+        if ($existed) {
+            $existed->value = serialize($value);
+            return $existed->save();
+        }
+        return $option->create([
+                    'key' => $key,
+                    'value' => serialize($value)
+        ]);
+    }
+
     public function getOption($key) {
         $option = $this->option;
         $option = $option->find($key);
@@ -37,6 +51,23 @@ class OptionRepository {
 
     public function deleteOption($key) {
         return $this->option->find($key)->delete();
+    }
+
+    public function _getParams($data, $paramkey = 'paramkey', $param_prefix = 'param_') {
+        if(empty($data[$paramkey]))
+            return [];
+        $arr = [];
+        $length = strlen($param_prefix);
+        foreach ($data as $key => $value) {
+            $nkey = substr($key, $length);
+            if (substr($key, 0, $length) == $param_prefix) {
+                $arr[$nkey] = $value;
+            }
+        }
+        return [
+            'key' => $data[$paramkey],
+            'value' => $arr,
+        ];
     }
 
 }
