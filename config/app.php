@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'PoolService'),
 
     /*
     |--------------------------------------------------------------------------
@@ -229,5 +229,8 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
+
+    // set up default key word
+    'key_block_contact_left' => 'key_block_contact_left',
 
 ];

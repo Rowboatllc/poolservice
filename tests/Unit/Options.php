@@ -7,9 +7,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Repositories\OptionRepository;
 use Faker;
-use App\Models\Options;
+use App\Models\Option;
 
-class OptionsTest extends TestCase
+class OptionTest extends TestCase
 {
     private $repository;
     private $faker;
@@ -32,14 +32,14 @@ class OptionsTest extends TestCase
     
     public function test_getOption()
     {
-        $option = Options::first();
+        $option = Option::first();
         $option = $this->repository->getOption($option->key);
         $this->assertNotEmpty($option);
     }
     
     public function test_updateOption()
     {
-        $key = Options::first()->key;
+        $key = Option::first()->key;
         $value = [
             'onemoreparame' => $this->faker->text(),
             'andmore' => $this->faker->text()
@@ -50,7 +50,7 @@ class OptionsTest extends TestCase
     
     public function test_deleteOption()
     {
-        // $option = Options::first();
+        // $option = Option::first();
         // $option = $this->repository->deleteOption($option->key);
         // $this->assertTrue($option);
     }

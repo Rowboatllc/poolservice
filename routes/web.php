@@ -16,8 +16,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index');
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
 Route::post('/user-regis-service', array('uses' => 'RegisServiceController@AddNewPoolService'))->name('user-regis-service');
 
@@ -28,4 +26,6 @@ Route::post('test/abc', 'TestController@saveAbc');
 
 Route::get('/home', 'HomeController@index');
 Route::get('/contact', 'ContactController@index');
+Route::get('/manager', array('uses' => 'ManagerController@index'))->name('manager-contact');
+Route::post('/manager/contact', array('uses' => 'ManagerController@contact'))->name('manager-contact');
 

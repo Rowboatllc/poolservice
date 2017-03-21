@@ -23,13 +23,15 @@
 
          <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        
+        <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
+
         <!-- Scripts -->
         <script>
             window.Laravel = {};
             window.Laravel.csrfToken = '{{csrf_token()}}';
         </script>
         <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/nav.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
     </head>
     <body>

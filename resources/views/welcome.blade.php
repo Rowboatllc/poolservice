@@ -1,13 +1,28 @@
 @extends('layouts.template')
 
 @section('content')
+
+
 <div class="panel panel-default panel-service">
     <div class="container">
+        <div class="header-top">
+            <div class="col title">
+                <div class="text-center">
+                    <h1 class="space-title">THIS IS POOL SERVICE</h1>
+                    <h3 class="space-title">YOUR ONE STOP FOR ALL THINGS POOLS</h3>
+                    <div class="text-center">
+                            <button type="button" class="btn btn-default">CREATE ACCOUNT</button>
+                            <space />
+                            <button type="button" class="btn btn-default">LEARN MORE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col title">
                 <div class="text-center">
-                    <h1 class="space-title">GET SERVICE</h1>
-                    <p>FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS</p>
+                    <h1 class="space-title">WHAT WE DO</h1>
+                    <p>WE SERVICE THE INDUSTRY THAT SERVICES POOLS</p>
                 </div>
             </div>
         </div>
@@ -63,7 +78,6 @@
                         </div>
                         <div class="text-center">
                             <p class="text">We offer one time service for those times when all your pool really needs is a good, deepscrub.</p>
-                            <br />
                         </div>
                         <div class="text-center">
                                 <a href="{{route('user-regis-service')}}" type="button" class="btn btn-default">GET SERVICE</a>

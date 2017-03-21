@@ -1,8 +1,8 @@
 @extends('layouts.template')
 
 @section('head')
-    <meta name="description" content="FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS">
-    <meta name="keywords" content="POOL, POOLSERVICE, HOME">
+    <meta name="description" content="{{$description}}">
+    <meta name="keywords" content="{{$keywords}}">
 @endsection
 
 @section('content')

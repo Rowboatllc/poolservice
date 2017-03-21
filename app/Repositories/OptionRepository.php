@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Repositories;
+use App\Models\Option;
 
-class OptionRepository {
+class OptionRepository implements OptionRepositoryInterface {
 
     private $option;
 
-    public function __construct() {
-        $this->option = app('App\Models\Options');
+    public function __construct(Option $option) {
+        $this->option = $option;
     }
 
     public function createOption($key, $value) {
@@ -45,8 +46,12 @@ class OptionRepository {
     public function getOption($key) {
         $option = $this->option;
         $option = $option->find($key);
-        $option = $option->value;
-        return unserialize($option);
+        if(isset($option)){
+            $option = $option->value;
+            return unserialize($option);
+        }
+        return null;
+        
     }
 
     public function deleteOption($key) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\PageRepositoryInterface;
+use App\Repositories\OptionRepositoryInterface;
 
 class ContactController extends Controller
 {
@@ -12,10 +13,12 @@ class ContactController extends Controller
     *
     * @return void
     */
-    public function __construct(PageRepositoryInterface $page)
+    protected $option;
+
+    public function __construct(PageRepositoryInterface $page, OptionRepositoryInterface $option)
     {
-       // $this->middleware('auth');
        parent::__construct($page);
+       $this->option=$option;
     }
 
     /**
@@ -26,7 +29,9 @@ class ContactController extends Controller
     public function index()
     {
         $this->loadHeadInPage('contact');
-        return view('contact');
+        $block_contact_left = $this->option->getOption(config('app.key_block_contact_left'));
+        // dd($block_contact_left);
+        return view('contact', compact('block_contact_left'));
     }
 
 }

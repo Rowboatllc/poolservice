@@ -2,7 +2,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Articles extends Model
+class Categorie extends Model
 {
-	protected $table = 'articles';
+	protected $table = 'categories';
 }
