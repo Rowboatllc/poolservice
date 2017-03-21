@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
-// Route::post('/user-regis-service', array('uses' => 'RegisServiceController'))->name('user-regis-service');
+Route::post('/user-regis-service', array('uses' => 'RegisServiceController@AddNewPoolService'))->name('user-regis-service');
 
 
 Route::get('test', 'TestController@index');
