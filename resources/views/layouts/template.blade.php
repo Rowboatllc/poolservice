@@ -23,24 +23,14 @@
 
          <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
         
         <!-- Scripts -->
         <script>
             window.Laravel = {};
             window.Laravel.csrfToken = '{{csrf_token()}}';
         </script>
-        <!-- Javascript -->
         <script src="{{ asset('js/app.js') }}"></script>
-        <script src="{{ asset('js/nav.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
-        
-        <script>
-            window.Laravel = {!! json_encode([
-                'csrfToken' => csrf_token(),
-            ]) !!};
-        </script>
-
     </head>
     <body>
         <div class="container-full">
@@ -63,6 +53,5 @@
         <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
         <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
-        
     </body>
 </html>
