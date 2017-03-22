@@ -1,33 +1,36 @@
 @extends('layouts.template')
 
-@section('content')
 
+@section('baner')
+<div class="header-top baner">
+    <div class="col title">
+        <div class="text-center">
+            <h1 class="space-title baner-title">THIS IS POOL SERVICE</h1>
+            <h4 class="space-title baner-description">YOUR ONE STOP FOR ALL THINGS POOLS</h4>
+            <div class="space-title text-center">
+                    <button type="button" class="btn btn-primary">CREATE ACCOUNT</button>
+                    <space />
+                    <button type="button" class="btn btn-default">LEARN MORE</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('content')
 
 <div class="panel panel-default panel-service">
     <div class="container">
-        <div class="header-top">
-            <div class="col title">
-                <div class="text-center">
-                    <h1 class="space-title">THIS IS POOL SERVICE</h1>
-                    <h3 class="space-title">YOUR ONE STOP FOR ALL THINGS POOLS</h3>
-                    <div class="text-center">
-                            <button type="button" class="btn btn-default">CREATE ACCOUNT</button>
-                            <space />
-                            <button type="button" class="btn btn-default">LEARN MORE</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col title">
                 <div class="text-center">
-                    <h1 class="space-title">WHAT WE DO</h1>
-                    <p>WE SERVICE THE INDUSTRY THAT SERVICES POOLS</p>
+                    <p class="panel-service-title">WHAT WE DO</p>
+                    <p class="panel-service-description">WE SERVICE THE INDUSTRY THAT SERVICES POOLS</p>
                 </div>
             </div>
         </div>
         <div class="row row-eq-height">
-            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-6 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
@@ -47,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-6 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">
@@ -66,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-12 space-our item">
+            <div class="col-xs-12 col-lg-4 col-md-4  col-sm-6 space-our item">
                 <div class="col">
                     <div class="panel">
                         <div class="text-center">

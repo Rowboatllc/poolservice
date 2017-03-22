@@ -7,7 +7,7 @@ body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 body {
-    padding-top: 100px;
+    padding-top: 49px;
     background-image: url("./../images/background.jpg");
     background-position: center center;
     background-repeat:  no-repeat;
@@ -135,4 +135,24 @@ body, .panel {
 }
 body {
     font-size: 13px;
+}
+nav#header {
+    padding-top: 0px;
+}
+.baner-title{
+    color: white;
+}
+.baner{
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-bottom: 50px;
+}
+.baner-description{
+    color: #a58e11;
+}
+.baner .btn.btn-default{
+    border: 1px solid;
+}
+.panel-service p.panel-service-title{
+    font-size: 26px;
 }
