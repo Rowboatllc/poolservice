@@ -13,7 +13,7 @@ class CreateTablePullServiceSubcribers extends Migration
      */
     public function up()
     {
-        Schema::create('pool_subcribers', function (Blueprint $table) {
+        Schema::create('pool_subscribers', function (Blueprint $table) {
             $table->integer('zipcode')->unsigned();
             $table->string('service_type');
             $table->integer('user_id')->unique()->references('id')->on('users')->onDelete('cascade');
