@@ -30,11 +30,11 @@ class Controller extends BaseController
 
     protected function loadHeadInPage($alias = 'home')
     {
-        $page = $this->page->getPageByAlias($alias);
-        view()->share('title', $page->title);
-        view()->share('content', $page->content);
-        view()->share('keywords', $page->metadata_keyword);
-        view()->share('description', $page->metadata_desc);
+        // $page = $this->page->getPageByAlias($alias);
+        // view()->share('title', $page->title);
+        // view()->share('content', $page->content);
+        // view()->share('keywords', $page->metadata_keyword);
+        // view()->share('description', $page->metadata_desc);
     }
     
 }
