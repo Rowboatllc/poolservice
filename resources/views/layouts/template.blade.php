@@ -39,7 +39,7 @@
             <header class="row">
                 @include('layouts.header')
             </header>
-
+            @yield('baner')
             <div id="main" class="row">
                 <div id="app" ng-app="app">
                     @yield('content')
@@ -51,9 +51,6 @@
             </footer>
         </div>
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
-        <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
-        <script src="{{ asset('js/scripts.js') }}"></script>
+        @yield('lib')
     </body>
 </html>
