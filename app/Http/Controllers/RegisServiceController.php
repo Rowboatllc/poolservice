@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
+use App\Models\User;
 
 class RegisServiceController extends Controller
 {
-    public function __construct()
+    private $user;
+    public function __construct(UserRepository $user)
     {
-        // $this->middleware('auth');
+        $this->user=$user;
     }
 
     public function index()
@@ -49,7 +52,7 @@ class RegisServiceController extends Controller
         //     $user['logo']='';
         // }
 
-        $val=$this->user->createNewPoolSubscriber($pool);
+        $val=$this->user->AddNewPoolServiceSubscriber($pool);
 
         if($val)
         {
@@ -65,7 +68,7 @@ class RegisServiceController extends Controller
             use ($user)
             {     
                  $message->subject('Your new account');
-                 $message->to($user['email'], $user['username']);
+                 $message->to($user['email'], $user['email']);
             });
 
             //register success and message to user 
