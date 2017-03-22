@@ -9,17 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
-    protected $user,$profile,$bill,$pool;
-    public function __construct(User $user,Profiles $profile,BillingInfo $bill,PoolSubscriber $pool)
-    {
-        $this->user = $user;
-        $this->profile = $profile;
-        $this->bill = $bill;
-        $this->pool = $pool;
-    }
 	public function AddNewPoolServiceSubscriber(array $array)
     {
-        // dd($array);
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];

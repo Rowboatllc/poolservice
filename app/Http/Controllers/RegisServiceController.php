@@ -20,6 +20,7 @@ class RegisServiceController extends Controller
 
     public function AddNewPoolService(Request $request)
     {
+        dd($request->all());
         //set confirmation_code to request
         $confirmation_code = str_random(30);
         $request['confirmation_code']=$confirmation_code;

@@ -49,20 +49,27 @@ jQuery(document).ready(function() {
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
     	
-    	// fields validation
-    	parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
-			//alert($(this).attr('require'));
-    		if( $(this).val() == "" ) {
-    			$(this).addClass('input-error');
-    			next_step = false;
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-    		}
-    	});
+		var form = $( "#frmPoolSubscriber" );
+		form.validate({
+			rules: {
+				'zipcode': {
+					required: true,
+					number: true,
+					minlength: 4,
+					maxlength: 10
+				},
+				'chk_service_type[]':{
+					required: true,
+				}
+			},
+			messages: {             
+				'chk_service_type[]': "You must check at least 1 box",
+			},
+		});
 
-		// validation for checkbox
-		// parent_fieldset.find('input[type="checkbox"]').each(function() {
+    	// fields validation
+    	// parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+		// 	//alert($(this).attr('require'));
     	// 	if( $(this).val() == "" ) {
     	// 		$(this).addClass('input-error');
     	// 		next_step = false;
@@ -71,9 +78,8 @@ jQuery(document).ready(function() {
     	// 		$(this).removeClass('input-error');
     	// 	}
     	// });
-    	// fields validation
-    	
-    	if( next_step ) {
+
+    	if( next_step && form.valid()) {
     		parent_fieldset.fadeOut(400, function() {
     			// change icons
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
@@ -108,6 +114,8 @@ jQuery(document).ready(function() {
     
     // submit
     $('.f1').on('submit', function(e) {
+		
+		
     	// alert('submit');
     	// // fields validation
     	// $(this).find('input[type="text"], input[type="password"], textarea').each(function() {

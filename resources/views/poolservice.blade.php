@@ -15,11 +15,12 @@
         display: block;
         height: 24px;
     }
+    label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
 </style>
 
 <div class="container">
     <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
-        <form role="form" action="{{route('user-regis-service')}}" method="post" class="f1">
+        <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
             <h3>Register To Our App</h3>
             <p>Fill in the form to get instant access</p>
@@ -54,25 +55,25 @@
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
                     <input type="text" require="true" name="zipcode" placeholder="Zip code..." 
-                    class="zipcode form-control" id="zipcode">
+                    class="zipcode form-control" id="zipcode" required>
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="cbgroup">
                 <h4 class="text-center">Type of service</h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk-type-weekly" id="chk-type-weekly">
+                    <input type="checkbox" name="chk_service_type[]" value="weekly" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
                 </div>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk-type-poolspa" id="chk-type-poolspa">
+                    <input type="checkbox" name="chk_service_type[]" value="poolspa" id="chk-type-poolspa">
                     <label for="chk-type-poolspa">Pool or spa repair</label>
                 </div>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk-type-deepcleaning"id="chk-type-deepcleaning">
+                    <input type="checkbox" name="chk_service_type[]" value="deepcleaning" id="chk-type-deepcleaning">
                     <label for="chk-type-deepcleaning">Deep cleaning</label>
                 </div>
                 <div class="f1-buttons">

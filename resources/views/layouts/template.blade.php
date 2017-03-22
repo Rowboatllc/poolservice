@@ -53,6 +53,8 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('js/additional-methods.js') }}"></script>
         <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
     </body>

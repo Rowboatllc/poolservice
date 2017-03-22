@@ -16,13 +16,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -93,9 +86,5 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/common.js') }}"></script>
-    <script src="{{ asset('js/jquery.backstretch.js') }}"></script>
-    <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
-    <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>
