@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OptionRequest extends FormRequest
@@ -33,5 +34,20 @@ class OptionRequest extends FormRequest
             'email_address'    => 'Required|email',
             
         ];
+    }
+
+    public function after($validator)
+    {
+        if ($validator->errors()->first() != "") {
+            $validator->errors()->add('page', 'contact');
+            $validator->errors()->add('contact', 'bloc_contact_left');
+        }
+    }
+
+    protected function getValidatorInstance()
+    {
+        return parent::getValidatorInstance()->after(function ($validator) {
+            $this->after($validator);
+        });
     }
 }
