@@ -20,7 +20,7 @@ class ManagerController extends Controller
 
     public function index(){
         $block_contact_left = $this->option->getOption(config('app.key_block_contact_left'));
-        return view('admin.manager', compact('block_contact_left'));
+        return view('admin.options.manager', compact('block_contact_left'));
         
     }
 

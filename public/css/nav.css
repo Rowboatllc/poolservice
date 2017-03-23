@@ -61,20 +61,6 @@ footer {
 .navbar a {
     color: white;
 }
-.panel-service {
-    background: transparent;
-    border: 0px;
-    color: white;
-}
-
-.panel-service .item{
-    padding: 5px 10px;
-}
-
-.panel-service .item .panel {
-    background: #87c2de;
-    padding: 12px 7px;
-}
 .text-color-deep {
     color: #bc4e2f;
 }
@@ -145,7 +131,6 @@ nav#header {
 .baner{
     padding-top: 25px;
     padding-bottom: 25px;
-    margin-bottom: 50px;
 }
 .baner-description{
     color: #a58e11;
@@ -153,6 +138,6 @@ nav#header {
 .baner .btn.btn-default{
     border: 1px solid;
 }
-.panel-service p.panel-service-title{
-    font-size: 26px;
+div#app {
+    margin-top: 50px;
 }

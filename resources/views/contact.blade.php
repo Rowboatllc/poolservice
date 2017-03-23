@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="panel panel-default panel-service">
+<div class="panel panel-default panel-service panel-transparent">
     <div class="container absolute-box-in-have-images">
       <div class="col-md-6 col-sm-6">
          <div class="wrap-box-text-contact-us">
@@ -38,6 +38,7 @@
                <div class="wrap-text-area">
                   <textarea name="message" id="" cols="30" rows="10" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" ng-model="contact.message" ng-required="true" required="required"></textarea>
                </div>
+               <br />
                <a class="btn btn-primary" id="submit-contact" ng-click="">SUBMIT</a>
             </form>
          </div>

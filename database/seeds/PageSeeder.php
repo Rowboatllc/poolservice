@@ -16,14 +16,14 @@ class PageSeeder extends Seeder
 
         $homePage = factory(App\Models\Page::class)->create([
             'alias' => 'home',
-            'title' => 'home',
+            'title' => 'Home',
             'content' => 'Home pages',
             'metadata_keyword' => 'POOLSERVICE,POOL,HOME'
         ]);
 
-        $homePage = factory(App\Models\Page::class)->create([
+        $contactPage = factory(App\Models\Page::class)->create([
             'alias' => 'contact',
-            'title' => 'contact',
+            'title' => 'Contact',
             'content' => 'Contact pages'
         ]);
     }

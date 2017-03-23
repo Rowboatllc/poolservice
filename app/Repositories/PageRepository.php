@@ -13,7 +13,19 @@ class PageRepository implements PageRepositoryInterface
     }
 	
     public function getPageByAlias($alias){
-        return $this->page->where('alias',$alias)->first();
+        $page = $this->page->where('alias',$alias)->first();
+        if(!isset($page)){
+            $page = new Page();
+            $page->title = 'PoolService';
+            $page->content = '';
+            $page->metadata_keyword = '';
+            $page->metadata_desc = '';
+        }
+        return $page;
+    }
+
+    public function getAllPage(){
+        return $this->page->get();
     }
 
 }

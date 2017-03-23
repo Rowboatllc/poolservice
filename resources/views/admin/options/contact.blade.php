@@ -1,3 +1,14 @@
+<div class="panel panel-warning panel-gotadi">
+    <div class="panel-heading clickable">
+        <h3 class="panel-title text-left">Page</h3>
+        <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
+    </div>
+    <div class="panel-body">
+        Page
+    </div>
+</div>
+
+
 @if ($errors->first('contact')=='bloc_contact_left')
 <div class="panel panel-info panel-gotadi panel-gotadi-default"> 
 @else
@@ -8,7 +19,7 @@
         <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
     </div>
     <div class="panel-body">
-        <form class="form-manager-contact" role="form" method="POST" action="{{ route('manager-contact') }}">
+        <form class="form-manager-contact" role="form" method="POST" action="{{ route('admin-manager-contact') }}">
             {{ csrf_field() }}
             @if(Session::has('success'))
                 <div class="alert alert-success">Update success !!!</div>

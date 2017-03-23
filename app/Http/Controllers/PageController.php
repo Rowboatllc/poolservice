@@ -14,7 +14,6 @@ class PageController extends Controller
      */
     public function __construct(PageRepositoryInterface $page)
     {
-       // $this->middleware('auth');
         $this->page=$page;
     }
 
@@ -25,7 +24,13 @@ class PageController extends Controller
      */
     public function index()
     {
-        return view('page');
+        $pages = $this->page->getAllPage();
+        return view('admin.page', compact('pages'));
+    }
+
+    public function store(Request $request){
+        $name = $request->input('name');
+        dd($name);
     }
 
 }

@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
@@ -24,8 +22,10 @@ Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
 
-Route::get('/home', 'HomeController@index');
-Route::get('/contact', 'ContactController@index');
-Route::get('/manager', array('uses' => 'ManagerController@index'))->name('manager-contact');
-Route::post('/manager/contact', array('uses' => 'ManagerController@contact'))->name('manager-contact');
+Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
 
+Route::get('/admin/manager', array('uses' => 'ManagerController@index'))->name('admin-manager');
+Route::post('/admin/manager/contact', array('uses' => 'ManagerController@contact'))->name('admin-manager-contact');
+
+Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
+Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');

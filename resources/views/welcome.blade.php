@@ -19,7 +19,7 @@
 
 @section('content')
 
-<div class="panel panel-default panel-service">
+<div class="panel panel-default panel-service panel-transparent">
     <div class="container">
         <div class="row">
             <div class="col title">
