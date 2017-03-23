@@ -84,7 +84,39 @@ jQuery(document).ready(function() {
 					required: true,
 					email:true,
 					minlength: 8,
-					maxlength: 50
+					maxlength: 50,
+					// remote:{
+					// 	headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					// 	url: 'check-email-exists',
+					// 	type: "POST",
+					// 	data:
+					// 	{
+					// 		email: function()
+					// 		{
+					// 			return $('#frmPoolSubscriber :input[name="email"]').val();
+					// 		}
+					// 	},
+					// 	success: function(data) {						  
+					// 		if (data.success === 'true')
+					// 		{
+					// 			messages: {
+					// 				email: 'The email is already in use!'
+					// 			}
+					// 		}
+					// 	}
+                    // }
+					remote: {
+						headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+						url: "check-email-exists",
+						type: 'POST',
+						data:
+						{
+							email: function()
+							{
+								return $('#frmPoolSubscriber :input[name="email"]').val();
+							}
+						}
+					}
 				},
 				'password':{
 					required: true,
@@ -135,7 +167,12 @@ jQuery(document).ready(function() {
 					maxlength: 50
 				}
 			},
-			messages: {             
+			messages: {   
+				'email':{
+					required: "Please enter your email address.",
+                    email: "Please enter a valid email address.",
+					remote: jQuery.validator.format("{0} is already taken.")
+				},      
 				'chk_weekly_pool[]':{
 					required: "You must choose at least 1 box",
 				},

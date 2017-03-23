@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
+    protected $user;
+	
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
 	public function AddNewPoolServiceSubscriber(array $array)
     {
         // create organization object
@@ -48,6 +55,7 @@ class UserRepository
 		DB::transaction(function() use ($user, $profile,$bill,$pool)
 		{
             // save user
+            $user->status='pending';
             $user_db=$user->save();
             $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
             // save user profile			
@@ -60,5 +68,10 @@ class UserRepository
         });
         // dd('saved OK!!!!');
 		return false;
+    }
+
+    public function check_email_exist($email)
+    {
+        return User::where('email', '=',$email)->first();
     }
 }
