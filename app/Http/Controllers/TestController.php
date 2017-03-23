@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\ApiToken as ApiToken;
 
 class TestController extends Controller
 {
@@ -41,6 +42,12 @@ class TestController extends Controller
     
     private function _getParams($data) {
         
+    }
+    
+     public function createToken()
+    {
+        $tk = new ApiToken;
+        return $tk->create();
     }
     
 }
