@@ -16,6 +16,12 @@
         height: 24px;
     }
     label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
+    .col-center-block {
+    float: none;
+    display: block;
+    margin: 0 auto;
+    /* margin-left: auto; margin-right: auto; */
+}
 </style>
 
 <div class="container">
@@ -72,9 +78,9 @@
                     <input type="checkbox" name="chk_service_type[]" value="poolspa" id="chk-type-poolspa">
                     <label for="chk-type-poolspa">Pool or spa repair</label>
                 </div>
-                <div class="form-group">                        
+                <div class="form-group" >                        
                     <input type="checkbox" name="chk_service_type[]" value="deepcleaning" id="chk-type-deepcleaning">
-                    <label for="chk-type-deepcleaning">Deep cleaning</label>
+                    <label for="chk-type-deepcleaning" id="lblServiceType">Deep cleaning</label>
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
@@ -85,22 +91,23 @@
             <fieldset>
                 <h4 class="text-center">Weekly cleaning-$25</h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk-weekly-pool" id="chk-weekly-pool">
-                    <label for="chk-weekly-pool">POOL</label>                        
+                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-pool">
+                    <label for="chk-weekly-pool">POOL</label>   
+                    <div class="row"> 
+                        <div class="col-center-block">
+                            <p id="error_weekly_pool">
+                                <input name="rdo_weekly_pool" type="radio" value="salwater" id="rdo-salwater" class="require-one"/> 
+                                <label for="rdo-salwater">Salwater</label>
+                                <input name="rdo_weekly_pool" type="radio" value="chlorine" id="rdo-chlorine" class="require-one"/> 
+                                <label for="rdo-chlorine">chlorine</label>
+                            </p>
+                        </div>                    
+                    </div>                     
                 </div>
-                <div class="form-group"> 
-                    <label class="radio-inline" for="rdo-salwater">
-                        <input type="radio" name="rdo-salwater" id="rdo-salwater" checked="checked">
-                        Salwater
-                    </label> 
-                    <label class="radio-inline" for="rdo-chlorine">
-                        <input type="radio" name="rdo-chlorine" id="rdo-chlorine">
-                        Chlorine
-                    </label>
-                </div>
-                <div class="form-group">                        
-                    <input type="checkbox" name="chk-weekly-spa" id="chk-weekly-spa">
-                    <label for="chk-weekly-spa">SPA</label>
+                
+                <div class="form-group" >                        
+                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-spa">
+                    <label for="chk-weekly-spa" id=lblSpa>SPA</label>
                 </div>
                 <div class="form-group"> 
                     <label for="f1-text">Test and adjust chemicals, backwash the filter, empty the skimmer and pump baskets, brush walls and steps, and skim debirs from water surface.</label>
@@ -114,17 +121,17 @@
             <fieldset>
                 <h4 class="text-center">Your information</h4>
                 <div class="form-group">
-                    <input type="text" name="email" placeholder="Email..." class="email form-control" id="email">
+                    <input type="text" name="email" required placeholder="Email..." class="email form-control" id="email">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password..." class="password form-control" id="password">
+                    <input type="password" required name="password" placeholder="Password..." class="password form-control" id="password">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="repeat-password" placeholder="Repeat password..." 
+                    <input type="password" required name="repeat-password" placeholder="Repeat password..." 
                                         class="repeat-password form-control" id="repeat-password">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="fullname" placeholder="Fullname" class="fullname form-control" id="fullname">
+                    <input type="text" name="fullname" required placeholder="Fullname" class="fullname form-control" id="fullname">
                 </div>
                 <div class="form-group">
                     <input type="text" name="street" placeholder="Address" class="street form-control" id="street">
@@ -148,7 +155,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name="phone" placeholder="Telephone" class="f1-telephone form-control" id="f1-telephone">
+                    <input type="text" name="phone" required placeholder="Telephone" class="f1-telephone form-control" id="f1-telephone">
                 </div>
 
                 <div class="f1-buttons">
@@ -163,26 +170,26 @@
                 <div class="row vdivide">
                     <div class="col-sm-6 text-left">
                         <div class="form-group">
-                            <input type="text" name="card_name" placeholder="Name on your card" class="f1-name-card form-control" id="f1-name-card">
+                            <input type="text" required name="card_name" placeholder="Name on your card" class="f1-name-card form-control" id="f1-name-card">
                         </div>
                         <div class="form-group">
-                            <input type="text" name="card_number" placeholder="Credit card number" class="f1-cardnumber form-control" id="f1-cardnumber">
+                            <input type="text" required name="card_number" placeholder="Credit card number" class="f1-cardnumber form-control" id="f1-cardnumber">
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
-                                <input type="text" name="expiration_date" placeholder="Expirate date" class="f1-expiration-date form-control" id="f1-expiration-date">
+                                <input type="text" required name="expiration_date" placeholder="Expirate date" class="f1-expiration-date form-control" id="f1-expiration-date">
                             </div>	
                             <div class="col-sm-5 form-group">
-                                <input type="text" name="ccv" placeholder="1234" maxlength="4" class="f1-ccv-number form-control" id="f1-ccv-number">
+                                <input type="text" required name="ccv" placeholder="1234" maxlength="4" class="f1-ccv-number form-control" id="f1-ccv-number">
                             </div>	                        
                         </div>
                     </div>
                     <div class="col-sm-6 text-left">
                         <div class="form-group">
-                            <input type="text" name="billing_address" placeholder="Street address" class="f1-billing-street-address form-control" id="f1-billing-street-address">
+                            <input type="text" required name="billing_address" placeholder="Street address" class="f1-billing-street-address form-control" id="f1-billing-street-address">
                         </div>
                         <div class="form-group">
-                            <input type="text" name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
+                            <input type="text" required name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
@@ -195,7 +202,8 @@
                                 </select>
                             </div>	
                             <div class="col-sm-5 form-group">
-                                <input type="text" name="zipcode" placeholder="85085" maxlength="10" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
+                                <input type="text" name="billing_zipcode" placeholder="85085" 
+                                maxlength="10" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
                             </div>	                        
                         </div>
                     </div>
