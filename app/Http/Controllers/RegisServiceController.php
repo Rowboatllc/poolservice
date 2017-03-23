@@ -33,7 +33,7 @@ class RegisServiceController extends Controller
             Mail::send('emails.verify', compact('confirmation_code'), function($message) 
             use ($user)
             {     
-                 $message->subject('Your new account');
+                 $message->subject('Authentication your new account');
                  $message->to($user['email'], $user['email']);
             });
 

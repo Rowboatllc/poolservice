@@ -85,26 +85,6 @@ jQuery(document).ready(function() {
 					email:true,
 					minlength: 8,
 					maxlength: 50,
-					// remote:{
-					// 	headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					// 	url: 'check-email-exists',
-					// 	type: "POST",
-					// 	data:
-					// 	{
-					// 		email: function()
-					// 		{
-					// 			return $('#frmPoolSubscriber :input[name="email"]').val();
-					// 		}
-					// 	},
-					// 	success: function(data) {						  
-					// 		if (data.success === 'true')
-					// 		{
-					// 			messages: {
-					// 				email: 'The email is already in use!'
-					// 			}
-					// 		}
-					// 	}
-                    // }
 					remote: {
 						headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 						url: "check-email-exists",

@@ -21,7 +21,7 @@ class CreateProfilesTable extends Migration
             $table->string('city')->default('');
             $table->string('state')->default('');
             $table->integer('zip')->unsigned();
-            $table->integer('phone')->unsigned();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
