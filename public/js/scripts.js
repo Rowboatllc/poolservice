@@ -101,7 +101,7 @@ function validationInputData(form)
 			'zip':{
 				required: true,
 				number: true,
-				maxlength: 5
+				maxlength: 10
 			},
 			'phone':{
 				required: true,
@@ -227,10 +227,11 @@ jQuery(document).ready(function() {
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 		var card=Stripe.card.validateCardNumber($('input#f1-cardnumber').val());
 		console.log(card);
-		var day=Stripe.card.validateExpiry($('input#f1-expiration-date').val());// true
-		console.log(day);
-		var ccv=Stripe.card.validateCVC($('input#f1-ccv-number').val());// true
-		console.log(ccv);
+		// var day=Stripe.card.validateExpiry($('input#f1-expiration-date').val());// true
+		// console.log(day);
+		// var ccv=Stripe.card.validateCVC($('input#f1-ccv-number').val());// true
+		// console.log(ccv);
+		alert(card && day && ccv);
 		if(card && day && ccv)
 		{
 			Stripe.createToken({

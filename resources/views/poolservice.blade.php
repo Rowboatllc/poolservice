@@ -160,7 +160,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" placeholder="85085" class="f1-state-number form-control" id="f1-state-number">
+                        <input type="text" name="zip" maxlength="10" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
                     </div>	
                 </div>
 
@@ -185,7 +185,7 @@
                         <div class="form-group" id="error_token">
                             <input type="tel" required name="card_number" id="card_number" placeholder="Credit card number"
                             class="f1-cardnumber form-control" id="f1-cardnumber">
-                            <input type='hidden' required id='hdf_stripeToken' name='stripeToken' value='' />
+                            <input type='hidden' required id='hdf_stripeToken' name='stripeToken'/>
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
