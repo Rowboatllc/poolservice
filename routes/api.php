@@ -17,4 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('createtoken', 'TestController@createToken'); 
+Route::post('createtoken', 'TestController@createToken');
+
+Route::post('get-page', 'PageController@getPage');
+
+Route::get('get-page', 'PageController@getPage');

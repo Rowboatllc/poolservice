@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', array('uses' => 'HomeController@index'))->name('home');
+Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
 Auth::routes();
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');

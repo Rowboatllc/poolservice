@@ -25,9 +25,9 @@ class ManagerController extends Controller
     }
 
     public function contact(OptionRequest $request){
-        $val = $this->option->createOrReplaceOption(config('app.key_block_contact_left'),$request->all());
+        $result = $this->option->createOrReplaceOption(config('app.key_block_contact_left'),$request->all());
         $my_errors = ['page'=>'contact','contact'=>'bloc_contact_left'];
-        if($val)
+        if($result)
             return redirect()->back()
                         ->withInput($request->all())
                         ->withErrors($my_errors)
@@ -36,6 +36,6 @@ class ManagerController extends Controller
         return redirect()->back()
                         ->withInput($request->all())
                         ->withErrors($my_errors)
-                        ->with('error', false);
+                        ->with('error', true);
     }
 }

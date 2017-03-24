@@ -255,7 +255,7 @@ button.btn.btn_primary {
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 
-/*.panel.panel-default {
+.panel.panel-default {
     background: rgb(255, 255, 255);
     border: 0px;
 	color: black;
@@ -283,10 +283,10 @@ p.panel-service-title, p.panel-service-description{
     background: #87c2de;
     padding: 12px 7px;
 }
-form {
+form.form-page{
     color: black;
-    text-align: left;
     padding: 11px 13px;
+    text-align: left;
 }
 form.form-manager-contact {
     padding: 0px;
@@ -304,4 +304,15 @@ span.glyphicon.glyphicon-remove.form-control-feedback {
     padding-right: 12px;
     padding-top: 7px;
     color: blue;
-}*/
+}
+.help-block.has-error {
+    color: #a94442;
+}
+.alert {
+    text-align: center;
+}
+.alert-fail {
+    background-color: #f0e3d8;
+    border-color: #f0e3d8;
+    color: #a94442;
+}

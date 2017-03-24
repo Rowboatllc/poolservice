@@ -17,18 +17,17 @@
                         @endif
                         <div class="form-group{{ $errors->has('alias') ? ' has-error' : '' }}">
                             <label for="alias">Select Page:</label>
-                            <select class="form-control m-bot15" name="alias">
+                            <select class="form-control m-bot15 alias" name="alias">
                                 @if ($pages->count())
                                     @foreach($pages as $page)
-                                        {{-- <option value="{{ $page->alias }}" {{ $selectedRole == $role->id ? 'selected="selected"' : '' }}>{{ $role->name }}</option> --}}
-                                        <option value="{{ $page->alias }}" >{{ $page->alias }}</option>    
+                                        <option value="{{ $page->alias }}" {{ old('alias',$page['alias']) == $page->alias ? 'selected="selected"' : '' }}>{{ $page->alias }}</option>
                                     @endforeach                                    
                                 @endif
                             </select>     
                         </div>
                         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                             <label for="title">Tittle:</label>
-                            <input type="text" class="form-control" name="title">
+                            <input type="text" class="form-control" name="title" value="{{ old('title',$page['title'])}}">
                             @if ($errors->has('title'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('title') }}</strong>
@@ -37,28 +36,42 @@
                         </div>
                         <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
                             <label for="content">Content :</label>
-                            <input type="text" class="form-control" name="content" >
+                            <input type="text" class="form-control" name="content" value="{{ old('content',$page['content'])}}">
                             @if ($errors->has('content'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('content') }}</strong>
                                 </span>
                             @endif     
                         </div>
-                        <div class="form-group{{ $errors->has('keywords') ? ' has-error' : '' }} keywords">
+                        <div class="form-group keywords">
                             <label for="keywords">Keywords :</label><th style="width:10px">
                             <div class="form-group-keywords" id="addRowPage">
-                                <div class="form-group has-feedback">
-                                    <input type="text" class="form-control" name="keywords[]" >
-                                    <span class="glyphicon-remove-page glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                                </div>
+                                @if(isset(old('keywords',$page->keywords)[0]))
+                                    @foreach(old('keywords',$page->keywords) as $keyword)
+                                        <div class="form-group has-feedback">
+                                            <input type="text" class="form-control keyword" name="keywords[]" value="{{$keyword}}">
+                                            <span class="glyphicon-remove-page glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="form-group has-feedback {{ $errors->has('keywords') ? ' has-error' : '' }}">
+                                        <input type="text" class="form-control keyword" name="keywords[]" >
+                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group has-feedback">
                                 <i class="pull-right fa fa-plus add-btn-page" aria-hidden="true"></i>
                             </div>
+                            @if ($errors->has('keywords'))
+                                <span class="help-block {{ $errors->has('keywords') ? ' has-error' : '' }}">
+                                    <strong>{{ $errors->first('keywords') }}</strong>
+                                </span>
+                            @endif    
                         </div>
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="description">Description:</label>
-                            <input type="text" class="form-control" name="description" >
+                            <input type="text" class="form-control" name="description" value="{{ old('description',$page['description'])}}">
                             @if ($errors->has('description'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('description') }}</strong>
@@ -79,12 +92,38 @@
         $this.parent().remove();  
     });
     $(document).on('click', '.add-btn-page', function (e) {
-        var tempTr = '<div class="form-group has-feedback">'+
-                            '<input type="text" class="form-control" name="keywords[]" >'+
+        var checkValue = true;
+        $(".form-group .keyword").each(function() {
+            var $this = $(this);
+            if(!$this.val()){
+                checkValue = false;
+                $this.parent().addClass('has-error');
+                return;
+            }
+            $this.parent().removeClass('has-error');
+        });
+        if(checkValue){
+            var tempTr = '<div class="form-group has-feedback">'+
+                            '<input type="text" class="form-control keyword" name="keywords[]" >'+
                             '<span class="glyphicon-remove-page glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>'+
                         '</div>';
-        $("#addRowPage").append(tempTr)
+            $("#addRowPage").append(tempTr)
+        }
     });
+    $('.alias').on('change', function() {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');        
+        $.ajax({
+            url: '/api/get-page',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN,
+                    alias: 'contact'},
+            dataType: 'JSON',
+            success: function (data) {
+                alert(123);
+                console.log(data);
+            }
+        });
+    })
 
 </script>
 @endsection
