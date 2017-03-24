@@ -77,6 +77,10 @@ button.btn.btn-next,
 button.btn.btn-next:focus,
 button.btn.btn-next:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
 
+button.btn.btn-next-bill,
+button.btn.btn-next-bill:focus,
+button.btn.btn-next-bill:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
+
 button.btn.btn-submit,
 button.btn.btn-submit:focus,
 button.btn.btn-submit:active:focus, button.btn.btn-submit.active:focus { background: #f35b3f; }

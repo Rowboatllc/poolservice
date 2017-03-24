@@ -27,6 +27,7 @@ class RegisServiceController extends Controller
         // passed validation then save user to database	
         $pool=$request->all();
         $val=$this->user->AddNewPoolServiceSubscriber($pool);
+        dd($val);
         if($val)
         {
             //send email to verify user password_hash

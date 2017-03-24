@@ -18,6 +18,7 @@ class UserRepository
 
 	public function AddNewPoolServiceSubscriber(array $array)
     {
+        // dd($array);
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];
@@ -44,12 +45,12 @@ class UserRepository
 		$bill->billing_state=$array['billing_state'];
         $bill->zipcode=$array['zipcode'];
         $bill->country='';
-        $bill->stripe_token=$array['hdf_stripeToken'];
+        $bill->stripe_token=$array['stripeToken'];
         // create organization object
 		$pool=new PoolSubscriber();
 		$pool->service_type='';//$array['service_type'];
 		$pool->cleaning_object='pool';//$array['cleaning_object'];
-        $pool->water='salt';//$array['water'];
+        $pool->water='salt';//$array['water']; hdf_stripeToken
         $pool->price=0;
         $pool->zipcode=123456;
 		// using transaction to save data to database
@@ -65,9 +66,9 @@ class UserRepository
             $pool->save();
             // save billing info
             $bill->save();
-            // return true;
         });
-		return false;
+
+		return true;
     }
 
     public function check_email_exist($email)

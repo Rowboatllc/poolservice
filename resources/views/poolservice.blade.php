@@ -21,6 +21,16 @@
     display: block;
     margin: 0 auto;
     /* margin-left: auto; margin-right: auto; */
+    }
+    .has-error input {
+      border-width: 2px;
+    }
+    .validation.text-danger:after {
+      content: 'Validation failed';
+    }
+    .validation.text-success:after {
+      content: 'Validation passed';
+    }
 }
 </style>
 
@@ -60,8 +70,8 @@
             <fieldset>
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
-                    <input type="text" require="true" name="zipcode" placeholder="Zip code..." 
-                    class="zipcode form-control" id="zipcode" required>
+                    <input type="text" require="true" name="zipcode" placeholder="Enter zipcode 3-10 characters..." 
+                    class="zipcode form-control" id="zipcode" maxlength="10" required>
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-next">Next</button>
@@ -172,12 +182,15 @@
                         <div class="form-group">
                             <input type="text" required name="card_name" placeholder="Name on your card" class="f1-name-card form-control" id="f1-name-card">
                         </div>
-                        <div class="form-group">
-                            <input type="text" required name="card_number" placeholder="Credit card number" class="f1-cardnumber form-control" id="f1-cardnumber">
+                        <div class="form-group" id="error_token">
+                            <input type="tel" required name="card_number" id="card_number" placeholder="Credit card number"
+                            class="f1-cardnumber form-control" id="f1-cardnumber">
+                            <input type='hidden' required id='hdf_stripeToken' name='stripeToken' value='' />
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
-                                <input type="text" required name="expiration_date" placeholder="Expirate date" class="f1-expiration-date form-control" id="f1-expiration-date">
+                                <input type="tel" required name="expiration_date" placeholder="Expirate date" autocomplete="f1-expiration-date" placeholder="•• / ••"
+                                class="f1-expiration-date form-control" id="f1-expiration-date">
                             </div>	
                             <div class="col-sm-5 form-group">
                                 <input type="text" required name="ccv" placeholder="1234" maxlength="4" class="f1-ccv-number form-control" id="f1-ccv-number">
@@ -260,9 +273,13 @@
 @section('lib')
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script src="https://checkout.stripe.com/checkout.js"></script>
         <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.payment.js') }}"></script>
+        <script src="{{ asset('js/jquery.payment.min.js') }}"></script>
         <script src="{{ asset('js/additional-methods.js') }}"></script>
         <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
 @endsection
+
