@@ -255,7 +255,7 @@ button.btn.btn_primary {
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 
-.panel.panel-default {
+/*.panel.panel-default {
     background: rgb(255, 255, 255);
     border: 0px;
 	color: black;
@@ -304,4 +304,4 @@ span.glyphicon.glyphicon-remove.form-control-feedback {
     padding-right: 12px;
     padding-top: 7px;
     color: blue;
-}
+}*/

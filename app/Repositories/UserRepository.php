@@ -44,6 +44,7 @@ class UserRepository
 		$bill->billing_state=$array['billing_state'];
         $bill->zipcode=$array['zipcode'];
         $bill->country='';
+        $bill->stripe_token=$array['hdf_stripeToken'];
         // create organization object
 		$pool=new PoolSubscriber();
 		$pool->service_type='';//$array['service_type'];

@@ -210,7 +210,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next-bill">Next</button>
                 </div>
             </fieldset>
         
@@ -258,6 +258,8 @@
 @endsection
 
 @section('lib')
+        <script src="http://parsleyjs.org/dist/parsley.js"></script>    
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/additional-methods.js') }}"></script>
