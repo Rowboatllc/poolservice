@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
+use Mail;
 
 class RegisServiceController extends Controller
 {
@@ -27,15 +29,14 @@ class RegisServiceController extends Controller
         // passed validation then save user to database	
         $pool=$request->all();
         $val=$this->user->AddNewPoolServiceSubscriber($pool);
-        dd($val);
         if($val)
         {
             //send email to verify user password_hash
             Mail::send('emails.verify', compact('confirmation_code'), function($message) 
-            use ($user)
+            use ($request)
             {     
                  $message->subject('Authentication your new account');
-                 $message->to($user['email'], $user['email']);
+                 $message->to($request['email'], $request['email']);
             });
 
             //register success and message to user 
