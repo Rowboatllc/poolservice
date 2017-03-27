@@ -10,7 +10,7 @@ class PageRepository implements PageRepositoryInterface
 	
     public function __construct(Page $page)
     {
-            $this->page = $page;
+        $this->page = $page;
     }
 	
     public function getPageByAlias($alias){
@@ -19,24 +19,17 @@ class PageRepository implements PageRepositoryInterface
             $page = new Page();
             $page->title = '';
             $page->content = '';
-            $page->keywords = '';
+            $page->keywords = [];
             $page->description = '';
-        }else{
-            $this->converKeyword($page);
         }
         return $page;
     }
 
     public function getAllPage(){
-        $pages = $this->page->get();
-        foreach($pages as $page){
-            $this->converKeyword($page);
-        }
-        return $pages;
+        return $this->page->get();
     }
 
     public function createOrUpdatePage($alias, $title, $content, $keywords, $description){
-        $keywords = implode($this->space,$keywords);
         $page = $this->page->where('alias',$alias)->first();
         if (!isset($page)) {
             $page = new Page();    
