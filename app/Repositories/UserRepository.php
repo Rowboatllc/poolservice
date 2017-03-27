@@ -18,7 +18,6 @@ class UserRepository
 
 	public function AddNewPoolServiceSubscriber(array $array)
     {
-        dd($array);
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];

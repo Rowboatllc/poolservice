@@ -70,7 +70,7 @@
             <fieldset>
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
-                    <input type="text" require="true" name="zipcode" placeholder="Enter zipcode 5 characters..." 
+                    <input type="text" name="zipcode" placeholder="Enter zipcode 5 characters..." 
                     class="zipcode form-control" id="zipcode" maxlength="5" required>
                 </div>
                 <div class="f1-buttons">
@@ -160,7 +160,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" maxlength="10" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
+                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
                     </div>	
                 </div>
 
@@ -215,8 +215,8 @@
                                 </select>
                             </div>	
                             <div class="col-sm-5 form-group">
-                                <input type="text" name="billing_zipcode" placeholder="85085" 
-                                maxlength="10" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
+                                <input type="text" name="billing_zipcode" placeholder="Zipcode..." 
+                                maxlength="5" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
                             </div>	                        
                         </div>
                     </div>
@@ -270,7 +270,7 @@
 </div>
 
 <!-- Modal -->
-  <div class="modal fade" id="zipcodeModal" role="dialog">
+  <!--<div class="modal fade" id="zipcodeModal" role="dialog">
     <div class="modal-dialog">
         <form role="form">
             <div class="form-group">
@@ -279,7 +279,7 @@
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
           </form>      
     </div>
-  </div>
+  </div>-->
 @endsection
 
 @section('lib')
