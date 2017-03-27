@@ -220,7 +220,7 @@ ul.navbar-nav {
 .wrap-box-text-contact-us .contact-us-title {
     text-align: left;
 }
-.panel.panel-default {
+.panel.panel-service, .panel.panel-transparent {
     background: transparent;
     border: 0px;
 }
@@ -255,7 +255,7 @@ button.btn.btn_primary {
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 
-.panel.panel-default {
+.panel.panel-service {
     background: rgb(255, 255, 255);
     border: 0px;
 	color: black;

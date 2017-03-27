@@ -13,6 +13,7 @@
 
 Route::get('/', array('uses' => 'HomeController@index'))->name('home');
 Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
+Route::get('/contact', array('uses' => 'ContactController@index'))->name('contact');
 
 Auth::routes();
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
@@ -23,10 +24,11 @@ Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
 
-Route::group(['middleware' => ['permission']], function () {
-    Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
-});
+// Route::group(['middleware' => ['permission']], function () {
+//     Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
+// });
 
+Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
 Route::get('/admin/manager', array('uses' => 'ManagerController@index'))->name('admin-manager');
 Route::post('/admin/manager/contact', array('uses' => 'ManagerController@contact'))->name('admin-manager-contact');
 
@@ -40,3 +42,4 @@ Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));
 // Token
 Route::get('deletetoken/{id}', 'TestController@deleteToken');
 Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
+
