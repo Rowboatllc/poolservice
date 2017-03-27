@@ -13,7 +13,7 @@
             <h1 class="space-title baner-title">THIS IS POOL SERVICE</h1>
             <h4 class="space-title baner-description">YOUR ONE STOP FOR ALL THINGS POOLS</h4>
             <div class="space-title text-center">
-                    <button type="button" class="btn btn-primary">CREATE ACCOUNT</button>
+                    <a href="user-regis-service" type="button" class="btn btn-primary">CREATE ACCOUNT</a>
                     <space />
                     <button type="button" class="btn btn-default">LEARN MORE</button>
             </div>
@@ -40,7 +40,7 @@
                     <div class="panel">
                         <div class="text-center">
                             <figure><img class="img-circle" src="images/weekly-service.png" alt="weekly-service"></figure>
-                            <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Weekly</span> <span class="text-color-water">Service</span></span></h2>
+                            <h2 class="space-title"><span>GET SERVICE</span></h2>
                         </div>
                         <div class="text-center">
                             <p class="text">Sign up for weekly service today!</p>
@@ -48,9 +48,6 @@
                         <div class="text-center">
                             <p class="text">Whether salt water or chlorine, we can help you find an technician to regularly clean and maintain your pool.</p>                            
                             
-                        </div>
-                        <div class="text-center">
-                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -60,16 +57,13 @@
                     <div class="panel">
                         <div class="text-center">
                             <figure><img class="img-circle" src="images/pool-repair.png" alt="weekly-service"></figure>
-                            <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Pool</span> <span class="text-color-water">Repair</span></span></h2>
+                            <h2 class="space-title"><span>GET THE APP</span></h2>
                         </div>
                         <div class="text-center">
                             <p class="text">Got a broken pool hot tub?</p>
                         </div>
                         <div class="text-center">
                             <p class="text">We can help you find an experienced technician to assess repair needed and advise on how best to proceed.</p>
-                        </div>
-                        <div class="text-center">
-                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -79,16 +73,14 @@
                     <div class="panel">
                         <div class="text-center">
                             <figure><img class="img-circle" src="images/deep-cleaning.png" alt="weekly-service"></figure>
-                            <h2 class="space-title"><span class="text-color-deep"><span class="text-color-deep">Deep</span> <span class="text-color-water">Cleaning</span></span></h2>
+                            <h2 class="space-title"><span >JOIN NETWORK</span></span></h2>
                         </div>
                         <div class="text-center">
                             <p class="text">Restore your pool' original beauty.</p>
                         </div>
                         <div class="text-center">
                             <p class="text">We offer one time service for those times when all your pool really needs is a good, deepscrub.</p>
-                        </div>
-                        <div class="text-center">
-                                <a href="{{route('user-regis-service')}}" type="button" class="btn btn-default">GET SERVICE</a>
+                            <br />
                         </div>
                     </div>
                 </div>

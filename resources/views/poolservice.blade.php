@@ -35,7 +35,7 @@
 </style>
 
 <div class="container">
-    <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
+    <div class="col-sm-12 col-md-12 col-lg-12 form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
             <h3>Register To Our App</h3>
