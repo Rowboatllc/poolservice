@@ -2,25 +2,36 @@
 
 namespace App\Http\Middleware;
 
+use App\Repositories\AclRepository;
+use Auth;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
-{
+class CheckPermission {
+
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
-        }
+    public function handle($request, Closure $next, $guard = null) { {
+            /*$permission = $request->route()->getName();
+            $user = Auth::user();
+            if ($user == null) {
+                return redirect('/');
+            }
+            if ($permission == null) {
+                dd('@dev: not set route name yet');
+            }
+            $id = Auth::user()->id;
 
-        return $next($request);
+            $user = User::find($id);
+            $permission = AclRepository::userHasPermission($user, $permission);
+            if (!$permission)
+                return redirect(route('home'));*/
+            return $next($request);
+        }
     }
+
 }

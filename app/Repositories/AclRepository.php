@@ -24,7 +24,7 @@ class AclRepository {
     }
     
     public function userHasPermission($user, $permission) {
-        
+        return true;
     }
     
     public function createPermission($data) {

@@ -18,13 +18,14 @@ Auth::routes();
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
 Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
 Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
-Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
 
 Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
 
-Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
+Route::group(['middleware' => ['permission']], function () {
+    Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
+});
 
 Route::get('/admin/manager', array('uses' => 'ManagerController@index'))->name('admin-manager');
 Route::post('/admin/manager/contact', array('uses' => 'ManagerController@contact'))->name('admin-manager-contact');
@@ -35,3 +36,7 @@ Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin
 // Admin pages
 Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
 Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));
+
+// Token
+Route::get('deletetoken/{id}', 'TestController@deleteToken');
+Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
