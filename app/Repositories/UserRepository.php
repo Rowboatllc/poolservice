@@ -75,4 +75,9 @@ class UserRepository
     {
         return User::where('email', '=',$email)->first();
     }
+
+    public function check_zipcode_exist($zipcode)
+    {
+        return Zipcode::where('zipcode', '=',$zipcode)->first();
+    }
 }

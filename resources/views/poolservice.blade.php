@@ -70,11 +70,11 @@
             <fieldset>
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
-                    <input type="text" require="true" name="zipcode" placeholder="Enter zipcode 3-10 characters..." 
-                    class="zipcode form-control" id="zipcode" maxlength="10" required>
+                    <input type="text" require="true" name="zipcode" placeholder="Enter zipcode 5 characters..." 
+                    class="zipcode form-control" id="zipcode" maxlength="5" required>
                 </div>
                 <div class="f1-buttons">
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" id="btnZipcode" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -268,6 +268,18 @@
         </form>
     </div>
 </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="zipcodeModal" role="dialog">
+    <div class="modal-dialog">
+        <form role="form">
+            <div class="form-group">
+              <input type="text" class="form-control" id="email" placeholder="Enter email">
+            </div>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
+          </form>      
+    </div>
+  </div>
 @endsection
 
 @section('lib')

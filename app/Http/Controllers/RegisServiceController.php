@@ -61,4 +61,15 @@ class RegisServiceController extends Controller
             return response()->json('');
         }        
     }
+
+    public function check_zipcode_exists(Request $request)
+    {   
+        $val=$this->user->check_zipcode_exist($request['zipcode']);
+        if($val===null)
+        {
+            return response()->json('true');
+        }else{
+            return response()->json('');
+        }        
+    }
 }
