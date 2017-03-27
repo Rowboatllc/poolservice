@@ -17,7 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Token
 Route::post('createtoken', 'TestController@createToken');
+Route::post('refreshtoken', 'TestController@refreshNewToken');
+Route::post('checktoken', 'TestController@checkToken');
 
 // Route::group(['middleware' => ['auth']], function () {
 

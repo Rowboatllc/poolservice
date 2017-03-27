@@ -220,7 +220,7 @@ ul.navbar-nav {
 .wrap-box-text-contact-us .contact-us-title {
     text-align: left;
 }
-.panel.panel-default {
+.panel.panel-service, .panel.panel-transparent {
     background: transparent;
     border: 0px;
 }
@@ -255,7 +255,7 @@ button.btn.btn_primary {
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 
-.panel.panel-default {
+.panel.panel-service {
     background: rgb(255, 255, 255);
     border: 0px;
 	color: black;
@@ -267,12 +267,12 @@ p.panel-service-title{
     font-size: 26px;
 }
 p.panel-service-title, p.panel-service-description{
-	color: white;
+	color: rgba(62, 51, 51, 0.91);
 }
 .panel-transparent {
     background: transparent;
     border: 0px;
-    color: white;
+    color: rgba(62, 51, 51, 0.91);
 }
 
 .panel-transparent .item{
@@ -315,4 +315,27 @@ span.glyphicon.glyphicon-remove.form-control-feedback {
     background-color: #f0e3d8;
     border-color: #f0e3d8;
     color: #a94442;
+}
+
+.panel-service .item .panel {
+    background: white;
+    padding: 12px 7px;
+    border: 1px solid rgba(97, 83, 83, 0.57);
+}
+.panel-service .item .panel {
+    background: white !important;
+    padding: 12px 7px !important;
+    border: 1px solid rgba(97, 83, 83, 0.57) !important;
+}
+.space-title{
+    margin: 25px 5px !important;
+}
+.space-title span {
+    color: rgba(62, 51, 51, 0.91);
+}
+.panel-service img.img-circle {
+    width: 100px;
+    margin: 50px 10px 25px;
+    border: 1px solid #4bb2d5;
+    padding: 10px;
 }

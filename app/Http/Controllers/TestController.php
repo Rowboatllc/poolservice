@@ -50,4 +50,22 @@ class TestController extends Controller
         return $tk->create();
     }
     
+    public function deleteToken($id) {
+        $tk = new ApiToken;
+        return $tk->delete($id);
+    }
+    
+    public function revokeToken($id, $revoke=0) {
+        $tk = new ApiToken;
+        return $tk->revoke($id, $revoke);
+    }
+    
+    public function checkToken() {
+        $tk = new ApiToken;
+        $valid =  $tk->isValid();
+        return response()->json([
+                        'valid' => $valid]
+            );
+    }
+    
 }

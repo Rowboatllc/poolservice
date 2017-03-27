@@ -2,17 +2,14 @@
 
 namespace App\Repositories;
 
-//use Illuminate\Http\Request;
 use Auth;
 use Request;
 use Carbon\Carbon;
 
-
 class ApiToken {
 
-    protected $user;
     public $token;
-    protected $key = 'rowboat';
+    private $lifetime = 30;
 
     public function __construct() {
         $this->token = app('App\Models\Tokens');
@@ -20,13 +17,19 @@ class ApiToken {
 
     public function isValid() {
         $api_token = Request::bearerToken();
-        return count($this->getByToken()->first()) ? true :  false;
+        $now = Carbon::now()->toDateTimeString();
+        $token = $this->token
+                ->where('api_token', $api_token)
+                ->where('revoked', 0)
+                ->get()->first();
+        $token = empty($token->expires_on) ? '' : $token->expires_on;
+        return (!empty($token) && ($now<$token) ) ? true : false;
     }
-    
+
     public function check($data) {
         return Auth::attempt(['email' => $data['email'], 'password' => $data['password']]);
     }
-    
+
     public function getByToken() {
         return $this->token->where('api_token', $api_token)->get();
     }
@@ -34,16 +37,16 @@ class ApiToken {
     public function generateTokenString() {
         return str_random(60);
     }
-    
+
     public function create() {
         $data = Request::all();
         if (!$this->check($data))
             return false;
-        $data = [ 
+        $data = [
             'api_token' => $this->generateTokenString(),
             'user_id' => Auth::user()->id,
             'client' => $_SERVER['HTTP_USER_AGENT'],
-            'expires_on' => Carbon::now()->addDay()
+            'expires_on' => Carbon::now()->addDays($this->lifetime)
         ];
         return $this->token->create($data);
     }
@@ -54,20 +57,20 @@ class ApiToken {
         return $item->save();
     }
 
-    public function delete($api_token) {
-        return $this->getByToken()->delete();
+    public function delete($id) {
+        return $this->token->find($id)->delete();
     }
 
-    public function revoke() {
-        $item = $this->getByToken()->first();
-        $item->revoked = 1;
+    public function revoke($id, $revoked = 1) {
+        $item = $this->token->find($id);
+        $item->revoked = $revoked;
         $item->save();
     }
 
     public function isExpired() {
         $now = Carbon::now()->toDateTimeString();
         $expire_on = $this->token->expires_on;
-        return ($now < $expire_on);
+        return ($now > $expire_on);
     }
 
 }
