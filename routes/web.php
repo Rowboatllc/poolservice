@@ -30,3 +30,7 @@ Route::post('/admin/manager/contact', array('uses' => 'ManagerController@contact
 
 Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
 Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');
+
+// Admin pages
+Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
+Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));

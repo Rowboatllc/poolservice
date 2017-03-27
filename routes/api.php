@@ -22,3 +22,8 @@ Route::post('createtoken', 'TestController@createToken');
 Route::post('get-page', 'PageController@getPage');
 
 Route::get('get-page', 'PageController@getPage');
+
+
+
+Route::post('admin/save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
+Route::post('admin/login', array('uses' => 'Admin\LoginController@doLogin'))->name('admin-dologin');
