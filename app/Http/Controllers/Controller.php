@@ -33,8 +33,8 @@ class Controller extends BaseController
         $page = $this->page->getPageByAlias($alias);
         view()->share('title', $page->title);
         view()->share('content', $page->content);
-        view()->share('keywords', $page->metadata_keyword);
-        view()->share('description', $page->metadata_desc);
+        view()->share('keywords', $page->keywords);
+        view()->share('description', $page->descrption);
     }
     
 }

@@ -18,7 +18,7 @@ class OptionSeeder extends Seeder
             'alias' => 'home',
             'title' => 'home',
             'content' => 'Home pages',
-            'metadata_keyword' => 'POOLSERVICE,POOL,HOME'
+            'keywords' => 'POOLSERVICE,POOL,HOME'
         ]);
 
         $homePage = factory(App\Models\Page::class)->create([
