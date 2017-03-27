@@ -339,3 +339,6 @@ span.glyphicon.glyphicon-remove.form-control-feedback {
     border: 1px solid #4bb2d5;
     padding: 10px;
 }
+.row.row-eq-height {
+    padding: 22px;
+}

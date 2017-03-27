@@ -80,7 +80,6 @@
                         </div>
                         <div class="text-center">
                             <p class="text">We offer one time service for those times when all your pool really needs is a good, deepscrub.</p>
-                            <br />
                         </div>
                     </div>
                 </div>
