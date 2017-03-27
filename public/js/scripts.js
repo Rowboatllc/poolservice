@@ -34,7 +34,6 @@ function stripeResponseHandler(status, response) {
 		var token = response['id'];
 		// alert(JSON.stringify(response));
 		// insert the token into the form so it gets submitted to the server
-		// form$.append("<input type='hidden' id='hdf_stripeToken' name='stripeToken' value='" + token + "' />");
 		$('input#hdf_stripeToken').val(token);
 	}
 }
@@ -46,8 +45,37 @@ function validationInputData(form)
 			'zipcode': {
 				required: true,
 				number: true,
-				minlength: 3,
-				maxlength: 10
+				maxlength: 5,
+				remote: {
+					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					url: "check-zipcode-exists",
+					type: 'POST',
+					data:
+					{
+						email: function()
+						{
+							return $('#frmPoolSubscriber :input[name="zipcode"]').val();
+						}
+					},
+					success: function(data) {
+						console.log(data);
+						alert(data);
+						if(data==true)
+						{
+							// Enabled with:							
+							$('input[type="button"][id^="btnZipcode"]').attr('disabled', false);	
+							alert('true');			
+						}
+						else
+						{
+							// Disabled with:
+							
+							$('input[type="button"][id^="btnZipcode"]').attr('disabled', true);
+							$("#zipcodeModal").modal();
+							alert('false');
+						}						
+					}
+				}
 			},
 			'chk_service_type[]':{
 				required: true,
@@ -72,6 +100,12 @@ function validationInputData(form)
 						{
 							return $('#frmPoolSubscriber :input[name="email"]').val();
 						}
+					},
+					success: function(data) {
+						console.log(data);
+					},
+					error: function() {
+						console.log('test');
 					}
 				}
 			},
@@ -159,6 +193,9 @@ function validationInputData(form)
 			'stripeToken': { 
 				required: "Invalid number account."
 			},
+			'zipcode':{
+				remote: jQuery.validator.format("{0} is not existing.")
+			}
 		},
 		highlight: function(label) {
 			$(label).closest('.control-group').addClass('input-error');
@@ -231,16 +268,16 @@ jQuery(document).ready(function() {
 		// console.log(day);
 		// var ccv=Stripe.card.validateCVC($('input#f1-ccv-number').val());// true
 		// console.log(ccv);
-		alert(card && day && ccv);
-		if(card && day && ccv)
-		{
+		// alert(card && day && ccv);
+		// if(card && day && ccv)
+		// {
 			Stripe.createToken({
 				number:$('#f1-cardnumber').val(),
 				cvc:$('#f1-ccv-number').val(),
 				exp_month: '12',//$('#card-expiry-month').val(),
 				exp_year: '18',//$('#card-expiry-year').val()
 			}, stripeResponseHandler);
-		}		
+		// }		
 
 		var form = $( "#frmPoolSubscriber" );
 		validationInputData(form);
@@ -261,12 +298,13 @@ jQuery(document).ready(function() {
 
 	// next step
     $('.f1 .btn-next').on('click', function() {
+		// $("#zipcodeModal").modal();
     	var parent_fieldset = $(this).parents('fieldset');
     	var next_step = true;
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		var form = $( "#frmPoolSubscriber" );
+		var form = $( "#frmPoolSubscriber");
 		validationInputData(form);		
 
     	// fields validation
