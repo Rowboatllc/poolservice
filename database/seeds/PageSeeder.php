@@ -18,7 +18,7 @@ class PageSeeder extends Seeder
             'alias' => 'home',
             'title' => 'Home',
             'content' => 'Home pages',
-            'metadata_keyword' => 'POOLSERVICE,POOL,HOME'
+            'keywords' => 'POOLSERVICE,POOL,HOME'
         ]);
 
         $contactPage = factory(App\Models\Page::class)->create([

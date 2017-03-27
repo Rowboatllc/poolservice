@@ -18,8 +18,8 @@ $factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
         'alias' => $faker->unique()->jobTitle,
         'title' => $faker->word,
         'content' => $faker->sentence,
-        'metadata_keyword' => 'POOLSERVICE,POOL',
-        'metadata_desc' => 'FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS',
+        'keywords' => 'POOLSERVICE,POOL',
+        'description' => 'FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS',
         
     ];
 });

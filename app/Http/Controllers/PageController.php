@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PageRepositoryInterface;
 use App\Http\Requests\PageRequest;
+use Illuminate\Support\Facades\Auth;
 class PageController extends Controller
 {
     /**
@@ -50,7 +51,7 @@ class PageController extends Controller
 
     public function getPage(Request $request){
         $alias = $request->input('alias');
-        return $alias;
+        return $this->page->getPageByAlias($alias);
     }
 
 

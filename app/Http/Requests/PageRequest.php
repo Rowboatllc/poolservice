@@ -35,10 +35,10 @@ class PageRequest extends FormRequest
     }
     public function after($validator)
     {
-        $keywords = Request::input('keywords');
-        if (!isset($keywords[0])) {
-            $validator->errors()->add('keywords', 'The keywords field is required.');
-        }
+        // $keywords = Request::input('keywords');
+        // if (!isset($keywords[0])) {
+        //     $validator->errors()->add('keywords', 'The keywords field is required.');
+        // }
     }
 
     protected function getValidatorInstance()

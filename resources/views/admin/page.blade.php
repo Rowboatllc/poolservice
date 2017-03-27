@@ -43,7 +43,16 @@
                                 </span>
                             @endif     
                         </div>
-                        <div class="form-group keywords">
+                        <div class="form-group{{ $errors->has('keywords') ? ' has-error' : '' }}">
+                            <label for="keywords">Keywords:</label>
+                            <input type="text" class="form-control" name="keywords" value="{{ old('keywords',$page['keywords'])}}">
+                            @if ($errors->has('keywords'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('keywords') }}</strong>
+                                </span>
+                            @endif     
+                        </div>
+                        {{-- <div class="form-group keywords">
                             <label for="keywords">Keywords :</label><th style="width:10px">
                             <div class="form-group-keywords" id="addRowPage">
                                 @if(isset(old('keywords',$page->keywords)[0]))
@@ -68,7 +77,7 @@
                                     <strong>{{ $errors->first('keywords') }}</strong>
                                 </span>
                             @endif    
-                        </div>
+                        </div> --}}
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="description">Description:</label>
                             <input type="text" class="form-control" name="description" value="{{ old('description',$page['description'])}}">
@@ -87,7 +96,7 @@
 </div>
 
 <script>
-    $(document).on('click', '.glyphicon-remove-page', function (e) {
+    /*$(document).on('click', '.glyphicon-remove-page', function (e) {
         var $this = $(this);
         $this.parent().remove();  
     });
@@ -109,20 +118,28 @@
                         '</div>';
             $("#addRowPage").append(tempTr)
         }
-    });
+    });*/
     $('.alias').on('change', function() {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');        
-        $.ajax({
-            url: '/api/get-page',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN,
-                    alias: 'contact'},
-            dataType: 'JSON',
-            success: function (data) {
-                alert(123);
-                console.log(data);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var alias = this.value;
+        $.ajax({
+            url:"/api/get-page",
+            data: {_token: CSRF_TOKEN,
+                    alias: alias},                    
+            type: 'POST',
+            success:function(page) {
+                $('input[name="title"]').val(page.title);
+                $('input[name="content"]').val(page.content);
+                $('input[name="keywords"]').val(page.keywords);
+                $('input[name="description"]').val(page.description);
+            }
+        });      
+        
     })
 
 </script>
