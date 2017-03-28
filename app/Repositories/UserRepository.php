@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Zipcode;
 use App\Models\Profiles;
 use App\Models\BillingInfo;
 use App\Models\PoolSubscriber;
