@@ -34,13 +34,15 @@ function stripeResponseHandler(status, response) {
 		var token = response['id'];
 		// alert(JSON.stringify(response));
 		// insert the token into the form so it gets submitted to the server
+		// form$.append("<input type='hidden' id='hdf_stripeToken' name='stripeToken' value='" + token + "' />");
 		$('input#hdf_stripeToken').val(token);
 	}
 }
 
 function validationInputData()
 {	
-	return {
+	var form = $( "#frmPoolSubscriber" );
+	form.validate({
 		rules: {
 			'zipcode': {
 				required: true,
@@ -57,20 +59,20 @@ function validationInputData()
 							return $('#frmPoolSubscriber :input[name="zipcode"]').val();
 						}
 					},
-					success: function(data) {
-						console.log(data);
-						if(data==true)
-						{
-							// Enabled with:							
-							$('input[type="button"][id^="btnZipcode"]').attr('disabled', false);
-						}
-						else
-						{
-							// Disabled with:							
-							$('input[type="button"][id^="btnZipcode"]').attr('disabled', true);
-							$("#zipcodeModal").modal();
-						}						
-					}
+					// success: function(data) {
+					// 	console.log(data);
+					// 	if(data==true)
+					// 	{
+					// 		// Enabled with:							
+					// 		$('input[type="button"][id^="btnZipcode"]').attr('disabled', false);
+					// 	}
+					// 	else
+					// 	{
+					// 		// Disabled with:							
+					// 		$('input[type="button"][id^="btnZipcode"]').attr('disabled', true);
+					// 		$("#zipcodeModal").modal();
+					// 	}						
+					// }
 				}
 			},
 			'chk_service_type[]':{
@@ -96,12 +98,6 @@ function validationInputData()
 						{
 							return $('#frmPoolSubscriber :input[name="email"]').val();
 						}
-					},
-					success: function(data) {
-						console.log(data);
-					},
-					error: function() {
-						console.log('error!');
 					}
 				}
 			},
@@ -168,8 +164,8 @@ function validationInputData()
 		messages: {   
 			'zipcode':{
 				required: "Please enter zipcode.",
-				remote: "This zipcode is not existed."
-			},
+				remote: jQuery.validator.format("This zipcode is not existed.")
+			},      
 			'email':{
 				required: "Please enter your email address.",
 				email: "Please enter a valid email address.",
@@ -192,16 +188,11 @@ function validationInputData()
 			}, 
 			'stripeToken': { 
 				required: "Invalid number account."
-			}			
+			},
 		},
 		highlight: function(label) {
 			$(label).closest('.control-group').addClass('input-error');
 		},
-		// success: function(label) {
-		// 	label
-		// 	.text('passed!').addClass('valid')
-		// 	.closest('.control-group').addClass('success');
-		// },
 		errorPlacement: function(error, element) {
 			console.log(element.attr("name"));
 			// alert(element.attr("name"));
@@ -217,12 +208,14 @@ function validationInputData()
 				error.insertAfter(element);
 			}
 		}
-	};
+	});	
 }
 
-jQuery(document).ready(function() {	
+jQuery(document).ready(function() {		
 
+	validationInputData();
 	$('#f1-expiration-date').payment('formatCardExpiry');
+
     /*Fullscreen background*/    
     $('#top-navbar-1').on('shown.bs.collapse', function(){
     	$.backstretch("resize");
@@ -239,32 +232,29 @@ jQuery(document).ready(function() {
     });
     
     // next step bill
-	$('.f1 .btn-next-bill').on('click', function() {		
+	$('.f1 .btn-next-bill').on('click', function() {
     	var parent_fieldset = $(this).parents('fieldset');
-    	var next_step = true;
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		// var card=Stripe.card.validateCardNumber($('input#f1-cardnumber').val());
-		// console.log(card);
+		var card=Stripe.card.validateCardNumber($('input#f1-cardnumber').val());
+		console.log(card);
 		// var day=Stripe.card.validateExpiry($('input#f1-expiration-date').val());// true
 		// console.log(day);
 		// var ccv=Stripe.card.validateCVC($('input#f1-ccv-number').val());// true
 		// console.log(ccv);
-		// if(card && day && ccv)
-		// {
-			// Stripe.createToken({
-			// 	number:$('#f1-cardnumber').val(),
-			// 	cvc:$('#f1-ccv-number').val(),
-			// 	exp_month: '12',//$('#card-expiry-month').val(),
-			// 	exp_year: '18',//$('#card-expiry-year').val()
-			// }, stripeResponseHandler);
-		// }		
+		// alert(card && day && ccv);
+		if(card && day && ccv)
+		{
+			Stripe.createToken({
+				number:$('#f1-cardnumber').val(),
+				cvc:$('#f1-ccv-number').val(),
+				exp_month: '12',//$('#card-expiry-month').val(),
+				exp_year: '18',//$('#card-expiry-year').val()
+			}, stripeResponseHandler);
+		}			
 
-		var form = $( "#frmPoolSubscriber" );
-		form.validate(validationInputData());
-
-    	if( next_step && form.valid()) {
+    	if($( "#frmPoolSubscriber" ).valid()) {
     		parent_fieldset.fadeOut(400, function() {
     			// change icons
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
@@ -279,41 +269,13 @@ jQuery(document).ready(function() {
 	});
 
 	// next step
-    $('.f1 .btn-next').on('click', function() {
-		// $("#zipcodeModal").modal();
-    	var parent_fieldset = $(this).parents('fieldset');
-    	var next_step = true;
-    	// navigation steps / progress steps
-    	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-    	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		var form = $( "#frmPoolSubscriber");
-		form.validate(validationInputData());
-		// console.log(form.valid());
-    	if( next_step && form.valid()) {
-    		parent_fieldset.fadeOut(400, function() {
-    			// change icons
-    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-    			// progress bar
-    			bar_progress(progress_line, 'right');
-    			// show next step
-	    		$(this).next().fadeIn();
-	    		// scroll window to beginning of the form
-    			scroll_to_class( $('.f1'), 20 );
-	    	});
-    	}    	
-    });
-
-	// next step service
-    $('.f1 .btn-next-service').on('click', function() {
-		$('#frmPoolSubscriber :input[name="billing_zipcode"]').val($('#frmPoolSubscriber :input[name="zipcode"]').val());
-    	var parent_fieldset = $(this).parents('fieldset');
-    	var next_step = true;
-    	// navigation steps / progress steps
-    	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-    	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		var form = $( "#frmPoolSubscriber");
-		form.validate(validationInputData());
-    	if( next_step && form.valid()) {
+    $('.f1 .btn-next').on('click', function() {   
+		// alert(form.valid());
+    	if($( "#frmPoolSubscriber" ).valid()) {
+			var parent_fieldset = $(this).parents('fieldset');
+			// navigation steps / progress steps
+			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
     		parent_fieldset.fadeOut(400, function() {
     			// change icons
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
@@ -328,28 +290,12 @@ jQuery(document).ready(function() {
     	
     });
 
-	// next step weekly
-    $('.f1 .btn-next-weekly').on('click', function() {
-		$('#frmPoolSubscriber :input[name="zip"]').val($('#frmPoolSubscriber :input[name="zipcode"]').val());
-    	var parent_fieldset = $(this).parents('fieldset');
-    	var next_step = true;
-    	// navigation steps / progress steps
-    	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-    	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		var form = $( "#frmPoolSubscriber");
-		form.validate(validationInputData());
-    	if( next_step && form.valid()) {
-    		parent_fieldset.fadeOut(400, function() {
-    			// change icons
-    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-    			// progress bar
-    			bar_progress(progress_line, 'right');
-    			// show next step
-	    		$(this).next().fadeIn();
-	    		// scroll window to beginning of the form
-    			scroll_to_class( $('.f1'), 20 );
-	    	});
-    	}    	
+	$('#frmPoolSubscriber input').on('keyup blur', function () {
+        if ($('#frmPoolSubscriber').valid()) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
     });
     
     // previous step

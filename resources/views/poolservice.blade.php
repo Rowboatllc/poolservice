@@ -35,7 +35,7 @@
 </style>
 
 <div class="container">
-    <div class="col-sm-12 col-md-12 col-lg-12 form-box">
+    <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
             <h3>Register To Our App</h3>
@@ -70,11 +70,11 @@
             <fieldset>
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
-                    <input type="text" name="zipcode" placeholder="Enter zipcode 5 characters..." 
+                    <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
                     class="zipcode form-control" id="zipcode" maxlength="5" required>
                 </div>
                 <div class="f1-buttons">
-                    <button type="button" id="btnZipcode" class="btn btn-next">Next</button>
+                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -160,7 +160,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
+                        <input type="text" name="zip" maxlength="10" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
                     </div>	
                 </div>
 
@@ -215,8 +215,8 @@
                                 </select>
                             </div>	
                             <div class="col-sm-5 form-group">
-                                <input type="text" name="billing_zipcode" placeholder="Zipcode..." 
-                                maxlength="5" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
+                                <input type="text" name="billing_zipcode" placeholder="85085" 
+                                maxlength="10" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
                             </div>	                        
                         </div>
                     </div>
@@ -270,7 +270,7 @@
 </div>
 
 <!-- Modal -->
-  <!--<div class="modal fade" id="zipcodeModal" role="dialog">
+  <div class="modal fade" id="zipcodeModal" role="dialog">
     <div class="modal-dialog">
         <form role="form">
             <div class="form-group">
@@ -279,7 +279,7 @@
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
           </form>      
     </div>
-  </div>-->
+  </div>
 @endsection
 
 @section('lib')
