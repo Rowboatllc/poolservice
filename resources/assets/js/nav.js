@@ -1,80 +1,87 @@
-$(document).ready(function(){
+function collapsedAllGoTadi() {
+    $('.panel-gotadi').each(function () {
+        if (!$(this).hasClass('panel-gotadi-default')) {
+            $(this).find('.panel-body').slideUp();
+            $(this).find('div.clickable').addClass('panel-collapsed');
+            $(this).find('div.clickable').find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        }
 
-/**
- * This object controls the nav bar. Implement the add and remove
- * action over the elements of the nav bar that we want to change.
- *
- * @type {{flagAdd: boolean, elements: string[], add: Function, remove: Function}}
- */
-var myNavBar = {
+    });
+}
 
-    flagAdd: true,
+$(document).ready(function () {
 
-    elements: [],
-
-    init: function (elements) {
-        this.elements = elements;
-    },
-
-    add : function() {
-        if(this.flagAdd) {
-            for(var i=0; i < this.elements.length; i++) {
-                document.getElementById(this.elements[i]).className += " fixed-theme";
+    /**
+     * This object controls the nav bar. Implement the add and remove
+     * action over the elements of the nav bar that we want to change.
+     *
+     * @type {{flagAdd: boolean, elements: string[], add: Function, remove: Function}}
+     */
+    var myNavBar = {
+        flagAdd: true,
+        elements: [],
+        init: function (elements) {
+            this.elements = elements;
+        },
+        add: function () {
+            if (this.flagAdd) {
+                for (var i = 0; i < this.elements.length; i++) {
+                    document.getElementById(this.elements[i]).className += " fixed-theme";
+                }
+                this.flagAdd = false;
             }
-            this.flagAdd = false;
+        },
+        remove: function () {
+            for (var i = 0; i < this.elements.length; i++) {
+                document.getElementById(this.elements[i]).className =
+                        document.getElementById(this.elements[i]).className.replace(/(?:^|\s)fixed-theme(?!\S)/g, '');
+            }
+            this.flagAdd = true;
         }
-    },
 
-    remove: function() {
-        for(var i=0; i < this.elements.length; i++) {
-            document.getElementById(this.elements[i]).className =
-                    document.getElementById(this.elements[i]).className.replace( /(?:^|\s)fixed-theme(?!\S)/g , '' );
+    };
+
+    /**
+     * Init the object. Pass the object the array of elements
+     * that we want to change when the scroll goes down
+     */
+    myNavBar.init([
+        "header",
+        "header-container",
+        "brand"
+    ]);
+
+    /**
+     * Function that manage the direction
+     * of the scroll
+     */
+    function offSetManager() {
+
+        var yOffset = 0;
+        var currYOffSet = window.pageYOffset;
+
+        if (yOffset < currYOffSet) {
+            myNavBar.add();
         }
-        this.flagAdd = true;
+        else if (currYOffSet == yOffset) {
+            myNavBar.remove();
+        }
+
     }
 
-};
-
-/**
- * Init the object. Pass the object the array of elements
- * that we want to change when the scroll goes down
- */
-myNavBar.init(  [
-    "header",
-    "header-container",
-    "brand"
-]);
-
-/**
- * Function that manage the direction
- * of the scroll
- */
-function offSetManager(){
-
-    var yOffset = 0;
-    var currYOffSet = window.pageYOffset;
-
-    if(yOffset < currYOffSet) {
-        myNavBar.add();
-    }
-    else if(currYOffSet == yOffset){
-        myNavBar.remove();
+    /**
+     * bind to the document scroll detection
+     */
+    window.onscroll = function (e) {
+        offSetManager();
     }
 
-}
-
-/**
- * bind to the document scroll detection
- */
-window.onscroll = function(e) {
+    /**
+     * We have to do a first detectation of offset because the page
+     * could be load with scroll down set.
+     */
     offSetManager();
-}
-
-/**
- * We have to do a first detectation of offset because the page
- * could be load with scroll down set.
- */
-offSetManager();
+    collapsedAllGoTadi();
 });
 
 $(document).on('click', '.panel-heading span.clickable', function (e) {
@@ -103,18 +110,4 @@ $(document).on('click', '.panel div.clickable', function (e) {
         $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
     }
 });
-$(document).ready(function () {
-    collapsedAllGoTadi();
-});
 
-function collapsedAllGoTadi(){
-    $('.panel-gotadi').each(function() {
-        if(!$( this ).hasClass('panel-gotadi-default')){
-            $( this ).find('.panel-body').slideUp();
-            $( this ).find('div.clickable').addClass('panel-collapsed');
-            $( this ).find('div.clickable').find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-        }
-        
-    });
-    
-}
