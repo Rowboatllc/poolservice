@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OptionRequest extends FormRequest
 {
-     protected $redirect = 'admin/manager';
+     protected $redirect = 'admin/option';
     /**
      * Determine if the user is authorized to make this request.
      *
