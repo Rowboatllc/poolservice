@@ -16,11 +16,10 @@
         height: 24px;
     }
     label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
-    .col-center-block {
+    /*.col-center-block {
     float: none;
     display: block;
     margin: 0 auto;
-    /* margin-left: auto; margin-right: auto; */
     }
     .has-error input {
       border-width: 2px;
@@ -30,7 +29,7 @@
     }
     .validation.text-success:after {
       content: 'Validation passed';
-    }
+    }*/
 }
 </style>
 
@@ -74,7 +73,7 @@
                     class="zipcode form-control" id="zipcode" maxlength="5" required>
                 </div>
                 <div class="f1-buttons">
-                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next-zipcode">Next</button>
                 </div>
             </fieldset>
 
@@ -124,7 +123,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -160,7 +159,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" maxlength="10" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
+                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
                     </div>	
                 </div>
 
@@ -170,7 +169,7 @@
 
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -199,7 +198,12 @@
                     </div>
                     <div class="col-sm-6 text-left">
                         <div class="form-group">
-                            <input type="text" required name="billing_address" placeholder="Street address" class="f1-billing-street-address form-control" id="f1-billing-street-address">
+                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
+                            <label for="chk_billing_address">Same as service address</label>   
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required name="billing_address" placeholder="Street address" 
+                            class="f1-billing-street-address form-control" id="f1-billing-street-address">
                         </div>
                         <div class="form-group">
                             <input type="text" required name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
@@ -215,15 +219,15 @@
                                 </select>
                             </div>	
                             <div class="col-sm-5 form-group">
-                                <input type="text" name="billing_zipcode" placeholder="85085" 
-                                maxlength="10" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
+                                <input type="text" name="billing_zipcode" placeholder="Zipcode..." 
+                                maxlength="5" class="f1-billing-zipcode form-control" id="f1-billing-zipcode">
                             </div>	                        
                         </div>
                     </div>
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next-bill">Next</button>
+                    <button type="button" disabled="disabled" class="btn btn-next-billing">Next</button>
                 </div>
             </fieldset>
         
@@ -262,7 +266,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="submit" class="btn btn-submit">Submit</button>
+                    <button type="submit" disabled="disabled" class="btn btn-submit">Submit</button>
                 </div>
             </fieldset>
         </form>

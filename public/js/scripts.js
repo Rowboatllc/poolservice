@@ -48,32 +48,32 @@ function validationInputData()
 				required: true,
 				number: true,
 				maxlength: 5,
-				remote: {
-					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url: "check-zipcode-exists",
-					type: 'POST',
-					data:
-					{
-						zipcode: function()
-						{
-							return $('#frmPoolSubscriber :input[name="zipcode"]').val();
-						}
-					},
-					// success: function(data) {
-					// 	console.log(data);
-					// 	if(data==true)
-					// 	{
-					// 		// Enabled with:							
-					// 		$('input[type="button"][id^="btnZipcode"]').attr('disabled', false);
-					// 	}
-					// 	else
-					// 	{
-					// 		// Disabled with:							
-					// 		$('input[type="button"][id^="btnZipcode"]').attr('disabled', true);
-					// 		$("#zipcodeModal").modal();
-					// 	}						
-					// }
-				}
+				// remote: {
+				// 	headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				// 	url: "check-zipcode-exists",
+				// 	type: 'POST',
+				// 	data:
+				// 	{
+				// 		zipcode: function()
+				// 		{
+				// 			return $('#frmPoolSubscriber :input[name="zipcode"]').val();
+				// 		}
+				// 	},
+				// 	// success: function(data) {
+				// 	// 	console.log(data);
+				// 	// 	if(data==true)
+				// 	// 	{
+				// 	// 		// Enabled with:							
+				// 	// 		// $('input[type="button"][id^="btnZipcode"]').attr('disabled', false);
+				// 	// 	}
+				// 	// 	else
+				// 	// 	{
+				// 	// 		// Disabled with:							
+				// 	// 		// $('input[type="button"][id^="btnZipcode"]').attr('disabled', true);
+				// 	// 		$("#zipcodeModal").modal();
+				// 	// 	}						
+				// 	// }
+				// }
 			},
 			'chk_service_type[]':{
 				required: true,
@@ -152,20 +152,18 @@ function validationInputData()
 			},
 			'billing_address':{
 				required: true,
-				minlength: 4,
 				maxlength: 50
 			},
 			'billing_city':{
 				required: true,
-				minlength: 2,
 				maxlength: 50
 			}
 		},
 		messages: {   
-			'zipcode':{
-				required: "Please enter zipcode.",
-				remote: jQuery.validator.format("This zipcode is not existed.")
-			},      
+			// 'zipcode':{
+			// 	required: "Please enter zipcode.",
+			// 	remote: jQuery.validator.format("This zipcode is not existed.")
+			// },      
 			'email':{
 				required: "Please enter your email address.",
 				email: "Please enter a valid email address.",
@@ -190,9 +188,12 @@ function validationInputData()
 				required: "Invalid number account."
 			},
 		},
-		highlight: function(label) {
-			$(label).closest('.control-group').addClass('input-error');
-		},
+		highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+		unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
 		errorPlacement: function(error, element) {
 			console.log(element.attr("name"));
 			// alert(element.attr("name"));
@@ -269,8 +270,107 @@ jQuery(document).ready(function() {
 	});
 
 	// next step
-    $('.f1 .btn-next').on('click', function() {   
-		// alert(form.valid());
+    $('.f1 .btn-next').on('click', function() { 
+    	if($( "#frmPoolSubscriber" ).valid()) {
+			var parent_fieldset = $(this).parents('fieldset');
+			// navigation steps / progress steps
+			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+    		parent_fieldset.fadeOut(400, function() {
+    			// change icons
+    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+    			// progress bar
+    			bar_progress(progress_line, 'right');
+    			// show next step
+	    		$(this).next().fadeIn();
+	    		// scroll window to beginning of the form
+    			scroll_to_class( $('.f1'), 20 );
+	    	});
+    	}
+    	
+    });
+
+	// next step
+    $('.f1 .btn-next-zipcode').on('click', function() { 
+    	if($( "#frmPoolSubscriber" ).valid()) {
+
+			var parent_fieldset = $(this).parents('fieldset');
+			// navigation steps / progress steps
+			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+			parent_fieldset.fadeOut(400, function() {
+				// change icons
+				current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+				// progress bar
+				bar_progress(progress_line, 'right');
+				// show next step
+				$(this).next().fadeIn();
+				// scroll window to beginning of the form
+				scroll_to_class( $('.f1'), 20 );
+			});
+
+			// $.ajax({ cache: false,
+			// 	headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			// 	url: "check-zipcode-exists",
+			// 	type: 'POST',
+			// 	data:
+			// 	{
+			// 		zipcode: function()
+			// 		{
+			// 			return $('#frmPoolSubscriber :input[name="zipcode"]').val();
+			// 		}
+			// 	},
+			// 	success: function (data) {
+			// 			var parent_fieldset = $(this).parents('fieldset');
+			// 			// navigation steps / progress steps
+			// 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			// 			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+			// 			parent_fieldset.fadeOut(400, function() {
+			// 				// change icons
+			// 				current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+			// 				// progress bar
+			// 				bar_progress(progress_line, 'right');
+			// 				// show next step
+			// 				$(this).next().fadeIn();
+			// 				// scroll window to beginning of the form
+			// 				scroll_to_class( $('.f1'), 20 );
+			// 			});
+			// 		// alert(data);
+			// 		// if(data==="true")
+			// 		// {
+			// 		// 	var parent_fieldset = $(this).parents('fieldset');
+			// 		// 	// navigation steps / progress steps
+			// 		// 	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			// 		// 	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+			// 		// 	parent_fieldset.fadeOut(400, function() {
+			// 		// 		// change icons
+			// 		// 		current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+			// 		// 		// progress bar
+			// 		// 		bar_progress(progress_line, 'right');
+			// 		// 		// show next step
+			// 		// 		$(this).next().fadeIn();
+			// 		// 		// scroll window to beginning of the form
+			// 		// 		scroll_to_class( $('.f1'), 20 );
+			// 		// 	});
+			// 		// }
+			// 		// else
+			// 		// {
+			// 		// 	$("#zipcodeModal").modal();
+			// 		// }
+					
+			// 	},
+			// 	error: function (ajaxContext) {
+			// 		console.log(ajaxContext.responseText);
+			// 	}
+			// });
+
+			
+    	}
+    	
+    });
+
+	// next step
+    $('.f1 .btn-next-billing').on('click', function() { 
     	if($( "#frmPoolSubscriber" ).valid()) {
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
