@@ -16,20 +16,6 @@
         height: 24px;
     }
     label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
-    /*.col-center-block {
-    float: none;
-    display: block;
-    margin: 0 auto;
-    }
-    .has-error input {
-      border-width: 2px;
-    }
-    .validation.text-danger:after {
-      content: 'Validation failed';
-    }
-    .validation.text-success:after {
-      content: 'Validation passed';
-    }*/
 }
 </style>
 
@@ -123,7 +109,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -169,7 +155,7 @@
 
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" disabled="disabled" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next">Next</button>
                 </div>
             </fieldset>
 
@@ -227,7 +213,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" disabled="disabled" class="btn btn-next-billing">Next</button>
+                    <button type="button" class="btn btn-next-billing">Next</button>
                 </div>
             </fieldset>
         
@@ -266,7 +252,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="submit" disabled="disabled" class="btn btn-submit">Submit</button>
+                    <button type="submit" class="btn btn-submit">Submit</button>
                 </div>
             </fieldset>
         </form>
