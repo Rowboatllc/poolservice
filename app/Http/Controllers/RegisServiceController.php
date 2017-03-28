@@ -72,4 +72,17 @@ class RegisServiceController extends Controller
             return response()->json('true');
         }        
     }
+
+
+    public function addEmailNotify(Request $request)
+    {
+        // dd($request->all());
+        $user=$this->user->addEmailNotify($request['not-exist-email']);
+        if($user===null)
+        {
+            return redirect('user-regis-service');
+        }else{
+            return redirect('user-regis-service');
+        }        
+    }
 }

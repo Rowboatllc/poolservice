@@ -36,14 +36,27 @@ class UserRepository
         $profile->phone=$array['phone'];
 		// create profile Object
 		$bill=new BillingInfo();	
+        if($array['chk_billing_address']=='on')
+        {
+            $bill->billing_address=$array['street'];
+            $bill->billing_city=$array['city'];
+            $bill->billing_state=$array['state'];
+            $bill->zipcode=$array['zip'];
+        }
+        else
+        {
+            $bill->billing_address=$array['billing_address'];
+            $bill->billing_city=$array['billing_city'];
+            $bill->billing_state=$array['billing_state'];
+            $bill->zipcode=$array['zipcode'];
+        }
+
 		$bill->card_name=$array['card_name'];
 		$bill->card_number=$array['card_number'];
 		$bill->expiration_date=date("Y-m-d");//$array['expiration_date'];
 		$bill->ccv=$array['ccv'];
-		$bill->billing_address=$array['billing_address'];
-		$bill->billing_city=$array['billing_city'];
-		$bill->billing_state=$array['billing_state'];
-        $bill->zipcode=$array['zipcode'];
+		
+        
         $bill->country='';
         $bill->stripe_token=$array['stripeToken'];
         // create organization object
@@ -79,5 +92,17 @@ class UserRepository
     public function check_zipcode_exist($zipcode)
     {
         return Zipcode::where('zipcode', '=',$zipcode)->first();
+    }
+
+    public function addEmailNotify($email)
+    {
+        // create organization object
+		$user=new User();
+        $confirmation_code = str_random(30);
+		$user->email=$email;
+        $user->password=bcrypt('rowboat');
+        $user->confirmation_code=$confirmation_code;
+
+        return $user->save();
     }
 }

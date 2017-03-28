@@ -20,6 +20,7 @@ Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'
 Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
 Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
 Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
+Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
 
 Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');

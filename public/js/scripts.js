@@ -182,9 +182,50 @@ function validationInputData()
 	});	
 }
 
-jQuery(document).ready(function() {		
+function validationEmail()
+{
+	var form = $( "#frmEmailNotify" );
+	form.validate({
+		rules: {
+			'not-exist-email':{
+				required: true,
+				email:true,
+				maxlength: 50,
+				remote: {
+					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					url: "check-email-exists",
+					type: 'POST',
+					data:
+					{
+						email: function()
+						{
+							return $('#frmEmailNotify :input[name="not-exist-email"]').val();
+						}
+					}
+				}
+			}
+		},
+		messages: {
+			'not-exist-email':{
+				required: "Please enter your email address.",
+				email: "Please enter a valid email address.",
+				remote: jQuery.validator.format("This email is already existed.")
+			}
+		},
+		highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+		unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        }
+	});	
+}
 
+jQuery(document).ready(function() {		
+	//main form validation
 	validationInputData();
+	// email form validation
+	validationEmail();
 	$('#f1-expiration-date').payment('formatCardExpiry');
 
     /*Fullscreen background*/    
@@ -326,13 +367,32 @@ jQuery(document).ready(function() {
     	}    	
     });
 
-	// $('#frmPoolSubscriber input').on('keyup blur', function () {
-    //     if ($('#frmPoolSubscriber').valid()) {
-    //         $('button.btn').prop('disabled', false);
-    //     } else {
-    //         $('button.btn').prop('disabled', 'disabled');			
-    //     }
-    // });
+	$('#frmPoolSubscriber input[name="chk_billing_address"]').on('change', function () {
+		if($("#chk_billing_address").is(':checked'))
+		{
+			$("#f1-billing-street-address").val($("#street").val());
+			$("#f1-billing-city").val($("#city").val());
+			$("#f1-billing-zipcode").val($("#zipcode").val());
+			$("#billing_state").val($("#select-state").val());
+
+			$("#f1-billing-street-address").prop('disabled', 'disabled');
+			$("#f1-billing-city").prop('disabled', 'disabled');
+			$("#f1-billing-zipcode").prop('disabled', 'disabled');
+			$("#billing_state").prop('disabled', 'disabled');
+		}			
+		else
+		{
+			$("#f1-billing-street-address").val('');
+			$("#f1-billing-city").val('');
+			$("#f1-billing-zipcode").val('');
+			$("#billing_state").val('');
+
+			$("#f1-billing-street-address").prop('disabled', false);
+			$("#f1-billing-city").prop('disabled', false);
+			$("#f1-billing-zipcode").prop('disabled', false);
+			$("#billing_state").prop('disabled', false);
+		}
+    });
     
     // previous step
     $('.f1 .btn-previous').on('click', function() {
@@ -353,5 +413,17 @@ jQuery(document).ready(function() {
     });
     
     // submit
-	$('.f1').on('submit', function(e) {});
+	var frm = $('#frmPoolSubscriber');
+    frm.submit(function (ev) {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#completedRegis").modal();
+            }
+        });
+
+        ev.preventDefault();
+    });
 });

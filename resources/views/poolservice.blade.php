@@ -145,7 +145,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-state-number">
+                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-zipcode">
                     </div>	
                 </div>
 
@@ -259,17 +259,47 @@
     </div>
 </div>
 
-<!-- Modal -->
-  <div class="modal fade" id="zipcodeModal" role="dialog">
-    <div class="modal-dialog">
-        <form role="form">
+<!-- Modal email notify-->
+  <div class="modal fade" id="zipcodeModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">        
+        <form id="frmEmailNotify" role="form" action="{{route('add-email-notify')}}" method="post">
+            {{ csrf_field() }}
             <div class="form-group">
-              <input type="text" class="form-control" id="email" placeholder="Enter email">
+                <label>Not in service area. Enter email address to be notified when your area is covered</label>  
             </div>
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
-          </form>      
-    </div>
-  </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="not-exist-email" required id="not_exist_email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>            
+          </form>     
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal completed notify-->
+  <div class="modal fade" id="completedRegis" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">        
+        <form id="frmcompletedRegis" role="form">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) and follow the instruction to completed the sign up process</label>  
+            </div>
+            <div class="form-group">
+                <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
+            </div>            
+          </form>     
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('lib')
