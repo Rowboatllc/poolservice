@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
-
     <head>
+        <base href="{{ config('app.url') }}" />
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,6 @@
         <title>{{ config('app.name', 'PoolService') }}</title>
        
         <!-- CSS -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
@@ -39,7 +38,7 @@
                 @include('layouts.header')
             </header>
             @yield('baner')
-            <div id="main" class="row">
+            <div id="main" class="row admin-panel">
                 <div id="app" ng-app="app">
                     @yield('content')
                 </div>    

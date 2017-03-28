@@ -19,7 +19,7 @@
         <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
     </div>
     <div class="panel-body">
-        <form class="form-manager-contact" role="form" method="POST" action="{{ route('admin-manager-contact') }}">
+        <form class="form-manager-contact" role="form" method="POST" action="{{ route('admin-option-contact') }}">
             {{ csrf_field() }}
             @if(Session::has('success'))
                 <div class="alert alert-success">Update success !!!</div>

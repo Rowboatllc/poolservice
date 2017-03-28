@@ -2,6 +2,7 @@
 <html lang="{{ config('app.locale') }}">
 
     <head>
+        <base href="{{ config('app.url') }}" />
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,24 +16,18 @@
         <title>{{ config('app.name', 'PoolService') }}</title>
        
         <!-- CSS -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-         <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
-
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
         <!-- Scripts -->
         <script>
             window.Laravel = {};
             window.Laravel.csrfToken = '{{csrf_token()}}';
         </script>
         <script src="{{ asset('js/app.js') }}"></script>
-        <script src="{{ asset('js/nav.js') }}"></script>
-        <script src="{{ asset('js/common.js') }}"></script>
+        <script src="{{ asset('js/admin.js') }}"></script>
     </head>
     <body>
         <div class="container-full">

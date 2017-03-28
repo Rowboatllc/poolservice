@@ -25,22 +25,21 @@ Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');
 Route::post('test/abc', 'TestController@saveAbc');
 
-// Route::group(['middleware' => ['permission']], function () {
-//     Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
-// });
+Route::group(['middleware' => ['permission']], function () {
 
-Route::get('/admin', array('uses' => 'ManagerController@index'))->name('admin-manager');
-Route::get('/admin/manager', array('uses' => 'ManagerController@index'))->name('admin-manager');
-Route::post('/admin/manager/contact', array('uses' => 'ManagerController@contact'))->name('admin-manager-contact');
+    Route::get('/admin', array('uses' => 'Admin\DashboardController@index'))->name('admin-manager');
+    Route::get('/admin/option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
+    Route::post('admin/option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
 
-Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
-Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');
+    Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
+    Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');
 
-// Admin pages
-Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
-Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));
+    // Admin pages
+    //Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
+    //Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));
 
-// Token
-Route::get('deletetoken/{id}', 'TestController@deleteToken');
-Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
+    // Token
+    Route::get('deletetoken/{id}', 'TestController@deleteToken');
+    Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
 
+});
