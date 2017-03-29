@@ -342,3 +342,6 @@ span.glyphicon.glyphicon-remove.form-control-feedback {
 .row.row-eq-height {
     padding: 22px;
 }
+.panel.panel-default {
+    border: 1px solid #d3e0e9;
+}

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\PageRepositoryInterface;
 use App\Http\Requests\PageRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\AclRepository;
 class PageController extends Controller
 {
     /**
@@ -13,9 +14,13 @@ class PageController extends Controller
      *
      * @return void
      */
-    public function __construct(PageRepositoryInterface $page)
+    protected $page;
+    protected $acl;
+    public function __construct(PageRepositoryInterface $page, AclRepository $acl)
     {
         $this->page=$page;
+        $this->acl=$acl;
+        
     }
 
     /**
@@ -52,6 +57,12 @@ class PageController extends Controller
     public function getPage(Request $request){
         $alias = $request->input('alias');
         return $this->page->getPageByAlias($alias);
+    }
+
+    public function testACL(){
+        $group_name = 'Test';
+        $group_description = 'Test description';
+        $this->acl->createGroup($group_name,$group_description);
     }
     
 }

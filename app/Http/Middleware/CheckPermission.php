@@ -16,20 +16,14 @@ class CheckPermission {
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null) { {
-            /*$permission = $request->route()->getName();
-            $user = Auth::user();
-            if ($user == null) {
-                return redirect('/');
-            }
-            if ($permission == null) {
+            $route = $request->route()->getName();
+            if (!isset($route)) {
                 dd('@dev: not set route name yet');
             }
-            $id = Auth::user()->id;
-
-            $user = User::find($id);
-            $permission = AclRepository::userHasPermission($user, $permission);
-            if (!$permission)
-                return redirect(route('home'));*/
+            $user = Auth::user();
+            $hasPermission = AclRepository::userHasPermission($user->id, $route);
+            if (!$hasPermission)
+                dd("You don't have permission!");
             return $next($request);
         }
     }
