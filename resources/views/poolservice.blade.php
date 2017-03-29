@@ -66,15 +66,15 @@
             <fieldset id="cbgroup">
                 <h4 class="text-center">Type of service</h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_service_type[]" value="weekly" id="chk-type-weekly">
+                    <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
                 </div>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_service_type[]" value="poolspa" id="chk-type-poolspa">
+                    <input type="checkbox" name="chk_service_type[]" value="pool_spa_repair" id="chk-type-poolspa">
                     <label for="chk-type-poolspa">Pool or spa repair</label>
                 </div>
                 <div class="form-group" >                        
-                    <input type="checkbox" name="chk_service_type[]" value="deepcleaning" id="chk-type-deepcleaning">
+                    <input type="checkbox" name="chk_service_type[]" value="deep_cleaning" id="chk-type-deepcleaning">
                     <label for="chk-type-deepcleaning" id="lblServiceType">Deep cleaning</label>
                 </div>
                 <div class="f1-buttons">
@@ -84,14 +84,15 @@
             </fieldset>
             
             <fieldset>
-                <h4 class="text-center">Weekly cleaning-$25</h4>
+                <h4 class="text-center">Weekly cleaning-<span id="weekly_money">$25</span></h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-pool">
+                    <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
+                    <input type="hidden" name="price" id="hdf_price">
                     <label for="chk-weekly-pool">POOL</label>   
                     <div class="row"> 
-                        <div class="col-center-block">
+                        <div class="col-md-4 centered">
                             <p id="error_weekly_pool">
-                                <input name="rdo_weekly_pool" type="radio" value="salwater" id="rdo-salwater" class="require-one"/> 
+                                <input name="rdo_weekly_pool" type="radio" value="salt" id="rdo-salwater" class="require-one"/> 
                                 <label for="rdo-salwater">Salwater</label>
                                 <input name="rdo_weekly_pool" type="radio" value="chlorine" id="rdo-chlorine" class="require-one"/> 
                                 <label for="rdo-chlorine">chlorine</label>
@@ -101,7 +102,7 @@
                 </div>
                 
                 <div class="form-group" >                        
-                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-spa">
+                    <input type="checkbox" name="chk_weekly_pool[]" value="spa" id="chk-weekly-spa" class="chk-service-weely">
                     <label for="chk-weekly-spa" id=lblSpa>SPA</label>
                 </div>
                 <div class="form-group"> 
@@ -109,7 +110,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next-weekly">Next</button>
                 </div>
             </fieldset>
 

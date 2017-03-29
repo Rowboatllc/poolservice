@@ -18,7 +18,7 @@ class CreateTablePullServiceSubcribers extends Migration
             $table->string('service_type');
             $table->integer('user_id')->unique()->references('id')->on('users')->onDelete('cascade');
             
-            $table->enum('cleaning_object', array('pool', 'spa'));
+            $table->string('cleaning_object');
             $table->enum('water', array('salt', 'chlorine'))->nullable();
             $table->float('price')->default(0);
             $table->timestamps();
