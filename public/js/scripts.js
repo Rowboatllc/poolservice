@@ -32,7 +32,6 @@ function stripeResponseHandler(status, response) {
 		var form$ = $("#frmPoolSubscriber");
 		// token contains id, last4, and card type
 		var token = response['id'];
-		// alert(JSON.stringify(response));
 		// insert the token into the form so it gets submitted to the server
 		// form$.append("<input type='hidden' id='hdf_stripeToken' name='stripeToken' value='" + token + "' />");
 		$('input#hdf_stripeToken').val(token);
@@ -168,7 +167,6 @@ function validationInputData()
         },
 		errorPlacement: function(error, element) {
 			console.log(element.attr("name"));
-			// alert(element.attr("name"));
 			if (element.attr("name") == "chk_weekly_pool[]") {					
 				error.insertAfter("#lblSpa");
 			} else if(element.attr("name") == "chk_service_type[]"){
@@ -266,11 +264,9 @@ jQuery(document).ready(function() {
 		var ccv=Stripe.card.validateCVC(ccv_number);// true
 		console.log(ccv);
 
-		// alert(card && day && ccv);		
 		if(card && day && ccv)
 		{
 			var arr = expiration_date.split('/');
-			alert(arr[0] + ' hahahahah ' + arr[1]);
 			Stripe.createToken({
 				number:card_number,
 				cvc:ccv_number,
@@ -292,6 +288,8 @@ jQuery(document).ready(function() {
 	    	});
     	}
 	});
+
+
 
 	// next step
     $('.f1 .btn-next').on('click', function() { 
@@ -361,8 +359,9 @@ jQuery(document).ready(function() {
     });
 
 	// next step
-    $('.f1 .btn-next-billing').on('click', function() { 
+    $('.f1 .btn-next-weekly').on('click', function() { 		
     	if($( "#frmPoolSubscriber" ).valid()) {
+			$('#frmPoolSubscriber :input[name="zip"]').val($('#frmPoolSubscriber :input[name="zipcode"]').val());
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -379,6 +378,19 @@ jQuery(document).ready(function() {
 	    	});
     	}    	
     });
+
+	$('#frmPoolSubscriber .chk-service-weely').on('change', function () {
+		if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
+		{
+			$('#weekly_money').text('$30');
+			$('#hdf_price').val('30');
+		}
+		else
+		{
+			$('#weekly_money').text('$25');
+			$('#hdf_price').val('25');
+		}
+	});
 
 	$('#frmPoolSubscriber input[name="chk_billing_address"]').on('change', function () {
 		if($("#chk_billing_address").is(':checked'))
@@ -426,17 +438,19 @@ jQuery(document).ready(function() {
     });
     
     // submit
-	var frm = $('#frmPoolSubscriber');
-    frm.submit(function (ev) {
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (data) {
-                $("#completedRegis").modal();
-            }
-        });
+	$('.f1').on('submit', function(e) {});
 
-        ev.preventDefault();
-    });
+	// var frm = $('#frmPoolSubscriber');
+    // frm.submit(function (ev) {
+    //     $.ajax({
+    //         type: frm.attr('method'),
+    //         url: frm.attr('action'),
+    //         data: frm.serialize(),
+    //         success: function (data) {
+    //             $("#completedRegis").modal();
+    //         }
+    //     });
+
+    //     ev.preventDefault();
+    // });
 });
