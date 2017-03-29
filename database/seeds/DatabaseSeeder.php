@@ -13,9 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PageSeeder::class);
-        DB::table('zipcode')->insert([
-            'address' => str_random(10),
-            'zipcode' => rand(2, 5)
-        ]);
+        $this->call(ZipcodeSeeder::class);
+        $this->call(PermissionSeeder::class);
     }
 }

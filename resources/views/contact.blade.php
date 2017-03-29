@@ -40,6 +40,8 @@
                </div>
                <br />
                <a class="btn btn-primary" id="submit-contact" ng-click="">SUBMIT</a>
+               <br />
+               <br />
             </form>
          </div>
       </div>

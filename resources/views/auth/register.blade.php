@@ -60,10 +60,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Captcha:</label>
-
-                            <div class="col-md-6">
+                        <div class="form-group text-center">
+                            <div class="col-md-12 text-center">
                                 {!! app('captcha')->display()!!}
                                 {!! $errors->first('g-recaptcha-response','<p class="alert alert-danger">:message</p>')!!}
                             </div>                            

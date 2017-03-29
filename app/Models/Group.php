@@ -5,14 +5,17 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
 	protected $table = 'groups';
-        
-        public function permissions() {
-            return $this->belongsToMany('App\Models\Permissions', 'group_permission', 'group_id', 'permission_id');
 
-        }
-        
-        public function users() {
-            return $this->belongsToMany('App\Models\User', 'group_user', 'group_id', 'user_id');
+    protected $fillable = [
+        'name', 'description'
+    ];   
+    public function permissions() {
+        return $this->belongsToMany('App\Models\Permission', 'group_permission', 'group_id', 'permission_id');
 
-        }
+    }
+    
+    public function users() {
+        return $this->belongsToMany('App\Models\User', 'user_group', 'group_id', 'user_id');
+
+    }
 }

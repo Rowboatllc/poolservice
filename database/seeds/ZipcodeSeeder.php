@@ -8,5 +8,10 @@ class ZipcodeSeeder extends Seeder
     {
         //
         DB::table('zipcode')->delete();
+
+        DB::table('zipcode')->insert([
+            'address' => str_random(10),
+            'zipcode' => rand(2, 5)
+        ]);
     }
 }

@@ -53,6 +53,5 @@ class PageController extends Controller
         $alias = $request->input('alias');
         return $this->page->getPageByAlias($alias);
     }
-
-
+    
 }
