@@ -110,10 +110,12 @@ function validationInputData()
 			},
 			'card_name':{
 				required: true,
+				
 				maxlength: 50
 			},
 			'card_number':{
 				required: true,
+				creditcard: true,
 				number: true,
 				maxlength: 20
 			},
@@ -243,28 +245,39 @@ jQuery(document).ready(function() {
     	$(this).removeClass('input-error');
     });
     
-    // next step bill
-	$('.f1 .btn-next-bill').on('click', function() {
+    // next step billing
+	$('.f1 .btn-next-billing').on('click', function() {
     	var parent_fieldset = $(this).parents('fieldset');
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-		var card=Stripe.card.validateCardNumber($('input#f1-cardnumber').val());
+
+		var card_number=$('input#card_number').val();
+		console.log(card_number);
+		var expiration_date=$('input#f1-expiration-date').val();
+		console.log(expiration_date);
+		var ccv_number=$('input#f1-ccv-number').val();
+		console.log(ccv_number);
+
+		var card=Stripe.card.validateCardNumber(card_number);
 		console.log(card);
-		// var day=Stripe.card.validateExpiry($('input#f1-expiration-date').val());// true
-		// console.log(day);
-		// var ccv=Stripe.card.validateCVC($('input#f1-ccv-number').val());// true
-		// console.log(ccv);
-		// alert(card && day && ccv);
+		var day=Stripe.card.validateExpiry(expiration_date);// true
+		console.log(day);
+		var ccv=Stripe.card.validateCVC(ccv_number);// true
+		console.log(ccv);
+
+		// alert(card && day && ccv);		
 		if(card && day && ccv)
 		{
+			var arr = expiration_date.split('/');
+			alert(arr[0] + ' hahahahah ' + arr[1]);
 			Stripe.createToken({
-				number:$('#f1-cardnumber').val(),
-				cvc:$('#f1-ccv-number').val(),
-				exp_month: '12',//$('#card-expiry-month').val(),
-				exp_year: '18',//$('#card-expiry-year').val()
+				number:card_number,
+				cvc:ccv_number,
+				exp_month: parseInt(arr[0]),
+				exp_year: parseInt(arr[1]),
 			}, stripeResponseHandler);
-		}			
+		}	
 
     	if($( "#frmPoolSubscriber" ).valid()) {
     		parent_fieldset.fadeOut(400, function() {
