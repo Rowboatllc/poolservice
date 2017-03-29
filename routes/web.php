@@ -17,6 +17,7 @@ Route::get('/contact', array('uses' => 'ContactController@index'))->name('contac
 Route::get('/page-not-found', array('uses' => 'HomeController@pageNotFound'))->name('page-not-found');
 
 Auth::routes();
+Route::get('/user-confirm-service', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
 Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
 Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');

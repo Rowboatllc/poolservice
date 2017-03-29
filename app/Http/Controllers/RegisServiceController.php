@@ -85,4 +85,9 @@ class RegisServiceController extends Controller
             return redirect('user-regis-service');
         }        
     }
+
+    public function userConfirmService(Request $request)
+    {
+        return view('confirm-service');
+    }
 }
