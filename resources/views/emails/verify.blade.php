@@ -8,7 +8,7 @@
 
         <div>
             Thanks for creating an account with the verification app. Please follow the link below to verify your email
-            address {{ URL::to('/create/password/' . $confirmation_code) }}.<br/>
+            address {{ URL::route('user-confirm-service', [$confirmation_code, $email]) }}.<br/>
 
             If you have problems, please paste the above URL into your web browser.
 
