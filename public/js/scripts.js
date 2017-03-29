@@ -245,6 +245,26 @@ jQuery(document).ready(function() {
     
     // next step billing
 	$('.f1 .btn-next-billing').on('click', function() {
+		//load data for next tab
+		$('#frmPoolSubscriber #sum_price').text("$"+$('#hdf_price').val());
+		if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
+		{
+			$('#frmPoolSubscriber #sum_service').text("pool: " + $('#rdo_weekly_pool').val()+ ", spa");
+		}
+		else
+		{
+			$('#frmPoolSubscriber #sum_service').text($('.chk-service-weely:checked').val());
+		}
+
+		$('#frmPoolSubscriber #sum_email').text($('#frmPoolSubscriber :input[name="email"]').val());
+		$('#frmPoolSubscriber #sum_password').text($('#frmPoolSubscriber :input[name="password"]').val());
+		$('#frmPoolSubscriber #sum_fullname').text($('#frmPoolSubscriber :input[name="fullname"]').val());
+		$('#frmPoolSubscriber #sum_address').text($('#frmPoolSubscriber :input[name="street"]').val());
+
+		$('#frmPoolSubscriber #sum_city_zipcode').text($('#frmPoolSubscriber :input[name="billing_city"]').val() + " " + $('#frmPoolSubscriber :input[name="zipcode"]').val());
+		// $('#frmPoolSubscriber #sum_billing_info').text($('#frmPoolSubscriber :input[name="email"]').val());
+		$('#frmPoolSubscriber #sum_billing_address').text($('#frmPoolSubscriber :input[name="billing_address"]').val());
+
     	var parent_fieldset = $(this).parents('fieldset');
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -438,19 +458,25 @@ jQuery(document).ready(function() {
     });
     
     // submit
-	$('.f1').on('submit', function(e) {});
+	// $('.f1').on('submit', function(e) {});
+	var frm = $('#frmPoolSubscriber');
+    frm.submit(function (ev) {
+		$('.loader').show();
+        $.ajax({
+			beforeSend:function() { 
+				   $('.loader').show();
+			},
+			complete:function() {
+				$('.loader').hide();
+			},
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#completedRegis").modal();
+            }
+        });
 
-	// var frm = $('#frmPoolSubscriber');
-    // frm.submit(function (ev) {
-    //     $.ajax({
-    //         type: frm.attr('method'),
-    //         url: frm.attr('action'),
-    //         data: frm.serialize(),
-    //         success: function (data) {
-    //             $("#completedRegis").modal();
-    //         }
-    //     });
-
-    //     ev.preventDefault();
-    // });
+        ev.preventDefault();
+    });
 });

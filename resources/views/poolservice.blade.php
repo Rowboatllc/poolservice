@@ -3,6 +3,26 @@
 @section('content')
 
 <style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     input[type="checkbox"] {
         width: 24px;
         height: 24px;
@@ -20,6 +40,7 @@
 </style>
 
 <div class="container">
+    <div class="loader" style='display:none'></div>
     <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
@@ -84,7 +105,7 @@
             </fieldset>
             
             <fieldset>
-                <h4 class="text-center">Weekly cleaning-<span id="weekly_money">$25</span></h4>
+                <h4 class="text-center">Weekly cleaning-<span id="weekly_money"></span></h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
                     <input type="hidden" name="price" id="hdf_price">
@@ -235,19 +256,19 @@
                     </div>
                     <div class="col-sm-8 text-left">
                         <div class="form-group">
-                            <h4 class="text-center">Weekly cleaning - $25</h4>
-                            <h4 class="text-center">Pool - chlorine</h4>
+                            <h4 class="text-center">Weekly cleaning - <span id="sum_price"><span></h4>
+                            <h4 class="text-center"><span id="sum_service"><span></h4>
                         </div>
                         <div class="form-group">
-                            <h4 class="text-center">Email address:</h4>
-                            <h4 class="text-center">Password:</h4>
-                            <h4 class="text-center">First name:</h4>
-                            <h4 class="text-center">Address</h4>
-                            <h4 class="text-center">City, ST zipcode</h4>
+                            <h4 class="text-center">Email address:<span id="sum_email"><span></h4>
+                            <h4 class="text-center">Password:<span id="sum_password"><span></h4>
+                            <h4 class="text-center">First name:<span id="sum_fullname"><span></h4>
+                            <h4 class="text-center">Address:<span id="sum_address"><span></h4>
+                            <h4 class="text-center">City, ST zipcode: <span id="sum_city_zipcode"><span></h4>
                         </div>
                         <div class="row">
-                            <h4 class="text-center">Billing image and information</h4>                       
-                            <h4 class="text-center">Billing address:</h4>
+                            <h4 class="text-center">Billing image and information:<span id="sum_billing_info"><span></h4>                       
+                            <h4 class="text-center">Billing address: <span id="sum_billing_address"><span></h4>
                         </div>
                     </div>
                 </div>
