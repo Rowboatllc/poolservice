@@ -53,6 +53,12 @@ class PermissionSeeder extends Seeder
             'email' => 'admin@rowboatsoftware.com',            
         ]);
 
+        // set new user admin
+        $user_user = factory(App\Models\User::class)->create([
+            'name' => 'User',
+            'email' => 'user@rowboatsoftware.com',            
+        ]);
+
         $group_admin->permissions()->attach($permission_admin_manager->id);
         $group_admin->permissions()->attach($permission_admin_option->id);
         $group_admin->permissions()->attach($permission_admin_option_contact->id);

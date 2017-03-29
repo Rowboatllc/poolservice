@@ -14,6 +14,7 @@
 Route::get('/', array('uses' => 'HomeController@index'))->name('home');
 Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 Route::get('/contact', array('uses' => 'ContactController@index'))->name('contact');
+Route::get('/page-not-found', array('uses' => 'HomeController@pageNotFound'))->name('page-not-found');
 
 Auth::routes();
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');

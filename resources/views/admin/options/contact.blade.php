@@ -1,14 +1,3 @@
-<div class="panel panel-warning panel-gotadi">
-    <div class="panel-heading clickable">
-        <h3 class="panel-title text-left">Page</h3>
-        <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
-    </div>
-    <div class="panel-body">
-        Page
-    </div>
-</div>
-
-
 @if ($errors->first('contact')=='bloc_contact_left')
 <div class="panel panel-info panel-gotadi panel-gotadi-default"> 
 @else

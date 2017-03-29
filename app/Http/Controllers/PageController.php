@@ -30,6 +30,7 @@ class PageController extends Controller
      */
     public function index()
     {
+        $this->loadHeadInPage('contact');
         $pages = $this->page->getAllPage();
         if(isset($pages) && count($pages)>0){
             $page = $pages[0];

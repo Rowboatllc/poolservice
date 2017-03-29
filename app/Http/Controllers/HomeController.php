@@ -29,4 +29,9 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function pageNotFound(){
+        $this->loadHeadInPage('page_not_found');
+        return view('error.page_not_found');
+    }
+
 }
