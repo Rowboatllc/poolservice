@@ -24,13 +24,12 @@ class AclRepository {
     public function createGroup($name, $description='') {
         $find = $this->group->where('name',$name)->first();
         if(isset($find)){
-            var_dump(true);            
+            var_dump(1); 
             return false;
         }else{
             $group = new Group();
             $group->name = $name;
             $group->description = $description;
-            var_dump($group);
             return  $group->save();
         }
     }
@@ -55,7 +54,7 @@ class AclRepository {
         return 0;
     }
     
-    public function userGetPermissions($user_id) {
+    static public function userGetPermissions($user_id) {
         // $user = Auth::user();
         if(isset($user_id)){
             $results = DB::select('SELECT p.alias FROM permissions p 
@@ -75,8 +74,8 @@ class AclRepository {
         return [];
     }
     
-    public function userHasPermission($user_id, $alias) {
-        $aliass = $this->userGetPermissions($user_id);
+    static public function userHasPermission($user_id, $alias) {
+        $aliass = self::userGetPermissions($user_id);
         return in_array($alias,$aliass);
     }
     

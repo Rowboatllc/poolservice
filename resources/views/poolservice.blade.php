@@ -3,6 +3,26 @@
 @section('content')
 
 <style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     input[type="checkbox"] {
         width: 24px;
         height: 24px;
@@ -20,6 +40,7 @@
 </style>
 
 <div class="container">
+    <div class="loader" style='display:none'></div>
     <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
@@ -66,15 +87,15 @@
             <fieldset id="cbgroup">
                 <h4 class="text-center">Type of service</h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_service_type[]" value="weekly" id="chk-type-weekly">
+                    <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
                 </div>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_service_type[]" value="poolspa" id="chk-type-poolspa">
+                    <input type="checkbox" name="chk_service_type[]" value="pool_spa_repair" id="chk-type-poolspa">
                     <label for="chk-type-poolspa">Pool or spa repair</label>
                 </div>
                 <div class="form-group" >                        
-                    <input type="checkbox" name="chk_service_type[]" value="deepcleaning" id="chk-type-deepcleaning">
+                    <input type="checkbox" name="chk_service_type[]" value="deep_cleaning" id="chk-type-deepcleaning">
                     <label for="chk-type-deepcleaning" id="lblServiceType">Deep cleaning</label>
                 </div>
                 <div class="f1-buttons">
@@ -84,14 +105,15 @@
             </fieldset>
             
             <fieldset>
-                <h4 class="text-center">Weekly cleaning-$25</h4>
+                <h4 class="text-center">Weekly cleaning-<span id="weekly_money"></span></h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-pool">
+                    <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
+                    <input type="hidden" name="price" id="hdf_price">
                     <label for="chk-weekly-pool">POOL</label>   
                     <div class="row"> 
-                        <div class="col-center-block">
+                        <div class="col-md-4 centered">
                             <p id="error_weekly_pool">
-                                <input name="rdo_weekly_pool" type="radio" value="salwater" id="rdo-salwater" class="require-one"/> 
+                                <input name="rdo_weekly_pool" type="radio" value="salt" id="rdo-salwater" class="require-one"/> 
                                 <label for="rdo-salwater">Salwater</label>
                                 <input name="rdo_weekly_pool" type="radio" value="chlorine" id="rdo-chlorine" class="require-one"/> 
                                 <label for="rdo-chlorine">chlorine</label>
@@ -101,7 +123,7 @@
                 </div>
                 
                 <div class="form-group" >                        
-                    <input type="checkbox" name="chk_weekly_pool[]" id="chk-weekly-spa">
+                    <input type="checkbox" name="chk_weekly_pool[]" value="spa" id="chk-weekly-spa" class="chk-service-weely">
                     <label for="chk-weekly-spa" id=lblSpa>SPA</label>
                 </div>
                 <div class="form-group"> 
@@ -109,7 +131,7 @@
                 </div>
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next-weekly">Next</button>
                 </div>
             </fieldset>
 
@@ -234,19 +256,19 @@
                     </div>
                     <div class="col-sm-8 text-left">
                         <div class="form-group">
-                            <h4 class="text-center">Weekly cleaning - $25</h4>
-                            <h4 class="text-center">Pool - chlorine</h4>
+                            <h4 class="text-center">Weekly cleaning - <span id="sum_price"><span></h4>
+                            <h4 class="text-center"><span id="sum_service"><span></h4>
                         </div>
                         <div class="form-group">
-                            <h4 class="text-center">Email address:</h4>
-                            <h4 class="text-center">Password:</h4>
-                            <h4 class="text-center">First name:</h4>
-                            <h4 class="text-center">Address</h4>
-                            <h4 class="text-center">City, ST zipcode</h4>
+                            <h4 class="text-center">Email address:<span id="sum_email"><span></h4>
+                            <h4 class="text-center">Password:<span id="sum_password"><span></h4>
+                            <h4 class="text-center">First name:<span id="sum_fullname"><span></h4>
+                            <h4 class="text-center">Address:<span id="sum_address"><span></h4>
+                            <h4 class="text-center">City, ST zipcode: <span id="sum_city_zipcode"><span></h4>
                         </div>
                         <div class="row">
-                            <h4 class="text-center">Billing image and information</h4>                       
-                            <h4 class="text-center">Billing address:</h4>
+                            <h4 class="text-center">Billing image and information:<span id="sum_billing_info"><span></h4>                       
+                            <h4 class="text-center">Billing address: <span id="sum_billing_address"><span></h4>
                         </div>
                     </div>
                 </div>

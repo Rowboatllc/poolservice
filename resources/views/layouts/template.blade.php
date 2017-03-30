@@ -34,15 +34,17 @@
     </head>
     <body>
         <div class="container-full">
-            <header class="row">
-                @include('layouts.header')
-            </header>
-            @yield('baner')
-            <div id="main" class="row admin-panel">
-                <div id="app" ng-app="app">
-                    @yield('content')
-                </div>    
-            </div>
+            <div class="main-min">
+                <header class="row">
+                    @include('layouts.header')
+                </header>
+                @yield('baner')
+                <div id="main" class="row admin-panel">
+                    <div id="app" ng-app="app">
+                        @yield('content')
+                    </div>    
+                </div>
+                </div>
             </div>
             <footer class="footer row">
                 @include('layouts.footer')

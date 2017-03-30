@@ -49,23 +49,25 @@ class UserRepository
             $bill->billing_city=$array['billing_city'];
             $bill->billing_state=$array['billing_state'];
             $bill->zipcode=$array['zipcode'];
-        }
-
-		$bill->card_name=$array['card_name'];
-		$bill->card_number=$array['card_number'];
-		$bill->expiration_date=date("Y-m-d");//$array['expiration_date'];
-		$bill->ccv=$array['ccv'];
-		
+        }		
         
-        $bill->country='';
+        $bill->country='US';
         $bill->stripe_token=$array['stripeToken'];
+
         // create organization object
 		$pool=new PoolSubscriber();
-		$pool->service_type='';//$array['service_type'];
-		$pool->cleaning_object='pool';//$array['cleaning_object'];
-        $pool->water='salt';//$array['water']; hdf_stripeToken
-        $pool->price=0;
-        $pool->zipcode=123456;
+        $service_type = implode(",", $array['chk_service_type']);  
+		$pool->service_type=$service_type;
+
+        $weekly_pool = implode(",", $array['chk_weekly_pool']);
+		$pool->cleaning_object=$weekly_pool;
+        if(in_array("pool", $array['chk_weekly_pool']))
+        {
+            $pool->water=$array['rdo_weekly_pool'];
+        }
+        
+        $pool->price=$array['price'];
+        $pool->zipcode=$array['zipcode'];;
 		// using transaction to save data to database
 		DB::transaction(function() use ($user, $profile,$bill,$pool)
 		{

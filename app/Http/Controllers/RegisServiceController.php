@@ -22,21 +22,21 @@ class RegisServiceController extends Controller
 
     public function addNewPoolService(Request $request)
     {
-        // dd($request->all());
         //set confirmation_code to request
         $confirmation_code = str_random(30);
         $request['confirmation_code']=$confirmation_code;
         // passed validation then save user to database	
         $pool=$request->all();
         $val=$this->user->AddNewPoolServiceSubscriber($pool);
+        $email=$request['email'];
         if($val)
         {
             //send email to verify user password_hash
-            Mail::send('emails.verify', compact('confirmation_code'), function($message) 
-            use ($request)
+            Mail::send('emails.verify', compact('confirmation_code','email'), function($message) 
+            use ($request,$email)
             {     
                  $message->subject('Authentication your new account');
-                 $message->to($request['email'], $request['email']);
+                 $message->to($email, $email);
             });
 
             //register success and message to user 
@@ -84,5 +84,11 @@ class RegisServiceController extends Controller
         }else{
             return redirect('user-regis-service');
         }        
+    }
+
+    public function userConfirmService(Request $request)
+    {
+        dd($request->all());
+        return view('confirm-service');
     }
 }

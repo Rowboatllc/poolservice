@@ -16,7 +16,7 @@ $factory->define(App\Models\Option::class, function (Faker\Generator $faker) {
 
     return [
         'key' => $faker->unique()->jobTitle,
-        'value' => $faker->sentences,
+        'value' => serialize($faker->sentences),
         
     ];
 });

@@ -19,7 +19,7 @@ class PageRepository implements PageRepositoryInterface
             $page = new Page();
             $page->title = '';
             $page->content = '';
-            $page->keywords = [];
+            $page->keywords = '';
             $page->description = '';
         }
         return $page;

@@ -15,10 +15,6 @@ class CreateTableUserBillingInfo extends Migration
     {
         Schema::create('billing_infos', function (Blueprint $table) {
             $table->integer('user_id')->unique()->references('id')->on('users')->onDelete('cascade');
-            $table->string('card_name');
-            $table->string('card_number');
-            $table->dateTime('expiration_date');
-            $table->integer('ccv')->unsigned();
             
             $table->string('billing_address');
             $table->string('billing_city')->nullable();
