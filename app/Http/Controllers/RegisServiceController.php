@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\UserRepository;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
@@ -86,9 +87,35 @@ class RegisServiceController extends Controller
         }        
     }
 
-    public function userConfirmService(Request $request)
+    public function userConfirmService($token,$email)
     {
-        dd($request->all());
-        return view('confirm-service');
+        return view('confirm-service',compact('email','token'));
+    }
+
+    public function doUserConfirmService(Request $request)
+    {
+        // validation input data         
+        $rules = [
+            'password' => 'required|min:6'
+        ];
+
+        $arr = $request->only('password', 'email');
+        $validator = Validator::make($arr, $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withInput()->withErrors($validator);
+        }
+
+        // save user to database
+        $val = $this->user->confirmPoolAccount($request->all());
+        
+        if ($val) {
+            //register success and message to user 
+            return redirect()->back()
+                            ->with('success', $val);
+        } else {
+            //register failed and message to user 
+            return redirect()->back()
+                            ->with('error', $val);
+        }
     }
 }

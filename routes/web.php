@@ -17,12 +17,15 @@ Route::get('/contact', array('uses' => 'ContactController@index'))->name('contac
 Route::get('/page-not-found', array('uses' => 'HomeController@pageNotFound'))->name('page-not-found');
 
 Auth::routes();
-Route::get('/user-confirm-service/{token}/{email}', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
+
 Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
 Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
 Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
 Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
 Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
+
+Route::get('/user-confirm-service/{token}/{email}', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
+Route::post('/user-confirm-service', array('uses' => 'RegisServiceController@doUserConfirmService'))->name('user-confirm-service');
 
 Route::get('test', 'TestController@index');
 Route::get('test/abc', 'TestController@abc');

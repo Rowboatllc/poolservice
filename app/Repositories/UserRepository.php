@@ -107,4 +107,14 @@ class UserRepository
 
         return $user->save();
     }
+
+    public function confirmPoolAccount(array $arr)
+    {
+        $user=$this->user->where('confirmation_code', $arr['token'])->first();
+        
+        return $user->forceFill([
+            'password' => bcrypt($arr['password']),
+            'status' => 'unclaimed',
+        ])->save();
+    }
 }
