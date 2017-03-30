@@ -158,7 +158,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-7 form-group">
-                        <select id="select-state" name="state" class="form-control input-md">
+                        <select id="select-state" required name="state" class="form-control input-md">
+                            <option value="">None</option>
                             <option>Arizona</option>
                             <option>Los Angeles</option>
                             <option>California</option>
@@ -218,7 +219,8 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
-                                <select id="billing_state" name="billing_state" class="form-control input-md">
+                                <select id="billing_state" required name="billing_state" class="form-control input-md">
+                                    <option value="">None</option>
                                     <option>Arizona</option>
                                     <option>Los Angeles</option>
                                     <option>California</option>
@@ -319,9 +321,9 @@
             </div>            
           </form>     
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('lib')

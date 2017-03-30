@@ -37,7 +37,7 @@ class RegisServiceController extends Controller
             use ($request,$email)
             {     
                  $message->subject('Authentication your new account');
-                 $message->to($email, $email);
+                 $message->to($email, $request['fullname']);
             });
 
             //register success and message to user 
@@ -87,7 +87,7 @@ class RegisServiceController extends Controller
         }        
     }
 
-    public function userConfirmService($token,$email)
+    public function userConfirmService(Request $request,$token,$email)
     {
         return view('confirm-service',compact('email','token'));
     }

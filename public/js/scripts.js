@@ -98,6 +98,12 @@ function validationInputData()
 				required: true,
 				maxlength: 100
 			},
+			'state':{
+				required: true
+			},
+			'billing_state':{
+				required: true
+			},
 			'zip':{
 				required: true,
 				number: true,
@@ -136,13 +142,34 @@ function validationInputData()
 			}
 		},
 		messages: {
+			'billing_state':{
+				required: 'Provide state'
+			},
+			'state':{
+				required: 'Provide state'
+			},
+			'card_number':{
+				required: 'Provide card number',
+			},
+			'expiration_date':{
+				required: 'Provide expiration date',
+			},
+			'billing_address':{
+				required: 'Provide your address',
+			},
+			'billing_city':{
+				required: 'Provide your city',
+			},
+			'zipcode': {
+				required: 'Provide your zipcode',
+			},
 			'email':{
-				required: "Please enter your email address.",
-				email: "Please enter a valid email address.",
+				required: "Provide your email address.",
+				email: "Provide a valid email address.",
 				remote: jQuery.validator.format("This email is already taken.")
 			},      
 			'chk_weekly_pool[]':{
-				required: "You must choose at least 1 box",
+				required: "You must choose at least 1 service",
 			},
 			'chk_service_type[]': {
 				required:"Please choose at least 1 service"
