@@ -33,9 +33,16 @@ Route::post('test/abc', 'TestController@saveAbc');
 
 Route::group(['middleware' => ['auth']], function () {
     
-    Route::group(['middleware' => ['permission']], function () {
+   // Route::group(['middleware' => ['permission']], function () {
 
         Route::get('/admin', array('uses' => 'Admin\DashboardController@index'))->name('admin-manager');
+        
+        Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
+        Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
+        Route::get('/admin/teachnican', 'Admin\TechnicanController@index')->name('admin-teachnican');
+        
+        
+        
         Route::get('/admin/option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
         Route::post('admin/option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
 
@@ -49,7 +56,9 @@ Route::group(['middleware' => ['auth']], function () {
         // Token
         Route::get('deletetoken/{id}', 'TestController@deleteToken');
         Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
-
-    });
+        //
+        //Option
+        Route::post('/admin/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
+   // });
 
 });

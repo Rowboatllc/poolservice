@@ -11,7 +11,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/">Home</a></li>
+                <li class="active"><a href="{{route('home')}}">Home</a></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                 @else
@@ -35,7 +35,7 @@
                         </ul>
                     </li>
                 @endif
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
             </ul>
         </div>
     </div>
