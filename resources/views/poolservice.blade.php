@@ -3,24 +3,30 @@
 @section('content')
 
 <style>
-    .loader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        }
+    .modal {
+        display:    none;
+        position:   fixed;
+        z-index:    1000;
+        top:        0;
+        left:       0;
+        height:     100%;
+        width:      100%;
+        background: rgba( 255, 255, 255, .8 ) 
+                    url('http://i.stack.imgur.com/FhHRx.gif') 
+                    50% 50% 
+                    no-repeat;
+    }
 
-        @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-        }
+    /* When the body has the loading class, we turn
+    the scrollbar off with overflow:hidden */
+    body.loading {
+        overflow: hidden;   
+    }
 
-        @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    /* Anytime the body has the loading class, our
+    modal element will be visible */
+    body.loading .modal {
+        display: block;
     }
 
     input[type="checkbox"] {
@@ -40,7 +46,6 @@
 </style>
 
 <div class="container">
-    <div class="loader" style='display:none'></div>
     <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
@@ -77,8 +82,9 @@
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
                     <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
-                    class="zipcode form-control" id="zipcode" maxlength="5" required>
+                    class="zipcode form-control" id="zipcode" maxlength="5" required>                   
                 </div>
+                
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-next-zipcode">Next</button>
                 </div>
@@ -302,9 +308,9 @@
             </div>            
           </form>     
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <!-- Modal completed notify-->
   <div class="modal fade" id="completedRegis" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -324,6 +330,8 @@
     </div>
   </div>
 </div>
+
+<div class="modal"></div>
 @endsection
 
 @section('lib')

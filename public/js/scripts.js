@@ -32,7 +32,6 @@ function stripeResponseHandler(status, response) {
 		var form$ = $("#frmPoolSubscriber");
 		// token contains id, last4, and card type
 		var token = response['id'];
-		console.log(response);
 		// insert the token into the form so it gets submitted to the server
 		// form$.append("<input type='hidden' id='hdf_stripeToken' name='stripeToken' value='" + token + "' />");
 		$('input#hdf_stripeToken').val(token);
@@ -249,7 +248,8 @@ function validationEmail()
 	});	
 }
 
-jQuery(document).ready(function() {		
+$body = $("body");
+jQuery(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
@@ -489,19 +489,19 @@ jQuery(document).ready(function() {
 	// $('.f1').on('submit', function(e) {});
 	var frm = $('#frmPoolSubscriber');
     frm.submit(function (ev) {
-		$('.loader').show();
         $.ajax({
 			beforeSend:function() { 
-				   $('.loader').show();
+				$body.addClass("loading");
 			},
 			complete:function() {
-				$('.loader').hide();
+				$body.removeClass("loading"); 
 			},
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
             success: function (data) {
-                $("#completedRegis").modal();
+				$body.removeClass("loading"); 
+                $("#completedRegis").modal();				
             }
         });
 
