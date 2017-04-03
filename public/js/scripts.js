@@ -508,6 +508,7 @@ $(document).ready(function() {
         buttons: {
             Close: function () {
                 $(this).dialog('close');
+				window.location.href = '/home';
             }
         }
     });
