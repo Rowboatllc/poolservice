@@ -1,1 +1,3 @@
-Pool owner
+<div class="admin-poolowner">
+    Pool owner
+</div>

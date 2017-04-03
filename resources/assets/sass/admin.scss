@@ -4,3 +4,29 @@
 @import "nav";
 
 // your scss here
+// Write your sass in block
+
+/* Administrator */
+.admin-administrator {
+    li {
+        a {
+            color: red;
+        }
+    }
+}
+
+/* Admin pool service */
+.admin-poolservice {
+    
+}
+
+/* Admin pool owner */
+.admin-poolowner {
+    
+}
+
+/* Admin pool teachican */
+.admin-teachnican {
+    
+}
+

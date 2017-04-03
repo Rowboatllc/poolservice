@@ -4,6 +4,12 @@
 <div class="panel panel-default panel-transparent">
     <div class="container">
         <div class="row">
+            <a href="{{ route('admin-poolowner') }}"> Pool owner</a> | 
+            <a href="{{ route('admin-poolservice') }}"> Pool service </a> | 
+            <a href="{{ route('admin-technican') }}"> Technican </a> | 
+            <a href="{{ route('admin-administrator') }}"> Administrator </a> | 
+        </div>
+        <div class="row">
             <div class="col">
                 <div class="panel with-nav-tabs panel-primary">
                     <div class="panel-heading">

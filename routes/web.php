@@ -39,7 +39,8 @@ Route::group(['middleware' => ['auth']], function () {
         
         Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
         Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
-        Route::get('/admin/teachnican', 'Admin\TechnicanController@index')->name('admin-teachnican');
+        Route::get('/admin/teachnican', 'Admin\TechnicanController@index')->name('admin-technican');
+        Route::get('/admin/admin', 'Admin\AdministratorController@index')->name('admin-administrator');
         
         
         
