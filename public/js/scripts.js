@@ -146,7 +146,7 @@ function validationInputData()
 		},
 		messages: {
 			'billing_zipcode':{
-				required: 'Provide zip code'
+				required: 'Provide zipcode'
 			},
 			'billing_state':{
 				required: 'Provide state'

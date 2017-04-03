@@ -3,7 +3,7 @@
 @section('content')
 
 <style>
-    .modal {
+    .modal-wait {
         display:    none;
         position:   fixed;
         z-index:    1000;
@@ -288,7 +288,7 @@
         </form>
     </div>
 </div>
-<div class="modal" id="divModel"></div>
+<div class="modal-wait" id="divModel"></div>
 
 <!-- Modal email notify-->
   <div class="modal fade" id="zipcodeModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
