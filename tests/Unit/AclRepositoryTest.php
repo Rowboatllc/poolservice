@@ -21,9 +21,10 @@ class AclRepositoryTest extends TestCase {
     }
 
     public function createDummyData() {
-        $this->repository->createGroup('gp1', 'group1');
-        $this->repository->createGroup('gp2', 'group2');
-        $this->repository->createGroup('gp3', 'group3');
+        $this->repository->createGroup('admin-poolowner', 'poolowner group');
+        $this->repository->createGroup('admin-poolservice', 'poolservice gkkkkk');
+        $this->repository->createGroup('admin-teachnician', 'teachnician');
+        $this->repository->createGroup('admin-administrator', 'admin-administrator');
         $this->repository->createPermission('permission 1', 'psm1');
         $this->repository->createPermission('permission 2', 'psm2');
         $this->repository->createPermission('permission 3', 'psm3');
@@ -36,7 +37,7 @@ class AclRepositoryTest extends TestCase {
     }
 
     public function test_attach_detachPermission() {
-        //$this->createDummyData();
+        $this->createDummyData();
 
         $group = $this->repository->group->first();
         $permission = $this->repository->permission->first();
@@ -63,10 +64,14 @@ class AclRepositoryTest extends TestCase {
             $result = 1;
         $this->assertEquals($result, 1);
 
+        $result = $this->repository->getUserGroup($user->id);
+        $this->assertEquals($result, $group->name);
+        
         $result = $this->repository->dettachUserFromGroup($group->id, $user->id);
         if ($result === null)
             $result = 1;
         $this->assertEquals($result, 1);
+        
     }
 
 }

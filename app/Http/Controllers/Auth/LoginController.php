@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\Repositories\AclRepository;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -35,5 +38,22 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+    
+    protected function sendLoginResponse(Request $request)
+    {
+        $url = $this->redirectTo;
+        $request->session()->regenerate();
+        $this->clearLoginAttempts($request);
+        $usertype = $this->getUserGroup();
+        $url = route( $usertype ? $usertype : 'home' );
+        return $this->authenticated($request, $this->guard()->user())
+                ?: redirect()->intended($url);
+    }
+    
+    public function getUserGroup() {
+        $id = Auth::user()->id;
+        $acl = new AclRepository;
+        return $acl->getUserGroup($id);
     }
 }

@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
         
         Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
         Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
-        Route::get('/admin/teachnican', 'Admin\TechnicanController@index')->name('admin-technican');
+        Route::get('/admin/teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
         Route::get('/admin/admin', 'Admin\AdministratorController@index')->name('admin-administrator');
         
         
@@ -50,6 +50,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
         Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');
 
+        
+        
+        
+        
+        
+        
         // Admin pages
         //Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
         //Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));

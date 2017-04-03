@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-class TechnicanController extends Controller {
+class TechnicianController extends Controller {
     public function index() {
-        return view('admin.technican');
+        return view('admin.technician');
     }
 }

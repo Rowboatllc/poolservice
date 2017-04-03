@@ -28,6 +28,7 @@ jQuery(document).ready(function () {
     }
     
     function sendData(url, data, method, callback) {
+        showLoading();
         method = method || 'POST';
         jQuery.ajax({
             url: url,
@@ -37,12 +38,23 @@ jQuery(document).ready(function () {
             success: function (result) {
                 if(typeof callback == 'function')
                     callback(result);
+                hideLoading();
             },
             error: function() {
                 console.log('There is something wrong baby');
+                hideLoading();
             }
         });
     }
+    
+    function showLoading() {
+        
+    }
+    
+    function hideLoading() {
+        
+    }
+    
     $(document).on('click', '.panel-heading span.clickable', function (e) {
         var $this = $(this);
         if (!$this.hasClass('panel-collapsed')) {
