@@ -15,7 +15,10 @@ class AclRepository {
     public $group;
     public $permission;
 
-    public function __construct(User $user, Group $group, Permission $permission) {
+    public function __construct(){ //User $user, Group $group, Permission $permission) {
+        $user = new \App\Models\User;
+        $group = new \App\Models\Group;
+        $permission = new \App\Models\Permission;
         $this->user = $user;
         $this->group = $group;
         $this->permission = $permission;
@@ -28,7 +31,7 @@ class AclRepository {
         } else {
             $this->group->name = $name;
             $this->group->description = $description;
-            return $group->save();
+            return $this->group->save();
         }
     }
 
@@ -118,6 +121,16 @@ class AclRepository {
 
     public function deleteCachePermission() {
         Session::forget('user_permission');
+    }
+    
+    public function getUserGroup($id) {
+        $result = DB::table('users')->select('groups.name')
+                ->join('user_group', 'user_group.user_id','=','users.id')
+                ->join('groups', 'groups.id','=','user_group.group_id')
+                ->where(['users.id' => $id])
+                ->first();
+        //dd($result);
+        return empty($result->name) ? '' : $result->name;
     }
 
 }
