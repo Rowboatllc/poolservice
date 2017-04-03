@@ -1,9 +1,9 @@
 @extends('layouts.template')
 
 @section('content')  
-    <div class="container started">
+    <div class="container started-page">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="header-content">
                     <div class="header-content-inner text-left">
                         <h2>Welcom to PoolService.com</h2>
@@ -13,11 +13,6 @@
                         <br />
                         <br />
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="screen">
-                    <img src="/images/started.jpg" >
                 </div>
             </div>
         </div>

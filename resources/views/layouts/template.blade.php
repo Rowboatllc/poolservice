@@ -35,7 +35,7 @@
                     @include('layouts.header')
                 </header>
                 @yield('baner')
-                <div id="main" class="row admin-panel">
+                <div id="main" class="row">
                     <div id="app" ng-app="app">
                         @yield('content')
                     </div>    

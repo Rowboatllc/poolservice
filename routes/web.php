@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
             //
             //Option
-            Route::post('/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
+            // Route::post('/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
         });
     });
 

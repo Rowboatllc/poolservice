@@ -63,7 +63,7 @@ function validationInputData()
 				maxlength: 50,
 				remote: {
 					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url: "check-email-exists",
+					url: "register/check-email-exists",
 					type: 'POST',
 					data:
 					{
@@ -97,6 +97,12 @@ function validationInputData()
 				required: true,
 				maxlength: 100
 			},
+			'state':{
+				required: true
+			},
+			'billing_state':{
+				required: '#chk_billing_address:unchecked'
+			},
 			'zip':{
 				required: true,
 				number: true,
@@ -126,22 +132,50 @@ function validationInputData()
 				maxlength: 9
 			},
 			'billing_address':{
-				required: true,
+				required: '#chk_billing_address:unchecked',
 				maxlength: 50
 			},
 			'billing_city':{
-				required: true,
+				required: '#chk_billing_address:unchecked',
 				maxlength: 50
+			},
+			'billing_zipcode':{
+				required: '#chk_billing_address:unchecked',
+				maxlength: 5
 			}
 		},
 		messages: {
+			'billing_zipcode':{
+				required: 'Provide zipcode'
+			},
+			'billing_state':{
+				required: 'Provide state'
+			},
+			'state':{
+				required: 'Provide state'
+			},
+			'card_number':{
+				required: 'Provide card number',
+			},
+			'expiration_date':{
+				required: 'Provide expiration date',
+			},
+			'billing_address':{
+				required: 'Provide your address',
+			},
+			'billing_city':{
+				required: 'Provide your city',
+			},
+			'zipcode': {
+				required: 'Provide your zipcode',
+			},
 			'email':{
-				required: "Please enter your email address.",
-				email: "Please enter a valid email address.",
+				required: "Provide your email address.",
+				email: "Provide a valid email address.",
 				remote: jQuery.validator.format("This email is already taken.")
 			},      
 			'chk_weekly_pool[]':{
-				required: "You must choose at least 1 box",
+				required: "You must choose at least 1 service",
 			},
 			'chk_service_type[]': {
 				required:"Please choose at least 1 service"
@@ -193,7 +227,7 @@ function validationEmail()
 				maxlength: 50,
 				remote: {
 					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url: "check-email-exists",
+					url: "register/check-email-exists",
 					type: 'POST',
 					data:
 					{
@@ -221,7 +255,19 @@ function validationEmail()
 	});	
 }
 
-jQuery(document).ready(function() {		
+// $body = $("body");
+// $(document).ajaxStart(function() {
+//   $body.addClass("loading");
+// }).ajaxStop(function() {
+//   $body.removeClass("loading"); 
+// });
+
+// $(document).on({
+//     ajaxStart: function() { $body.addClass("loading");},
+// 	ajaxStop: function() { $body.removeClass("loading"); }    
+// });
+
+$(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
@@ -245,24 +291,38 @@ jQuery(document).ready(function() {
     
     // next step billing
 	$('.f1 .btn-next-billing').on('click', function() {
+		//load data for next tab
+		$('#frmPoolSubscriber #sum_price').text("$"+$('#hdf_price').val());
+		if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
+		{
+			$('#frmPoolSubscriber #sum_service').text("pool: " + $('#rdo_weekly_pool').val()+ ", spa");
+		}
+		else
+		{
+			$('#frmPoolSubscriber #sum_service').text($('.chk-service-weely:checked').val());
+		}
+
+		$('#frmPoolSubscriber #sum_email').text($('#frmPoolSubscriber :input[name="email"]').val());
+		$('#frmPoolSubscriber #sum_password').text($('#frmPoolSubscriber :input[name="password"]').val());
+		$('#frmPoolSubscriber #sum_fullname').text($('#frmPoolSubscriber :input[name="fullname"]').val());
+		$('#frmPoolSubscriber #sum_address').text($('#frmPoolSubscriber :input[name="street"]').val());
+
+		$('#frmPoolSubscriber #sum_city_zipcode').text($('#frmPoolSubscriber :input[name="billing_city"]').val() + " " + $('#frmPoolSubscriber :input[name="zipcode"]').val());
+		// $('#frmPoolSubscriber #sum_billing_info').text($('#frmPoolSubscriber :input[name="email"]').val());
+		$('#frmPoolSubscriber #sum_billing_address').text($('#frmPoolSubscriber :input[name="billing_address"]').val());
+
     	var parent_fieldset = $(this).parents('fieldset');
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
 		var card_number=$('input#card_number').val();
-		console.log(card_number);
 		var expiration_date=$('input#f1-expiration-date').val();
-		console.log(expiration_date);
 		var ccv_number=$('input#f1-ccv-number').val();
-		console.log(ccv_number);
 
 		var card=Stripe.card.validateCardNumber(card_number);
-		console.log(card);
-		var day=Stripe.card.validateExpiry(expiration_date);// true
-		console.log(day);
-		var ccv=Stripe.card.validateCVC(ccv_number);// true
-		console.log(ccv);
+		var day=Stripe.card.validateExpiry(expiration_date);
+		var ccv=Stripe.card.validateCVC(ccv_number);
 
 		if(card && day && ccv)
 		{
@@ -312,6 +372,35 @@ jQuery(document).ready(function() {
     	
     });
 
+	// next information
+    $('.f1 .btn-next-info').on('click', function() { 
+    	if($( "#frmPoolSubscriber" ).valid()) {
+			if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
+			{
+				$('#billing_money').text('$30/week');
+			}
+			else
+			{
+				$('#billing_money').text('$25/week');
+			}
+			var parent_fieldset = $(this).parents('fieldset');
+			// navigation steps / progress steps
+			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+    		parent_fieldset.fadeOut(400, function() {
+    			// change icons
+    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+    			// progress bar
+    			bar_progress(progress_line, 'right');
+    			// show next step
+	    		$(this).next().fadeIn();
+	    		// scroll window to beginning of the form
+    			scroll_to_class( $('.f1'), 20 );
+	    	});
+    	}
+    	
+    });
+
 	// next step
     $('.f1 .btn-next-zipcode').on('click', function() { 
 		var parent_fieldset = $(this).parents('fieldset');
@@ -322,7 +411,7 @@ jQuery(document).ready(function() {
     	if($( "#frmPoolSubscriber" ).valid()) {	
 			$.ajax({ cache: false,
 				headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				url: "check-zipcode-exists",
+				url: "register/check-zipcode-exists",
 				type: 'POST',
 				data:
 				{
@@ -436,21 +525,47 @@ jQuery(document).ready(function() {
 			scroll_to_class( $('.f1'), 20 );
     	});
     });
-    
-    // submit
-	$('.f1').on('submit', function(e) {});
 
-	// var frm = $('#frmPoolSubscriber');
-    // frm.submit(function (ev) {
-    //     $.ajax({
-    //         type: frm.attr('method'),
-    //         url: frm.attr('action'),
-    //         data: frm.serialize(),
-    //         success: function (data) {
-    //             $("#completedRegis").modal();
-    //         }
-    //     });
+	$("#dialog").dialog({
+        autoOpen: false,
+        modal: true,
+        title: "Details",
+        buttons: {
+            Close: function () {
+                $(this).dialog('close');
+				window.location.href = '/home';
+            }
+        }
+    });
 
-    //     ev.preventDefault();
-    // });
+	var frm = $('#frmPoolSubscriber');
+    frm.submit(function (ev) {
+        $.ajax({
+			beforeSend:function() { 
+				$("#divModel").css("display", "block");
+			},
+			complete:function() {
+				$("#divModel").css("display", "none");
+			},
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+			success: function(data) {
+				if(data.success)
+				{
+					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
+					$("#dialog").html('You are almost done! Please check your email at ('+ data.message +') and follow the instruction to completed the sign up process');
+					$("#dialog").dialog("open");
+				}
+				else
+				{
+					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
+					$("#dialog").html(data.message);
+					$("#dialog").dialog("open");
+				}				
+			}
+        });
+		
+        return false;
+    });
 });

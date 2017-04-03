@@ -63,7 +63,7 @@ function validationInputData()
 				maxlength: 50,
 				remote: {
 					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url: "check-email-exists",
+					url: "register/check-email-exists",
 					type: 'POST',
 					data:
 					{
@@ -227,7 +227,7 @@ function validationEmail()
 				maxlength: 50,
 				remote: {
 					headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url: "check-email-exists",
+					url: "register/check-email-exists",
 					type: 'POST',
 					data:
 					{
@@ -411,7 +411,7 @@ $(document).ready(function() {
     	if($( "#frmPoolSubscriber" ).valid()) {	
 			$.ajax({ cache: false,
 				headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				url: "check-zipcode-exists",
+				url: "register/check-zipcode-exists",
 				type: 'POST',
 				data:
 				{
