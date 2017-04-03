@@ -34,4 +34,12 @@ class HomeController extends Controller
         return view('error.page_not_found');
     }
 
+    public function started(){
+        return view('started');
+    }
+
+    public function dashboard(){
+        return view('dashboard');
+    }
+
 }

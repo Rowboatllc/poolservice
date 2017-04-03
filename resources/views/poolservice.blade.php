@@ -45,8 +45,8 @@
 }
 </style>
 
-<div class="container">
-    <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-6 col-lg-offset-2 form-box">
+<div class="container register-pool-owner">
+    <div class="form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
         {{ csrf_field() }}
             <h3>Register To Our App</h3>
@@ -324,12 +324,7 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>
-        <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.payment.js') }}"></script>
-        <script src="{{ asset('js/jquery.payment.min.js') }}"></script>
-        <script src="{{ asset('js/additional-methods.js') }}"></script>
-        <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
-        <script src="{{ asset('js/scripts.js') }}"></script>
+        <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('js/register/register.js') }}"></script>
 @endsection
 

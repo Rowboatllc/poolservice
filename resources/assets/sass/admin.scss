@@ -1,32 +1,10 @@
+// Variables
 @import "variables";
+// Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "common";
 @import "nav";
-
-// your scss here
-// Write your sass in block
-
-/* Administrator */
-.admin-administrator {
-    li {
-        a {
-            color: red;
-        }
-    }
-}
-
-/* Admin pool service */
-.admin-poolservice {
-    
-}
-
-/* Admin pool owner */
-.admin-poolowner {
-    
-}
-
-/* Admin pool teachican */
-.admin-teachnican {
-    
-}
-
+@import "form-elements";
+@import "font";
+@import "error";
+@import "contact";

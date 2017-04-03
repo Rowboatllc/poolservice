@@ -19,20 +19,21 @@ class DashboardController extends Controller {
         
         $block_contact_left = $this->option->getOption(config('app.key_block_contact_left'));
 
-        $optionRepo = new OptionRepository;
-        $options = $optionRepo->getGroupOption('asdf');
-        for ($i = 0; $i < count($options); $i++) {
-            $a = $options[$i]->getAttributes();
-            //echo $a['key'];
-        }
-        $options = collect($options)->map(function ($option) {
-            $aa = $option->getAttributes();
-            $option['mykey'] = $aa['key'];
-            $aaa = unserialize('s:48:"a:2:{s:5:"label";s:3:"xxx";s:5:"value";s:1:"x";}";');
-            var_dump($aaa);
-            $option['xvalue'] = $aaa;
-            return $option;
-        });
+        // $optionRepo = $this->option;
+        // $options = $optionRepo->getGroupOption('asdf');
+        // for ($i = 0; $i < count($options); $i++) {
+        //     $a = $options[$i]->getAttributes();
+        //     //echo $a['key'];
+        // }
+        // $options = collect($options)->map(function ($option) {
+        //     $aa = $option->getAttributes();
+        //     $option['mykey'] = $aa['key'];
+        //     $aaa = unserialize('s:48:"a:2:{s:5:"label";s:3:"xxx";s:5:"value";s:1:"x";}";');
+        //     var_dump($aaa);
+        //     $option['xvalue'] = $aaa;
+        //     return $option;
+        // });
+        $options = [];
         return view('admin.admin', compact(['block_contact_left', 'options']));
     }
 

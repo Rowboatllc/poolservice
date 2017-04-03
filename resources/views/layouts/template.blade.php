@@ -17,10 +17,6 @@
         <!-- CSS -->
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/form-elements.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Scripts -->
