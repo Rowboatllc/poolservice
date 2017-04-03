@@ -93,6 +93,10 @@ button.btn.btn-next-weekly,
 button.btn.btn-next-weekly:focus,
 button.btn.btn-next-weekly:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
 
+button.btn.btn-next-info,
+button.btn.btn-next-info:focus,
+button.btn.btn-next-info:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
+
 button.btn.btn-submit,
 button.btn.btn-submit:focus,
 button.btn.btn-submit:active:focus, button.btn.btn-submit.active:focus { background: #f35b3f; }

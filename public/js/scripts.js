@@ -101,7 +101,7 @@ function validationInputData()
 				required: true
 			},
 			'billing_state':{
-				required: true
+				required: '#chk_billing_address:unchecked'
 			},
 			'zip':{
 				required: true,
@@ -132,15 +132,22 @@ function validationInputData()
 				maxlength: 9
 			},
 			'billing_address':{
-				required: true,
+				required: '#chk_billing_address:unchecked',
 				maxlength: 50
 			},
 			'billing_city':{
-				required: true,
+				required: '#chk_billing_address:unchecked',
 				maxlength: 50
+			},
+			'billing_zipcode':{
+				required: '#chk_billing_address:unchecked',
+				maxlength: 5
 			}
 		},
 		messages: {
+			'billing_zipcode':{
+				required: 'Provide zip code'
+			},
 			'billing_state':{
 				required: 'Provide state'
 			},
@@ -310,18 +317,12 @@ $(document).ready(function() {
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
 		var card_number=$('input#card_number').val();
-		console.log(card_number);
 		var expiration_date=$('input#f1-expiration-date').val();
-		console.log(expiration_date);
 		var ccv_number=$('input#f1-ccv-number').val();
-		console.log(ccv_number);
 
 		var card=Stripe.card.validateCardNumber(card_number);
-		console.log(card);
-		var day=Stripe.card.validateExpiry(expiration_date);// true
-		console.log(day);
-		var ccv=Stripe.card.validateCVC(ccv_number);// true
-		console.log(ccv);
+		var day=Stripe.card.validateExpiry(expiration_date);
+		var ccv=Stripe.card.validateCVC(ccv_number);
 
 		if(card && day && ccv)
 		{
@@ -353,6 +354,35 @@ $(document).ready(function() {
 	// next step
     $('.f1 .btn-next').on('click', function() { 
     	if($( "#frmPoolSubscriber" ).valid()) {
+			var parent_fieldset = $(this).parents('fieldset');
+			// navigation steps / progress steps
+			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+    		parent_fieldset.fadeOut(400, function() {
+    			// change icons
+    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+    			// progress bar
+    			bar_progress(progress_line, 'right');
+    			// show next step
+	    		$(this).next().fadeIn();
+	    		// scroll window to beginning of the form
+    			scroll_to_class( $('.f1'), 20 );
+	    	});
+    	}
+    	
+    });
+
+	// next information
+    $('.f1 .btn-next-info').on('click', function() { 
+    	if($( "#frmPoolSubscriber" ).valid()) {
+			if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
+			{
+				$('#billing_money').text('$30/week');
+			}
+			else
+			{
+				$('#billing_money').text('$25/week');
+			}
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -495,11 +525,6 @@ $(document).ready(function() {
 			scroll_to_class( $('.f1'), 20 );
     	});
     });
-    
-    // submit
-	$('#btnOkGotIt').bind('click', function(e) {
-		$("#frmcompletedRegis").submit();
-	});
 
 	$("#dialog").dialog({
         autoOpen: false,

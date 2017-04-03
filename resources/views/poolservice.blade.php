@@ -184,12 +184,12 @@
 
                 <div class="f1-buttons">
                     <button type="button" class="btn btn-previous">Back</button>
-                    <button type="button" class="btn btn-next">Next</button>
+                    <button type="button" class="btn btn-next-info">Next</button>
                 </div>
             </fieldset>
 
             <fieldset>
-                <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. $25/week</h4></div>
+                <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. <span id="billing_money"><span></h4></div>
                 </space>
                 <div class="row vdivide">
                     <div class="col-sm-6 text-left">
