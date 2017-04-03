@@ -34,8 +34,10 @@ Route::group(['middleware' => ['guest']], function () {
 
 
 Route::group(['middleware' => ['auth']], function () {
-    
-   Route::group(['middleware' => ['permission']], function () {
+    Route::get('/dashboard', array('uses' => 'HomeController@dashboard'))->name('dashboard');
+    Route::get('/started', array('uses' => 'HomeController@started'))->name('started');
+
+    Route::group(['middleware' => ['permission']], function () {
         Route::group(['prefix' => 'admin'], function () {
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
             
@@ -56,6 +58,6 @@ Route::group(['middleware' => ['auth']], function () {
             //Option
             Route::post('/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
         });
-   });
+    });
 
 });
