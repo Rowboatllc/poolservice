@@ -24,7 +24,7 @@ Route::post('checktoken', 'TestController@checkToken');
 
 // Route::group(['middleware' => ['auth']], function () {
 
-    Route::post('admin/save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
+    // Route::post('admin/save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
     Route::post('admin/login', array('uses' => 'Admin\LoginController@doLogin'))->name('admin-dologin');
     Route::get('get-page', 'PageController@getPage');
     Route::post('get-page', 'PageController@getPage');

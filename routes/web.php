@@ -11,61 +11,53 @@
 |
 */
 
-Route::get('/', array('uses' => 'HomeController@index'))->name('home');
-Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
+
 Route::get('/contact', array('uses' => 'ContactController@index'))->name('contact');
 Route::get('/page-not-found', array('uses' => 'HomeController@pageNotFound'))->name('page-not-found');
 
 Auth::routes();
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/', array('uses' => 'HomeController@index'))->name('home');
+    Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
-Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
-Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
-Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
-Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
-Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
+    Route::group(['prefix' => 'register'], function () {
+        Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
+        Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
+        Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
+        Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
+        Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
 
-Route::get('/user-confirm-service/{token}/{email}', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
-Route::post('/user-confirm-service', array('uses' => 'RegisServiceController@doUserConfirmService'))->name('user-confirm-service');
+        Route::get('/user-confirm-service/{token}/{email}', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
+        Route::post('/user-confirm-service', array('uses' => 'RegisServiceController@doUserConfirmService'))->name('user-confirm-service');
+    });
+});
 
-Route::get('test', 'TestController@index');
-Route::get('test/abc', 'TestController@abc');
-Route::post('test/abc', 'TestController@saveAbc');
 
 Route::group(['middleware' => ['auth']], function () {
-    
-   // Route::group(['middleware' => ['permission']], function () {
+    Route::get('/dashboard', array('uses' => 'HomeController@dashboard'))->name('dashboard');
+    Route::get('/started', array('uses' => 'HomeController@started'))->name('started');
 
-        Route::get('/admin', array('uses' => 'Admin\DashboardController@index'))->name('admin-manager');
-        
-        Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
-        Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
-        Route::get('/admin/teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
-        Route::get('/admin/admin', 'Admin\AdministratorController@index')->name('admin-administrator');
-        
-        
-        
-        Route::get('/admin/option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
-        Route::post('admin/option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
+    Route::group(['middleware' => ['permission']], function () {
+        Route::group(['prefix' => 'admin'], function () {
+            Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
+            
+            Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
+			Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
+			Route::get('/admin/teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
+			Route::get('/admin/admin', 'Admin\AdministratorController@index')->name('admin-administrator');
+            
+            Route::get('/option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
+            Route::post('admin/option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
 
-        Route::get('/admin/page', array('uses' => 'PageController@index'))->name('admin-page');
-        Route::post('/admin/page', array('uses' => 'PageController@store'))->name('admin-page');
+            Route::get('/page', array('uses' => 'PageController@index'))->name('admin-page');
+            Route::post('/page', array('uses' => 'PageController@store'))->name('admin-page');
 
-        
-        
-        
-        
-        
-        
-        // Admin pages
-        //Route::get('admin/option', array('uses' => 'Admin\OptionController@create'));
-        //Route::get('admin/login', array('uses' => 'Admin\LoginController@index'));
-
-        // Token
-        Route::get('deletetoken/{id}', 'TestController@deleteToken');
-        Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
-        //
-        //Option
-        Route::post('/admin/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
-   // });
-
+            // Token
+            Route::get('deletetoken/{id}', 'TestController@deleteToken');
+            Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
+            //
+            //Option
+            // Route::post('/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
+        });
+    });
 });

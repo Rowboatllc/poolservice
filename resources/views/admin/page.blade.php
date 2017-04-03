@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="panel panel-default panel-transparent">
+<div class="panel panel-default panel-transparent page-admin">
     <div class="container">
         <div class="row">
             <div class="col">

@@ -47,6 +47,11 @@ class PermissionSeeder extends Seeder
             'alias' => 'admin-page',            
         ]);
 
+        $permission_admin_administrator = factory(App\Models\Permission::class)->create([
+            'name' => 'Admin Administrator',
+            'alias' => 'admin-administrator',            
+        ]);
+
         // set new user admin
         $user_admin = factory(App\Models\User::class)->create([
             'name' => 'Admin',
@@ -63,6 +68,7 @@ class PermissionSeeder extends Seeder
         $group_admin->permissions()->attach($permission_admin_option->id);
         $group_admin->permissions()->attach($permission_admin_option_contact->id);
         $group_admin->permissions()->attach( $permission_admin_page->id);
+        $group_admin->permissions()->attach( $permission_admin_administrator->id);
 
         $group_admin->users()->attach( $user_admin->id);
 
