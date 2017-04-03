@@ -288,6 +288,7 @@
         </form>
     </div>
 </div>
+<div class="modal" id="divModel"></div>
 
 <!-- Modal email notify-->
   <div class="modal fade" id="zipcodeModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -312,29 +313,14 @@
   </div>
 </div>
 
-<!-- Modal completed notify-->
-  <div class="modal fade" id="completedRegis" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">        
-        <form id="frmcompletedRegis" role="form">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) and follow the instruction to completed the sign up process</label>  
-            </div>
-            <div class="form-group">
-                <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
-            </div>            
-          </form>     
-      </div>
-    </div>
-  </div>
+<div id="dialog" style="display: none">
 </div>
 
-<div class="modal"></div>
 @endsection
 
 @section('lib')
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"rel="stylesheet" type="text/css" />        
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>

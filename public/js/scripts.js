@@ -248,8 +248,19 @@ function validationEmail()
 	});	
 }
 
-$body = $("body");
-jQuery(document).ready(function() {	
+// $body = $("body");
+// $(document).ajaxStart(function() {
+//   $body.addClass("loading");
+// }).ajaxStop(function() {
+//   $body.removeClass("loading"); 
+// });
+
+// $(document).on({
+//     ajaxStart: function() { $body.addClass("loading");},
+// 	ajaxStop: function() { $body.removeClass("loading"); }    
+// });
+
+$(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
@@ -486,25 +497,49 @@ jQuery(document).ready(function() {
     });
     
     // submit
-	// $('.f1').on('submit', function(e) {});
+	$('#btnOkGotIt').bind('click', function(e) {
+		$("#frmcompletedRegis").submit();
+	});
+
+	$("#dialog").dialog({
+        autoOpen: false,
+        modal: true,
+        title: "Details",
+        buttons: {
+            Close: function () {
+                $(this).dialog('close');
+            }
+        }
+    });
+
 	var frm = $('#frmPoolSubscriber');
     frm.submit(function (ev) {
         $.ajax({
 			beforeSend:function() { 
-				$body.addClass("loading");
+				$("#divModel").css("display", "block");
 			},
 			complete:function() {
-				$body.removeClass("loading"); 
+				$("#divModel").css("display", "none");
 			},
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
-            success: function (data) {
-				$body.removeClass("loading"); 
-                $("#completedRegis").modal();				
-            }
+			success: function(data) {
+				if(data.success)
+				{
+					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
+					$("#dialog").html('You are almost done! Please check your email at ('+ data.message +') and follow the instruction to completed the sign up process');
+					$("#dialog").dialog("open");
+				}
+				else
+				{
+					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
+					$("#dialog").html(data.message);
+					$("#dialog").dialog("open");
+				}				
+			}
         });
-
-        ev.preventDefault();
+		
+        return false;
     });
 });

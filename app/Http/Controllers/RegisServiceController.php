@@ -41,14 +41,12 @@ class RegisServiceController extends Controller
             });
 
             //register success and message to user 
-            return redirect()->back()
-                ->with('success', $val);
+            return response()->json(['success' => true,'message' => $email],200);
         }
         else
         {
             //register failed and message to user 
-            return redirect()->back()
-                ->with('error', $val);
+            return response()->json(['success' => false,'message' => 'error occurred in system'],422);
         } 
     }
 
