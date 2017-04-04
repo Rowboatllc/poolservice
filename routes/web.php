@@ -46,7 +46,6 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
             Route::get('admin', 'Admin\AdministratorController@index')->name('admin-administrator');
 
-            Route::get('option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
             Route::post('option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
 
             Route::get('/page', array('uses' => 'PageController@index'))->name('admin-page');
@@ -55,9 +54,15 @@ Route::group(['middleware' => ['auth']], function () {
             // Token
             Route::get('deletetoken/{id}', 'TestController@deleteToken');
             Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
-            //
+            
             //Option
-            // Route::post('/removeoption', array('uses' => 'OptionController@removeoption'))->name('remove-option');
+            Route::get('option', array('uses' => 'Admin\OptionController@index'))->name('admin-option');
+            //Route::get('option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
+            Route::post('removeoption', array('uses' => 'Admin\OptionController@removeoption'))->name('remove-option');
+            Route::post('save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
+            
         });
     });
 });
+
+

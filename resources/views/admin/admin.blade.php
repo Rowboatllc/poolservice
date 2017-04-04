@@ -6,7 +6,7 @@
         <div class="row">
             <a href="{{ route('admin-poolowner') }}"> Pool owner</a> | 
             <a href="{{ route('admin-poolservice') }}"> Pool service </a> | 
-            <a href="{{ route('admin-technican') }}"> Technican </a> | 
+            <a href="{{ route('admin-technician') }}"> Technican </a> | 
             <a href="{{ route('admin-administrator') }}"> Administrator </a> | 
         </div>
         <div class="row">

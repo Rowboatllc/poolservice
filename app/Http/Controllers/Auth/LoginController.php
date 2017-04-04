@@ -7,21 +7,23 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Repositories\AclRepository;
 use Auth;
+use App\Models\User;
 
-class LoginController extends Controller
-{
+//use App\Repositories\UserRepository;
+
+class LoginController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Login Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles authenticating users for the application and
+      | redirecting them to your home screen. The controller uses a trait
+      | to conveniently provide its functionality to your applications.
+      |
+     */
 
-    use AuthenticatesUsers;
+use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -35,25 +37,45 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest', ['except' => 'logout']);
     }
-    
-    protected function sendLoginResponse(Request $request)
-    {
+
+    protected function sendLoginResponse(Request $request) {
         $url = $this->redirectTo;
+        $usertype = $this->getUserGroup();
+        if(!empty($usertype))
+            $url = route($usertype);
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
-        $usertype = $this->getUserGroup();
-        $url = route( $usertype ? $usertype : 'home' );
         return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($url);
+                ? : redirect()->intended($url);
     }
-    
+
     public function getUserGroup() {
         $id = Auth::user()->id;
         $acl = new AclRepository;
         return $acl->getUserGroup($id);
     }
+
+    public function login(Request $request) {
+        $this->validateLogin($request);
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        $data = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'status' => 'active',
+        ];
+
+        if (Auth::attempt($data)) {
+            return $this->sendLoginResponse($request);
+        }
+        $this->incrementLoginAttempts($request);
+        return $this->sendFailedLoginResponse($request);
+    }
+
 }
