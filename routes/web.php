@@ -1,15 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
 
 
 Route::get('/contact', array('uses' => 'ContactController@index'))->name('contact');
@@ -39,15 +39,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['permission']], function () {
         Route::group(['prefix' => 'admin'], function () {
+            
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
-            
-            Route::get('/admin/poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
-			Route::get('/admin/poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
-			Route::get('/admin/teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
-			Route::get('/admin/admin', 'Admin\AdministratorController@index')->name('admin-administrator');
-            
-            Route::get('/option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
-            Route::post('admin/option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
+            Route::get('poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
+            Route::get('poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
+            Route::get('teachnican', 'Admin\TechnicianController@index')->name('admin-technician');
+            Route::get('admin', 'Admin\AdministratorController@index')->name('admin-administrator');
+
+            Route::get('option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
+            Route::post('option/contact', array('uses' => 'Admin\DashboardController@contact'))->name('admin-option-contact');
 
             Route::get('/page', array('uses' => 'PageController@index'))->name('admin-page');
             Route::post('/page', array('uses' => 'PageController@store'))->name('admin-page');

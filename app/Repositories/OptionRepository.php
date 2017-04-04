@@ -7,8 +7,9 @@ class OptionRepository implements OptionRepositoryInterface {
 
     private $option;
 
-    public function __construct(Option $option) {
-        $this->option = $option;
+    //public function __construct(Option $option) {
+    public function __construct() {
+        $this->option = app('App\Models\Option');
     }
 
     public function createOption($key, $value) {
@@ -46,14 +47,25 @@ class OptionRepository implements OptionRepositoryInterface {
     public function getOption($key) {
         $option = $this->option;
         $option = $option->find($key);
-        if(isset($option)){
+        if(!empty($option)){
             $option = $option->value;
             return unserialize($option);
         }
         return null;
-        
     }
 
+    public function getGroupOption($group) {
+       /* $value = [
+            'label' => 'aaa',
+            'value' => 'aaa',
+        ];
+        $value = serialize($value);
+        echo $value;
+        $aaa = unserialize($value);
+         dd($aaa);*/
+        return $this->option->all();//where('group', $group)->get();
+    }
+    
     public function deleteOption($key) {
         return $this->option->find($key)->delete();
     }
@@ -74,5 +86,8 @@ class OptionRepository implements OptionRepositoryInterface {
             'value' => $arr,
         ];
     }
-
+    
+    public function extract($value) {
+        return unserialize($value);
+    }
 }

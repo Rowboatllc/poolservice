@@ -25,9 +25,9 @@ class AclRepositoryTest extends TestCase {
         $this->repository->createGroup('admin-poolservice', 'poolservice gkkkkk');
         $this->repository->createGroup('admin-teachnician', 'teachnician');
         $this->repository->createGroup('admin-administrator', 'admin-administrator');
-        $this->repository->createPermission('permission 1', 'psm1');
-        $this->repository->createPermission('permission 2', 'psm2');
-        $this->repository->createPermission('permission 3', 'psm3');
+        $this->repository->createPermission('permission 1', 'admin-technician');
+        $this->repository->createPermission('permission 2', 'admin-poolservice');
+        $this->repository->createPermission('permission 3', 'admin-poolowner');
         $this->repository->createPermission('permission 4', 'psm4');
         $this->repository->user->create([
             'email' => $this->faker->email,
@@ -37,7 +37,7 @@ class AclRepositoryTest extends TestCase {
     }
 
     public function test_attach_detachPermission() {
-        $this->createDummyData();
+        //$this->createDummyData();
 
         $group = $this->repository->group->first();
         $permission = $this->repository->permission->first();
