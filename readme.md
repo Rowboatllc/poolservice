@@ -6,3 +6,10 @@ Documents
 ---------
 
 https://drive.google.com/open?id=0B0kk9i817S_-ZW9RVC10cVFySlU
+
+
+
+System Requirement
+------------------
+
+Mysql version >= 5.7.8

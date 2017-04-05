@@ -57,9 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
             
             //Option
             Route::get('option', array('uses' => 'Admin\OptionController@index'))->name('admin-option');
-            //Route::get('option', array('uses' => 'Admin\DashboardController@index'))->name('admin-option');
-            Route::post('removeoption', array('uses' => 'Admin\OptionController@removeoption'))->name('remove-option');
-            Route::post('save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
+           
             
         });
     });

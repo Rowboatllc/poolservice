@@ -12,7 +12,7 @@ class OptionRepository implements OptionRepositoryInterface {
         $this->option = app('App\Models\Option');
     }
 
-    public function createOption($key, $value) {
+    public function createOption($key, $value, $group = '') {
         $option = $this->option;
         $existed = $option->find($key);
         if ($existed) {
@@ -20,18 +20,21 @@ class OptionRepository implements OptionRepositoryInterface {
         }
         return $option->create([
                     'key' => $key,
-                    'value' => serialize($value)
+                    'value' => serialize($value),
+                    'group' => $group
         ]);
     }
 
-    public function updateOption($key, $value) {
+    public function updateOption($key, $value, $group) {
         $option = $this->option;
         $option = $option->find($key);
         $option->value = serialize($value);
+        if(!empty($group))
+            $option->group = $group;
         return $option->save();
     }
 
-    public function createOrReplaceOption($key, $value) {
+    public function createOrReplaceOption($key, $value, $group = '') {
         $option = $this->option;
         $existed = $option->find($key);
         if ($existed) {
@@ -40,7 +43,8 @@ class OptionRepository implements OptionRepositoryInterface {
         }
         return $option->create([
                     'key' => $key,
-                    'value' => serialize($value)
+                    'value' => serialize($value),
+                    'group' => $group
         ]);
     }
 
@@ -55,15 +59,7 @@ class OptionRepository implements OptionRepositoryInterface {
     }
 
     public function getGroupOption($group) {
-       /* $value = [
-            'label' => 'aaa',
-            'value' => 'aaa',
-        ];
-        $value = serialize($value);
-        echo $value;
-        $aaa = unserialize($value);
-         dd($aaa);*/
-        return $this->option->all();//where('group', $group)->get();
+        return $this->option->where('group', $group)->get();
     }
     
     public function deleteOption($key) {

@@ -37,8 +37,7 @@ class AclRepositoryTest extends TestCase {
     }
 
     public function test_attach_detachPermission() {
-        //$this->createDummyData();
-
+        $this->createDummyData();
         $group = $this->repository->group->first();
         $permission = $this->repository->permission->first();
         $user = $this->repository->user->first();
@@ -59,13 +58,13 @@ class AclRepositoryTest extends TestCase {
         $result = $this->repository->userHasPermission($user->id, $permission->alias);
         $this->assertTrue($result);
 
+        $result = $this->repository->getUserGroup($user->id);
+        $this->assertEquals($result, $group->name);
+        
         $result = $this->repository->groupDettachPermissions($group->id, $permission->id);
         if ($result === null)
             $result = 1;
         $this->assertEquals($result, 1);
-
-        $result = $this->repository->getUserGroup($user->id);
-        $this->assertEquals($result, $group->name);
         
         $result = $this->repository->dettachUserFromGroup($group->id, $user->id);
         if ($result === null)

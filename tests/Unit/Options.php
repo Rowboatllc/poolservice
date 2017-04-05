@@ -24,9 +24,10 @@ class OptionTest extends TestCase
         $key = $this->faker->userName;
         $value = [
             'username' => $this->faker->userName,
-            'skype' => $this->faker->userName
+            'skype' => $this->faker->userName,
         ];
-        $result = $this->repository->createOption($key, $value);
+        $group = $this->faker->ipv4;
+        $result = $this->repository->createOption($key, $value, $group);
         $this->assertNotNull($result);
     }
     
@@ -44,9 +45,11 @@ class OptionTest extends TestCase
             'onemoreparame' => $this->faker->text(),
             'andmore' => $this->faker->text()
         ];
-        $result = $this->repository->updateOption($key, $value);
+        $group = $this->faker->ipv4;
+        $result = $this->repository->updateOption($key, $value, $group);
         $this->assertTrue($result);
     }
+    
     
     public function test_deleteOption()
     {

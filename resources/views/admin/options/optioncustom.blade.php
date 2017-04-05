@@ -10,10 +10,9 @@
             <a href="{{ route('admin-administrator') }}"> Administrator </a> | 
         </div>
         <div class="row">
-            <div class="row option_panel" data-group="global" data-saveurl="{{ route('save-option') }}" data-removeurl="{{ route('remove-option') }}" >
+            <div class="row option_panel" data-group="global" data-saveurl="{{ route('save-option') }}" data-removeurl="{{ route('remove-option') }}" data-savegroupurl="{{ route('save-groupoption') }}" >
                 <div class="cover_an_option" style="display:none">
                     <div class="an_option" data-key=""  >
-                        {{ csrf_field() }}
                         <input type="text" name="option_label" placeholder="label" value="" />
                         <input type="text" name="option_key" placeholder="name" value=""  />
                         <input type="text" name="option_value" placeholder="value" value="" />
@@ -21,7 +20,8 @@
                         <span class="glyphicon glyphicon-ok save_option"></span>
                     </div>
                     <div class="a_group" data-key=""  >
-                        <input type="text" name="group" placeholder="group name" value="" />
+                        <input type="text" name="group_alias" placeholder="group alias" value="" />
+                        <input type="text" name="group_name" placeholder="group name" value="" />
                         <span class="glyphicon glyphicon-remove remove_group"></span>
                         <span class="glyphicon glyphicon-ok save_group"></span>
                         <div>

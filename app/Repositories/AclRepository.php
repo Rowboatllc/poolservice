@@ -86,7 +86,7 @@ class AclRepository {
         if (!empty($find)) {
             return 0;
         } else {
-            $permission = new Permission();
+            $permission = $this->permission;
             $permission->name = $name;
             $permission->alias = $alias;
             $permission->description = $description;

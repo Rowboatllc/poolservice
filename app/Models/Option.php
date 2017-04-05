@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
 	protected $table = 'options';
-        protected $fillable = ['key', 'value'];
+        protected $fillable = ['key', 'value', 'group'];
         protected $primaryKey = 'key';
         public $timestamps = false;
 }
