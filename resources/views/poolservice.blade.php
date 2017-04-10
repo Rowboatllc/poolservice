@@ -313,8 +313,27 @@
   </div>
 </div>
 
-<div id="dialog" style="display: none">
+<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">        
+                <form id="frmEmailNotifyCompleted" role="form" action="{{route('home')}}" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label>Not in service area. Enter email address to be notified when your area is covered</label>  
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span>Ok Got It</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>            
+                </form>     
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--<div id="dialog" style="display: none">
+</div>-->
 
 @endsection
 
