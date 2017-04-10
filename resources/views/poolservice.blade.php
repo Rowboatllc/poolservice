@@ -42,6 +42,9 @@
         height: 24px;
     }
     label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
+    .right {border-right: 2px solid #ccc;}
+    .left {border-left: 2px solid #ccc;}
+    .bottom {border-bottom: 2px solid #ccc;}
 }
 </style>
 
@@ -149,6 +152,7 @@
                 <div class="form-group">
                     <input type="password" required name="password" placeholder="Password..." class="password form-control" id="password">
                 </div>
+                <div class="form-group bottom"></div>
                 <div class="form-group">
                     <input type="password" required name="repeat-password" placeholder="Repeat password..." 
                                         class="repeat-password form-control" id="repeat-password">
@@ -211,7 +215,7 @@
                             </div>	                        
                         </div>
                     </div>
-                    <div class="col-sm-6 text-left">
+                    <div class="col-sm-6 text-left left">
                         <div class="form-group">
                             <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
                             <label for="chk_billing_address">Same as service address</label>   
@@ -262,7 +266,7 @@
                             <h4 class="text-center">Billing information</h4>                    
                         </div>
                     </div>
-                    <div class="col-sm-8 text-left">
+                    <div class="col-sm-8 text-left left">
                         <div class="form-group">
                             <h4 class="text-center">Weekly cleaning - <span id="sum_price"><span></h4>
                             <h4 class="text-center"><span id="sum_service"><span></h4>
@@ -317,16 +321,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">        
-                <form id="frmEmailNotifyCompleted" role="form" action="{{route('home')}}" method="post">
+                <form role="form">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label>Not in service area. Enter email address to be notified when your area is covered</label>  
+                        <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) 
+                            and follow the instruction to completed the sign up process</label>  
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span>Ok Got It</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
                     </div>            
-                </form>     
+                </form>  
             </div>
         </div>
     </div>

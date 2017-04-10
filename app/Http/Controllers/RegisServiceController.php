@@ -46,7 +46,7 @@ class RegisServiceController extends Controller
         else
         {
             //register failed and message to user 
-            return response()->json(['success' => false,'message' => 'error occurred in system'],422);
+            return response()->json(['success' => false,'message' => 'error occurred in system !!!!'],422);
         } 
     }
 

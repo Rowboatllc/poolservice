@@ -565,14 +565,9 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: frm.serialize(),
 			success: function(data) {
-				if(data.success)
-				{
-					$("#notifyModal").modal();
-				}
-				else
-				{
-					$("#notifyModal").modal();
-				}		
+				$("#notifyModal #get_your_email").text(data.success);
+				$("#notifyModal").modal();		
+
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
 			}
         });

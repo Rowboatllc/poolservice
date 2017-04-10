@@ -85,6 +85,10 @@ button.btn.btn-next-zipcode,
 button.btn.btn-next-zipcode:focus,
 button.btn.btn-next-zipcode:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
 
+button.btn.btn-next-info,
+button.btn.btn-next-info:focus,
+button.btn.btn-next-info:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
+
 button.btn.btn-next-service,
 button.btn.btn-next-service:focus,
 button.btn.btn-next-service:active:focus, button.btn.btn-next.active:focus { background: #f35b3f; }
