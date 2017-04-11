@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\ApiToken as ApiToken;
+use Mail;
 
 class TestController extends Controller
 {
@@ -68,4 +69,11 @@ class TestController extends Controller
             );
     }
     
+    
+    public function testmail() {
+        Mail::send('testmail', ['user' => 'something here'], function ($m){
+            $m->from('lapnguyen1@localhost', 'Your Application');
+            $m->to('lapnguyen@localhost')->subject('Your Reminder!');
+        });
+    }
 }

@@ -72,5 +72,15 @@ class ApiToken {
         $expire_on = $this->token->expires_on;
         return ($now > $expire_on);
     }
+    
+    public function getUserByToken() {
+        $api_token = Request::bearerToken();
+        $result = \DB::table('users')->select('users.*')
+                ->join('tokens', 'tokens.user_id','=','users.id')
+                ->where(['tokens.api_token' => $api_token])
+                ->first();
+        //dd($result);
+        return $result;
+    }
 
 }

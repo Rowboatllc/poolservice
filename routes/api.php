@@ -35,3 +35,9 @@ Route::group(['prefix' => 'admin/option'], function () {
     Route::post('save-group', array('uses' => 'Admin\OptionController@saveGroup'))->name('save-groupoption');
     
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => ['api.token']], function () {
+    // Poolowner
+    Route::post('poolowner-profile', array('uses' => 'Admin\PoolOwnerController@saveProfile'))->name('admin-poolowner-profile');
+});
+            
