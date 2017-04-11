@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableZipcode extends Migration
+class CreateTableTechnicans extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTableZipcode extends Migration
      */
     public function up()
     {
-        Schema::create('zipcode', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('zipcode')->unique();
-            $table->string('address');
+        Schema::create('technicans', function (Blueprint $table) {
+            $table->integer('user_id')->unique();       
+            $table->integer('company_id');
+            $table->boolean('is_owner');   
+            $table->dateTime('avaliable_days');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTableZipcode extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('zipcode');
+        Schema::dropIfExists('technicans');
     }
 }

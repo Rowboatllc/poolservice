@@ -7,6 +7,6 @@ class Rating extends Model
 	protected $table = 'ratings';
 
     protected $fillable = [
-        'poolowner_id', 'company_id', 'point'
+        'user_id', 'company_id', 'point'
     ];
 }

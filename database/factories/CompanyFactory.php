@@ -15,11 +15,11 @@
 $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     $random = rand(1, 3);
     $services = $faker->randomElements(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'], $random);
-    $zipcode[] = intval(substr($faker->postcode,0,5));
+    $zipcodes[] = intval(substr($faker->postcode,0,5));
     return [
         'name' => $faker->company,
         'services' => $services,
-        'zipcode' => $zipcode,
+        'zipcodes' => $zipcodes,
         'address' => $faker->address,
         'logo' => $faker->imageUrl($width = 640, $height = 480),
         'status' => $faker->randomElement(array ('pending', 'unclaimed', 'active', 'inactive')),

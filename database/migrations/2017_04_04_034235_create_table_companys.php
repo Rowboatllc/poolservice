@@ -15,16 +15,14 @@ class CreateTableCompanys extends Migration
     {
         Schema::create('companys', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');            
             $table->string('name');
             $table->json('services');
-            $table->json('zipcode');
-            $table->string('address');
+            $table->json('zipcodes');
             $table->string('logo');
             $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive'))->default('pending');
-            $table->string('token');
-            $table->string('website');
-            $table->timestamps();
-            
+            $table->string('website');        
+            $table->timestamps();            
         });
     }
 

@@ -20,7 +20,6 @@ class CreateTokensTable extends Migration
             $table->string('client');
             $table->string('revoked')->default(0);
             $table->string('expires_on');
-            //$table->integer('revoked')->default(0);
             $table->timestamps();
         });
     }

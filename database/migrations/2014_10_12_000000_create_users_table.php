@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive'))->default('pending');
             $table->rememberToken();
+            $table->string('confirmation_code');
             $table->timestamps();
         });
     }

@@ -7,12 +7,12 @@ class Company extends Model
 	protected $table = 'companys';
 
     protected $fillable = [
-        'name', 'services', 'zipcode', 'address','logo','status','token','website'
+        'user_id', 'name', 'services', 'zipcodes','logo','status','website'
     ];
 
     protected $casts = [
         'services' => 'array',
-        'zipcode' => 'array',
+        'zipcodes' => 'array',
     ];
 
     public function ratings() {

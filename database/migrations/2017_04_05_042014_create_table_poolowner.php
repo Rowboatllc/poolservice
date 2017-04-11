@@ -15,15 +15,6 @@ class CreateTablePoolowner extends Migration
     {
         Schema::create('poolowners', function (Blueprint $table) {
             $table->integer('user_id')->unique();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('street');
-            $table->string('city');
-            $table->string('state');
-            $table->integer('zipcode');
-            $table->string('phone');
-            $table->string('token');
-            $table->string('card_last_digits');
             $table->string('pool_status');
             $table->timestamps();            
         });

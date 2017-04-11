@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePagesTable extends Migration
+class CreateTableSelecteds extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('selecteds', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('alias');
-            $table->string('title');
-            $table->text('content');
-            $table->text('keywords');
-            $table->text('description');
+            $table->integer('order_id');         
+            $table->integer('company_id');
+            $table->enum('status', array('pending', 'active', 'inactive'))->default('pending');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('selecteds');
     }
 }
