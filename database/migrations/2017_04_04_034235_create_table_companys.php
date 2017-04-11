@@ -13,7 +13,7 @@ class CreateTableCompanys extends Migration
      */
     public function up()
     {
-        Schema::create('companys', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');            
             $table->string('name');
@@ -33,6 +33,6 @@ class CreateTableCompanys extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companys');
+        Schema::dropIfExists('companies');
     }
 }

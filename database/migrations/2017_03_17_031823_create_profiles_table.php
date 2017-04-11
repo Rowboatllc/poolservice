@@ -18,7 +18,7 @@ class CreateProfilesTable extends Migration
             $table->string('first_name')->default('');
             $table->string('last_name')->default('');
             $table->string('fullname')->default('');            
-            $table->text('address')->default('');
+            $table->string('address')->default('');
             $table->string('city')->default('');
             $table->string('state')->default('');
             $table->integer('zipcode')->nullable();
