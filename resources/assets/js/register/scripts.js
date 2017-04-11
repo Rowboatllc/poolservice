@@ -146,43 +146,43 @@ function validationInputData()
 		},
 		messages: {
 			'billing_zipcode':{
-				required: 'Provide zipcode'
+				required: 'Provide zipcode.'
 			},	
 			'street':{
-				required: 'Provide address'
+				required: 'Provide address.'
 			},
 			'city':{
-				required: 'Provide city'
+				required: 'Provide city.'
 			},		
 			'state':{
-				required: 'Provide state'
+				required: 'Provide state.'
 			},
 			'billing_state':{
-				required: 'Provide state'
+				required: 'Provide state.'
 			},
 			'zip':{
-				required:'Provide zipcode'
+				required:'Provide zipcode.'
 			},
 			'phone':{
-				required: 'Provide phone'
+				required: 'Provide phone.'
 			},
 			'card_name':{
-				required: 'Provide card name'
+				required: 'Provide card name.'
 			},
 			'card_number':{
-				required: 'Provide card number'
+				required: 'Provide card number.'
 			},
 			'expiration_date':{
-				required: 'Provide expiration date'
+				required: 'Provide expiration date.'
 			},
 			'billing_address':{
-				required: 'Provide your address'
+				required: 'Provide your address.'
 			},
 			'billing_city':{
-				required: 'Provide your city'
+				required: 'Provide your city.'
 			},
 			'zipcode': {
-				required: 'Provide your zipcode'
+				required: 'Provide your zipcode.'
 			},
 			'email':{
 				required: "Provide your email address.",
@@ -190,19 +190,19 @@ function validationInputData()
 				remote: jQuery.validator.format("This email is already taken.")
 			},      
 			'chk_weekly_pool[]':{
-				required: "You must choose at least 1 service"
+				required: "You must choose at least 1 service."
 			},
 			'chk_service_type[]': {
-				required:"Please choose at least 1 service"
+				required:"Please choose at least 1 service."
 			},
 			'password': { 
-				required: "Provide your password", 
-				rangelength: jQuery.validator.format("Enter at least {0} characters") 
+				required: "Provide your password.", 
+				rangelength: jQuery.validator.format("Enter at least {0} characters.") 
 			},
 			'repeat-password': { 
-				required: "Repeat your password", 
-				minlength: jQuery.validator.format("Enter at least {0} characters"), 
-				equalTo: "Enter the same password as above" 
+				required: "Repeat your password.", 
+				minlength: jQuery.validator.format("Enter at least {0} characters."), 
+				equalTo: "Enter the same password as above." 
 			}, 
 			'stripeToken': { 
 				required: "Invalid number account."

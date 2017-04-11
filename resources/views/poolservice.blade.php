@@ -80,8 +80,27 @@
                     <div class="f1-step-icon"><i class="fa fa-wpforms"></i></div>
                 </div>
             </div>
+
             </space>
-            <fieldset>
+
+            <fieldset id="zipcode">
+                <div class="container">
+                    <h2>Select all of the zip codes that you service</h2>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">List by city and state</a></li>
+                        <li><a data-toggle="tab" href="#menu1">List by zip code</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <h3>List by city and state TAB</h3>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <h3>List by zip code TAB</h3>
+                        </div>
+                    </div>
+                </div>
+
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
                     <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
@@ -113,7 +132,7 @@
                 </div>
             </fieldset>
             
-            <fieldset>
+            <fieldset id="service">
                 <h4 class="text-center">Weekly cleaning-<span id="weekly_money"></span></h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
@@ -144,7 +163,7 @@
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="user_information">
                 <h4 class="text-center">Your information</h4>
                 <div class="form-group">
                     <input type="text" name="email" required placeholder="Email..." class="email form-control" id="email">
@@ -192,7 +211,7 @@
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="card_informtion">
                 <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. <span id="billing_money"><span></h4></div>
                 </space>
                 <div class="row vdivide">
@@ -249,10 +268,9 @@
                     <button type="button" class="btn btn-previous">Back</button>
                     <button type="button" class="btn btn-next-billing">Next</button>
                 </div>
-            </fieldset>
-        
+            </fieldset>        
 
-            <fieldset>
+            <fieldset id="final_information">
                 <h4 class="text-center">Finalize order</h4>
                 <div class="row vdivide">
                     <div class="col-sm-4 text-left">
@@ -349,5 +367,19 @@
         <script src="https://checkout.stripe.com/checkout.js"></script>
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register.js') }}"></script>
+
+        <script>
+            // $(document).ready(function(){
+            //     $(".nav-tabs a").click(function(){
+            //         $(this).tab('show');
+            //     });
+            //     $('.nav-tabs a').on('shown.bs.tab', function(event){
+            //         var x = $(event.target).text();         // active tab
+            //         var y = $(event.relatedTarget).text();  // previous tab
+            //         $(".act span").text(x);
+            //         $(".prev span").text(y);
+            //     });
+            // });
+        </script>
 @endsection
 
