@@ -8,6 +8,7 @@ class Order extends Model
         protected $fillable = ['user_id', 'service', 'zipcode', 'time', 'cleaning_object', 'water', 'price'];
 
         protected $casts = [
-        'services' => 'array'
+        'services' => 'array',
+        'zipcode' => 'array',        
     ];
 }

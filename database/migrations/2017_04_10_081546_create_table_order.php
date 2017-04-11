@@ -17,7 +17,7 @@ class CreateTableOrder extends Migration
             $table->increments('id');
             $table->integer('user_id');         
             $table->json('services');
-            $table->integer('zipcode');   
+            $table->json('zipcode');   
             $table->dateTime('time');
             $table->enum('cleaning_object', array('pool', 'spa'));
             $table->enum('water', array('salt', 'chlorine'));
