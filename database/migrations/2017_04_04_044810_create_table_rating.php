@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStripeTokenToTableBillingInfo extends Migration
+class CreateTableRating extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AddStripeTokenToTableBillingInfo extends Migration
      */
     public function up()
     {
-        Schema::table('billing_infos', function (Blueprint $table) {
-            //
-            $table->string('stripe_token')->nullable();
+        Schema::create('ratings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('company_id');
+            $table->integer('point');            
+            $table->timestamps();
+            
         });
     }
 
@@ -26,9 +30,6 @@ class AddStripeTokenToTableBillingInfo extends Migration
      */
     public function down()
     {
-        Schema::table('billing_infos', function (Blueprint $table) {
-            //
-            $table->dropColumn('stripe_token');
-        });
+        Schema::dropIfExists('ratings');
     }
 }

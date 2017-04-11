@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFullNameToProfiles extends Migration
+class CreateTableDayoff extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddFullNameToProfiles extends Migration
      */
     public function up()
     {
-       Schema::table('profiles', function (Blueprint $table) {
-            //
-            $table->string('full_name')->nullable();
+        Schema::create('dayoff', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('technican_id');         
+            $table->dateTime('date');
+            $table->string('comment');   
+            $table->timestamps();
         });
     }
 
@@ -26,9 +29,6 @@ class AddFullNameToProfiles extends Migration
      */
     public function down()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            //
-            $table->dropColumn('full_name');
-        });
+        Schema::dropIfExists('dayoff');
     }
 }

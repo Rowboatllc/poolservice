@@ -45,7 +45,7 @@
                             
                         </div>
                         <div class="text-center">
-                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
+                                <a href="pool-owner-register" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             <p class="text">We can help you find an experienced technician to assess repair needed and advise on how best to proceed.</p>
                         </div>
                         <div class="text-center">
-                                <a href="user-regis-service" type="button" class="btn btn-default">GET SERVICE</a>
+                                <a href="pool-owner-register" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                             <p class="text">We offer one time service for those times when all your pool really needs is a good, deepscrub.</p>
                         </div>
                         <div class="text-center">
-                                <a href="{{route('user-regis-service')}}" type="button" class="btn btn-default">GET SERVICE</a>
+                                <a href="{{route('pool-owner-register')}}" type="button" class="btn btn-default">GET SERVICE</a>
                         </div>
                     </div>
                 </div>

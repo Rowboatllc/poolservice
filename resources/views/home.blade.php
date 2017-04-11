@@ -13,7 +13,8 @@
             <h1 class="space-title baner-title">THIS IS POOL SERVICE</h1>
             <h4 class="space-title baner-description">YOUR ONE STOP FOR ALL THINGS POOLS</h4>
             <div class="space-title text-center">
-                    <a href="register/user-regis-service" type="button" class="btn btn-primary">CREATE ACCOUNT</a>
+                    <a href="register/pool-owner-register" type="button" class="btn btn-primary">CREATE POOL OWNER ACCOUNT</a>
+                    <a href="register/pool-service-register" type="button" class="btn btn-primary">CREATE POOL SERVICE ACCOUNT</a>
                     <space />
                     <button type="button" class="btn btn-default">LEARN MORE</button>
             </div>

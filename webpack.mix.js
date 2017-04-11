@@ -25,13 +25,19 @@ mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/admin/admin.js']
 // register.js
 mix.combine(['resources/assets/js/register/jquery.backstretch.js', 'resources/assets/js/register/jquery.payment.js', 
 'resources/assets/js/register/additional-methods.js', 'resources/assets/js/register/retina-1.1.0.js', 
-'resources/assets/js/register/scripts.js'], 'public/js/register/register.js');
+'resources/assets/js/register/register-scripts.js'], 'public/js/register/register.js');
 
 
 // Sass
 
 // // app
-mix.sass('resources/assets/sass/admin.scss', 'public/css/admin.css');
+mix.sass('resources/assets/sass/admin.scss', 'public/css/admin.css')
+    .options({
+      processCssUrls: false
+   });
 
 // // css
-mix.sass('resources/assets/sass/app.scss', 'public/css/app.css');
+mix.sass('resources/assets/sass/app.scss', 'public/css/app.css')
+    .options({
+      processCssUrls: false
+   });

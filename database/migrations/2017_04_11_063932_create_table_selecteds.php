@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableUserGroup extends Migration
+class CreateTableSelecteds extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTableUserGroup extends Migration
      */
     public function up()
     {
-        Schema::create('user_group', function (Blueprint $table) {
+        Schema::create('selecteds', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('group_id');
+            $table->integer('order_id');         
+            $table->integer('company_id');
+            $table->enum('status', array('pending', 'active', 'inactive'))->default('pending');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTableUserGroup extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_group');
+        Schema::dropIfExists('selecteds');
     }
 }

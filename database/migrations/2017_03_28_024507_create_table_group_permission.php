@@ -17,6 +17,7 @@ class CreateTableGroupPermission extends Migration
             $table->increments('id');
             $table->integer('group_id');
             $table->string('permission_id');
+            $table->timestamps();
         });
     }
 

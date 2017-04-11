@@ -16,9 +16,43 @@ class RegisServiceController extends Controller
         $this->user=$user;
     }
 
-    public function index()
+    public function poolOwnerIndex()
     {
-        return view('poolservice');
+        return view('pool-owner');
+    }
+
+    public function poolServiceIndex()
+    {
+        return view('pool-service');
+    }
+
+    public function addNewPoolOwner(Request $request)
+    {
+        //set confirmation_code to request
+        $confirmation_code = str_random(30);
+        $request['confirmation_code']=$confirmation_code;
+        // passed validation then save user to database	
+        $pool=$request->all();
+        $val=$this->user->AddNewPoolServiceSubscriber($pool);
+        $email=$request['email'];
+        if($val)
+        {
+            //send email to verify user password_hash
+            Mail::send('emails.verify', compact('confirmation_code','email'), function($message) 
+            use ($request,$email)
+            {     
+                 $message->subject('Authentication your new account');
+                 $message->to($email, $request['fullname']);
+            });
+
+            //register success and message to user 
+            return response()->json(['success' => true,'message' => $email],200);
+        }
+        else
+        {
+            //register failed and message to user 
+            return response()->json(['success' => false,'message' => 'error occurred in system !!!!'],422);
+        } 
     }
 
     public function addNewPoolService(Request $request)
@@ -46,7 +80,7 @@ class RegisServiceController extends Controller
         else
         {
             //register failed and message to user 
-            return response()->json(['success' => false,'message' => 'error occurred in system'],422);
+            return response()->json(['success' => false,'message' => 'error occurred in system !!!!'],422);
         } 
     }
 
@@ -75,13 +109,12 @@ class RegisServiceController extends Controller
 
     public function addEmailNotify(Request $request)
     {
-        // dd($request->all());
         $user=$this->user->addEmailNotify($request['not-exist-email']);
         if($user===null)
         {
-            return redirect('user-regis-service');
+            return redirect('pool-owner-register');
         }else{
-            return redirect('user-regis-service');
+            return redirect('pool-owner-register');
         }        
     }
 

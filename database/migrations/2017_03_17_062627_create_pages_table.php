@@ -18,8 +18,8 @@ class CreatePagesTable extends Migration
             $table->string('alias');
             $table->string('title');
             $table->text('content');
-            $table->text('metadata_keyword');
-            $table->text('metadata_desc');
+            $table->text('keywords');
+            $table->text('description');
             $table->timestamps();
         });
     }

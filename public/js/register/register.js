@@ -2451,28 +2451,43 @@ function validationInputData()
 		},
 		messages: {
 			'billing_zipcode':{
-				required: 'Provide zipcode'
+				required: 'Provide zipcode.'
+			},	
+			'street':{
+				required: 'Provide address.'
+			},
+			'city':{
+				required: 'Provide city.'
+			},		
+			'state':{
+				required: 'Provide state.'
 			},
 			'billing_state':{
-				required: 'Provide state'
+				required: 'Provide state.'
 			},
-			'state':{
-				required: 'Provide state'
+			'zip':{
+				required:'Provide zipcode.'
+			},
+			'phone':{
+				required: 'Provide phone.'
+			},
+			'card_name':{
+				required: 'Provide card name.'
 			},
 			'card_number':{
-				required: 'Provide card number',
+				required: 'Provide card number.'
 			},
 			'expiration_date':{
-				required: 'Provide expiration date',
+				required: 'Provide expiration date.'
 			},
 			'billing_address':{
-				required: 'Provide your address',
+				required: 'Provide your address.'
 			},
 			'billing_city':{
-				required: 'Provide your city',
+				required: 'Provide your city.'
 			},
 			'zipcode': {
-				required: 'Provide your zipcode',
+				required: 'Provide your zipcode.'
 			},
 			'email':{
 				required: "Provide your email address.",
@@ -2480,19 +2495,19 @@ function validationInputData()
 				remote: jQuery.validator.format("This email is already taken.")
 			},      
 			'chk_weekly_pool[]':{
-				required: "You must choose at least 1 service",
+				required: "You must choose at least 1 service."
 			},
 			'chk_service_type[]': {
-				required:"Please choose at least 1 service"
+				required:"Please choose at least 1 service."
 			},
 			'password': { 
-				required: "Provide your password", 
-				rangelength: jQuery.validator.format("Enter at least {0} characters") 
+				required: "Provide your password.", 
+				rangelength: jQuery.validator.format("Enter at least {0} characters.") 
 			},
 			'repeat-password': { 
-				required: "Repeat your password", 
-				minlength: jQuery.validator.format("Enter at least {0} characters"), 
-				equalTo: "Enter the same password as above" 
+				required: "Repeat your password.", 
+				minlength: jQuery.validator.format("Enter at least {0} characters."), 
+				equalTo: "Enter the same password as above." 
 			}, 
 			'stripeToken': { 
 				required: "Invalid number account."
@@ -2682,11 +2697,11 @@ $(document).ready(function() {
     	if($( "#frmPoolSubscriber" ).valid()) {
 			if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
 			{
-				$('#billing_money').text('$30/week');
+				$('#billing_money').text('$30/month.');
 			}
 			else
 			{
-				$('#billing_money').text('$25/week');
+				$('#billing_money').text('$25/month.');
 			}
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
@@ -2702,8 +2717,7 @@ $(document).ready(function() {
 	    		// scroll window to beginning of the form
     			scroll_to_class( $('.f1'), 20 );
 	    	});
-    	}
-    	
+    	}    	
     });
 
 	// next step
@@ -2856,18 +2870,10 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: frm.serialize(),
 			success: function(data) {
-				if(data.success)
-				{
-					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
-					$("#dialog").html('You are almost done! Please check your email at ('+ data.message +') and follow the instruction to completed the sign up process');
-					$("#dialog").dialog("open");
-				}
-				else
-				{
-					$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');
-					$("#dialog").html(data.message);
-					$("#dialog").dialog("open");
-				}				
+				$("#notifyModal #get_your_email").text(data.success);
+				$("#notifyModal").modal();		
+
+				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
 			}
         });
 		

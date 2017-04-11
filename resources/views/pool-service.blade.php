@@ -42,14 +42,17 @@
         height: 24px;
     }
     label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
+    .right {border-right: 2px solid #ccc;}
+    .left {border-left: 2px solid #ccc;}
+    .bottom {border-bottom: 2px solid #ccc;}
 }
 </style>
 
-<div class="container register-pool-owner">
+<div class="container register-pool-service">
     <div class="form-box">
-        <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
+        <form role="form" id="frmPoolSubscriber" action="{{route('pool-service-register')}}" method="post" class="f1">
         {{ csrf_field() }}
-            <h3>Register To Our App</h3>
+            <h3>Register the new Pool Owner To Our App</h3>
             <p>Fill in the form to get instant access</p>
             </space>
             <div class="f1-steps">
@@ -77,8 +80,27 @@
                     <div class="f1-step-icon"><i class="fa fa-wpforms"></i></div>
                 </div>
             </div>
+
             </space>
-            <fieldset>
+
+            <fieldset id="zipcode">
+                <div class="container">
+                    <h2>Select all of the zip codes that you service</h2>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">List by city and state</a></li>
+                        <li><a data-toggle="tab" href="#menu1">List by zip code</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <h3>List by city and state TAB</h3>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <h3>List by zip code TAB</h3>
+                        </div>
+                    </div>
+                </div>
+
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
                     <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
@@ -91,7 +113,7 @@
             </fieldset>
 
             <fieldset id="cbgroup">
-                <h4 class="text-center">Type of service</h4>
+                <h4 class="text-center">Type of the services.</h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
@@ -110,7 +132,7 @@
                 </div>
             </fieldset>
             
-            <fieldset>
+            <fieldset id="service">
                 <h4 class="text-center">Weekly cleaning-<span id="weekly_money"></span></h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
@@ -141,7 +163,7 @@
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="user_information">
                 <h4 class="text-center">Your information</h4>
                 <div class="form-group">
                     <input type="text" name="email" required placeholder="Email..." class="email form-control" id="email">
@@ -149,6 +171,7 @@
                 <div class="form-group">
                     <input type="password" required name="password" placeholder="Password..." class="password form-control" id="password">
                 </div>
+                <div class="form-group bottom"></div>
                 <div class="form-group">
                     <input type="password" required name="repeat-password" placeholder="Repeat password..." 
                                         class="repeat-password form-control" id="repeat-password">
@@ -188,7 +211,7 @@
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="card_informtion">
                 <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. <span id="billing_money"><span></h4></div>
                 </space>
                 <div class="row vdivide">
@@ -211,7 +234,7 @@
                             </div>	                        
                         </div>
                     </div>
-                    <div class="col-sm-6 text-left">
+                    <div class="col-sm-6 text-left left">
                         <div class="form-group">
                             <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
                             <label for="chk_billing_address">Same as service address</label>   
@@ -245,10 +268,9 @@
                     <button type="button" class="btn btn-previous">Back</button>
                     <button type="button" class="btn btn-next-billing">Next</button>
                 </div>
-            </fieldset>
-        
+            </fieldset>        
 
-            <fieldset>
+            <fieldset id="final_information">
                 <h4 class="text-center">Finalize order</h4>
                 <div class="row vdivide">
                     <div class="col-sm-4 text-left">
@@ -262,7 +284,7 @@
                             <h4 class="text-center">Billing information</h4>                    
                         </div>
                     </div>
-                    <div class="col-sm-8 text-left">
+                    <div class="col-sm-8 text-left left">
                         <div class="form-group">
                             <h4 class="text-center">Weekly cleaning - <span id="sum_price"><span></h4>
                             <h4 class="text-center"><span id="sum_service"><span></h4>
@@ -313,8 +335,27 @@
   </div>
 </div>
 
-<div id="dialog" style="display: none">
+<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">        
+                <form role="form">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) 
+                            and follow the instruction to completed the sign up process</label>  
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
+                    </div>            
+                </form>  
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--<div id="dialog" style="display: none">
+</div>-->
 
 @endsection
 
@@ -326,5 +367,19 @@
         <script src="https://checkout.stripe.com/checkout.js"></script>
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register.js') }}"></script>
+
+        <script>
+            // $(document).ready(function(){
+            //     $(".nav-tabs a").click(function(){
+            //         $(this).tab('show');
+            //     });
+            //     $('.nav-tabs a').on('shown.bs.tab', function(event){
+            //         var x = $(event.target).text();         // active tab
+            //         var y = $(event.relatedTarget).text();  // previous tab
+            //         $(".act span").text(x);
+            //         $(".prev span").text(y);
+            //     });
+            // });
+        </script>
 @endsection
 

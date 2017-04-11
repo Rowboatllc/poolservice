@@ -25,5 +25,12 @@ class OptionSeeder extends Seeder
                         "email_address" => "admin@rowboat.com"
                         ]),
         ]);
+
+        $services = factory(App\Models\Option::class)->create([
+            'key' => 'all_services',
+            'value' => serialize(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'])
+        ]);
+
+        
     }
 }

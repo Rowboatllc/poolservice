@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCountryToBillingInfoTable extends Migration
+class CreateTablePoolowner extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddCountryToBillingInfoTable extends Migration
      */
     public function up()
     {
-        Schema::table('billing_infos', function (Blueprint $table) {
-            //
-            $table->string('country')->nullable();
+        Schema::create('poolowners', function (Blueprint $table) {
+            $table->integer('user_id')->unique();
+            $table->string('pool_status');
+            $table->timestamps();            
         });
     }
 
@@ -26,9 +27,6 @@ class AddCountryToBillingInfoTable extends Migration
      */
     public function down()
     {
-        Schema::table('billing_infos', function (Blueprint $table) {
-            //
-            $table->dropColumn('country');
-        });
+        Schema::dropIfExists('poolowners');
     }
 }
