@@ -2697,11 +2697,11 @@ $(document).ready(function() {
     	if($( "#frmPoolSubscriber" ).valid()) {
 			if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
 			{
-				$('#billing_money').text('$30/week');
+				$('#billing_money').text('$30/month.');
 			}
 			else
 			{
-				$('#billing_money').text('$25/week');
+				$('#billing_money').text('$25/month.');
 			}
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps

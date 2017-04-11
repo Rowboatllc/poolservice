@@ -48,11 +48,11 @@
 }
 </style>
 
-<div class="container register-pool-owner">
+<div class="container register-pool-service">
     <div class="form-box">
-        <form role="form" id="frmPoolSubscriber" action="{{route('user-regis-service')}}" method="post" class="f1">
+        <form role="form" id="frmPoolSubscriber" action="{{route('pool-service-register')}}" method="post" class="f1">
         {{ csrf_field() }}
-            <h3>Register To Our App</h3>
+            <h3>Register the new Pool Owner To Our App</h3>
             <p>Fill in the form to get instant access</p>
             </space>
             <div class="f1-steps">
@@ -113,7 +113,7 @@
             </fieldset>
 
             <fieldset id="cbgroup">
-                <h4 class="text-center">Type of service</h4>
+                <h4 class="text-center">Type of the services.</h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>

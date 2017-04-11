@@ -21,8 +21,12 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
     Route::group(['prefix' => 'register'], function () {
-        Route::get('/user-regis-service', array('uses' => 'RegisServiceController@index'))->name('user-regis-service');
-        Route::post('/user-regis-service', array('uses' => 'RegisServiceController@addNewPoolService'))->name('user-regis-service');
+        Route::get('/pool-owner-register', array('uses' => 'RegisServiceController@poolOwnerIndex'))->name('pool-owner-register');
+        Route::post('/pool-owner-register', array('uses' => 'RegisServiceController@addNewPoolOwner'))->name('pool-owner-register');
+
+        Route::get('/pool-service-register', array('uses' => 'RegisServiceController@poolServiceIndex'))->name('pool-service-register');
+        Route::post('/pool-service-register', array('uses' => 'RegisServiceController@addNewPoolService'))->name('pool-service-register');
+
         Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
         Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
         Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
