@@ -449,12 +449,13 @@ form{
     text-align: center;
 }
 .panel.panel-transparent {
-    border: 0px;
+    border: 0px ;
+    box-shadow: none;
 }
 .page-admin form, .option-admin form{
     text-align: left;
 }
-
 .main-min {
     min-height: 730px;
+
 }

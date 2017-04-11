@@ -31,7 +31,13 @@ mix.combine(['resources/assets/js/register/jquery.backstretch.js', 'resources/as
 // Sass
 
 // // app
-mix.sass('resources/assets/sass/admin.scss', 'public/css/admin.css');
+mix.sass('resources/assets/sass/admin.scss', 'public/css/admin.css')
+    .options({
+      processCssUrls: false
+   });
 
 // // css
-mix.sass('resources/assets/sass/app.scss', 'public/css/app.css');
+mix.sass('resources/assets/sass/app.scss', 'public/css/app.css')
+    .options({
+      processCssUrls: false
+   });

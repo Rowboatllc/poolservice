@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/started', array('uses' => 'HomeController@started'))->name('started');
 
     Route::group(['middleware' => ['permission']], function () {
+        
         Route::group(['prefix' => 'admin'], function () {
             
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');

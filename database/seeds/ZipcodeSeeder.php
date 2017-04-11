@@ -11,7 +11,7 @@ class ZipcodeSeeder extends Seeder
 
         DB::table('zipcode')->insert([
             'address' => str_random(10),
-            'zipcode' => 70000
+            'zipcode' => rand(10000, 99999)
         ]);
     }
 }

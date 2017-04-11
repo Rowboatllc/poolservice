@@ -86,4 +86,8 @@ class OptionRepository implements OptionRepositoryInterface {
     public function extract($value) {
         return unserialize($value);
     }
+
+    public function getAllService(){
+        return $this->getOption('all_services');
+    }
 }
