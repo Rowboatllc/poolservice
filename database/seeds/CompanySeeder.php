@@ -14,7 +14,7 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-         DB::table('companys')->delete();
+         DB::table('companies')->delete();
         // DB::table('poolowners')->delete();
          DB::table('orders')->delete();
 
@@ -22,12 +22,12 @@ class CompanySeeder extends Seeder
         $order = factory(App\Models\Order::class)->create([
             'user_id' => $user->id
             ]);
-        
-        factory(App\Models\Company::class, 10)->make([''])->each(function ($com){
+        $order = DB::table('orders')->find($order->id);
+        factory(App\Models\Company::class, 10)->make(['zipcodes' => $order->zipcode])->each(function ($com){
             $faker = Faker::create();
             $random = rand(1, 3);
             $com->services = $faker->randomElements(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'], $random);
-            $i=0; $zipcodes = [];
+            $i=1; $zipcodes = json_decode($com->zipcodes);
             while($i<=$random){
                 $zipcodes[] = intval(substr($faker->postcode,0,5));
                 $i++;

@@ -17,13 +17,12 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     $services = $faker->randomElements(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'], $random);
     $zipcodes[] = intval(substr($faker->postcode,0,5));
     return [
+        'user_id' => '1',
         'name' => $faker->company,
         'services' => $services,
         'zipcodes' => $zipcodes,
-        'address' => $faker->address,
         'logo' => $faker->imageUrl($width = 640, $height = 480),
         'status' => $faker->randomElement(array ('pending', 'unclaimed', 'active', 'inactive')),
-        'token' => str_random(10),
         'website' => $faker->url
     ];
 });

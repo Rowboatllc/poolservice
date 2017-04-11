@@ -14,9 +14,9 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getAllCompanySupportOwner($user_id){
         if (!empty($user_id)) {
-            $results = DB::select('SELECT * FROM `companys` as c 
+            $results = DB::select('SELECT c.* FROM `companies` as c 
                 LEFT JOIN orders o ON JSON_CONTAINS(c.services, o.services) 
-                                    AND JSON_CONTAINS(c.zipcode, o.zipcode)
+                                    AND JSON_CONTAINS(c.zipcodes, o.zipcode)
                 WHERE o.user_id = '.$user_id.'
                 ');
             return $results;
