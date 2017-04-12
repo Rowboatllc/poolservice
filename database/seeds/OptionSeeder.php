@@ -28,7 +28,7 @@ class OptionSeeder extends Seeder
 
         $services = factory(App\Models\Option::class)->create([
             'key' => 'all_services',
-            'value' => serialize(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'])
+            'value' => serialize(['service_1', 'service_2', 'service_3'])
         ]);
 
         

@@ -117,7 +117,7 @@ jQuery(document).ready(function () {
         showLoading();
         method = method || 'POST';
         var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-        if(typeof data=='string') {
+        if (typeof data == 'string') {
             data = data + '&_token=' + token;
         } else {
             data._token = token;
@@ -135,10 +135,52 @@ jQuery(document).ready(function () {
             error: function (result) {
                 console.log('There is something wrong baby');
                 hideLoading();
-                 if (typeof error == 'function')
+                if (typeof error == 'function')
                     error(result);
             }
         });
+    }
+    
+    function sendDataWithToken(url, data, method, callback, error) {
+        showLoading();
+        var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
+        method = method || 'POST';
+        //var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
+        /*if (typeof data == 'string') {
+            data = data;// + '&_token=' + token;
+        } else {
+            data._token = token;
+        }*/
+        jQuery.ajax({
+            url: url,
+            method: method,
+            data: data,
+            dataType: "application/json",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer " + key
+            },
+            success: function (result) {
+                if (typeof callback == 'function')
+                    callback(result);
+                hideLoading();
+            },
+            error: function (result) {
+                console.log('There is something wrong baby');
+                hideLoading();
+                if (typeof error == 'function')
+                    error(result);
+            }
+        });
+    }
+
+    function saveForm($form) {
+        sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function () {
+            console.log('form saved');
+        }, function () {
+            console.log('something wrong');
+        })
     }
 
     function showLoading() {
@@ -146,9 +188,17 @@ jQuery(document).ready(function () {
     function hideLoading() {
     }
 
+    function globalAssignEvent() {
+        jQuery('.adminpanel').on('click', '.save_form', function () {
+            saveForm($(this).parents('form'));
+        });
+    }
+
+    globalAssignEvent();
+
     var dboptionMethods = {
-        params : function() {
-            return { 
+        params: function () {
+            return {
                 coverpanel: '.option_panel',
                 option: '',
                 group: ''
@@ -204,16 +254,16 @@ jQuery(document).ready(function () {
                 $me('newGroup');
             });
             jQuery(params.coverpanel).on('click', '.save_group', function () {
-                $me('saveGroup',[this]);
+                $me('saveGroup', [this]);
             });
         },
         saveOptionParams: function (obj) {
             var url = jQuery('.option_panel').data('saveurl');
             var group = jQuery(obj).parents('.a_group').data('key');
-            var data = jQuery(obj).parent().find('input').serialize() + '&group='+group;
-            
+            var data = jQuery(obj).parent().find('input').serialize() + '&group=' + group;
+
             //console.log(data);
-           // return;
+            // return;
             sendData(url, data);
         },
         removeOption: function (key, callback) {
@@ -234,10 +284,10 @@ jQuery(document).ready(function () {
             var url = jQuery('.option_panel').data('savegroupurl');
             var groupname = $covergroup.find('input[name="group_name"]').val();
             var data = {
-              alias : $covergroup.find('input[name="group_alias"]').val(),
-              name : groupname
+                alias: $covergroup.find('input[name="group_alias"]').val(),
+                name: groupname
             }
-            sendData(url, data, 'POST', function(result){
+            sendData(url, data, 'POST', function (result) {
                 $covergroup.find('input').attr('disabled', 'disabled');
                 $covergroup.data('key', groupname);
             });
@@ -257,7 +307,7 @@ jQuery(document).ready(function () {
             jQuery.error('Method ' + method + ' does not exist on jQuery.dboption');
         }
     };
-    
+
     jQuery.fn.dboption('assignEvent');
 
 });

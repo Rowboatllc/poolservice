@@ -2348,7 +2348,7 @@ function validationInputData()
 	var form = $( "#frmPoolSubscriber" );
 	form.validate({
 		rules: {
-			'zipcode': {
+			'zipcode[0]': {
 				required: true,
 				number: true,
 				maxlength: 5
@@ -2486,7 +2486,7 @@ function validationInputData()
 			'billing_city':{
 				required: 'Provide your city.'
 			},
-			'zipcode': {
+			'zipcode[0]': {
 				required: 'Provide your zipcode.'
 			},
 			'email':{
@@ -2520,7 +2520,7 @@ function validationInputData()
             $(element).closest('.form-group').removeClass('has-error');
         },
 		errorPlacement: function(error, element) {
-			console.log(element.attr("name"));
+			// console.log(element.attr("name"));
 			if (element.attr("name") == "chk_weekly_pool[]") {					
 				error.insertAfter("#lblSpa");
 			} else if(element.attr("name") == "chk_service_type[]"){
@@ -2575,23 +2575,78 @@ function validationEmail()
 	});	
 }
 
-// $body = $("body");
-// $(document).ajaxStart(function() {
-//   $body.addClass("loading");
-// }).ajaxStop(function() {
-//   $body.removeClass("loading"); 
-// });
+function autoAddInput()
+{
+	_.templateSettings.variable = "element";
+	var tpl = _.template($("#form_tpl").html());
 
-// $(document).on({
-//     ajaxStart: function() { $body.addClass("loading");},
-// 	ajaxStop: function() { $body.removeClass("loading"); }    
-// });
+	var counter = 1;
+	$(document).on('click', '.btn-add', function(e)
+    {
+        // e.preventDefault();
+        // var controlForm = $('.controls'),
+        //     currentEntry = $(this).parents('.entry:first'),
+        //     newEntry = $(currentEntry.clone()).appendTo(controlForm);
+		
+        // newEntry.find('input').val('');
+		// var input=newEntry.find("input");
+
+		// input.attr('name', 'zipcode['+ counter +']');
+		// input.rules( "add", {
+		// 	required: true,
+		// 	number: true,
+		// 	maxlength: 5	
+		// });
+
+		var controlForm = $('.controls');
+        e.preventDefault();
+        var tplData = {
+            i: counter
+        };
+        $("#controls").append(tpl(tplData));
+        $('input[name="zipcode['+counter+']"]').rules("add", {
+            required: true,
+            number: true,
+            maxlength: 5,
+            messages: {
+                required: "Provide zip code"                
+            },
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+			errorPlacement: function(error, element) {
+				// console.log(error);
+				// if (error.attr("name") == "zipcode["+counter+"]") {                   
+				// 	error.insertAfter(".form-group");    
+				// }                       
+			}
+        });
+
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span class="fa fa-minus"></span>');
+
+		counter += 1;
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+}
 
 $(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
 	validationEmail();
+
+	autoAddInput();
 	$('#f1-expiration-date').payment('formatCardExpiry');
 
     /*Fullscreen background*/    
@@ -2726,6 +2781,18 @@ $(document).ready(function() {
 			// navigation steps / progress steps
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
 			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+
+		// adding rules for inputs with class 'comment'
+		$('input.zipcode-list').each(function() {
+			$(this).rules("add", 
+				{
+					required: true,
+					number:true
+				})
+		});            
+
+		// prevent default submit action         
+		event.preventDefault();
 			
     	if($( "#frmPoolSubscriber" ).valid()) {	
 			$.ajax({ cache: false,

@@ -45,6 +45,11 @@
     .right {border-right: 2px solid #ccc;}
     .left {border-left: 2px solid #ccc;}
     .bottom {border-bottom: 2px solid #ccc;}
+    .entry
+    {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 </style>
 
@@ -85,26 +90,20 @@
 
             <fieldset id="zipcode">
                 <div class="container">
-                    <h2>Select all of the zip codes that you service</h2>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">List by city and state</a></li>
-                        <li><a data-toggle="tab" href="#menu1">List by zip code</a></li>
-                    </ul>
-
-                    <div class="tab-content">
-                        <div id="home" class="tab-pane fade in active">
-                            <h3>List by city and state TAB</h3>
-                        </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <h3>List by zip code TAB</h3>
+                    <div class="row">
+                        <div class="control-group" id="fields">
+                            <label class="control-label" for="field1">Enter your zip code</label>
+                            <div class="controls form-inline" id="controls"> 
+                                <div class="entry input-append form-group col-xs-3 center">
+                                    <input class="zipcode-list form-control" name="zipcode[0]" id="zipcode[0]" type="text"
+                                        placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
+                                    <button type="button" class="btn-success btn-add">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <h4 class="text-center">Enter your zip code</h4>
-                <div class="form-group">
-                    <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
-                    class="zipcode form-control" id="zipcode" maxlength="5" required>                   
                 </div>
                 
                 <div class="f1-buttons">
@@ -368,18 +367,16 @@
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register.js') }}"></script>
 
-        <script>
-            // $(document).ready(function(){
-            //     $(".nav-tabs a").click(function(){
-            //         $(this).tab('show');
-            //     });
-            //     $('.nav-tabs a').on('shown.bs.tab', function(event){
-            //         var x = $(event.target).text();         // active tab
-            //         var y = $(event.relatedTarget).text();  // previous tab
-            //         $(".act span").text(x);
-            //         $(".prev span").text(y);
-            //     });
-            // });
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>            
+
+        <script type="text/html" id="form_tpl">
+            <div class="entry input-append form-group col-xs-3 center">
+                <input class="zipcode-list form-control" name="zipcode[<%= element.i %>]" id="zipcode[<%= element.i %>]" type="text"
+                    placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
+                <button type="button" class="btn-success btn-add">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
         </script>
 @endsection
 
