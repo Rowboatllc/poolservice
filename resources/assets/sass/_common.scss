@@ -459,3 +459,23 @@ form{
     min-height: 730px;
 
 }
+span.stars, span.stars span {
+    display: block;
+    background: url(images/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+.my-pool-service-company tr th{
+  border: 0px !important;
+}
+.my-pool-service-company img.logo{
+  width: 100px;
+  height: 50px;
+}
+.my-pool-service-company tr td{
+    vertical-align: middle;
+}

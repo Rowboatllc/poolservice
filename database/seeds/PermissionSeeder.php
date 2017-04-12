@@ -55,12 +55,14 @@ class PermissionSeeder extends Seeder
         // set new user admin
         $user_admin = factory(App\Models\User::class)->create([
             'name' => 'Admin',
+            'status' => 'active',
             'email' => 'admin@rowboatsoftware.com',            
         ]);
 
         // set new user admin
         $user_user = factory(App\Models\User::class)->create([
             'name' => 'User',
+            'status' => 'active',            
             'email' => 'user@rowboatsoftware.com',            
         ]);
 
