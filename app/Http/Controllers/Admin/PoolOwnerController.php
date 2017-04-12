@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+
 use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
+use Illuminate\Http\Request;
+use Auth;
+
+use App\Models\User;
 
 class PoolOwnerController extends Controller {
     public function index() {
@@ -23,26 +26,46 @@ class PoolOwnerController extends Controller {
     }
     
     public function saveProfile( Request $request) {
-        $api = new ApiToken;
-        $user = $api->getUserByToken();
-        //$data = Request::all();
+        $user = $this->getUserByToken();
+        if($request->file('avatar'))
+           $this->uploadFile();
         $profile = \App\Models\Profiles::find($user->id);
         $profile->fullname = $request->input('fullname');
-        dd( $profile->fullname );
-        $profile->zipcode = Request::input('zipcode');
-        $profile->city = Request::input('city');
-        $profile->address = Request::input('address');
-        $profile->state = Request::input('state');
-        $profile->zipcode = Request::input('zipcode');
-        $profile->phone = Request::input('phone');
-        //$profile->avatar = Request::input('avatar');
-        
+        $profile->zipcode = $request->input('zipcode');
+        $profile->city = $request->input('city');
+        $profile->address = $request->input('address');
+        $profile->state = $request->input('state');
+        $profile->zipcode = $request->input('zipcode');
+        $profile->phone = $request->input('phone');
+        if( $request->input('avatar') )
+            $profile->avatar = $request->input('avatar');
         $result = $profile->save();
         return response()->json(['returnValue' => $result]);
     }
     
-    public function getUserByToken($token) {
+    public function getUserByToken() {
         $api = new ApiToken;
         return $api->getUserByToken();
     }
+    
+    public function saveAvatar(Request $request)
+    {
+        $avatarFolder = 'public/uploads/profile';
+        $file = $request->file('avatar');
+        //$user = $this->getUserByToken();
+        $user = \App\Models\User::find(4);
+        $profile = \App\Models\Profiles::find($user->id);
+        $extension = $file->extension();
+        
+        if (!($file->isValid() && $extension!='exe' && in_array($extension, ['jpg', 'png'])))
+            return response()->json(['error'=>'File is invalid']);
+            
+        $profile->avatar = $file->storeAs($avatarFolder, md5($user->email) . '.' . $extension);
+        $result = $profile->save();
+        return response()->json([
+            'returnValue' => $result,
+            'path' => '/uploads/profile/'.md5($user->email) . '.' . $extension
+        ]);
+    }
+    
 }

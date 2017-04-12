@@ -20,31 +20,23 @@ jQuery(document).ready(function () {
                 hideLoading();
             },
             error: function (result) {
-                console.log('There is something wrong baby');
                 hideLoading();
                 if (typeof error == 'function')
                     error(result);
             }
         });
     }
-    
+
     function sendDataWithToken(url, data, method, callback, error) {
         showLoading();
         var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
         method = method || 'POST';
-        //var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-        /*if (typeof data == 'string') {
-            data = data;// + '&_token=' + token;
-        } else {
-            data._token = token;
-        }*/
         jQuery.ajax({
             url: url,
             method: method,
             data: data,
             dataType: "application/json",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Authorization": "Bearer " + key
             },
@@ -54,7 +46,6 @@ jQuery(document).ready(function () {
                 hideLoading();
             },
             error: function (result) {
-                console.log('There is something wrong baby');
                 hideLoading();
                 if (typeof error == 'function')
                     error(result);
@@ -77,7 +68,7 @@ jQuery(document).ready(function () {
 
     function globalAssignEvent() {
         jQuery('.adminpanel').on('click', '.save_form', function () {
-            saveForm($(this).parents('form'));
+            saveForm(jQuery(this).parents('form'));
         });
     }
 
@@ -91,34 +82,8 @@ jQuery(document).ready(function () {
                 group: ''
             }
         },
-        init: function (options) {
-            /*return this.each(function () {
-             var $this = $(this),
-             data = $this.data('tooltip'),
-             tooltip = $('<div />', {
-             text: $this.attr('title')
-             });
-             alert('init called');
-             // If the plugin hasn't been initialized yet
-             if (!data) {
-             
-             jQuery(this).data('tooltip', {
-             target: $this,
-             tooltip: tooltip
-             });
-             }
-             });*/
-        },
-        destroy: function () {
-            /*return this.each(function () {
-             var $this = $(this),
-             data = $this.data('tooltip');
-             // Namespacing FTW
-             $(window).unbind('.tooltip');
-             data.tooltip.remove();
-             $this.removeData('tooltip');
-             })*/
-        },
+        init: function (options) {},
+        destroy: function () {},
         assignEvent: function () {
             var params = this.dboption('params');
             var $me = this.dboption;
@@ -148,9 +113,6 @@ jQuery(document).ready(function () {
             var url = jQuery('.option_panel').data('saveurl');
             var group = jQuery(obj).parents('.a_group').data('key');
             var data = jQuery(obj).parent().find('input').serialize() + '&group=' + group;
-
-            //console.log(data);
-            // return;
             sendData(url, data);
         },
         removeOption: function (key, callback) {
@@ -198,3 +160,57 @@ jQuery(document).ready(function () {
     jQuery.fn.dboption('assignEvent');
 
 });
+
+
+ajaxUploadFile = {
+    frameName: 'frameUpload',
+    frame: function (c) {
+        var d = document.createElement('DIV');
+        d.innerHTML = '<iframe style="display:none" src="about:blank" id="'+this.frameName+'" name="'+this.frameName+'" onload="ajaxUploadFile.loaded(\''+this.frameName+'\')"></iframe>';
+        document.body.appendChild(d);
+        var i = document.getElementById(this.frameName);
+        if (c && typeof (c.onComplete) == 'function') {
+            i.onComplete = c.onComplete;
+        }
+        return this.frameName;
+    },
+    form: function (f, name) {
+        f.setAttribute('target', name);
+    },
+    submit: function (f, c) {
+        this.form(f, this.frame(c));
+        if (c && typeof (c.onStart) == 'function') {
+            return c.onStart();
+        } else {
+            return true;
+        }
+    },
+    loaded: function (id) {
+        var i = document.getElementById(id);
+        if (i.contentDocument) {
+            var d = i.contentDocument;
+        } else if (i.contentWindow) {
+            var d = i.contentWindow.document;
+        } else {
+            var d = window.frames[id].document;
+        }
+        if (d.location.href == "about:blank") {
+            return;
+        }
+        if (typeof (i.onComplete) == 'function') {
+            i.onComplete(d.body.innerHTML);
+        }
+    },
+    resetUpload: function(form) {
+        var result = jQuery('#'+this.frameName).contents().find('body').text();
+        result = JSON.parse(responseText);
+        if(result.returnValue==true) {
+            form = document.querySelector(form);
+            jQuery('.avatar').attr('src', form.avatar.value);
+            form.reset();
+            jQuery('#'+this.frameName).remove();
+        } else {
+            console.log('Something wrong when upload file in server');  
+        }
+    }
+}
