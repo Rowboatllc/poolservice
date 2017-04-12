@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a id="brand" class="navbar-brand" href="{{ Auth::guest() ? ' /' : '/dashboard' }}">POOL SERVICE</a>
+            <a id="brand" class="navbar-brand" href="{{ Auth::guest() ? ' /' : '/poolowner' }}">POOL SERVICE</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
