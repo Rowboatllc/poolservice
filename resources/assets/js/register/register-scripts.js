@@ -278,21 +278,6 @@ function autoAddInput()
 	var counter = 1;
 	$(document).on('click', '.btn-add', function(e)
     {
-        // e.preventDefault();
-        // var controlForm = $('.controls'),
-        //     currentEntry = $(this).parents('.entry:first'),
-        //     newEntry = $(currentEntry.clone()).appendTo(controlForm);
-		
-        // newEntry.find('input').val('');
-		// var input=newEntry.find("input");
-
-		// input.attr('name', 'zipcode['+ counter +']');
-		// input.rules( "add", {
-		// 	required: true,
-		// 	number: true,
-		// 	maxlength: 5	
-		// });
-
 		var controlForm = $('.controls');
         e.preventDefault();
         var tplData = {
@@ -477,19 +462,10 @@ $(document).ready(function() {
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
 			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-		// adding rules for inputs with class 'comment'
-		$('input.zipcode-list').each(function() {
-			$(this).rules("add", 
-				{
-					required: true,
-					number:true
-				})
-		});            
-
-		// prevent default submit action         
-		event.preventDefault();
-			
     	if($( "#frmPoolSubscriber" ).valid()) {	
+			var zipcodes= $(".controls .zipcode-list").map(function() {
+				return $(this).val();
+			}).get();
 			$.ajax({ cache: false,
 				headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				url: "register/check-zipcode-exists",
@@ -498,7 +474,7 @@ $(document).ready(function() {
 				{
 					zipcode: function()
 					{
-						return $('#frmPoolSubscriber :input[name="zipcode"]').val();
+						return zipcodes;
 					}
 				},
 				success: function (data) {

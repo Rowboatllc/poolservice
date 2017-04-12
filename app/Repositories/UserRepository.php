@@ -2,10 +2,10 @@
 namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Zipcode;
+use App\Models\Company;
 use App\Models\Profiles;
 use App\Models\BillingInfo;
-use App\Models\PoolSubscriber;
+// use App\Models\PoolSubscriber;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository
@@ -93,7 +93,13 @@ class UserRepository
 
     public function check_zipcode_exist($zipcode)
     {
-        return Zipcode::where('zipcode', '=',$zipcode)->first();
+        if(empty($zipcode)) return null;
+
+        $results = DB::select('SELECT c.id FROM `companies` as c 
+            WHERE JSON_CONTAINS(c.zipcodes, ['.$zipcode.']) 
+            ');
+        dd($results);
+        return $results;         
     }
 
     public function addEmailNotify($email)
