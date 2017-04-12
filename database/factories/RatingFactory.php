@@ -12,11 +12,10 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Option::class, function (Faker\Generator $faker) {
-
+$factory->define(App\Models\Rating::class, function (Faker\Generator $faker) {
     return [
-        'key' => $faker->unique()->jobTitle,
-        'value' => serialize($faker->sentences),
-        'group' => 'mygroup'
+        'user_id' => 1,
+        'company_id' => 1,
+        'point' => rand(1, 5)
     ];
 });

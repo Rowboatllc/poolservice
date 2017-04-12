@@ -17,6 +17,7 @@ class CreateOptionsTable extends Migration
             $table->string('key');
             $table->string('group');
             $table->text('value');
+            $table->timestamps();
         });
     }
 

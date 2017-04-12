@@ -38,8 +38,8 @@ Route::group(['middleware' => ['guest']], function () {
 
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', array('uses' => 'HomeController@dashboard'))->name('dashboard');
-    Route::get('/started', array('uses' => 'HomeController@started'))->name('started');
+    Route::get('/poolowner', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('poolowner');
+    Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
 
     Route::group(['middleware' => ['permission']], function () {
         
