@@ -32,13 +32,16 @@ class PoolOwnerController extends Controller
     {
         $this->loadHeadInPage('home');
         $user_id = Auth::id();
-        $company = $this->company->getSelectedCompany($user_id);
-        if($company){
-            
-        }else{
+        $companys = $this->company->getSelectedCompany($user_id);
+        $point = 0;
+        if(!isset($companys)||empty($companys)){
+            $company_id = 0;
             $companys = $this->company->getAllCompanySupportOwner($user_id);
+        }else{
+            $company_id = $companys[0]->id;
+            $point = $this->company->getRatingCompany($user_id, $company_id);
         }
-        return view('poolowner.index', compact(['companys']));
+        return view('poolowner.index', compact(['companys','company_id','point']));
         
     }
 
@@ -46,5 +49,27 @@ class PoolOwnerController extends Controller
         $this->loadHeadInPage('home');
         return view('started');
     }
+
+    public function selectCompany($company_id){
+        $user_id = Auth::id();
+        $result = $this->company->selectCompany($user_id,$company_id);
+        return redirect()->route('poolowner');
+    }
+
+    public function selectNewCompany(){
+        $user_id = Auth::id();
+        $result = $this->company->removeAllSelectCompany($user_id);
+        return redirect()->route('poolowner');
+    }
+
+    public function ratingCompany(Request $request){
+        $point = $request->input('company_point');
+        $company_id = $request->input('company_id');
+        
+        $user_id = Auth::id();
+        $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
+        return redirect()->route('poolowner');
+    }
+
 
 }
