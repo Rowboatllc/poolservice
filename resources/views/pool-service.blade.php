@@ -235,19 +235,20 @@
                     </div>
                     <div class="col-sm-6 text-left left">
                         <div class="form-group">
-                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
+                            <input type="hidden" name="chk_billing_address" value="false"/>
+                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address" value="true">
                             <label for="chk_billing_address">Same as service address</label>   
                         </div>
                         <div class="form-group">
-                            <input type="text" required name="billing_address" placeholder="Street address" 
+                            <input type="text" required  name="billing_address" placeholder="Street address" 
                             class="f1-billing-street-address form-control" id="f1-billing-street-address">
                         </div>
                         <div class="form-group">
-                            <input type="text" required name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
+                            <input type="text" required  name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
-                                <select id="billing_state" required name="billing_state" class="form-control input-md">
+                                <select id="billing_state" required  name="billing_state" class="form-control input-md">
                                     <option value="">None</option>
                                     <option>Arizona</option>
                                     <option>Los Angeles</option>
@@ -352,9 +353,6 @@
         </div>
     </div>
 </div>
-
-<!--<div id="dialog" style="display: none">
-</div>-->
 
 @endsection
 

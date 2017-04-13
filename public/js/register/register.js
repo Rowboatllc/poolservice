@@ -2916,7 +2916,7 @@ $(document).ready(function() {
 				$("#notifyModal #get_your_email").text(data.success);
 				$("#notifyModal").modal();		
 
-				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
+				// $('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
 			}
         });
 		

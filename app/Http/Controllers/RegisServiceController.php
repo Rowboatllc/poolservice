@@ -33,7 +33,7 @@ class RegisServiceController extends Controller
         $request['confirmation_code']=$confirmation_code;
         // passed validation then save user to database	
         $pool=$request->all();
-        $val=$this->user->AddNewPoolServiceSubscriber($pool);
+        $val=$this->user->AddNewPoolOwnerSubscriber($pool);
         $email=$request['email'];
         if($val)
         {
@@ -98,7 +98,7 @@ class RegisServiceController extends Controller
     public function check_zipcode_exists(Request $request)
     {   
         $val=$this->user->check_zipcode_exist($request['zipcode']);
-        if($val===null)
+        if(count($val)<=0)
         {
             return response()->json('');
         }else{
