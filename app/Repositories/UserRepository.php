@@ -28,36 +28,38 @@ class UserRepository
 		$profile = new Profile();
         $profile->first_name=$array['fullname'];
 		$profile->last_name=$array['fullname'];
-        $profile->full_name=$array['fullname'];
-        $profile->street=$array['street'];
+        $profile->fullname=$array['fullname'];
+        $profile->address=$array['street'];
         $profile->city=$array['city'];
         $profile->state=$array['state'];
-        $profile->zip=$array['zip'];
+        $profile->zipcode=$array['zip'];
         $profile->phone=$array['phone'];
 		// create profile Object
 		$bill=new BillingInfo();	
-        if($array['chk_billing_address']=='on')
+        if($array['chk_billing_address']=='true')
         {
-            $bill->billing_address=$array['street'];
-            $bill->billing_city=$array['city'];
-            $bill->billing_state=$array['state'];
+            $bill->address=$array['street'];
+            $bill->city=$array['city'];
+            $bill->state=$array['state'];
             $bill->zipcode=$array['zip'];
         }
         else
         {
-            $bill->billing_address=$array['billing_address'];
-            $bill->billing_city=$array['billing_city'];
-            $bill->billing_state=$array['billing_state'];
+            $bill->address=$array['billing_address'];
+            $bill->city=$array['billing_city'];
+            $bill->state=$array['billing_state'];
             $bill->zipcode=$array['zipcode'];
         }		
         
-        $bill->country='US';
-        $bill->stripe_token=$array['stripeToken'];
+        $bill->name_card=$array['card_name'];
+        $bill->number_card=$array['card_number'];
+        $bill->expiration_date=$array['expiration_date'];
+        $bill->card_last_digits=$array['card_number'];
+        $bill->token=$array['stripeToken'];
 
         // create organization object
 		$pool=new PoolSubscriber();
-        $service_type = implode(",", $array['chk_service_type']);  
-		$pool->services=$service_type;
+		$pool->services=$array['chk_service_type']; 
 
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
 		$pool->cleaning_object=$weekly_pool;
@@ -67,8 +69,8 @@ class UserRepository
         }
         
         $pool->price=$array['price'];
-        // $pool->water=$array['price'];
-        $pool->zipcode=$array['zipcode'];;
+        $pool->time=date("Y-m-d H:i:s");
+        $pool->zipcode=$array['zipcode'];
 		// using transaction to save data to database
 		DB::transaction(function() use ($user, $profile,$bill,$pool)
 		{
@@ -84,13 +86,11 @@ class UserRepository
             $bill->save();
         });
 
-        dd('saved !!!!!!');
 		return true;
     }
 
     public function AddNewPoolServiceSubscriber(array $array)
     {
-        // dd($array);
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];
@@ -131,8 +131,7 @@ class UserRepository
 
         // create organization object
 		$pool=new PoolSubscriber();
-        $service_type = implode(",", $array['chk_service_type']);  
-		$pool->services=$service_type;
+		$pool->services=$array['chk_service_type']; 
 
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
 		$pool->cleaning_object=$weekly_pool;
