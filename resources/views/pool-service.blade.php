@@ -92,7 +92,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="control-group" id="fields">
-                            <label class="control-label" for="field1">Enter your zip code</label>
+                            <label class="control-label" for="field1">Enter all your zip code at here</label>
                             <div class="controls form-inline" id="controls"> 
                                 <div class="entry input-append form-group col-xs-3 center">
                                     <input class="zipcode-list form-control" name="zipcode[0]" id="zipcode[0]" type="text"
@@ -112,7 +112,7 @@
             </fieldset>
 
             <fieldset id="cbgroup">
-                <h4 class="text-center">Type of the services.</h4>
+                <h4 class="text-center">Choose all of the services that you offer.</h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
@@ -176,7 +176,13 @@
                                         class="repeat-password form-control" id="repeat-password">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="fullname" required placeholder="Fullname" class="fullname form-control" id="fullname">
+                    <input type="text" name="company" required placeholder="Company name" class="company form-control" id="company">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="website" required placeholder="Website (if any)" class="website form-control" id="website">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fullname" required placeholder="First and last name" class="fullname form-control" id="fullname">
                 </div>
                 <div class="form-group">
                     <input type="text" name="street" placeholder="Address" class="street form-control" id="street">
@@ -211,7 +217,7 @@
             </fieldset>
 
             <fieldset id="card_informtion">
-                <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. <span id="billing_money"><span></h4></div>
+                <div><h4 class="text-center">Enter your credit card information. First 30 days are free. After that, your card will be billed once a month. <span id="billing_money"><span></h4></div>
                 </space>
                 <div class="row vdivide">
                     <div class="col-sm-6 text-left">

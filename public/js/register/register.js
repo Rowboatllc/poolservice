@@ -2394,6 +2394,10 @@ function validationInputData()
 				required: true,
 				maxlength: 50
 			},
+			'company':{
+				required: true,
+				maxlength: 100
+			},
 			'street':{
 				required: true,
 				maxlength: 100
@@ -2511,6 +2515,9 @@ function validationInputData()
 			}, 
 			'stripeToken': { 
 				required: "Invalid number account."
+			},
+			'fullname':{
+				required: "Provide company name."
 			},
 		},
 		highlight: function(element) {

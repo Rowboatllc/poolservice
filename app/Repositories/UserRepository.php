@@ -57,7 +57,7 @@ class UserRepository
         $bill->card_last_digits=$array['card_number'];
         $bill->token=$array['stripeToken'];
 
-        // create organization object
+        // create PoolSubscriber object
 		$pool=new PoolSubscriber();
 		$pool->services=$array['chk_service_type']; 
 
@@ -71,6 +71,7 @@ class UserRepository
         $pool->price=$array['price'];
         $pool->time=date("Y-m-d H:i:s");
         $pool->zipcode=$array['zipcode'];
+
 		// using transaction to save data to database
 		DB::transaction(function() use ($user, $profile,$bill,$pool)
 		{
@@ -129,33 +130,28 @@ class UserRepository
         $bill->card_last_digits=$array['card_number'];
         $bill->token=$array['stripeToken'];
 
-        // create organization object
-		$pool=new PoolSubscriber();
-		$pool->services=$array['chk_service_type']; 
+        //create company object
+        $company=new Company();
+        $company->name=$array['company'];
+        $company->services=$array['chk_service_type']; 
+        $company->zipcodes=$array['zipcode'];
+        $company->logo='';
+        $company->status='pending';
+        $company->website=$array['website'];
 
-        $weekly_pool = implode(",", $array['chk_weekly_pool']);
-		$pool->cleaning_object=$weekly_pool;
-        if(in_array("pool", $array['chk_weekly_pool']))
-        {
-            $pool->water=$array['rdo_weekly_pool'];
-        }
-        
-        $pool->price=$array['price'];
-        $pool->time=date("Y-m-d H:i:s");
-        $pool->zipcode=$array['zipcode'];
 		// using transaction to save data to database
-		DB::transaction(function() use ($user, $profile,$bill,$pool)
+		DB::transaction(function() use ($user, $profile,$bill,$company)
 		{
             // save user
             $user->status='pending';
             $user_db=$user->save();
-            $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
+            $profile->user_id=$bill->user_id=$company->user_id=$user->id;
             // save user profile			
             $profile->save();
-			// save pool subscriber
-            $pool->save();
             // save billing info
             $bill->save();
+            // save company
+            $company->save();
         });
 
 		return true;
