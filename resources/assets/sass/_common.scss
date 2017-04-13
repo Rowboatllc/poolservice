@@ -201,8 +201,10 @@ ul.navbar-nav {
     background: transparent;
     border: 0px;
 }
-button.btn.btn_primary {
-    background: #0542ec !important;
+.navbar {
+    button.btn.btn_primary {
+        background: #0542ec !important;
+    }
 }
 /********************************************************************/
 
@@ -393,11 +395,13 @@ a, a:visited, a:hover, a:active, li, li:visited, li:hover, li:lictive {
 .container .title{
     padding-bottom: 50px;
 }
+/*
 .btn-default {
     color: white;
     border-color: white;
     background: transparent;
 }
+*/
 .footer {
     position: relative;
     height: 50px;
@@ -478,4 +482,25 @@ span.stars span {
 }
 .my-pool-service-company tr td{
     vertical-align: middle;
+}
+
+
+//------------------------panel-------------------------------------------------
+.adminpanel {
+   padding-top: 50px;
+}
+
+.col {
+    padding-bottom: 15px
+}
+
+// modalbox input
+.modal-content {
+    form {
+        width: 85%;
+        margin: auto;
+        input[type="text"], select, textarea {
+            margin-bottom: 12px;
+        }
+    }
 }

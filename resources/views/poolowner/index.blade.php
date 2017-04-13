@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="panel panel-default panel-transparent">
+<div class="panel dashboard-panel panel-default panel-transparent">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -20,7 +20,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade" id="services">Services Page</div>
                             <div class="tab-pane fade" id="pool_info">Pool Info Page</div>
-                            <div class="tab-pane fade" id="profile">Profile Page</div>
+                            <div class="tab-pane fade" id="profile">@include('poolowner.profile')</div>
                             <div class="tab-pane fade" id="billing_info">Billing Info Page</div>
                             <div class="tab-pane fade in active" id="service_company">@include('poolowner.my-pool-service-company')</div>                            
                         </div>

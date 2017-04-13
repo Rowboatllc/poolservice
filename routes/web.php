@@ -62,7 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
             
             //Option
             Route::get('option', array('uses' => 'Admin\OptionController@index'))->name('admin-option');
-           
+            
+            //Profile
+            Route::post('ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
             
         });
     });

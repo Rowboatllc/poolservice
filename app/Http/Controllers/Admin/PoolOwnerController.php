@@ -21,7 +21,7 @@ class PoolOwnerController extends Controller {
     
     public function getProfile() {
         $id = Auth::user()->id;
-        $result = \App\Models\Profiles::find($id);
+        $result = \App\Models\Profile::find($id);
         return $result;
     }
     
@@ -29,7 +29,7 @@ class PoolOwnerController extends Controller {
         $user = $this->getUserByToken();
         if($request->file('avatar'))
            $this->uploadFile();
-        $profile = \App\Models\Profiles::find($user->id);
+        $profile = \App\Models\Profile::find($user->id);
         $profile->fullname = $request->input('fullname');
         $profile->zipcode = $request->input('zipcode');
         $profile->city = $request->input('city');
@@ -54,7 +54,7 @@ class PoolOwnerController extends Controller {
         $file = $request->file('avatar');
         //$user = $this->getUserByToken();
         $user = \App\Models\User::find(4);
-        $profile = \App\Models\Profiles::find($user->id);
+        $profile = \App\Models\Profile::find($user->id);
         $extension = $file->extension();
         
         if (!($file->isValid() && $extension!='exe' && in_array($extension, ['jpg', 'png'])))
