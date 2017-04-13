@@ -39,7 +39,9 @@ class CompanySeeder extends Seeder
         $companys = DB::table('companies')->get();
         foreach($companys as $company){
             $random = rand(1, 5);
-            factory(App\Models\Rating::class, $random)->create(['company_id' => $company->id]);
+            factory(App\Models\Rating::class, $random)->create([
+                'company_id' => $company->id
+                ]);
         }
     }
 }
