@@ -12,5 +12,6 @@ class Order extends Model
         protected $casts = [
         'services' => 'array',
         'zipcode' => 'array',        
+        'cleaning_object'=>'array',
     ];
 }

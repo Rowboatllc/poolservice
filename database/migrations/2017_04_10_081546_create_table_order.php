@@ -19,7 +19,7 @@ class CreateTableOrder extends Migration
             $table->json('services');
             $table->json('zipcode');   
             $table->dateTime('time');
-            $table->enum('cleaning_object', array('pool', 'spa'));
+            $table->json('cleaning_object');
             $table->enum('water', array('salt', 'chlorine'));
             $table->float('price');
             $table->enum('status', array('active', 'inactive'))->default('active');

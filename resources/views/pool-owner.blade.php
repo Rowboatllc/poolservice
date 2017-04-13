@@ -219,8 +219,9 @@
                     </div>
                     <div class="col-sm-6 text-left left">
                         <div class="form-group">
-                            <input type="checkbox" name="chk_billing_address_pool" id="chk_billing_address_pool">
-                            <label for="chk_billing_address_pool">Same as service address</label>   
+                            <input type="hidden" name="chk_billing_address" value="false"/>
+                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address" value="true">
+                            <label for="chk_billing_address">Same as service address</label>   
                         </div>
                         <div class="form-group">
                             <input type="text" required name="billing_address" placeholder="Street address" 

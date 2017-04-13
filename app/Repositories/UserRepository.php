@@ -62,9 +62,10 @@ class UserRepository
 		$pool->services=$array['chk_service_type']; 
 
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
-		$pool->cleaning_object=$weekly_pool;
+		$pool->cleaning_object=$array['chk_weekly_pool'];
+        
         if(in_array("pool", $array['chk_weekly_pool']))
-        {
+        {            
             $pool->water=$array['rdo_weekly_pool'];
         }
         
