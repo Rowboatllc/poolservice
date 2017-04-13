@@ -12,7 +12,10 @@
                 <td valign="middle">every Tuesday starting March 28,2017</td>
                 <td valign="middle"><span class="stars">{{$company->point}}</span></td>
                 <td valign="middle">
-                    <a href="#" type="button" class="btn btn-primary">Choose</a>
+                    @if(isset($status) && $status=='pending')
+                        <a href="#" type="button" class="btn btn-primary">Choose</a>
+                    @else
+                    @endif
                 </td>
             </tr>
         @endforeach

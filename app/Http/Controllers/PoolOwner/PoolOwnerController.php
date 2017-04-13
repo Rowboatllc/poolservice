@@ -32,8 +32,14 @@ class PoolOwnerController extends Controller
     {
         $this->loadHeadInPage('home');
         $user_id = Auth::id();
-        $companys = $this->company->getAllCompanySupportOwner($user_id);
+        $company = $this->company->getSelectedCompany($user_id);
+        if($company){
+            
+        }else{
+            $companys = $this->company->getAllCompanySupportOwner($user_id);
+        }
         return view('poolowner.index', compact(['companys']));
+        
     }
 
     public function started(){

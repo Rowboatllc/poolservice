@@ -24,5 +24,6 @@ $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
         'cleaning_object' => $faker->randomElement(array ('pool', 'spa')),
         'water' => $faker->randomElement(array ('salt', 'chlorine')),
         'price' => $faker->numberBetween(25,50),
+        'status' => 'active'
     ];
 });
