@@ -61,6 +61,8 @@
     var ratingsField = $('#ratings-hidden');
 
     $('.starrr').on('starrr:change', function(e, value){
+        if(!value)
+            value = 1;
         ratingsField.val(value);
     });
     });

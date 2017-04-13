@@ -65,7 +65,9 @@ class PoolOwnerController extends Controller
     public function ratingCompany(Request $request){
         $point = $request->input('company_point');
         $company_id = $request->input('company_id');
-        
+        if(!isset($point)||$point==0){
+            $point = 1;
+        }
         $user_id = Auth::id();
         $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
         return redirect()->route('poolowner');
