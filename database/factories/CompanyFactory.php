@@ -22,7 +22,7 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'services' => $services,
         'zipcodes' => $zipcodes,
         'logo' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => $faker->randomElement(array ('pending', 'unclaimed', 'active', 'inactive')),
+        'status' => $faker->randomElement(array ('active', 'inactive')),
         'website' => $faker->url
     ];
 });

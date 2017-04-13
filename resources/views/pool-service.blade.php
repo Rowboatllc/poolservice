@@ -92,7 +92,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="control-group" id="fields">
-                            <label class="control-label" for="field1">Enter your zip code</label>
+                            <label class="control-label" for="field1">Enter all your zip code at here</label>
                             <div class="controls form-inline" id="controls"> 
                                 <div class="entry input-append form-group col-xs-3 center">
                                     <input class="zipcode-list form-control" name="zipcode[0]" id="zipcode[0]" type="text"
@@ -112,7 +112,7 @@
             </fieldset>
 
             <fieldset id="cbgroup">
-                <h4 class="text-center">Type of the services.</h4>
+                <h4 class="text-center">Choose all of the services that you offer.</h4>
                 <div class="form-group">                        
                     <input type="checkbox" name="chk_service_type[]" value="weekly_learning" id="chk-type-weekly">
                     <label for="chk-type-weekly">Weekly leaning</label>
@@ -176,7 +176,13 @@
                                         class="repeat-password form-control" id="repeat-password">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="fullname" required placeholder="Fullname" class="fullname form-control" id="fullname">
+                    <input type="text" name="company" required placeholder="Company name" class="company form-control" id="company">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="website" required placeholder="Website (if any)" class="website form-control" id="website">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fullname" required placeholder="First and last name" class="fullname form-control" id="fullname">
                 </div>
                 <div class="form-group">
                     <input type="text" name="street" placeholder="Address" class="street form-control" id="street">
@@ -211,7 +217,7 @@
             </fieldset>
 
             <fieldset id="card_informtion">
-                <div><h4 class="text-center">Enter your credit card information. Your card will not be billed until day of service. <span id="billing_money"><span></h4></div>
+                <div><h4 class="text-center">Enter your credit card information. First 30 days are free. After that, your card will be billed once a month. <span id="billing_money"><span></h4></div>
                 </space>
                 <div class="row vdivide">
                     <div class="col-sm-6 text-left">
@@ -235,19 +241,20 @@
                     </div>
                     <div class="col-sm-6 text-left left">
                         <div class="form-group">
-                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
+                            <input type="hidden" name="chk_billing_address" value="false"/>
+                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address" value="true">
                             <label for="chk_billing_address">Same as service address</label>   
                         </div>
                         <div class="form-group">
-                            <input type="text" required name="billing_address" placeholder="Street address" 
+                            <input type="text" required  name="billing_address" placeholder="Street address" 
                             class="f1-billing-street-address form-control" id="f1-billing-street-address">
                         </div>
                         <div class="form-group">
-                            <input type="text" required name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
+                            <input type="text" required  name="billing_city" placeholder="City" class="f1-billing-city form-control" id="f1-billing-city">
                         </div>
                         <div class="row">
                             <div class="col-sm-7 form-group">
-                                <select id="billing_state" required name="billing_state" class="form-control input-md">
+                                <select id="billing_state" required  name="billing_state" class="form-control input-md">
                                     <option value="">None</option>
                                     <option>Arizona</option>
                                     <option>Los Angeles</option>
@@ -353,9 +360,6 @@
     </div>
 </div>
 
-<!--<div id="dialog" style="display: none">
-</div>-->
-
 @endsection
 
 @section('lib')
@@ -364,10 +368,13 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> 
+
+
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register.js') }}"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>            
+                   
 
         <script type="text/html" id="form_tpl">
             <div class="entry input-append form-group col-xs-3 center">

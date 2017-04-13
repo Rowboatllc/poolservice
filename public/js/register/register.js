@@ -2394,6 +2394,10 @@ function validationInputData()
 				required: true,
 				maxlength: 50
 			},
+			'company':{
+				required: true,
+				maxlength: 100
+			},
 			'street':{
 				required: true,
 				maxlength: 100
@@ -2511,6 +2515,9 @@ function validationInputData()
 			}, 
 			'stripeToken': { 
 				required: "Invalid number account."
+			},
+			'fullname':{
+				required: "Provide company name."
 			},
 		},
 		highlight: function(element) {
@@ -2760,15 +2767,35 @@ $(document).ready(function() {
     	}    	
     });
 
-	// next step
+	// next step zipcode
     $('.f1 .btn-next-zipcode').on('click', function() { 
 		var parent_fieldset = $(this).parents('fieldset');
-			// navigation steps / progress steps
-			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-			var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+		// navigation steps / progress steps
+		var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+		var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+		if($( "#frmPoolSubscriber" ).valid()) {	
+			parent_fieldset.fadeOut(400, function() {
+				// change icons
+				current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+				// progress bar
+				bar_progress(progress_line, 'right');
+				// show next step
+				$(this).next().fadeIn();
+				// scroll window to beginning of the form
+				scroll_to_class( $('.f1'), 20 );
+			});
+		}
+    });
+
+	// next step zipcode pool
+    $('.f1 .btn-next-zipcode-pool').on('click', function() { 
+		var parent_fieldset = $(this).parents('fieldset');
+		// navigation steps / progress steps
+		var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+		var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
     	if($( "#frmPoolSubscriber" ).valid()) {	
-			var zipcodes= $(".controls .zipcode-list").map(function() {
+			var zipcodes= $(".zipcode-list-pool").map(function() {
 				return $(this).val();
 			}).get();
 			$.ajax({ cache: false,
@@ -2805,8 +2832,7 @@ $(document).ready(function() {
 					console.log(ajaxContext.responseText);
 				}
 			});			
-    	}
-    	
+    	}    	
     });
 
 	// next step
@@ -2916,7 +2942,7 @@ $(document).ready(function() {
 				$("#notifyModal #get_your_email").text(data.success);
 				$("#notifyModal").modal();		
 
-				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
+				// $('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
 			}
         });
 		

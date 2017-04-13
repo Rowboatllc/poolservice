@@ -86,12 +86,12 @@
             <fieldset id="zipcode">
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
-                    <input type="text" name="zipcode" placeholder="Enter zipcode max 5 characters..." 
-                    class="zipcode form-control" id="zipcode" maxlength="5" required>                   
+                    <input type="text" name="zipcode[0]" placeholder="Enter zipcode max 5 characters..." 
+                    class="zipcode-list-pool form-control" id="zipcode[0]" maxlength="5" required>                   
                 </div>
                 
                 <div class="f1-buttons">
-                    <button type="button" class="btn btn-next-zipcode">Next</button>
+                    <button type="button" class="btn btn-next-zipcode-pool">Next</button>
                 </div>
             </fieldset>
 
@@ -219,8 +219,8 @@
                     </div>
                     <div class="col-sm-6 text-left left">
                         <div class="form-group">
-                            <input type="checkbox" name="chk_billing_address" id="chk_billing_address">
-                            <label for="chk_billing_address">Same as service address</label>   
+                            <input type="checkbox" name="chk_billing_address_pool" id="chk_billing_address_pool">
+                            <label for="chk_billing_address_pool">Same as service address</label>   
                         </div>
                         <div class="form-group">
                             <input type="text" required name="billing_address" placeholder="Street address" 
@@ -337,9 +337,6 @@
     </div>
 </div>
 
-<!--<div id="dialog" style="display: none">
-</div>-->
-
 @endsection
 
 @section('lib')
@@ -348,21 +345,21 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
+
+
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register.js') }}"></script>
 
-        <script>
-            // $(document).ready(function(){
-            //     $(".nav-tabs a").click(function(){
-            //         $(this).tab('show');
-            //     });
-            //     $('.nav-tabs a').on('shown.bs.tab', function(event){
-            //         var x = $(event.target).text();         // active tab
-            //         var y = $(event.relatedTarget).text();  // previous tab
-            //         $(".act span").text(x);
-            //         $(".prev span").text(y);
-            //     });
-            // });
+        <script type="text/html" id="form_tpl">
+            <div class="entry input-append form-group col-xs-3 center">
+                <input class="zipcode-list form-control" name="zipcode[<%= element.i %>]" id="zipcode[<%= element.i %>]" type="text"
+                    placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
+                <button type="button" class="btn-success btn-add">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
         </script>
 @endsection
 

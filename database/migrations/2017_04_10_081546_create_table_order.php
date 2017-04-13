@@ -22,6 +22,8 @@ class CreateTableOrder extends Migration
             $table->enum('cleaning_object', array('pool', 'spa'));
             $table->enum('water', array('salt', 'chlorine'));
             $table->float('price');
+            $table->enum('status', array('active', 'inactive'))->default('active');
+
             $table->timestamps();
         });
     }

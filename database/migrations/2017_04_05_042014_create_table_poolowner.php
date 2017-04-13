@@ -15,7 +15,7 @@ class CreateTablePoolowner extends Migration
     {
         Schema::create('poolowners', function (Blueprint $table) {
             $table->integer('user_id')->unique();
-            $table->string('pool_status');
+            $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive'))->default('pending');
             $table->timestamps();            
         });
     }
