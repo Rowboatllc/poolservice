@@ -79,6 +79,7 @@ class UserRepository
             // save user
             $user->status='pending';
             $user_db=$user->save();
+            // set user_id for another object
             $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
             // save user profile			
             $profile->save();
@@ -140,20 +141,24 @@ class UserRepository
         $company->status='pending';
         $company->website=$array['website'];
 
-		// using transaction to save data to database
-		DB::transaction(function() use ($user, $profile,$bill,$company)
-		{
-            // save user
-            $user->status='pending';
-            $user_db=$user->save();
-            $profile->user_id=$bill->user_id=$company->user_id=$user->id;
-            // save user profile			
-            $profile->save();
-            // save billing info
-            $bill->save();
-            // save company
-            $company->save();
-        });
+        try {
+            // using transaction to save data to database
+            DB::transaction(function() use ($user, $profile,$bill,$company)
+            {
+                // save user
+                $user->status='pending';
+                $user_db=$user->save();
+                $profile->user_id=$bill->user_id=$company->user_id=$user->id;
+                // save user profile			
+                $profile->save();
+                // save billing info
+                $bill->save();
+                // save company
+                $company->save();
+            });
+        } catch (Exception $e) {
+            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+        }	
 
 		return true;
     }
