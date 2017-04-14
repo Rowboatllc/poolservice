@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\PoolOwner;
 
 use Illuminate\Http\Request;
-use App\Repositories\PageRepositoryInterface;
-use App\Repositories\CompanyRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
 use Image;
+
+use App\Repositories\PageRepositoryInterface;
+use App\Repositories\CompanyRepositoryInterface;
+use App\Repositories\BillingInfoRepositoryInterface;
 
 class PoolOwnerController extends Controller {
 
@@ -19,10 +21,13 @@ class PoolOwnerController extends Controller {
      * @return void
      */
     protected $company;
+    protected $billing;
 
-    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company) {
+    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
         parent::__construct($page);
         $this->company = $company;
+        $this->billing = $billing;
+        
     }
 
     /**
@@ -33,12 +38,19 @@ class PoolOwnerController extends Controller {
     public function index() {
         $this->loadHeadInPage('home');
         $user_id = Auth::id();
+
         // profile
         $profile = $this->getProfile();
-        // $code = new ZipcodeState;
-        // $profile->codes = $code->getListZipCode();
-        // $profile->email = Auth::user()->email;
-        
+        $code = new ZipcodeState;
+        $profile->codes = $code->getListZipCode();
+        $profile->email = Auth::user()->email;
+
+        //Billing Info
+
+        $billing_info = $this->billing->getBillingInfo($user_id);
+        $isEdit = true;
+
+        // my pool service company
         $companys = $this->company->getSelectedCompany($user_id);
         $point = 0;
         if(!isset($companys)||empty($companys)){
@@ -48,7 +60,7 @@ class PoolOwnerController extends Controller {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user_id, $company_id);
         }
-        return view('poolowner.index', compact(['companys','company_id','point', 'profile']));
+        return view('poolowner.index', compact(['companys','company_id','point', 'profile', 'billing_info', 'isEdit']));
         
     }
 

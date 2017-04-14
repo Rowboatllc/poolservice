@@ -15,7 +15,7 @@
 $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
     $random = rand(1, 3);
     $random1 = rand(1, 2);
-    $services = $faker->randomElements(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'], $random);
+    $services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
     $cleaning_object = $faker->randomElements(['pool', 'spa'], $random1);
     $zipcode[] = intval(substr($faker->postcode,0,5));
     return [

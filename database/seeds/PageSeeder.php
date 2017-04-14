@@ -11,9 +11,6 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB::table('pages')->delete();
-
         $homePage = factory(App\Models\Page::class)->create([
             'alias' => 'home',
             'title' => 'Home',

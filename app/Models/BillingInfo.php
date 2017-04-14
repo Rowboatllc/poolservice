@@ -9,4 +9,7 @@ class BillingInfo extends Model
     ];
 	protected $table = 'billing_info';
     protected $primaryKey = 'user_id';
+    protected $casts = [
+        'zipcode' => 'array',
+    ];
 }

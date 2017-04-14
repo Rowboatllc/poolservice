@@ -11,10 +11,7 @@ class OptionSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB::table('options')->delete();
-
-        $contact_page = factory(App\Models\Option::class)->create([
+            $contact_page = factory(App\Models\Option::class)->create([
             'key' => 'key_block_contact_left',
             'value' => serialize(["_token" => "3LVsL4x9Taifr0AbnOVLCx81dooG7I9gAxpdU8iq",
                         "contact_title" => "Contact Us",
@@ -28,7 +25,7 @@ class OptionSeeder extends Seeder
 
         $services = factory(App\Models\Option::class)->create([
             'key' => 'all_services',
-            'value' => serialize(['service_1', 'service_2', 'service_3'])
+            'value' => serialize(['weekly_cleaning', 'pool_or_spa_repair', 'deep_cleaning'])
         ]);
 
         
