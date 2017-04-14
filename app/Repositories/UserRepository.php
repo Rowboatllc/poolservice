@@ -60,10 +60,9 @@ class UserRepository
         // create PoolSubscriber object
 		$pool=new PoolSubscriber();
 		$pool->services=$array['chk_service_type']; 
-
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
-		$pool->cleaning_object=$array['chk_weekly_pool'];
         
+		$pool->cleaning_object=$array['chk_weekly_pool'];
         if(in_array("pool", $array['chk_weekly_pool']))
         {            
             $pool->water=$array['rdo_weekly_pool'];
@@ -73,21 +72,25 @@ class UserRepository
         $pool->time=date("Y-m-d H:i:s");
         $pool->zipcode=$array['zipcode'];
 
-		// using transaction to save data to database
-		DB::transaction(function() use ($user, $profile,$bill,$pool)
-		{
-            // save user
-            $user->status='pending';
-            $user_db=$user->save();
-            // set user_id for another object
-            $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
-            // save user profile			
-            $profile->save();
-			// save pool subscriber
-            $pool->save();
-            // save billing info
-            $bill->save();
-        });
+        try {
+            // using transaction to save data to database
+            DB::transaction(function() use ($user, $profile,$bill,$pool)
+            {
+                // save user
+                $user->status='pending';
+                $user_db=$user->save();
+                // set user_id for another object
+                $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
+                // save user profile			
+                $profile->save();
+                // save pool subscriber
+                $pool->save();
+                // save billing info
+                $bill->save();
+            });
+        } catch (Exception $e) {
+            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+        }		
 
 		return true;
     }
@@ -148,6 +151,7 @@ class UserRepository
                 // save user
                 $user->status='pending';
                 $user_db=$user->save();
+                // set user_id for another object
                 $profile->user_id=$bill->user_id=$company->user_id=$user->id;
                 // save user profile			
                 $profile->save();

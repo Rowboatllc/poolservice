@@ -2,5 +2,7 @@
   "/js/app.js": "/js/app.js",
   "/js/common.js": "/js/common.js",
   "/js/admin/admin.js": "/js/admin/admin.js",
-  "/js/register/register.js": "/js/register/register.js"
+  "/js/register/register.js": "/js/register/register.js",
+  "/css/admin.css": "/css/admin.css",
+  "/css/app.css": "/css/app.css"
 }

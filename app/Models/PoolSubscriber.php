@@ -11,6 +11,7 @@ class PoolSubscriber extends Model
 
         protected $casts = [
         'services' => 'array',
-        'zipcode' => 'array',        
+        'zipcode' => 'array',   
+        'cleaning_object'=>'array'     
     ];
 }
