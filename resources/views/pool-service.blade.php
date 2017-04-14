@@ -94,13 +94,15 @@
                         <div class="control-group" id="fields">
                             <label class="control-label" for="field1">Enter all your zip code at here</label>
                             <div class="controls form-inline" id="controls"> 
-                                <div class="entry input-append form-group col-xs-3 center">
+                                <div class="entry input-append form-group col-xs-3">
                                     <input class="zipcode-list form-control" name="zipcode[0]" id="zipcode[0]" type="text"
                                         placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
                                     <button type="button" class="btn-success btn-add">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
+                                    <label for="zipcode[0]" generated="true" class="error"></label>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -383,7 +385,8 @@
                 <button type="button" class="btn-success btn-add">
                     <i class="fa fa-plus"></i>
                 </button>
-            </div>
+                <label for="zipcode[<%= element.i %>]" generated="true" class="error"></label>
+            </div>            
         </script>
 @endsection
 

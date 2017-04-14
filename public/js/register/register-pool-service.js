@@ -2455,7 +2455,7 @@ function validationInputData()
 		},
 		messages: {
 			'billing_zipcode':{
-				required: 'Provide zipcode.'
+				required: 'Provide your zip code.'
 			},	
 			'street':{
 				required: 'Provide address.'
@@ -2470,7 +2470,7 @@ function validationInputData()
 				required: 'Provide state.'
 			},
 			'zip':{
-				required:'Provide zipcode.'
+				required:'Provide your zip code.'
 			},
 			'phone':{
 				required: 'Provide phone.'
@@ -2517,7 +2517,7 @@ function validationInputData()
 				required: "Invalid number account."
 			},
 			'fullname':{
-				required: "Provide fullname name."
+				required: "Provide full name."
 			},
 			'company':{
 				required: "Provide company name."
@@ -2604,20 +2604,14 @@ function autoAddInput()
             number: true,
             maxlength: 5,
             messages: {
-                required: "Provide zip code"                
+                required: "Provide your zip code."                
             },
             highlight: function(element) {
                 $(element).closest('.form-group').addClass('has-error');
             },
             unhighlight: function(element) {
                 $(element).closest('.form-group').removeClass('has-error');
-            },
-			errorPlacement: function(error, element) {
-				// console.log(error);
-				// if (error.attr("name") == "zipcode["+counter+"]") {                   
-				// 	error.insertAfter(".form-group");    
-				// }                       
-			}
+            }
         });
 
         controlForm.find('.entry:not(:last) .btn-add')
