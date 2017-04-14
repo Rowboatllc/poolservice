@@ -4,5 +4,6 @@
   "/css/app.css": "/css/app.css",
   "/js/common.js": "/js/common.js",
   "/js/admin/admin.js": "/js/admin/admin.js",
-  "/js/register/register.js": "/js/register/register.js"
+  "/js/register/register-pool-owner.js": "/js/register/register-pool-owner.js",
+  "/js/register/register-pool-service.js": "/js/register/register-pool-service.js"
 }

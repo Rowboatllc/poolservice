@@ -179,7 +179,7 @@
                     <input type="text" name="company" required placeholder="Company name" class="company form-control" id="company">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="website" required placeholder="Website (if any)" class="website form-control" id="website">
+                    <input type="text" name="website" placeholder="Website (if any)" class="website form-control" id="website">
                 </div>
                 <div class="form-group">
                     <input type="text" name="fullname" required placeholder="First and last name" class="fullname form-control" id="fullname">
@@ -372,7 +372,7 @@
 
 
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/register/register.js') }}"></script>
+        <script src="{{ asset('js/register/register-pool-service.js') }}"></script>
 
                    
 

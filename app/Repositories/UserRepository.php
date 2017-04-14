@@ -52,9 +52,8 @@ class UserRepository
         }		
         
         $bill->name_card=$array['card_name'];
-        $bill->number_card=$array['card_number'];
         $bill->expiration_date=$array['expiration_date'];
-        $bill->card_last_digits=$array['card_number'];
+        $bill->card_last_digits=substr($array['card_number'], -1, 4);
         $bill->token=$array['stripeToken'];
 
         // create PoolSubscriber object
@@ -130,9 +129,8 @@ class UserRepository
         }		
         
         $bill->name_card=$array['card_name'];
-        $bill->number_card=$array['card_number'];
         $bill->expiration_date=$array['expiration_date'];
-        $bill->card_last_digits=$array['card_number'];
+        $bill->card_last_digits=substr($array['card_number'], -1, 4);
         $bill->token=$array['stripeToken'];
 
         //create company object

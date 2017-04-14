@@ -212,6 +212,9 @@ function validationInputData()
 				required: "Invalid number account."
 			},
 			'fullname':{
+				required: "Provide fullname name."
+			},
+			'company':{
 				required: "Provide company name."
 			},
 		},
@@ -370,7 +373,7 @@ $(document).ready(function() {
 		$('#frmPoolSubscriber #sum_address').text($('#frmPoolSubscriber :input[name="street"]').val());
 
 		$('#frmPoolSubscriber #sum_city_zipcode').text($('#frmPoolSubscriber :input[name="billing_city"]').val() + " " + $('#frmPoolSubscriber :input[name="zipcode"]').val());
-		// $('#frmPoolSubscriber #sum_billing_info').text($('#frmPoolSubscriber :input[name="email"]').val());
+		
 		$('#frmPoolSubscriber #sum_billing_address').text($('#frmPoolSubscriber :input[name="billing_address"]').val());
 
     	var parent_fieldset = $(this).parents('fieldset');
@@ -490,7 +493,7 @@ $(document).ready(function() {
 		var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
     	if($( "#frmPoolSubscriber" ).valid()) {	
-			var zipcodes= $(".zipcode-list-pool").map(function() {
+			var zipcodes= $(".zipcode-list").map(function() {
 				return $(this).val();
 			}).get();
 			$.ajax({ cache: false,
@@ -533,7 +536,10 @@ $(document).ready(function() {
 	// next step
     $('.f1 .btn-next-weekly').on('click', function() { 		
     	if($( "#frmPoolSubscriber" ).valid()) {
-			$('#frmPoolSubscriber :input[name="zip"]').val($('#frmPoolSubscriber :input[name="zipcode"]').val());
+			var zipcodes= $(".zipcode-list").map(function() {
+				return $(this).val();
+			}).get();
+			$('#frmPoolSubscriber :input[name="zip"]').val(zipcodes);
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -609,18 +615,6 @@ $(document).ready(function() {
     	});
     });
 
-	$("#dialog").dialog({
-        autoOpen: false,
-        modal: true,
-        title: "Details",
-        buttons: {
-            Close: function () {
-                $(this).dialog('close');
-				window.location.href = '/home';
-            }
-        }
-    });
-
 	var frm = $('#frmPoolSubscriber');
     frm.submit(function (ev) {
         $.ajax({
@@ -637,7 +631,8 @@ $(document).ready(function() {
 				$("#notifyModal #get_your_email").text(data.success);
 				$("#notifyModal").modal();		
 
-				// $('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
+				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
+				$('#frmPoolSubscriber .btn-previous').prop('disabled', 'disabled');		
 			}
         });
 		

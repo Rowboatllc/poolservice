@@ -87,7 +87,7 @@
                 <h4 class="text-center">Enter your zip code</h4>
                 <div class="form-group">
                     <input type="text" name="zipcode[0]" placeholder="Enter zipcode max 5 characters..." 
-                    class="zipcode-list-pool form-control" id="zipcode[0]" maxlength="5" required>                   
+                    class="zipcode-list form-control" id="zipcode[0]" maxlength="5" required>                   
                 </div>
                 
                 <div class="f1-buttons">
@@ -180,7 +180,7 @@
                         </select>
                     </div>		
                     <div class="col-sm-5 form-group">
-                        <input type="text" name="zip" maxlength="5" placeholder="zipcode" class="f1-state-number form-control" id="f1-zipcode">
+                        <input type="text" name="zip" maxlength="5" readonly placeholder="zipcode" class="f1-state-number form-control" id="f1-zipcode">
                     </div>	
                 </div>
 
@@ -351,7 +351,7 @@
 
 
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/register/register.js') }}"></script>
+        <script src="{{ asset('js/register/register-pool-owner.js') }}"></script>
 
         <script type="text/html" id="form_tpl">
             <div class="entry input-append form-group col-xs-3 center">
