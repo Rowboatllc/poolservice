@@ -1,4 +1,4 @@
-<div class="poolowner_profile">
+{{-- <div class="poolowner_profile">
     <div class="row">
         <div class="col-md-4 text-right col"> Email: </div><div class="col-md-8 col email">  {{ $profile->email }} </div>
         <div class="col-md-4 text-right col"> Fullname: </div><div class="col-md-8 col fullname">  {{ $profile->fullname }} </div>
@@ -51,4 +51,4 @@
         </div>
     </div>
 </div>
-<div>
+<div> --}}

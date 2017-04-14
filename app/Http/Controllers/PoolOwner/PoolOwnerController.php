@@ -35,9 +35,9 @@ class PoolOwnerController extends Controller {
         $user_id = Auth::id();
         // profile
         $profile = $this->getProfile();
-        $code = new ZipcodeState;
-        $profile->codes = $code->getListZipCode();
-        $profile->email = Auth::user()->email;
+        // $code = new ZipcodeState;
+        // $profile->codes = $code->getListZipCode();
+        // $profile->email = Auth::user()->email;
         
         $companys = $this->company->getSelectedCompany($user_id);
         $point = 0;

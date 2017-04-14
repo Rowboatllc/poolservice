@@ -16,7 +16,6 @@ class CreateTableBillingInfo extends Migration
         Schema::create('billing_info', function (Blueprint $table) {
             $table->integer('user_id')->unique();       
             $table->string('name_card');
-            $table->string('number_card');   
             $table->string('token');
             $table->string('expiration_date');
             $table->string('card_last_digits');
