@@ -48,7 +48,7 @@ class PoolOwnerController extends Controller {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user_id, $company_id);
         }
-        return view('poolowner.index', compact(['companys','company_id','point']));
+        return view('poolowner.index', compact(['companys','company_id','point', 'profile']));
         
     }
 
