@@ -21,37 +21,13 @@
 .admin-poolservice {
 }
 
-/* Admin pool owner */
-.admin-poolowner {
-    .poolowner_profile {    
-        #form_upload {
-            width: 50%;
-            margin: auto;
-            button[type="submit"]{
-                background: none;
-                border: none;
-                font-size: 200%;
-            }
-        }
-        .input-avatar {
-            width: 25px;
-            height: 37px;
-            outline: none;
-            &:before {
-                font-family: 'Glyphicons Halflings';
-                font-size: 200%;
-                content : "\e022";
-            }
-        }
-    }
-}
-
 /* Admin pool teachican */
 .admin-teachnician {
     
 }
 
-@import "form-elements";
+//@import "form-elements";
 @import "font";
 @import "error";
 @import "contact";
+@import "dashboard";

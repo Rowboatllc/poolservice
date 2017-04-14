@@ -1,14 +1,16 @@
 <div class="poolowner_profile">
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target=".editProfileModal">Edit Profile</button>
     <div class="row">
-        <div class="col-md-3 text-right"> Email: </div><div class="col-md-9">  {{ $profile->email }} </div>
-        <div class="col-md-3 text-right"> Fullname: </div><div class="col-md-9">  {{ $profile->fullname }} </div>
-        <div class="col-md-3 text-right"> Telephone: </div><div class="col-md-9">  {{ $profile->phone }} </div>
-        <div class="col-md-3 text-right"> Address: </div><div class="col-md-9">  {{ $profile->address }} </div>
-        <div class="col-md-3 text-right"> City: </div><div class="col-md-9">  {{ $profile->city }} </div>
-        <div class="col-md-3 text-right"> Zipcode: </div><div class="col-md-9">  {{ $profile->zipcode }} </div>
-        <div class="col-md-3 text-right"> State: </div><div class="col-md-9">  {{ $profile->state }} </div>
-        <div class="col-md-3 text-right"> Avatar: </div><div class="col-md-9">  <img src="{{ config('app.url').'../storage/app/public/'.$profile->avatar }}" </div>
+        <div class="col-md-4 text-right col"> Email: </div><div class="col-md-8 col">  {{ $profile->email }} </div>
+        <div class="col-md-4 text-right col"> Fullname: </div><div class="col-md-8 col">  {{ $profile->fullname }} </div>
+        <div class="col-md-4 text-right col"> Telephone: </div><div class="col-md-8 col">  {{ $profile->phone }} </div>
+        <div class="col-md-4 text-right col"> Address: </div><div class="col-md-8 col">  {{ $profile->address }} </div>
+        <div class="col-md-4 text-right col"> City: </div><div class="col-md-8 col">  {{ $profile->city }} </div>
+        <div class="col-md-4 text-right col"> Zipcode: </div><div class="col-md-8 col">  {{ $profile->zipcode }} </div>
+        <div class="col-md-4 text-right col"> State: </div><div class="col-md-8 col">  {{ $profile->state }} </div>
+        <div class="col-md-4 text-right col"> Avatar: </div><div class="col-md-8 col">  <img src="{{ config('app.url').'../storage/app/public/'.$profile->avatar }}" </div>
+    </div>
+    <div class="text-right">
+        <button class="btn btn-default" data-toggle="modal" data-target=".editProfileModal">Edit Profile</button>
     </div>
 </div>
 
@@ -23,7 +25,7 @@
       </div>
       <div class="modal-body">
         
-        <form action="{{ route('admin-poolowner-profile') }}" method="POST" style="width:50%; margin:auto" />
+        <form action="{{ route('admin-poolowner-profile') }}" method="POST" />
             <span>
                 email : {{ $profile->email }}
             </span>
@@ -34,7 +36,11 @@
             {{ Form::text('phone', $profile->phone, array_merge(['class' => 'form-control', 'placeholder'=>'phone'], [])) }}
             {{ Form::select('state', $profile->codes, $profile->zipcode, array_merge(['class' => 'form-control', 'placeholder'=>'phone'], [])) }}
             <image class="avatar" src="" />
-            <span class="glyphicon glyphicon-ok save_form"></span>
+            <!--<span class="glyphicon glyphicon-ok save_form"></span>-->
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary save_form">Save</button>
+                <button class="btn btn-default cancel_form">Cancel</button>
+            </div>
         </form>
         <form id="form_upload" name="form_upload" action="{{ route('upload-avatar') }}" enctype="multipart/form-data" method="POST" 
               onsubmit="return ajaxUploadFile.submit(this, {'onStart' : function(){}, 'onComplete' : function(){ ajaxUploadFile.resetUpload('#form_upload')} })">

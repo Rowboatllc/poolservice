@@ -201,8 +201,10 @@ ul.navbar-nav {
     background: transparent;
     border: 0px;
 }
-button.btn.btn_primary {
-    background: #0542ec !important;
+.navbar {
+    button.btn.btn_primary {
+        background: #0542ec !important;
+    }
 }
 /********************************************************************/
 
@@ -393,11 +395,13 @@ a, a:visited, a:hover, a:active, li, li:visited, li:hover, li:lictive {
 .container .title{
     padding-bottom: 50px;
 }
+/*
 .btn-default {
     color: white;
     border-color: white;
     background: transparent;
 }
+*/
 .footer {
     position: relative;
     height: 50px;
@@ -461,32 +465,41 @@ form{
 }
 span.stars, span.stars span {
     display: block;
-    background: url(images/stars.png) 0 -16px repeat-x;
+    background: url(/images/stars.png) 0 -16px repeat-x;
     width: 80px;
     height: 16px;
+    float: left;
+    margin-right: 5px;
 }
-
 span.stars span {
     background-position: 0 0;
 }
-.my-pool-service-company tr th{
-  border: 0px !important;
-}
-.my-pool-service-company img.logo{
-  width: 100px;
-  height: 50px;
-}
-.my-pool-service-company tr td{
-    vertical-align: middle;
-}
-
 .stars.starrr {
     color: #cfcb36;
     font-size: 20px;
 }
-.my-pool-service-company a.btn.btn-primary {
-    margin: 5px;
+
+.my-pool-service-company tr td{
+    vertical-align: middle;
 }
-.modal.my-pool-service-company  button.btn.btn-default {
-    background: #d67676;
+
+
+//------------------------panel-------------------------------------------------
+.adminpanel {
+   padding-top: 50px;
+}
+
+.col {
+    padding-bottom: 15px
+}
+
+// modalbox input
+.modal-content {
+    form {
+        width: 85%;
+        margin: auto;
+        input[type="text"], select, textarea {
+            margin-bottom: 12px;
+        }
+    }
 }

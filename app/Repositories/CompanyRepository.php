@@ -25,7 +25,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getAllCompanySupportOwner($user_id){
         if (!empty($user_id)) {
-            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point FROM companies as c 
+            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point, COUNT(r.point) as count FROM companies as c 
                                      LEFT JOIN orders o ON JSON_CONTAINS(c.services, o.services) 
                                                          AND JSON_CONTAINS(c.zipcodes, o.zipcode)
                                                          AND o.status = "active"
@@ -48,7 +48,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getSelectedCompany($user_id){
         if (!empty($user_id)) {
-            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point FROM companies as c
+            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point, COUNT(r.point) as count FROM companies as c
                                     LEFT JOIN ratings r ON r.company_id = c.id
                                     WHERE c.id  IN (
                                         SELECT s.company_id FROM selecteds s

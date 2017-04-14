@@ -10,7 +10,7 @@
             <tr>	
                 <td valign="middle"><img class="logo" src='{{$company->logo}}' width='100' /> {{$company->name}}</td>
                 <td valign="middle">every Tuesday starting March 28,2017</td>
-                <td valign="middle"><span class="stars">{{$company->point}}</span></td>
+                <td valign="middle"><span class="stars">{{$company->point}}</span> <span>({{$company->count}})</span></td>
                 <td valign="middle">
                     @if($company_id==0)
                         <a href="poolowner/select_company/{{$company->id}}" type="button" class="btn btn-primary">Choose</a>
