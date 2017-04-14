@@ -575,7 +575,7 @@ $(document).ready(function() {
 		{
 			$("#f1-billing-street-address").val($("#street").val());
 			$("#f1-billing-city").val($("#city").val());
-			$("#f1-billing-zipcode").val($("#zipcode").val());
+			$("#f1-billing-zipcode").val($("#f1-zipcode").val());
 			$("#billing_state").val($("#select-state").val());
 
 			$("#f1-billing-street-address").prop('disabled', 'disabled');
