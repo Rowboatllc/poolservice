@@ -49,31 +49,46 @@ jQuery(document).ready(function () {
         });
     }
 
-    function saveForm($form, callback) {
+    /*function saveForm($form, callback) {
         sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
             (callback || jQuery.noop)(result);
-            //console.log('form saved');
         }, function () {
             console.log('something wrong');
         })
+    }*/
+    
+    function saveEditableContent($obj, callback) {
+        var data = getEditableFieldValues( $obj );
+        data = jQuery.param(data);
+        sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+            (callback || jQuery.noop)(result);
+        }, function () {
+            console.log('something wrong');
+        });
     }
 
     function globalAssignEvent() {
-        jQuery('.dashboard-panel').on('click', '.save_form', function () {
-            var me = this;
-            saveForm(jQuery(this).parents('form'), function(){
-                //updateObjs();
-                jQuery(me).parents('.modal').find('.close').trigger('click');
+        jQuery('.fieldset')
+          .on('click', '.editfieldset', function () {
+            $fieldset = $(this).parents('.fieldset');
+            $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.icon.badge').toggleClass('no_display');
+        }).on('click', '.savefieldset', function () {
+            $fieldset = $(this).parents('.fieldset');
+            saveEditableContent($fieldset, function(result){
+                if(result.error==false)
+                    console.log('changed');
+                $fieldset.find('.contenteditable').toggleClass('active');
+                $fieldset.find('.icon.badge').toggleClass('no_display');
             });
-        });
-        
-        jQuery('.dashboard-panel').on('change', 'input.avatar', function () {
-            $(this).parent().submit();
-            //var value = $(this).val();
-            //$('.form-profile input.avatar').val(value);
-            //document.formprofile.avatar.files[0].name = value;
-            //document.formprofile.avatar.files[0] = value;
-            //console.log(value,  document.formprofile.avatar.files[0]);
+        }).on('click', '.upload-imagefieldset', function () {
+            $fieldset = $(this).parents('.fieldset');
+            $fieldset.find('input[type="file"]').trigger('click');
+            $fieldset.find('.icon.badge').toggleClass('no_display');
+        }).on('click', '.save-imagefieldset', function () {
+            $fieldset = $(this).parents('.fieldset');
+            $fieldset.find('.icon.badge').toggleClass('no_display');
+            $fieldset.find('form').submit();
         });
     }
 
@@ -84,16 +99,14 @@ jQuery(document).ready(function () {
     function hideLoading() {
     }
 
-    function updateObjs(objs, data) {
-        jQuery(objs).each( function(index){
-            console.log(this);
-           //jQuery(jQuery(this).)
-        })
+    function getEditableFieldValues($obj){
+        let values = [];
+        $obj.find('.contenteditable').each(function(){
+            var $me = jQuery(this);
+            values.push({ name : $me.attr('name'), value: $me.text() });
+        });
+        return values;
     }
-    
-    setTimeout(function(){
-        updateObjs([1,2,3]);
-    }, 3000);
     
     var dboptionMethods = {
         params: function () {
@@ -183,7 +196,7 @@ jQuery(document).ready(function () {
 });
 
 
-    
+// Upload ajax
 ajaxUploadFile = {
     frameName: 'frameUpload',
     frame: function (c) {
@@ -226,7 +239,7 @@ ajaxUploadFile = {
     resetUpload: function(form, callback) {
         var result = jQuery('#'+this.frameName).contents().find('body').text();
         result = JSON.parse(result);
-        if(result.returnValue==true) {
+        if(result.error==false) {
             if(typeof callback == 'function')
                 callback(form, result);
         } else {
@@ -236,10 +249,11 @@ ajaxUploadFile = {
 }
 
 // Public function
-function afterUploadedAvatar(form, result) {
-    form = document.querySelector(form);
-    //jQuery('.avatar').attr('src', form.avatar.value);
-    document.formprofile.avatar.value = result.path;
-    form.reset();
+function afterUploadedImage(form, result) {
+    $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
+    let cur = new Date();
+    let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
+    $img.attr('src', newPath);
+    document.querySelector(form).reset();
     jQuery('#'+ajaxUploadFile.frameName).remove();
 }

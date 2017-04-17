@@ -11,18 +11,18 @@
                         <ul class="nav nav-tabs">
                             <li ><a href="#services" data-toggle="tab">Services</a></li>
                             <li ><a href="#pool_info" data-toggle="tab">Pool Info</a></li>
-                            <li ><a href="#profile" data-toggle="tab">Profile</a></li>
+                            <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
                             <li ><a href="#billing_info" data-toggle="tab">Billing Info</a></li>
-                            <li class="active"><a href="#service_company" data-toggle="tab">My Pool Service Company</a></li>                            
+                            <li ><a href="#service_company" data-toggle="tab">My Pool Service Company</a></li>                            
                         </ul>
                     </div>
                     <div class="panel-body panel-body-manager">
                         <div class="tab-content">
                             <div class="tab-pane fade" id="services">Services Page</div>
                             <div class="tab-pane fade" id="pool_info">Pool Info Page</div>
-                            <div class="tab-pane fade" id="profile">@include('poolowner.profile')</div>
+                            <div class="tab-pane fade fade in active" id="profile">@include('poolowner.profile')</div>
                             <div class="tab-pane fade" id="billing_info">Billing Info Page</div>
-                            <div class="tab-pane fade in active" id="service_company">@include('poolowner.my-pool-service-company')</div>                            
+                            <div class="tab-pane" id="service_company">@include('poolowner.my-pool-service-company')</div>                            
                         </div>
                     </div>
                 </div>

@@ -15,15 +15,15 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->integer('user_id')->unique();
-            $table->string('first_name')->default('');
-            $table->string('last_name')->default('');
-            $table->string('fullname')->default('');            
-            $table->string('address')->default('');
-            $table->string('city')->default('');
-            $table->string('state')->default('');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('fullname')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             $table->integer('zipcode')->nullable();
             $table->string('phone')->nullable();
-            $table->string('avatar')->nullable();            
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }
