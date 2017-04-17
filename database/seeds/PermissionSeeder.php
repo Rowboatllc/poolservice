@@ -11,10 +11,6 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('groups')->delete();
-        DB::table('permissions')->delete();
-        DB::table('users')->delete();
-
         // set group user
         $group_admin = factory(App\Models\Group::class)->create([
             'name' => 'admin',

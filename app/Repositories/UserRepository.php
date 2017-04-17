@@ -52,18 +52,16 @@ class UserRepository
         }		
         
         $bill->name_card=$array['card_name'];
-        $bill->number_card=$array['card_number'];
         $bill->expiration_date=$array['expiration_date'];
-        $bill->card_last_digits=$array['card_number'];
+        $bill->card_last_digits=substr($array['card_number'], -4);
         $bill->token=$array['stripeToken'];
 
         // create PoolSubscriber object
 		$pool=new PoolSubscriber();
 		$pool->services=$array['chk_service_type']; 
-
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
-		$pool->cleaning_object=$array['chk_weekly_pool'];
         
+		$pool->cleaning_object=$array['chk_weekly_pool'];
         if(in_array("pool", $array['chk_weekly_pool']))
         {            
             $pool->water=$array['rdo_weekly_pool'];
@@ -73,21 +71,25 @@ class UserRepository
         $pool->time=date("Y-m-d H:i:s");
         $pool->zipcode=$array['zipcode'];
 
-		// using transaction to save data to database
-		DB::transaction(function() use ($user, $profile,$bill,$pool)
-		{
-            // save user
-            $user->status='pending';
-            $user_db=$user->save();
-            // set user_id for another object
-            $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
-            // save user profile			
-            $profile->save();
-			// save pool subscriber
-            $pool->save();
-            // save billing info
-            $bill->save();
-        });
+        try {
+            // using transaction to save data to database
+            DB::transaction(function() use ($user, $profile,$bill,$pool)
+            {
+                // save user
+                $user->status='pending';
+                $user_db=$user->save();
+                // set user_id for another object
+                $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
+                // save user profile			
+                $profile->save();
+                // save pool subscriber
+                $pool->save();
+                // save billing info
+                $bill->save();
+            });
+        } catch (Exception $e) {
+            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+        }		
 
 		return true;
     }
@@ -127,9 +129,8 @@ class UserRepository
         }		
         
         $bill->name_card=$array['card_name'];
-        $bill->number_card=$array['card_number'];
         $bill->expiration_date=$array['expiration_date'];
-        $bill->card_last_digits=$array['card_number'];
+        $bill->card_last_digits=substr($array['card_number'], -4);
         $bill->token=$array['stripeToken'];
 
         //create company object
@@ -148,6 +149,7 @@ class UserRepository
                 // save user
                 $user->status='pending';
                 $user_db=$user->save();
+                // set user_id for another object
                 $profile->user_id=$bill->user_id=$company->user_id=$user->id;
                 // save user profile			
                 $profile->save();

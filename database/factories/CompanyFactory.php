@@ -14,7 +14,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     $random = rand(1, 3);
-    $services = $faker->randomElements(['Weekly cleaning', 'Pool or spa repair', 'Deep cleaning'], $random);
+    $services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
     $zipcodes[] = intval(substr($faker->postcode,0,5));
     return [
         'user_id' => 1,

@@ -2455,7 +2455,7 @@ function validationInputData()
 		},
 		messages: {
 			'billing_zipcode':{
-				required: 'Provide zipcode.'
+				required: 'Provide your zip code.'
 			},	
 			'street':{
 				required: 'Provide address.'
@@ -2470,7 +2470,7 @@ function validationInputData()
 				required: 'Provide state.'
 			},
 			'zip':{
-				required:'Provide zipcode.'
+				required:'Provide your zip code.'
 			},
 			'phone':{
 				required: 'Provide phone.'
@@ -2517,6 +2517,9 @@ function validationInputData()
 				required: "Invalid number account."
 			},
 			'fullname':{
+				required: "Provide full name."
+			},
+			'company':{
 				required: "Provide company name."
 			},
 		},
@@ -2601,20 +2604,14 @@ function autoAddInput()
             number: true,
             maxlength: 5,
             messages: {
-                required: "Provide zip code"                
+                required: "Provide your zip code."                
             },
             highlight: function(element) {
                 $(element).closest('.form-group').addClass('has-error');
             },
             unhighlight: function(element) {
                 $(element).closest('.form-group').removeClass('has-error');
-            },
-			errorPlacement: function(error, element) {
-				// console.log(error);
-				// if (error.attr("name") == "zipcode["+counter+"]") {                   
-				// 	error.insertAfter(".form-group");    
-				// }                       
-			}
+            }
         });
 
         controlForm.find('.entry:not(:last) .btn-add')
@@ -2675,7 +2672,7 @@ $(document).ready(function() {
 		$('#frmPoolSubscriber #sum_address').text($('#frmPoolSubscriber :input[name="street"]').val());
 
 		$('#frmPoolSubscriber #sum_city_zipcode').text($('#frmPoolSubscriber :input[name="billing_city"]').val() + " " + $('#frmPoolSubscriber :input[name="zipcode"]').val());
-		// $('#frmPoolSubscriber #sum_billing_info').text($('#frmPoolSubscriber :input[name="email"]').val());
+		
 		$('#frmPoolSubscriber #sum_billing_address').text($('#frmPoolSubscriber :input[name="billing_address"]').val());
 
     	var parent_fieldset = $(this).parents('fieldset');
@@ -2795,7 +2792,7 @@ $(document).ready(function() {
 		var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
     	if($( "#frmPoolSubscriber" ).valid()) {	
-			var zipcodes= $(".zipcode-list-pool").map(function() {
+			var zipcodes= $(".zipcode-list").map(function() {
 				return $(this).val();
 			}).get();
 			$.ajax({ cache: false,
@@ -2838,7 +2835,10 @@ $(document).ready(function() {
 	// next step
     $('.f1 .btn-next-weekly').on('click', function() { 		
     	if($( "#frmPoolSubscriber" ).valid()) {
-			$('#frmPoolSubscriber :input[name="zip"]').val($('#frmPoolSubscriber :input[name="zipcode"]').val());
+			var zipcodes= $(".zipcode-list").map(function() {
+				return $(this).val();
+			}).get();
+			$('#frmPoolSubscriber :input[name="zippool"]').val(zipcodes);
 			var parent_fieldset = $(this).parents('fieldset');
 			// navigation steps / progress steps
 			var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -2874,7 +2874,7 @@ $(document).ready(function() {
 		{
 			$("#f1-billing-street-address").val($("#street").val());
 			$("#f1-billing-city").val($("#city").val());
-			$("#f1-billing-zipcode").val($("#zipcode").val());
+			$("#f1-billing-zipcode").val($("#f1-zipcode").val());
 			$("#billing_state").val($("#select-state").val());
 
 			$("#f1-billing-street-address").prop('disabled', 'disabled');
@@ -2914,18 +2914,6 @@ $(document).ready(function() {
     	});
     });
 
-	$("#dialog").dialog({
-        autoOpen: false,
-        modal: true,
-        title: "Details",
-        buttons: {
-            Close: function () {
-                $(this).dialog('close');
-				window.location.href = '/home';
-            }
-        }
-    });
-
 	var frm = $('#frmPoolSubscriber');
     frm.submit(function (ev) {
         $.ajax({
@@ -2942,7 +2930,8 @@ $(document).ready(function() {
 				$("#notifyModal #get_your_email").text(data.success);
 				$("#notifyModal").modal();		
 
-				// $('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');		
+				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
+				$('#frmPoolSubscriber .btn-previous').prop('disabled', 'disabled');	
 			}
         });
 		

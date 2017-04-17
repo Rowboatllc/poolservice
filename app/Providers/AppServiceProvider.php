@@ -37,5 +37,9 @@ class AppServiceProvider extends ServiceProvider
                 'App\Repositories\CompanyRepositoryInterface', 
                 'App\Repositories\CompanyRepository'
         );
+        $this->app->bind(
+                'App\Repositories\BillingInfoRepositoryInterface', 
+                'App\Repositories\BillingInfoRepository'
+        );
     }
 }
