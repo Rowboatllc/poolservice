@@ -14,7 +14,7 @@ class Common {
 
     public function getEloquentById($eloquent, $id) {
         $result = $eloquent->find($id);
-        return $result ? $eloquent->find($id) : $this->getDefaultEloquenAttibutes($eloquent);
+        return $result ? $eloquent->find($id) : $this->getDefaultEloquentAttibutes($eloquent);
     }
 
     public function getDefaultEloquentAttibutes($eloquent) {

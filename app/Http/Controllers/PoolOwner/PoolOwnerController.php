@@ -47,7 +47,7 @@ class PoolOwnerController extends Controller {
         // profile
         $profile = $this->profile->find($user->id);
         if (!$profile) {
-            $profile = $common->setDefaultEloquenAttibutes($this->profile);
+            $profile = $common->getDefaultEloquentAttibutes($this->profile);
         }
         $profile->codes = $common->getListZipCode();
         $profile->email = $user->email;
@@ -68,6 +68,7 @@ class PoolOwnerController extends Controller {
             $point = $this->company->getRatingCompany($user->id, $company_id);
         }
         return view('poolowner.index', compact(['companys','company_id','point', 'profile', 'billing_info', 'isEdit']));
+        //return view('poolowner.index', compact(['companys','company_id','point', 'profile',  'isEdit']));
         
     }
 
