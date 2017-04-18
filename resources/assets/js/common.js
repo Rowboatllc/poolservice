@@ -75,6 +75,10 @@ jQuery(document).ready(function () {
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
             $fieldset = $(this).parents('.fieldset');
+            //console.log(isValidate($fieldset), $fieldset);
+            //return;
+            if(!isValidate($fieldset))
+                return;
             saveEditableContent($fieldset, function(result){
                 if(result.error==false)
                     console.log('changed');
@@ -256,4 +260,41 @@ function afterUploadedImage(form, result) {
     $img.attr('src', newPath);
     document.querySelector(form).reset();
     jQuery('#'+ajaxUploadFile.frameName).remove();
+}
+
+
+function isValidate($fieldset){
+    let $fields = $fieldset.find('[data-validate]');
+    let result = true;
+    $fields.each(function(){    
+        if(!checkOneField(this)) {
+            jQuery(this).addClass('error');
+            result = false;
+        }
+    });
+    return result;
+}
+
+function checkOneField(field){
+    let $needs = jQuery(field).data('validate');
+    $needs = $needs.split('|');
+    let value = jQuery.trim(jQuery(field).text());
+    for(let i=0; i<$needs.length; i++) {
+        if(!checkContent(value, $needs[i]))
+            return false;
+    }
+    return true;
+}
+
+function checkContent(value, type){
+    switch(type) {
+        case 'require':
+            return (value!='')
+        break;
+        case 'email':
+            return (value=='2')
+        break;
+        case 'number':
+        break;
+    }
 }
