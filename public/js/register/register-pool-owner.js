@@ -2360,14 +2360,6 @@ function validationInputData()
 
 				var month = parseInt($month, 10);
 				var year = parseInt($year, 10);
-				// console.log("year origin ".year);
-				// if(year.length==2)
-				// {
-				// 	var temp=2000 + parseInt(year, 10);
-				// 	console.log("temp ".temp);
-				// 	year=temp;
-				// 	console.log("year ".year);
-				// }
 				
 				if ((year < minYear) || ((year === minYear) && (month < minMonth)) || (year > minYear+40)) {
 					return false;
@@ -2711,26 +2703,28 @@ $(document).ready(function() {
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-		var card_number=$('input#card_number').val();
-		var expiration_date=$('input#f1-expiration-date').val();
-		var ccv_number=$('input#f1-ccv-number').val();
-
-		var card=Stripe.card.validateCardNumber(card_number);
-		var day=Stripe.card.validateExpiry(expiration_date);
-		var ccv=Stripe.card.validateCVC(ccv_number);
-
-		if(card && day && ccv)
-		{
-			var arr = expiration_date.split('/');
-			Stripe.createToken({
-				number:card_number,
-				cvc:ccv_number,
-				exp_month: parseInt(arr[0]),
-				exp_year: parseInt(arr[1]),
-			}, stripeResponseHandler);
-		}	
+		
 
     	if($( "#frmPoolSubscriber" ).valid()) {
+			var card_number=$('input#card_number').val();
+			var expiration_date=$('input#f1-expiration-date').val();
+			var ccv_number=$('input#f1-ccv-number').val();
+
+			var card=Stripe.card.validateCardNumber(card_number);
+			var day=Stripe.card.validateExpiry(expiration_date);
+			var ccv=Stripe.card.validateCVC(ccv_number);
+
+			if(card && day && ccv)
+			{
+				var arr = expiration_date.split('/');
+				Stripe.createToken({
+					number:card_number,
+					cvc:ccv_number,
+					exp_month: parseInt(arr[0]),
+					exp_year: parseInt(arr[1]),
+				}, stripeResponseHandler);
+			}	
+
     		parent_fieldset.fadeOut(400, function() {
     			// change icons
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
