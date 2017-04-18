@@ -137,7 +137,11 @@ class UserRepository
         $company=new Company();
         $company->name=$array['company'];
         $company->services=$array['chk_service_type']; 
-        $company->zipcodes=$array['zipcode'];
+        $intArray = array_map(
+            function($value) { return (int)$value; },
+            $array['zipcode']
+        );
+        $company->zipcodes=$intArray;
         $company->logo='';
         $company->status='pending';
         $company->website=$array['website'];

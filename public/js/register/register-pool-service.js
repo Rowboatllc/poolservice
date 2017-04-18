@@ -2691,12 +2691,14 @@ $(document).ready(function() {
 		if(card && day && ccv)
 		{
 			var arr = expiration_date.split('/');
-			Stripe.createToken({
+			var checkStripe=Stripe.createToken({
 				number:card_number,
 				cvc:ccv_number,
 				exp_month: parseInt(arr[0]),
 				exp_year: parseInt(arr[1]),
 			}, stripeResponseHandler);
+
+			console.log(checkStripe);
 		}	
 
     	if($( "#frmPoolSubscriber" ).valid()) {
