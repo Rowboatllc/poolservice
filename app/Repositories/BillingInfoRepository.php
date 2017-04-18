@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Models\BillingInfo;
+use App\Common\Common;
 
 class BillingInfoRepository implements BillingInfoRepositoryInterface {
 
@@ -14,8 +15,13 @@ class BillingInfoRepository implements BillingInfoRepositoryInterface {
 
     public function getBillingInfo($user_id){
         $billing = $this->billing->find($user_id);
-
-        $billing->zipcode = $billing->zipcode[0];
+        if($billing) {
+            $billing->zipcode = $billing->zipcode[0];
+        } else {
+            $common = new Common;
+            $billing = $common->getDefaultEloquentAttibutes($this->billing);
+        }
+        
         return $billing;
     }
 

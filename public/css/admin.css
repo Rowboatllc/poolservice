@@ -8708,10 +8708,70 @@ span.stars span {
   border-color: #e6e5e5 !important;
 }
 
-.poolowner_profile .form_upload {
-  width: 150px;
+.no_display {
+  display: none !important;
+}
+
+.dashboard-panel .panel-primary > .panel-heading {
+  padding: 10px 15px 0px;
+  background-color: none;
+}
+
+.dashboard-panel .panel-primary > .panel-heading .nav-tabs > li > a {
+  border: 1px solid gray;
+  border-bottom: none;
+  color: black;
+}
+
+.dashboard-panel .tab-content {
+  padding: 30px;
+}
+
+.poolowner_profile .fieldset {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.poolowner_profile .fieldset .labeltext {
+  top: 7px;
+  position: relative;
+}
+
+.poolowner_profile .fieldset .contenteditable.active {
+  border: 1px solid lightgray;
+}
+
+.poolowner_profile .fieldset .contenteditable.auto {
+  min-width: 64px;
+}
+
+.poolowner_profile .fieldset .contenteditable.password {
+  -webkit-text-security: disc;
+}
+
+.poolowner_profile .fieldset .contenteditable {
+  min-width: 200px;
   display: inline-block;
-  margin-top: -50px;
+  padding: 7px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.poolowner_profile .fieldset .icon.badge {
+  padding: 0px;
+  background: none;
+  color: #336699;
+  font-size: 150%;
+  margin-left: 20px;
+}
+
+.poolowner_profile .fieldset .img_profile {
+  width: 100px;
+  height: auto;
+}
+
+.poolowner_profile .form_upload {
+  display: inline-block;
 }
 
 .poolowner_profile #form_upload {

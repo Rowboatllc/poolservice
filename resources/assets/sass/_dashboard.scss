@@ -1,9 +1,62 @@
 .admin-poolowner {}
+.no_display {
+    display: none !important;
+}
+.dashboard-panel {
+    .panel-primary > .panel-heading {
+        padding: 10px 15px 0px;
+        background-color: none;
+        .nav-tabs > li > a {
+            border: 1px solid gray;
+            border-bottom: none;
+            color: black;
+        }
+    }
+    .tab-content {
+        padding: 30px;
+    }
+}
 .poolowner_profile {
+    .fieldset {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        .labeltext {
+            top: 7px;
+            position: relative;
+        }
+        .contenteditable.active {
+            border: 1px solid lightgray;
+        }
+        .contenteditable.auto {
+            min-width: 64px;
+        }
+        .contenteditable.password {
+            -webkit-text-security: disc;
+        }
+        .contenteditable {
+            min-width: 200px;
+            display: inline-block;
+            padding: 7px;
+            border-radius: 5px;
+            outline: none;
+            &:focus {
+                
+            }
+        }
+        .icon.badge {
+            padding: 0px;
+            background: none;
+            color: #336699;
+            font-size: 150%;
+            margin-left: 20px;
+        }
+        .img_profile {
+            width: 100px;
+            height: auto
+        }
+    }
     .form_upload {
-        width: 150px;
         display: inline-block;
-        margin-top: -50px;
     }
     #form_upload {
         width: 50%;

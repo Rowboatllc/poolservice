@@ -3,42 +3,26 @@
 namespace App\Http\Controllers\PoolOwner;
 
 use Illuminate\Http\Request;
+use App\Repositories\PageRepositoryInterface;
+use App\Repositories\CompanyRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
-
 use App\Common\Common;
 use App\Models\User;
 use App\Models\Profile;
 
-use App\Repositories\PageRepositoryInterface;
-use App\Repositories\CompanyRepositoryInterface;
-use App\Repositories\BillingInfoRepositoryInterface;
-
 class PoolOwnerController extends Controller {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     protected $company;
-    protected $billing;
     protected $profile;
 
-    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
+    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company) {
         parent::__construct($page);
         $this->company = $company;
-        $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index() {
         $this->loadHeadInPage('home');
         $user = Auth::user();
@@ -47,29 +31,21 @@ class PoolOwnerController extends Controller {
         // profile
         $profile = $this->profile->find($user->id);
         if (!$profile) {
-            $profile = $common->getDefaultEloquentAttibutes($this->profile);
+            $profile = $common->setDefaultEloquenAttibutes($this->profile);
         }
         $profile->codes = $common->getListZipCode();
         $profile->email = $user->email;
 
-        //Billing Info
-
-        $billing_info = $this->billing->getBillingInfo($user->id);
-        $isEdit = true;
-
-        // my pool service company
         $companys = $this->company->getSelectedCompany($user->id);
         $point = 0;
-        if(!isset($companys)||empty($companys)){
+        if (!isset($companys) || empty($companys)) {
             $company_id = 0;
             $companys = $this->company->getAllCompanySupportOwner($user->id);
-        }else{
+        } else {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user->id, $company_id);
         }
-        return view('poolowner.index', compact(['companys','company_id','point', 'profile', 'billing_info', 'isEdit']));
-        //return view('poolowner.index', compact(['companys','company_id','point', 'profile',  'isEdit']));
-        
+        return view('poolowner.index', compact(['companys', 'company_id', 'point', 'profile']));
     }
 
     public function started() {
@@ -113,6 +89,7 @@ class PoolOwnerController extends Controller {
                 $data['avatar'] = $result;
                 $this->profile->create($data);
             }
+            //return response()->json($result);
             return response()->json([
                     'error' => false,
                     'message' => '',
@@ -127,26 +104,26 @@ class PoolOwnerController extends Controller {
         )->header('Content-Type', 'application/json');
     }
 
-    public function selectCompany($company_id){
+    public function selectCompany($company_id) {
         $user_id = Auth::id();
-        $result = $this->company->selectCompany($user_id,$company_id);
+        $this->company->selectCompany($user_id, $company_id);
         return redirect()->route('poolowner');
     }
 
-    public function selectNewCompany(){
+    public function selectNewCompany() {
         $user_id = Auth::id();
-        $result = $this->company->removeAllSelectCompany($user_id);
+        $this->company->removeAllSelectCompany($user_id);
         return redirect()->route('poolowner');
     }
 
-    public function ratingCompany(Request $request){
+    public function ratingCompany(Request $request) {
         $point = $request->input('company_point');
         $company_id = $request->input('company_id');
-        if(!isset($point)||$point==0){
+        if (!isset($point) || $point == 0) {
             $point = 1;
         }
         $user_id = Auth::id();
-        $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
+        $this->company->saveRatingCompany($user_id, $company_id, $point);
         return redirect()->route('poolowner');
     }
     
@@ -194,4 +171,5 @@ class PoolOwnerController extends Controller {
                     'code' => 200], 200
         )->header('Content-Type', 'application/json');
     }
+
 }

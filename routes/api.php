@@ -39,5 +39,7 @@ Route::group(['prefix' => 'admin/option'], function () {
 Route::group(['prefix' => 'admin'], function () {
     // Poolowner
     Route::post('poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-poolowner-profile');
+    Route::post('save-account', 'PoolOwner\PoolOwnerController@saveAccount')->name('admin-save-account');
+    Route::post('save-poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-save-poolowner-profile');
 });
             
