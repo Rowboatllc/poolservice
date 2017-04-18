@@ -2346,6 +2346,36 @@ function stripeResponseHandler(status, response) {
 function validationInputData()
 {	
 	var form = $( "#frmPoolSubscriber" );
+	// add validate expiration date
+	$.validator.addMethod(
+		"ExpDate",
+			function(value, element, params) {
+				var minMonth = new Date().getMonth() + 1;
+				var minYear = new Date().getFullYear();
+				var str=$('#f1-expiration-date').val();
+				var res = str.split("/");
+
+				var $month = res[0];
+				var $year = res[1];
+
+				var month = parseInt($month, 10);
+				var year = parseInt($year, 10);
+				// console.log("year origin ".year);
+				// if(year.length==2)
+				// {
+				// 	var temp=2000 + parseInt(year, 10);
+				// 	console.log("temp ".temp);
+				// 	year=temp;
+				// 	console.log("year ".year);
+				// }
+				
+				if ((year < minYear) || ((year === minYear) && (month < minMonth)) || (year > minYear+40)) {
+					return false;
+				} else {
+					return true;
+				}			
+			}
+		,"Your Expiration date is invalid.");
 	form.validate({
 		rules: {
 			'zipcode[0]': {
@@ -2438,6 +2468,7 @@ function validationInputData()
 			},
 			'expiration_date':{
 				required: true,
+				ExpDate:true,
 				maxlength: 9
 			},
 			'billing_address':{
@@ -2611,13 +2642,7 @@ function autoAddInput()
             },
             unhighlight: function(element) {
                 $(element).closest('.form-group').removeClass('has-error');
-            },
-			errorPlacement: function(error, element) {
-				// console.log(error);
-				// if (error.attr("name") == "zipcode["+counter+"]") {                   
-				// 	error.insertAfter(".form-group");    
-				// }                       
-			}
+            }
         });
 
         controlForm.find('.entry:not(:last) .btn-add')
