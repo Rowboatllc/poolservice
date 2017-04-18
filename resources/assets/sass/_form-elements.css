@@ -1,52 +1,50 @@
-/*
-input[type="text"], 
-input[type="password"], 
-textarea, 
-textarea.form-control {
-	height: 44px;
-    margin: 0;
-    padding: 0 20px;
-    vertical-align: middle;
-    background: #fff;
-    border: 1px solid #ddd;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 44px;
-    color: #888;
-    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
-    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
-    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+.modal-wait {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
 }
 
-textarea, 
-textarea.form-control {
-	height: 90px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	line-height: 30px;
+/* When the body has the loading class, we turn
+the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
 }
 
-input[type="text"]:focus, 
-input[type="password"]:focus, 
-textarea:focus, 
-textarea.form-control:focus {
-	outline: 0;
-	background: #fff;
-    border: 1px solid #ccc;
-    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+/* Anytime the body has the loading class, our
+modal element will be visible */
+body.loading .modal {
+    display: block;
 }
 
-input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, 
-textarea:-moz-placeholder, textarea.form-control:-moz-placeholder { color: #888; }
-
-input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder, 
-textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder { color: #888; }
-
-input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder, 
-textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder { color: #888; }
-
-label { font-weight: 300; }
+input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    vertical-align: bottom;
+}
+label.checkbox {
+    vertical-align: top;
+    line-height: 24px;
+    margin: 2px 0;
+    display: block;
+    height: 24px;
+}
+label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
+.right {border-right: 2px solid #ccc;}
+.left {border-left: 2px solid #ccc;}
+.bottom {border-bottom: 2px solid #ccc;}
+.entry
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 
 button.btn {
@@ -108,4 +106,4 @@ button.btn.btn-submit:active:focus, button.btn.btn-submit.active:focus { backgro
 button.btn.btn-previous,
 button.btn.btn-previous:focus,
 button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus { background: #bbb; }
-*/
+

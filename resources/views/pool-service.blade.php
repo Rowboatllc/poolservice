@@ -2,57 +2,6 @@
 
 @section('content')
 
-<style>
-    .modal-wait {
-        display:    none;
-        position:   fixed;
-        z-index:    1000;
-        top:        0;
-        left:       0;
-        height:     100%;
-        width:      100%;
-        background: rgba( 255, 255, 255, .8 ) 
-                    url('http://i.stack.imgur.com/FhHRx.gif') 
-                    50% 50% 
-                    no-repeat;
-    }
-
-    /* When the body has the loading class, we turn
-    the scrollbar off with overflow:hidden */
-    body.loading {
-        overflow: hidden;   
-    }
-
-    /* Anytime the body has the loading class, our
-    modal element will be visible */
-    body.loading .modal {
-        display: block;
-    }
-
-    input[type="checkbox"] {
-        width: 24px;
-        height: 24px;
-        vertical-align: bottom;
-    }
-    label.checkbox {
-        vertical-align: top;
-        line-height: 24px;
-        margin: 2px 0;
-        display: block;
-        height: 24px;
-    }
-    label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
-    .right {border-right: 2px solid #ccc;}
-    .left {border-left: 2px solid #ccc;}
-    .bottom {border-bottom: 2px solid #ccc;}
-    .entry
-    {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-}
-</style>
-
 <div class="container register-pool-service">
     <div class="form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('pool-service-register')}}" method="post" class="f1">
