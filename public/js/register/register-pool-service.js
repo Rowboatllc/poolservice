@@ -2698,7 +2698,8 @@ $(document).ready(function() {
 				exp_year: parseInt(arr[1]),
 			}, stripeResponseHandler);
 
-			console.log(checkStripe);
+			
+			// console.log(checkStripe);
 		}	
 
     	if($( "#frmPoolSubscriber" ).valid()) {
@@ -2929,7 +2930,7 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: frm.serialize(),
 			success: function(data) {
-				$("#notifyModal #get_your_email").text(data.success);
+				$("#notifyModal #get_your_email").text(data.message);
 				$("#notifyModal").modal();		
 
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	

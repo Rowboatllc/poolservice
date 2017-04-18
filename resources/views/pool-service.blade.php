@@ -320,38 +320,14 @@
 </div>
 <div class="modal-wait" id="divModel"></div>
 
-<!-- Modal email notify-->
-  <div class="modal fade" id="zipcodeModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">        
-        <form id="frmEmailNotify" role="form" action="{{route('add-email-notify')}}" method="post">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <label>Not in service area. Enter email address to be notified when your area is covered</label>  
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" name="not-exist-email" required id="not_exist_email" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Send</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>            
-          </form>     
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">        
                 <form role="form">
                     {{ csrf_field() }}
-                    <div class="form-group">
-                        <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) 
-                            and follow the instruction to completed the sign up process</label>  
+                    <div class="row">
+                        <label>You are almost done! Please check your email at (<span id="get_your_email"><span>) and follow the instruction to completed the sign up process</label>  
                     </div>
                     <div class="form-group">
                         <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>

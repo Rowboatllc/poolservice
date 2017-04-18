@@ -625,7 +625,7 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: frm.serialize(),
 			success: function(data) {
-				$("#notifyModal #get_your_email").text(data.success);
+				$("#notifyModal #get_your_email").text(data.message);
 				$("#notifyModal").modal();		
 
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
