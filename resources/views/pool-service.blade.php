@@ -326,7 +326,7 @@
                 <form role="form">
                     {{ csrf_field() }}
                     <div class="row">
-                        <label>You are almost done! Please check your email at (<span id="get_your_email"><span>) and follow the instruction to completed the sign up process</label>  
+                        <label id="get_your_email"></label>  
                     </div>
                     <div class="form-group">
                         <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>

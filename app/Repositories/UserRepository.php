@@ -88,7 +88,7 @@ class UserRepository
                 $bill->save();
             });
         } catch (Exception $e) {
-            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+            return Redirect::to('/page-not-found');
         }		
 
 		return true;
@@ -163,7 +163,7 @@ class UserRepository
                 $company->save();
             });
         } catch (Exception $e) {
-            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+            return Redirect::to('/page-not-found');
         }	
 
 		return true;
