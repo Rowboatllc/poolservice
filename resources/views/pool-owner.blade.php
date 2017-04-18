@@ -346,21 +346,7 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
-
-
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register-pool-owner.js') }}"></script>
-
-        <script type="text/html" id="form_tpl">
-            <div class="entry input-append form-group col-xs-3 center">
-                <input class="zipcode-list form-control" name="zipcode[<%= element.i %>]" id="zipcode[<%= element.i %>]" type="text"
-                    placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
-                <button type="button" class="btn-success btn-add">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </div>
-        </script>
 @endsection
 

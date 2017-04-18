@@ -101,8 +101,7 @@
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                     <label for="zipcode[0]" generated="true" class="error"></label>
-                                </div>
-                                
+                                </div>                                
                             </div>
                         </div>
                     </div>

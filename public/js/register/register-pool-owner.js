@@ -2607,57 +2607,11 @@ function validationEmail()
 	});	
 }
 
-function autoAddInput()
-{
-	_.templateSettings.variable = "element";
-	var tpl = _.template($("#form_tpl").html());
-
-	var counter = 1;
-	$(document).on('click', '.btn-add', function(e)
-    {
-		var controlForm = $('.controls');
-        e.preventDefault();
-        var tplData = {
-            i: counter
-        };
-        $("#controls").append(tpl(tplData));
-        $('input[name="zipcode['+counter+']"]').rules("add", {
-            required: true,
-            number: true,
-            maxlength: 5,
-            messages: {
-                required: "Provide zip code"                
-            },
-            highlight: function(element) {
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            }
-        });
-
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span class="fa fa-minus"></span>');
-
-		counter += 1;
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-
-		e.preventDefault();
-		return false;
-	});
-}
-
 $(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
 	validationEmail();
-
-	autoAddInput();
 	$('#f1-expiration-date').payment('formatCardExpiry');
 
     /*Fullscreen background*/    
