@@ -42,9 +42,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
     Route::group(['prefix' => 'poolowner'], function () {
         Route::get('', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('poolowner');
-        Route::get('select_company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select_company');
-        Route::get('select_new_company', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select_new_company');
-        Route::post('rating_company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating_company');
+        Route::get('select-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select-company');
+        Route::get('select-new-company', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
+        Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
+        
     });
 
     Route::group(['middleware' => ['permission']], function () {
