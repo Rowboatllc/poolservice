@@ -11,6 +11,7 @@ use App\Repositories\ApiToken;
 use App\Common\Common;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\BillingInfo;
 
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
@@ -197,5 +198,28 @@ class PoolOwnerController extends Controller {
     
     public function savePoolInfo(Request $request) {
         dd($request->all());
+    }
+
+    public function updateBillingInfo(Request $request){
+        $user = $this->getUserByToken();
+    
+        $billingInfo = new BillingInfo();
+        $billingInfo->user_id = $user->id;
+        $billingInfo->name_card = $request->input('name_card');
+        $billingInfo->card_last_digits = $request->input('card_last_digits');
+        $billingInfo->expiration_date = $request->input('expiration_date');
+        $billingInfo->address = $request->input('address');
+        $billingInfo->city = $request->input('city');
+        $billingInfo->state = $request->input('state');
+        $billingInfo->zipcode = $request->input('zipcode');
+        $billingInfo->token = $request->input('token');
+        
+        $result = $this->billing->updateBillingInfo($billingInfo);
+
+        return response()->json([
+                    'error' => $result,
+                    'message' => '',
+                    'code' => 200], 200
+        )->header('Content-Type', 'application/json');
     }
 }
