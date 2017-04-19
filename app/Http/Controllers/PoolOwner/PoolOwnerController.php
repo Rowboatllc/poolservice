@@ -34,11 +34,6 @@ class PoolOwnerController extends Controller {
         $this->profile = app('App\Models\Profile');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index() {
         $this->loadHeadInPage('home');
         $user = Auth::user();
@@ -49,7 +44,7 @@ class PoolOwnerController extends Controller {
         if (!$profile) {
             $profile = $common->getDefaultEloquentAttibutes($this->profile);
         }
-        $profile->codes = $common->getListZipCode();
+        //$profile->codes = $common->getListZipCode();
         $profile->email = $user->email;
 
         //Billing Info
@@ -169,7 +164,12 @@ class PoolOwnerController extends Controller {
             $obj->status = 'pending';
             $result = $obj->save();
             if($result) {
-                // confirm email here
+                $info = [
+                    'email' => $email,
+                    'code' => $obj->confirmation_code
+                ];
+                $common = new Common;
+                $common->verifyEmail($info);
             }
         }
         return response()->json([
@@ -193,5 +193,9 @@ class PoolOwnerController extends Controller {
                     'message' => '',
                     'code' => 200], 200
         )->header('Content-Type', 'application/json');
+    }
+    
+    public function savePoolInfo(Request $request) {
+        dd($request->all());
     }
 }

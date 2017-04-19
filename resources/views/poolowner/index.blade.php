@@ -19,7 +19,7 @@
                     <div class="panel-body panel-body-manager">
                         <div class="tab-content">
                             <div class="tab-pane fade" id="services">Services Page</div>
-                            <div class="tab-pane fade" id="pool_info">Pool Info Page</div>
+                            <div class="tab-pane fade" id="pool_info">@include('poolowner.poolinfo')</div>
                             <div class="tab-pane fade fade in active" id="profile">@include('poolowner.profile')</div>
                             <div class="tab-pane fade" id="billing_info">@include('poolowner.billing-info')</div>
                             <div class="tab-pane fade" id="service_company">@include('poolowner.my-pool-service-company')</div>

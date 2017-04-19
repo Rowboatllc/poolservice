@@ -2,9 +2,10 @@
 
 namespace App\Common;
 
+use Illuminate\Support\Facades\Storage;
 use Request;
 use Auth;
-use Illuminate\Support\Facades\Storage;
+use Mail;
 
 class Common {
 
@@ -49,11 +50,20 @@ class Common {
         }
     }
 
-    public function getListZipCode() {
-        return [
-            111,
-            70000
-        ];
+    public function verifyEmail($info) {
+        Mail::send('emails.verifytpl', ['confirmation_code' => $info['code'], 'email' => $info['email']], function($message)
+                use ($info) {
+            $message->subject('Authentication your new account');
+            $message->to($info['email']);
+        });   
+    }
+    
+    public function checkValidZipcode($code) {
+        return $code;
+    }
+    
+    public function getSupportedStates() {
+        return [];
     }
 
 }

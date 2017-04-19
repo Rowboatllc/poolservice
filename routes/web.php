@@ -77,5 +77,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::post('admin/ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
-
-
+Route::get('confirm-by-email/{email}/{code}', array('uses' => 'TestController@confirmByEmail'))->name('confirm-by-email');
