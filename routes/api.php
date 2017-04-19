@@ -24,7 +24,7 @@ Route::post('checktoken', 'TestController@checkToken');
 
 // Route::group(['middleware' => ['auth']], function () {
 // Route::post('admin/save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
-Route::post('admin/login', array('uses' => 'Admin\LoginController@doLogin'))->name('admin-dologin');
+//Route::post('admin/login', array('uses' => 'Admin\LoginController@doLogin'))->name('admin-dologin');
 Route::get('get-page', 'PageController@getPage');
 Route::post('get-page', 'PageController@getPage');
 // });
@@ -41,5 +41,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-poolowner-profile');
     Route::post('save-account', 'PoolOwner\PoolOwnerController@saveAccount')->name('admin-save-account');
     Route::post('save-poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-save-poolowner-profile');
+    Route::post('save-poolowner-poolinfo', 'PoolOwner\PoolOwnerController@savePoolInfo')->name('admin-save-poolowner-poolinfo');
 });
             

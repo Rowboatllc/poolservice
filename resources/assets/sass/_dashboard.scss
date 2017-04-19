@@ -2,6 +2,11 @@
 .no_display {
     display: none !important;
 }
+
+.inputerror {
+    border: 1px solid red !important;
+}
+
 .dashboard-panel {
     .panel-primary > .panel-heading {
         padding: 10px 15px 0px;
@@ -16,6 +21,20 @@
         padding: 30px;
     }
 }
+
+.panel {
+    .icon.badge {
+        padding: 0px;
+        background: none;
+        color: #336699;
+        font-size: 120%;
+        margin-left: 5px;
+        &:empty {
+            display: inline-block;
+        }
+    }
+}
+
 .poolowner_profile {
     .fieldset {
         margin-bottom: 20px;
@@ -28,7 +47,11 @@
             border: 1px solid lightgray;
         }
         .contenteditable.auto {
+            display: inline;
+        }
+        .contenteditable.auto.active {
             min-width: 64px;
+            display: inline-block;
         }
         .contenteditable.password {
             -webkit-text-security: disc;
@@ -39,16 +62,13 @@
             padding: 7px;
             border-radius: 5px;
             outline: none;
-            &:focus {
-                
-            }
         }
-        .icon.badge {
-            padding: 0px;
-            background: none;
-            color: #336699;
-            font-size: 150%;
-            margin-left: 20px;
+        select.contenteditable {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: none;
+            min-width: auto;
         }
         .img_profile {
             width: 100px;
@@ -77,6 +97,20 @@
             font-size: 200%;
             content : "\e022";
         }
+    }
+}
+
+.poolowner_poolinfo {
+    .checkbox {
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(1.2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        padding: 10px;
+        text-transform: uppercase;
+    }
+    .icon.savefieldset {
+       margin-left: 100px
     }
 }
 
