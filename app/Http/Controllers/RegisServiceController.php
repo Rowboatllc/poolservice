@@ -115,6 +115,12 @@ class RegisServiceController extends Controller
 
     public function userConfirmService(Request $request,$token,$email)
     {
+        $val = $this->user->confirmPoolAccount($token);
+        if(is_null($val))
+        {
+            return Redirect::to('/page-not-found'); 
+        }
+
         return view('confirm-service',compact('email','token'));
     }
 
@@ -131,15 +137,15 @@ class RegisServiceController extends Controller
             return Redirect::back()->withInput()->withErrors($validator);
         }
 
-        // save user to database
-        $val = $this->user->confirmPoolAccount($request->all());
+        // check user login
+        $val = $this->user->login($request->all());
         
         if ($val) {
-            //register success and message to user 
+            // user login passed and move to dashboard
             return redirect()->back()
                             ->with('success', $val);
         } else {
-            //register failed and message to user 
+            // user login failed and move back
             return redirect()->back()
                             ->with('error', $val);
         }

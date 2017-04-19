@@ -4,7 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Profile;
-use App\Models\PoolSubscriber;
+use App\Models\Order;
+use App\Models\Poolowner;
 use App\Models\BillingInfo;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +58,7 @@ class UserRepository
         $bill->token=$array['stripeToken'];
 
         // create PoolSubscriber object
-		$pool=new PoolSubscriber();
+		$pool=new Order();
 		$pool->services=$array['chk_service_type']; 
         $weekly_pool = implode(",", $array['chk_weekly_pool']);
         
@@ -70,16 +71,21 @@ class UserRepository
         $pool->price=$array['price'];
         $pool->time=date("Y-m-d H:i:s");
         $pool->zipcode=$array['zipcode'];
-
+        // add pool_owners info
+        $poolOwner=new Poolowner();
+		$poolOwner->user_id='pending';
+        
         try {
             // using transaction to save data to database
-            DB::transaction(function() use ($user, $profile,$bill,$pool)
+            DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner)
             {
                 // save user
                 $user->status='pending';
                 $user_db=$user->save();
                 // set user_id for another object
-                $profile->user_id=$pool->user_id=$bill->user_id=$user->id;
+                $profile->user_id=$pool->user_id=$bill->user_id=$poolOwner->user_id=$user->id;
+                //save pool owner
+                $poolOwner->save();
                 // save user profile			
                 $profile->save();
                 // save pool subscriber
@@ -141,6 +147,7 @@ class UserRepository
             function($value) { return (int)$value; },
             $array['zipcode']
         );
+        // dd($intArray);
         $company->zipcodes=$intArray;
         $company->logo='';
         $company->status='pending';
@@ -179,7 +186,7 @@ class UserRepository
         if(empty($zipcode)) return [];
 
         $results = DB::select('SELECT c.id FROM `companies` as c 
-            WHERE JSON_CONTAINS(c.zipcodes, "['.$zipcode.']")');
+            WHERE c.status = "active" and JSON_CONTAINS(c.zipcodes, "['.$zipcode.']")');
 
         return $results;         
     }
@@ -196,9 +203,23 @@ class UserRepository
         return $user->save();
     }
 
-    public function confirmPoolAccount(array $arr)
+    public function confirmPoolAccount($confirmCode)
     {
-        $user=$this->user->where('confirmation_code', $arr['token'])->first();
+        $user=$this->user->where('confirmation_code', $confirmCode)->first();
+        if(is_null($user))
+        {
+            return $user;
+        }
+        
+        return $user->forceFill([
+            'status' => 'unclaimed',
+        ])->save();
+    }
+
+    public function login(array $arr)
+    {
+        $user=$this->user->where('email', $arr['email'])
+                        ->where('password', $arr['password'])->first();
         
         return $user->forceFill([
             'password' => bcrypt($arr['password']),
