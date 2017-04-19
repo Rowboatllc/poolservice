@@ -37,4 +37,9 @@ class User extends Model implements Authenticatable, CanResetPasswordContract
     public function tokens() {
         return $this->hasMany('App\Models\Tokens');
     }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile','user_id');
+    }
 }

@@ -36,7 +36,6 @@ class UserController extends Controller {
             return redirect()->route('home');
         }
 
-        dd('failed');
         // validation failed and redirect user to login again 
         return redirect()->back()
                         ->withInput($request->all())
