@@ -143,16 +143,18 @@ class PoolOwnerController extends Controller {
         return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
-    public function selectNewCompany(){
+    public function selectNewCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->removeAllSelectCompany($user_id);
-        $company = $this->company->getCompanyById($company_id);
-        Mail::send('emails.remove-company', compact('company'), function($message) 
-        use ($company)
-        {     
-                $message->subject('Customers remove for your service');
-                $message->to($company->email);
-        });
+        if($result){
+            $company = $this->company->getCompanyById($company_id);
+            Mail::send('emails.remove-company', compact('company'), function($message) 
+            use ($company)
+            {     
+                    $message->subject('Customers remove for your service');
+                    $message->to($company->email);
+            });
+        }
         return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
