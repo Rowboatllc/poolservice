@@ -25,6 +25,7 @@ class UserRepository
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];
+        $user->name=$array['fullname'];
         $user->password=bcrypt($array['password']);
         $user->confirmation_code=$array['confirmation_code'];
 		// create new user object 
@@ -111,6 +112,7 @@ class UserRepository
         // create organization object
 		$user=new User();
 		$user->email=$array['email'];
+        $user->name=$array['fullname'];
         $user->password=bcrypt($array['password']);
         $user->confirmation_code=$array['confirmation_code'];
 		// create new user object 

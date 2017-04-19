@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class User extends Authenticatable
+class User extends Model implements Authenticatable, CanResetPasswordContract 
 {
-    use Notifiable;
+    use Notifiable,
+        AuthenticableTrait,
+        CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -29,5 +36,10 @@ class User extends Authenticatable
     
     public function tokens() {
         return $this->hasMany('App\Models\Tokens');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile','user_id');
     }
 }
