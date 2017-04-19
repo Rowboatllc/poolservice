@@ -13,10 +13,10 @@
                 <td valign="middle"><span class="stars">{{$company->point}}</span> <span>({{$company->count}})</span></td>
                 <td valign="middle">
                     @if($company_id==0)
-                        <a href="poolowner/select_company/{{$company->id}}" type="button" class="btn btn-primary">Choose</a>
+                        <a href="poolowner/select-company/{{$company->id}}" type="button" class="btn btn-primary">Choose</a>
                     @else
-                        <a href="#" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#startModal">Rate this company</a>
-                        <a href="{{route('select_new_company')}}" type="button" class="btn btn-primary">Choose a new pool service</a>                        
+                        <a href="#" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#startModal">Rate</a>
+                        <a href="poolowner/select-new-company/{{$company->id}}" type="button" class="btn btn-primary">Choose a new </a>                        
                     @endif
                 </td>
             </tr>
@@ -26,7 +26,7 @@
    
 </div>
 <div id="startModal" class="modal fade my-pool-service-company" role="dialog">
-    <form role="form" action="{{route('rating_company')}}" method="post">
+    <form role="form" action="{{route('rating-company')}}" method="post">
     {{ csrf_field() }}
         <div class="modal-dialog">
             <div class="modal-content">

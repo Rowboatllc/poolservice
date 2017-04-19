@@ -7936,7 +7936,7 @@ ul.navbar-nav {
 }
 
 .header-top {
-  background: url(http://poolservice.app/images/header.png);
+  background: url(/images/header.png);
 }
 
 .navbar {
@@ -8712,6 +8712,10 @@ span.stars span {
   display: none !important;
 }
 
+.inputerror {
+  border: 1px solid red !important;
+}
+
 .dashboard-panel .panel-primary > .panel-heading {
   padding: 10px 15px 0px;
   background-color: none;
@@ -8725,6 +8729,18 @@ span.stars span {
 
 .dashboard-panel .tab-content {
   padding: 30px;
+}
+
+.panel .icon.badge {
+  padding: 0px;
+  background: none;
+  color: #336699;
+  font-size: 120%;
+  margin-left: 5px;
+}
+
+.panel .icon.badge:empty {
+  display: inline-block;
 }
 
 .poolowner_profile .fieldset {
@@ -8742,7 +8758,12 @@ span.stars span {
 }
 
 .poolowner_profile .fieldset .contenteditable.auto {
+  display: inline;
+}
+
+.poolowner_profile .fieldset .contenteditable.auto.active {
   min-width: 64px;
+  display: inline-block;
 }
 
 .poolowner_profile .fieldset .contenteditable.password {
@@ -8757,12 +8778,12 @@ span.stars span {
   outline: none;
 }
 
-.poolowner_profile .fieldset .icon.badge {
-  padding: 0px;
-  background: none;
-  color: #336699;
-  font-size: 150%;
-  margin-left: 20px;
+.poolowner_profile .fieldset select.contenteditable {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  min-width: auto;
 }
 
 .poolowner_profile .fieldset .img_profile {
@@ -8796,6 +8817,23 @@ span.stars span {
   font-family: 'Glyphicons Halflings';
   font-size: 200%;
   content: "\e022";
+}
+
+.poolowner_poolinfo .checkbox {
+  -ms-transform: scale(2);
+  /* IE */
+  -moz-transform: scale(2);
+  /* FF */
+  -webkit-transform: scale(1.2);
+  /* Safari and Chrome */
+  -o-transform: scale(2);
+  /* Opera */
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+.poolowner_poolinfo .icon.savefieldset {
+  margin-left: 100px;
 }
 
 .my-pool-service-company tr td {

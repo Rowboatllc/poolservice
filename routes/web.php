@@ -20,6 +20,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/', array('uses' => 'HomeController@index'))->name('home');
     Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
+    Route::get('login/{token?}/{email?}', array('uses' => 'UserController@showLogin'))->name('login');
+    Route::post('login', array('uses' => 'UserController@doLogin'))->name('login');
+
     Route::group(['prefix' => 'register'], function () {
         Route::get('/pool-owner-register', array('uses' => 'RegisServiceController@poolOwnerIndex'))->name('pool-owner-register');
         Route::post('/pool-owner-register', array('uses' => 'RegisServiceController@addNewPoolOwner'))->name('pool-owner-register');
@@ -30,9 +33,6 @@ Route::group(['middleware' => ['guest']], function () {
         Route::post('/check-email-exists', array('uses' => 'RegisServiceController@check_email_exists'))->name('check-email-exists');
         Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
         Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
-
-        Route::get('/user-confirm-service/{token}/{email}', array('uses' => 'RegisServiceController@userConfirmService'))->name('user-confirm-service');
-        Route::post('/user-confirm-service', array('uses' => 'RegisServiceController@doUserConfirmService'))->name('user-confirm-service');
     });
 });
 
@@ -42,9 +42,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
     Route::group(['prefix' => 'poolowner'], function () {
         Route::get('', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('poolowner');
-        Route::get('select_company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select_company');
-        Route::get('select_new_company', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select_new_company');
-        Route::post('rating_company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating_company');
+        Route::get('select-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select-company');
+        Route::get('select-new-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
+        Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
+        
     });
 
     Route::group(['middleware' => ['permission']], function () {

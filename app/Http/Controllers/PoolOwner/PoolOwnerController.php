@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
+use Mail;
 
 use App\Common\Common;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\BillingInfo;
 
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
+use App\Repositories\UserRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -26,18 +29,21 @@ class PoolOwnerController extends Controller {
     protected $company;
     protected $billing;
     protected $profile;
-
-    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
+    protected $user;
+    
+    public function __construct(UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
         parent::__construct($page);
+        $this->user = $user;        
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
     }
 
-    public function index() {
+    public function index(Request $request) {
         $this->loadHeadInPage('home');
         $user = Auth::user();
         $common = new Common;
+        $tab = $request->input('tab');
 
         // profile
         $profile = $this->profile->find($user->id);
@@ -50,7 +56,6 @@ class PoolOwnerController extends Controller {
         //Billing Info
 
         $billing_info = $this->billing->getBillingInfo($user->id);
-        $isEdit = true;
 
         // my pool service company
         $companys = $this->company->getSelectedCompany($user->id);
@@ -62,7 +67,7 @@ class PoolOwnerController extends Controller {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user->id, $company_id);
         }
-        return view('poolowner.index', compact(['companys','company_id','point', 'profile', 'billing_info', 'isEdit']));
+        return view('poolowner.index', compact(['tab', 'companys','company_id','point', 'profile', 'billing_info']));
         //return view('poolowner.index', compact(['companys','company_id','point', 'profile',  'isEdit']));
         
     }
@@ -124,13 +129,32 @@ class PoolOwnerController extends Controller {
     public function selectCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->selectCompany($user_id,$company_id);
-        return redirect()->route('poolowner');
+        if($result){
+            $company = $this->company->getCompanyById($company_id);
+            Mail::send('emails.select-company', compact('company'), function($message) 
+            use ($company)
+            {     
+                    $message->subject('Customers sign up for your service');
+                    $message->to($company->email);
+            });
+        }
+
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
-    public function selectNewCompany(){
+    public function selectNewCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->removeAllSelectCompany($user_id);
-        return redirect()->route('poolowner');
+        if($result){
+            $company = $this->company->getCompanyById($company_id);
+            Mail::send('emails.remove-company', compact('company'), function($message) 
+            use ($company)
+            {     
+                    $message->subject('Customers remove for your service');
+                    $message->to($company->email);
+            });
+        }
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request){
@@ -209,5 +233,16 @@ class PoolOwnerController extends Controller {
     
     public function savePoolInfo(Request $request) {
         dd($request->all());
+    }
+
+    public function updateBillingInfo(Request $request){
+        $user = $this->getUserByToken();
+        $result = $this->billing->updateBillingInfo($user->id, $request->all());
+
+        return response()->json([
+                    'error' => !$result,
+                    'message' => '',
+                    'code' => 200], 200
+        )->header('Content-Type', 'application/json');
     }
 }

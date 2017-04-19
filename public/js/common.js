@@ -206,6 +206,10 @@ jQuery(document).ready(function () {
             $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('form').submit();
+        }).on('click', '.cancel-editfieldset', function () {
+            $fieldset = $(this).parents('.fieldset');
+            $fieldset.find('.icon.badge').toggleClass('no_display');
+            $fieldset.find('.contenteditable').toggleClass('active');
         });
     }
 
@@ -219,8 +223,9 @@ jQuery(document).ready(function () {
     function getEditableFieldValues($obj){
         let values = [];
         $obj.find('.contenteditable').each(function(){
-            var $me = jQuery(this);
-            values.push({ name : $me.attr('name'), value: $me.text() });
+            let $me = jQuery(this);
+            let value = $me.is('select') ? $me.val() : $me.text();
+            values.push({ name : $me.attr('name'), value: value });
         });
         return values;
     }
@@ -376,19 +381,19 @@ function afterUploadedImage(form, result) {
 }
 
 
-function isValidate($fieldset){
+function isValidate($fieldset) {
     let $fields = $fieldset.find('[data-validate]');
     let result = true;
     $fields.each(function(){    
         if(!checkOneField(this)) {
-            jQuery(this).addClass('error');
+            jQuery(this).addClass('inputerror');
             result = false;
         }
     });
     return result;
 }
 
-function checkOneField(field){
+function checkOneField(field) {
     let $needs = jQuery(field).data('validate');
     $needs = $needs.split('|');
     let value = jQuery.trim(jQuery(field).text());
@@ -396,18 +401,54 @@ function checkOneField(field){
         if(!checkContent(value, $needs[i]))
             return false;
     }
+    jQuery(field).removeClass('inputerror');
     return true;
 }
 
-function checkContent(value, type){
+function checkContent(value, type) {
     switch(type) {
         case 'require':
-            return (value!='')
+            return (value!='');
         break;
         case 'email':
-            return (value=='2')
+            let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            return re.test(value); 
         break;
         case 'number':
         break;
     }
 }
+
+
+// Poolowner poolinfo
+jQuery(document).ready(function () {
+    jQuery('.poolowner_poolinfo input[type="checkbox"]').bind('click', function(){
+        $children = jQuery(this).data('child');
+        $children = jQuery($children);
+        if(!jQuery(this).is(':checked')) {
+            $children.each(function(){
+                jQuery(this).eq(0).prop('checked', false);
+            })
+        } else {
+            $children.first().eq(0).prop('checked', true);
+        }
+    });
+    jQuery('.poolowner_poolinfo input[type="radio"]').bind('click', function(){
+        $parent = jQuery(this).data('parent');
+        $parent = jQuery($parent);
+        $parent.eq(0).prop('checked', true);
+    });
+    jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
+        $obj = $(this).parents('.fieldset');
+        let data = $obj.find('input').serialize();
+        if(data=='') {
+            //show error
+        } else {
+            sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+                (callback || jQuery.noop)(result);
+            }, function () {
+                console.log('something wrong');
+            });
+        }
+    });
+});
