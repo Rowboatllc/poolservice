@@ -20,6 +20,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/', array('uses' => 'HomeController@index'))->name('home');
     Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
+    Route::get('login', array('uses' => 'UserController@showLogin'))->name('login');
+    Route::post('login', array('uses' => 'UserController@doLogin'))->name('login');
+
     Route::group(['prefix' => 'register'], function () {
         Route::get('/pool-owner-register', array('uses' => 'RegisServiceController@poolOwnerIndex'))->name('pool-owner-register');
         Route::post('/pool-owner-register', array('uses' => 'RegisServiceController@addNewPoolOwner'))->name('pool-owner-register');
