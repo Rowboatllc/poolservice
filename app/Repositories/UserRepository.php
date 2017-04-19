@@ -42,14 +42,14 @@ class UserRepository
             $bill->address=$array['street'];
             $bill->city=$array['city'];
             $bill->state=$array['state'];
-            $bill->zipcode=$array['zip'];
+            $bill->zipcode=intval($array['zip']);
         }
         else
         {
             $bill->address=$array['billing_address'];
             $bill->city=$array['billing_city'];
             $bill->state=$array['billing_state'];
-            $bill->zipcode=$array['zipcode'];
+            $bill->zipcode=intval($array['zipcode']);
         }		
         
         $bill->name_card=$array['card_name'];
@@ -70,11 +70,15 @@ class UserRepository
         
         $pool->price=$array['price'];
         $pool->time=date("Y-m-d H:i:s");
-        $pool->zipcode=$array['zipcode'];
+        $intArray = array_map(
+            function($value) { return (int)$value; },
+            $array['zipcode']
+        );
+        $pool->zipcode=$intArray;
+
         // add pool_owners info
         $poolOwner=new Poolowner();
-		$poolOwner->user_id='pending';
-        
+		$poolOwner->user_id='pending';        
         try {
             // using transaction to save data to database
             DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner)
@@ -124,14 +128,14 @@ class UserRepository
             $bill->address=$array['street'];
             $bill->city=$array['city'];
             $bill->state=$array['state'];
-            $bill->zipcode=$array['zip'];
+            $bill->zipcode=intval($array['zip']);
         }
         else
         {
             $bill->address=$array['billing_address'];
             $bill->city=$array['billing_city'];
             $bill->state=$array['billing_state'];
-            $bill->zipcode=$array['zipcode'];
+            $bill->zipcode=intval($array['zipcode']);
         }		
         
         $bill->name_card=$array['card_name'];
@@ -147,7 +151,7 @@ class UserRepository
             function($value) { return (int)$value; },
             $array['zipcode']
         );
-        // dd($intArray);
+        
         $company->zipcodes=$intArray;
         $company->logo='';
         $company->status='pending';
