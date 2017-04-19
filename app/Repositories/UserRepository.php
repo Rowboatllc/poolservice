@@ -88,7 +88,7 @@ class UserRepository
                 $bill->save();
             });
         } catch (Exception $e) {
-            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+            return Redirect::to('/page-not-found');
         }		
 
 		return true;
@@ -137,7 +137,11 @@ class UserRepository
         $company=new Company();
         $company->name=$array['company'];
         $company->services=$array['chk_service_type']; 
-        $company->zipcodes=$array['zipcode'];
+        $intArray = array_map(
+            function($value) { return (int)$value; },
+            $array['zipcode']
+        );
+        $company->zipcodes=$intArray;
         $company->logo='';
         $company->status='pending';
         $company->website=$array['website'];
@@ -159,7 +163,7 @@ class UserRepository
                 $company->save();
             });
         } catch (Exception $e) {
-            return Redirect::to('/login-me')->with('msg', ' Sorry something went wrong. Please try again.');
+            return Redirect::to('/page-not-found');
         }	
 
 		return true;

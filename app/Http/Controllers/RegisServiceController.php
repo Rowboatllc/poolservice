@@ -110,12 +110,7 @@ class RegisServiceController extends Controller
     public function addEmailNotify(Request $request)
     {
         $user=$this->user->addEmailNotify($request['not-exist-email']);
-        if($user===null)
-        {
-            return redirect('pool-owner-register');
-        }else{
-            return redirect('pool-owner-register');
-        }        
+        return redirect('register/pool-owner-register');    
     }
 
     public function userConfirmService(Request $request,$token,$email)

@@ -2,52 +2,6 @@
 
 @section('content')
 
-<style>
-    .modal-wait {
-        display:    none;
-        position:   fixed;
-        z-index:    1000;
-        top:        0;
-        left:       0;
-        height:     100%;
-        width:      100%;
-        background: rgba( 255, 255, 255, .8 ) 
-                    url('http://i.stack.imgur.com/FhHRx.gif') 
-                    50% 50% 
-                    no-repeat;
-    }
-
-    /* When the body has the loading class, we turn
-    the scrollbar off with overflow:hidden */
-    body.loading {
-        overflow: hidden;   
-    }
-
-    /* Anytime the body has the loading class, our
-    modal element will be visible */
-    body.loading .modal {
-        display: block;
-    }
-
-    input[type="checkbox"] {
-        width: 24px;
-        height: 24px;
-        vertical-align: bottom;
-    }
-    label.checkbox {
-        vertical-align: top;
-        line-height: 24px;
-        margin: 2px 0;
-        display: block;
-        height: 24px;
-    }
-    label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 15px; display:block }
-    .right {border-right: 2px solid #ccc;}
-    .left {border-left: 2px solid #ccc;}
-    .bottom {border-bottom: 2px solid #ccc;}
-}
-</style>
-
 <div class="container register-pool-owner">
     <div class="form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('pool-owner-register')}}" method="post" class="f1">
@@ -346,21 +300,7 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.stripe.com/checkout.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>  
-
-
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/register-pool-owner.js') }}"></script>
-
-        <script type="text/html" id="form_tpl">
-            <div class="entry input-append form-group col-xs-3 center">
-                <input class="zipcode-list form-control" name="zipcode[<%= element.i %>]" id="zipcode[<%= element.i %>]" type="text"
-                    placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
-                <button type="button" class="btn-success btn-add">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </div>
-        </script>
 @endsection
 

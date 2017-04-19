@@ -33,7 +33,6 @@ function stripeResponseHandler(status, response) {
 		// token contains id, last4, and card type
 		var token = response['id'];
 		// insert the token into the form so it gets submitted to the server
-		// form$.append("<input type='hidden' id='hdf_stripeToken' name='stripeToken' value='" + token + "' />");
 		$('input#hdf_stripeToken').val(token);
 	}
 }
@@ -41,6 +40,28 @@ function stripeResponseHandler(status, response) {
 function validationInputData()
 {	
 	var form = $( "#frmPoolSubscriber" );
+	// add validate expiration date
+	$.validator.addMethod(
+		"ExpDate",
+			function(value, element, params) {
+				var minMonth = new Date().getMonth() + 1;
+				var minYear = new Date().getFullYear();
+				var str=$('#f1-expiration-date').val();
+				var res = str.split("/");
+
+				var $month = res[0];
+				var $year = res[1];
+
+				var month = parseInt($month, 10);
+				var year = parseInt($year, 10);
+				
+				if ((year < minYear) || ((year === minYear) && (month < minMonth)) || (year > minYear+40)) {
+					return false;
+				} else {
+					return true;
+				}			
+			}
+		,"Your Expiration date is invalid.");
 	form.validate({
 		rules: {
 			'zipcode[0]': {
@@ -133,6 +154,7 @@ function validationInputData()
 			},
 			'expiration_date':{
 				required: true,
+				ExpDate:true,
 				maxlength: 9
 			},
 			'billing_address':{
@@ -280,63 +302,11 @@ function validationEmail()
 	});	
 }
 
-function autoAddInput()
-{
-	_.templateSettings.variable = "element";
-	var tpl = _.template($("#form_tpl").html());
-
-	var counter = 1;
-	$(document).on('click', '.btn-add', function(e)
-    {
-		var controlForm = $('.controls');
-        e.preventDefault();
-        var tplData = {
-            i: counter
-        };
-        $("#controls").append(tpl(tplData));
-        $('input[name="zipcode['+counter+']"]').rules("add", {
-            required: true,
-            number: true,
-            maxlength: 5,
-            messages: {
-                required: "Provide zip code"                
-            },
-            highlight: function(element) {
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-			errorPlacement: function(error, element) {
-				// console.log(error);
-				// if (error.attr("name") == "zipcode["+counter+"]") {                   
-				// 	error.insertAfter(".form-group");    
-				// }                       
-			}
-        });
-
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span class="fa fa-minus"></span>');
-
-		counter += 1;
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-
-		e.preventDefault();
-		return false;
-	});
-}
-
 $(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
 	validationEmail();
-
-	autoAddInput();
 	$('#f1-expiration-date').payment('formatCardExpiry');
 
     /*Fullscreen background*/    
@@ -381,26 +351,28 @@ $(document).ready(function() {
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-		var card_number=$('input#card_number').val();
-		var expiration_date=$('input#f1-expiration-date').val();
-		var ccv_number=$('input#f1-ccv-number').val();
-
-		var card=Stripe.card.validateCardNumber(card_number);
-		var day=Stripe.card.validateExpiry(expiration_date);
-		var ccv=Stripe.card.validateCVC(ccv_number);
-
-		if(card && day && ccv)
-		{
-			var arr = expiration_date.split('/');
-			Stripe.createToken({
-				number:card_number,
-				cvc:ccv_number,
-				exp_month: parseInt(arr[0]),
-				exp_year: parseInt(arr[1]),
-			}, stripeResponseHandler);
-		}	
+		
 
     	if($( "#frmPoolSubscriber" ).valid()) {
+			var card_number=$('input#card_number').val();
+			var expiration_date=$('input#f1-expiration-date').val();
+			var ccv_number=$('input#f1-ccv-number').val();
+
+			var card=Stripe.card.validateCardNumber(card_number);
+			var day=Stripe.card.validateExpiry(expiration_date);
+			var ccv=Stripe.card.validateCVC(ccv_number);
+
+			if(card && day && ccv)
+			{
+				var arr = expiration_date.split('/');
+				Stripe.createToken({
+					number:card_number,
+					cvc:ccv_number,
+					exp_month: parseInt(arr[0]),
+					exp_year: parseInt(arr[1]),
+				}, stripeResponseHandler);
+			}	
+
     		parent_fieldset.fadeOut(400, function() {
     			// change icons
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
@@ -628,9 +600,16 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: frm.serialize(),
 			success: function(data) {
-				$("#notifyModal #get_your_email").text(data.success);
-				$("#notifyModal").modal();		
-
+				if(data.success===true)
+				{
+					$("#notifyModal #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+				}
+				else
+				{
+					$("#notifyModal #get_your_email").text(data.message);
+				}
+				
+				$("#notifyModal").modal();
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
 				$('#frmPoolSubscriber .btn-previous').prop('disabled', 'disabled');		
 			}
