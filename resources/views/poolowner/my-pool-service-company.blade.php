@@ -15,8 +15,8 @@
                     @if($company_id==0)
                         <a href="poolowner/select-company/{{$company->id}}" type="button" class="btn btn-primary">Choose</a>
                     @else
-                        <a href="#" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#startModal">Rate this company</a>
-                        <a href="{{route('select-new-company')}}" type="button" class="btn btn-primary">Choose a new pool service</a>                        
+                        <a href="#" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#startModal">Rate</a>
+                        <a href="{{route('select-new-company')}}" type="button" class="btn btn-primary">Choose a new </a>                        
                     @endif
                 </td>
             </tr>
