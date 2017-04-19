@@ -19,18 +19,34 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="fieldset" method="POST" action="{{route('admin-save-account')}}">
+            <div class="fieldset" method="POST" action="{{route('poolowner-save-email')}}">
                 <div class="col-md-3 text-right col"> <span class="labeltext">Email:</span> </div>
                 <div class="col-md-9 col">
-                    <div name="email" class="contenteditable" contenteditable="true" data-validate="email">{{ $profile->email }}</div>
+                    <div name="email" class="contenteditable" contenteditable="true">{{ $profile->email }}</div>
                     <span class="glyphicon glyphicon-pencil editfieldset icon badge"></span>
                     <span class="glyphicon glyphicon-floppy-save savefieldset icon badge no_display"></span>
                     <span class="glyphicon glyphicon-remove cancel-editfieldset icon badge no_display"></span>
                 </div>
-                <div class="col-md-3 text-right col"><span class="labeltext">Password:</span></div><div class="col-md-9 col"><div name="password" class="contenteditable password" contenteditable="true"></div></div>
-                <div class="clearfix"></div>
             </div>
 
+            <div class="fieldset" method="POST" action="{{route('poolowner-save-password')}}">
+                <div class="col-md-3 text-right col"><span class="labeltext">Password:</span></div>
+                <div class="col-md-9 col">
+                    <div name="password" class="contenteditable password" contenteditable="true" data-validate="require"></div>
+                    <span class="glyphicon glyphicon-pencil editfieldset icon badge"></span>
+                    <span class="glyphicon glyphicon-floppy-save save-poolownerfieldset icon badge no_display"></span>
+                    <span class="glyphicon glyphicon-remove cancel-editfieldset icon badge no_display"></span>
+                </div>
+                <div class="cover_change_pwd no_display">
+                    <div class="col-md-3 text-right col"><span class="labeltext">New password:</span></div>
+                    <div class="col-md-9 col"><div name="new-password" class="contenteditable password" contenteditable="true" data-validate="require"></div></div>
+
+                    <div class="col-md-3 text-right col"><span class="labeltext">Retype:</span></div>
+                    <div class="col-md-9 col"><div name="re-password" class="contenteditable password" contenteditable="true" data-validate="require"></div></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            
             <div class="fieldset" method="POST" action="{{route('admin-save-poolowner-profile')}}">
                 <div class="col-md-3 text-right col"><span class="labeltext">First and last name:</span></div>
                 <div class="col-md-9 col">

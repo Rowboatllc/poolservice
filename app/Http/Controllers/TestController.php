@@ -69,11 +69,21 @@ class TestController extends Controller
             );
     }
     
-    
     public function testmail() {
         Mail::send('testmail', ['user' => 'something here'], function ($m){
             $m->from('lapnguyen1@localhost', 'Your Application');
-            $m->to('lapnguyen@localhost')->subject('Your Reminder!');
+            $m->to(['lapnguyen1@localhost','lapnguyen@localhost'])->subject('Your Reminder!');
         });
+    }
+    
+    public function confirmByEmail($email, $code) {
+        $user = \App\Models\User::where('email', $email)->where('confirmation_code', $code)->get()->first();
+        //dd($user);
+        $result = true;
+        if($user) {
+            $user->status = 'active';
+            $result = !$user->save();
+        }
+        return redirect()->route('login')->with('error', $result);
     }
 }

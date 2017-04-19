@@ -98,7 +98,6 @@ class PoolOwnerController extends Controller {
         $user = Auth::user();
         $result = $common->uploadResizeImage('uploads/profile');
         if ($result) {
-
             $profile = $this->profile->find($user->id);
             if ($profile) {
                 $profile->avatar = $result;//$result['path'];
@@ -145,35 +144,48 @@ class PoolOwnerController extends Controller {
         return redirect()->route('poolowner');
     }
     
-    public function saveAccount(Request $request) {
+    public function saveNewEmail(Request $request) {
         $obj = $this->getUserByToken();
         $obj = User::find($obj->id);
+        $oldEmail = $obj->email;
         $email = $request->input('email');
         $result = false;
-        $password = \Hash::make($request->input('password'));
         if($obj->email != $email) {
             $obj->email = $email;
-            $haveChange = true;
-        }
-        if($obj->password != \Hash::make($password)) {
-            $obj->password = $password;
-            $haveChange = true;
-        }
-        if(isset($haveChange)) {
-            $obj->confirmation_code = str_random(30);
-            $obj->status = 'pending';
-            $result = $obj->save();
-            if($result) {
-                $info = [
-                    'email' => $email,
-                    'code' => $obj->confirmation_code
+            try {
+                $obj->save();
+                $data = [
+                    'email' => [$email, $oldEmail],
+                    'subject' => 'Changed email',
+                    'data' => []
                 ];
                 $common = new Common;
-                $common->verifyEmail($info);
+                $common->sendmail('emails.verifytpl', $data);
+                $result = true;
+            } catch (Exception $e) {
             }
         }
         return response()->json([
-                    'error' => $result,
+                    'success' => $result,
+                    'message' => '',
+                    'code' => 200], 200
+        )->header('Content-Type', 'application/json');
+    }
+    
+    public function saveNewPassword(Request $request) {
+        $obj = $this->getUserByToken();
+        $obj = User::find($obj->id);
+        $result = false;
+        $password = \Hash::make($request->input('password'));
+        $newpwd = $request->input('new-password');
+        $rewpwd = $request->input('re-password');
+        //dd($obj->password,$password, $request->input('password'));
+        if(($obj->password==$password) && ($newpwd==$rewpwd)) {
+            $obj->password = $newpwd;
+            $result = $obj->save();
+        }
+        return response()->json([
+                    'success' => $result,
                     'message' => '',
                     'code' => 200], 200
         )->header('Content-Type', 'application/json');
