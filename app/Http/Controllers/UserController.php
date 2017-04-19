@@ -23,9 +23,18 @@ class UserController extends Controller {
         $this->user = $user;
     }
 
-    public function showLogin(Request $request) 
+    public function showLogin(Request $request,$token,$email) 
     {
-        return view('auth.login');
+        if(!empty($token))
+        {
+            $val = $this->user->confirmPoolAccount($token);
+            if(is_null($val))
+            {
+                return Redirect::to('/page-not-found'); 
+            }
+        }
+
+        return view('auth.login',compact('email'));
     }
 
     public function doLogin(Request $request) 

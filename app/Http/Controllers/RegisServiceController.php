@@ -106,48 +106,9 @@ class RegisServiceController extends Controller
         }        
     }
 
-
     public function addEmailNotify(Request $request)
     {
         $user=$this->user->addEmailNotify($request['not-exist-email']);
         return redirect('register/pool-owner-register');    
-    }
-
-    public function userConfirmService(Request $request,$token,$email)
-    {
-        $val = $this->user->confirmPoolAccount($token);
-        if(is_null($val))
-        {
-            return Redirect::to('/page-not-found'); 
-        }
-
-        return view('confirm-service',compact('email','token'));
-    }
-
-    public function doUserConfirmService(Request $request)
-    {
-        // validation input data         
-        $rules = [
-            'password' => 'required|min:6'
-        ];
-
-        $arr = $request->only('password', 'email');
-        $validator = Validator::make($arr, $rules);
-        if ($validator->fails()) {
-            return Redirect::back()->withInput()->withErrors($validator);
-        }
-
-        // check user login
-        $val = $this->user->login($request->all());
-        
-        if ($val) {
-            // user login passed and move to dashboard
-            return redirect()->back()
-                            ->with('success', $val);
-        } else {
-            // user login failed and move back
-            return redirect()->back()
-                            ->with('error', $val);
-        }
     }
 }
