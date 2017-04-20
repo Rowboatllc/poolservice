@@ -5,14 +5,19 @@ function validationPoolService()
 		rules: {
 			'logo':{
 				required: true,
-				maxlength: 50,
 			}
 		},
 		messages: {
 			'logo':{
-				required: "Please enter your logo.",
+				required: "Please upload your logo.",
 			}
-		}
+		},
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+		unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        }
 	});	
 }
 

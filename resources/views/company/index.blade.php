@@ -120,11 +120,11 @@
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                             <!-- flight section -->
-                            <div class="bhoechie-tab-content active">
+                            <div class="form-group bhoechie-tab-content active">
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-plane" style="font-size:14em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload your company logo</h4>
-                                    <input type="text" required name="logo" required placeholder="upload your logo..." class="form-control" id="logo">
+                                    <input type="file" required name="logo" required placeholder="upload your logo..." class="form-control" id="logo">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">it's not but it help you stand out from the crowd</h4>
                                     <div class="buttons">
@@ -133,12 +133,12 @@
                                 </center>                            
                             </div>
                             <!-- train section -->
-                            <div class="bhoechie-tab-content">
+                            <div class="form-group bhoechie-tab-content">
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload your W-q</h4>
                                     <h4 style="margin-top: 0;color:#55518a">https:www.irs.gov/pub/irs-pdf/fwq.pdf</h4>
-                                    <input type="text" required name="wq" required placeholder="Upload your W-q..." class="form-control" id="wq">
+                                    <input type="file" required name="wq" required placeholder="Upload your W-q..." class="form-control" id="wq">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">You are considered a subcontractor of PoolService.com and will receive a </h4>
                                     <h4 style="margin-top: 0;color:#55518a">MISC-1099 from PoolService.com after the end of the year</h4>
@@ -150,11 +150,11 @@
                             </div>
                 
                             <!-- hotel search -->
-                            <div class="bhoechie-tab-content">
+                            <div class="form-group bhoechie-tab-content">
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload a scan og your driver's license</h4>
-                                    <input type="text" required name="driven_license" required placeholder="Upload your driven license..." class="form-control" id="driven_license">
+                                    <input type="file" required name="driven_license" required placeholder="Upload your driven license..." class="form-control" id="driven_license">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">This helps us to verify who you say you are.</h4>
                                     <div class="buttons">
@@ -163,11 +163,11 @@
                                     </div>
                                 </center>
                             </div>
-                            <div class="bhoechie-tab-content">
+                            <div class="form-group bhoechie-tab-content">
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload a scan of CPA certification</h4>
-                                    <input type="text" name="cpa" required placeholder="Upload your CPA..." class="form-control" id="cpa">
+                                    <input type="file" name="cpa" required placeholder="Upload your CPA..." class="form-control" id="cpa">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">This is optional. In order to service commercial pools, you must be CPA certified.</h4>
                                     <h4 style="margin-top: 0;color:#55518a">If you are not CPA certified, you can skip this step.</h4>
