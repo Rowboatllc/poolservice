@@ -124,7 +124,7 @@
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-plane" style="font-size:14em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload your company logo</h4>
-                                    <input type="text" name="logo" required placeholder="upload your logo..." class="form-control" id="logo">
+                                    <input type="text" required name="logo" required placeholder="upload your logo..." class="form-control" id="logo">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">it's not but it help you stand out from the crowd</h4>
                                     <div class="buttons">
@@ -138,7 +138,7 @@
                                     <!--<h4 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload your W-q</h4>
                                     <h4 style="margin-top: 0;color:#55518a">https:www.irs.gov/pub/irs-pdf/fwq.pdf</h4>
-                                    <input type="text" name="wq" required placeholder="Upload your W-q..." class="form-control" id="wq">
+                                    <input type="text" required name="wq" required placeholder="Upload your W-q..." class="form-control" id="wq">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">You are considered a subcontractor of PoolService.com and will receive a </h4>
                                     <h4 style="margin-top: 0;color:#55518a">MISC-1099 from PoolService.com after the end of the year</h4>
@@ -154,7 +154,7 @@
                                 <center>
                                     <!--<h4 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h4>-->
                                     <h4 style="margin-top: 0;color:#55518a">Upload a scan og your driver's license</h4>
-                                    <input type="text" name="driven_license" required placeholder="Upload your driven license..." class="form-control" id="driven_license">
+                                    <input type="text" required name="driven_license" required placeholder="Upload your driven license..." class="form-control" id="driven_license">
                                     <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                     <h4 style="margin-top: 0;color:#55518a">This helps us to verify who you say you are.</h4>
                                     <div class="buttons">
@@ -173,7 +173,7 @@
                                     <h4 style="margin-top: 0;color:#55518a">If you are not CPA certified, you can skip this step.</h4>
                                     <div class="buttons">
                                         <button type="button" class="btn btn-previous">Back</button>
-                                        <button type="button" class="btn btn-next-info">Next</button>
+                                        <button type="button" class="btn btn-next-submit">Next</button>
                                     </div>
                                 </center>
                             </div>
@@ -197,8 +197,30 @@
     </div>
     </div>
 </div>
+
+<div class="modal-wait" id="divModelPoolService"></div>
+
+<div class="modal fade" id="notifyModalPoolService" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">        
+                <form role="form">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label>Yoy are almost done! Please check your email at (<span id="get_your_email"><span>) 
+                            and follow the instruction to completed the sign up process</label>  
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
+                    </div>            
+                </form>  
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('lib')
+        <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/register/main-pool-service.js') }}"></script>
 @endsection
