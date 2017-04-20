@@ -115,7 +115,7 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
     function assignEvent() {
         jQuery('.poolowner_poolinfo input[type="checkbox"]').bind('click', function(){
-            $children = jQuery(this).data('child');
+            let $children = jQuery(this).data('child');
             $children = jQuery($children);
             if(!jQuery(this).is(':checked')) {
                 $children.each(function(){
@@ -124,20 +124,24 @@ jQuery(document).ready(function () {
             } else {
                 $children.first().eq(0).prop('checked', true);
             }
+            toggleSaveButton();
         });
         jQuery('.poolowner_poolinfo input[type="radio"]').bind('click', function(){
-            $parent = jQuery(this).data('parent');
+            let $parent = jQuery(this).data('parent');
             $parent = jQuery($parent);
             $parent.eq(0).prop('checked', true);
+            toggleSaveButton();
         });
         jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
-            $obj = $(this).parents('.fieldset');
+            let $obj = $(this).parents('.fieldset');
             let data = $obj.find('input').serialize();
             if(data=='') {
                 //show error
             } else {
                 sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
-                    (callback || jQuery.noop)(result);
+                    if(result.success!=true)
+                        return
+                    console.log('saved');
                 }, function () {
                     console.log('something wrong');
                 });
@@ -145,10 +149,19 @@ jQuery(document).ready(function () {
         });
     }
     assignEvent();
+    function toggleSaveButton() {
+        let $obj = jQuery('.poolowner_poolinfo');
+        let data = $obj.find('input').serialize();
+        if(data=='') {
+            $obj.find('.saveform-fieldset').addClass('no_display');
+        } else {
+            $obj.find('.saveform-fieldset').removeClass('no_display');
+        }
+    }
 });
 
 function afterUploadedImage(form, result) {
-    $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
+    let $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
     let cur = new Date();
     let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
     $img.attr('src', newPath);
@@ -158,10 +171,10 @@ function afterUploadedImage(form, result) {
 
 // Poolowner profile
 jQuery(document).ready(function () {
-    $ownerProfile = jQuery('.poolowner_profile');
-    $ownerProfile.find('[name="new-password"],[name="re-password"]').bind('keyup', function(){
-        $newpwd = $ownerProfile.find('[name="new-password"]');
-        $repwd = $ownerProfile.find('[name="re-password"]');
+    let $ownerProfile = jQuery('.poolowner_profile .pwdfieldset');
+    $ownerProfile.find('[name="new-password"], [name="re-password"]').bind('keyup', function(){
+        let $newpwd = $ownerProfile.find('[name="new-password"]');
+        let $repwd = $ownerProfile.find('[name="re-password"]');
         ( jQuery.trim($newpwd.text()) == jQuery.trim($repwd.text()) ) ? 
             $repwd.removeClass('inputerror') : 
             $repwd.addClass('inputerror');
@@ -173,7 +186,7 @@ jQuery(document).ready(function () {
         $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
     });
     $ownerProfile.find('.icon.save-poolownerfieldset').bind('click', function(){
-        $fieldset = $(this).parents('.fieldset');
+        let $fieldset = $(this).parents('.fieldset');
         if(!isValidate($fieldset))
             return;
         saveEditableContent($fieldset, function(result){
@@ -184,26 +197,18 @@ jQuery(document).ready(function () {
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
         });
-        
     });
 });
 
 jQuery(document).ready(function () {
-    /*function saveForm($form, callback) {
-        sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
-            (callback || jQuery.noop)(result);
-        }, function () {
-            console.log('something wrong');
-        })
-    }*/
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             //console.log(isValidate($fieldset), $fieldset);
             //return;
             if(!isValidate($fieldset))
@@ -216,17 +221,19 @@ jQuery(document).ready(function () {
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
         }).on('click', '.upload-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('input[type="file"]').trigger('click');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.save-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('form').submit();
         }).on('click', '.cancel-editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.inputerror').removeClass('inputerror');
+            //revertEditableFieldValues($fieldset);
         });
     }
 
@@ -362,7 +369,7 @@ ajaxUploadFile = {
     resetUpload: function(form, callback) {
         var result = jQuery('#'+this.frameName).contents().find('body').text();
         result = JSON.parse(result);
-        if(result.error==false) {
+        if(result.success==true) {
             if(typeof callback == 'function')
                 callback(form, result);
         } else {
@@ -435,8 +442,17 @@ function getEditableFieldValues($obj){
     return values;
 }
 
+function revertEditableFieldValues($obj){
+    $obj.find('.contenteditable').each(function(){
+        let $me = jQuery(this);
+        let value = $me.data('value');
+        $me.is(':input') ? $me.val(value) : $me.text(value);
+    });
+}
+
 function saveEditableContent($obj, callback) {
-    var data = getEditableFieldValues( $obj );
+    let data = getEditableFieldValues( $obj );
+    console.log(data);
     data = jQuery.param(data);
     sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
         (callback || jQuery.noop)(result);

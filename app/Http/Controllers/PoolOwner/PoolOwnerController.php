@@ -5,20 +5,22 @@ namespace App\Http\Controllers\PoolOwner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
 use Mail;
-
 use App\Common\Common;
+
 use App\Models\User;
 use App\Models\Profile;
-use App\Models\BillingInfo;
+use App\Models\Order;
 
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepositoryInterface;
+use App\Repositories\OrderRepository;
+
+//use App\Repositories\ProfileRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -31,7 +33,9 @@ class PoolOwnerController extends Controller {
     protected $billing;
     protected $profile;
     protected $user;
+    protected $common;
     protected $notification;
+    protected $repoProfile;
     
     
     public function __construct(
@@ -42,8 +46,9 @@ class PoolOwnerController extends Controller {
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
+        $this->common = app('App\Common\Common');
         $this->notification = $notification;
-        
+        $this->repoProfile = app('App\Repositories\ProfileRepository');
     }
 
     public function index(Request $request) {
@@ -57,80 +62,34 @@ class PoolOwnerController extends Controller {
         if (!$profile) {
             $profile = $common->getDefaultEloquentAttibutes($this->profile);
         }
-        //$profile->codes = $common->getListZipCode();
         $profile->email = $user->email;
 
         //Billing Info
-
         $billing_info = $this->billing->getBillingInfo($user->id);
 
         // my pool service company
         $companys = $this->company->getSelectedCompany($user->id);
         $point = 0;
-        if(!isset($companys)||empty($companys)){
+        if (!isset($companys) || empty($companys)) {
             $company_id = 0;
             $companys = $this->company->getAllCompanySupportOwner($user->id);
-        }else{
+        } else {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user->id, $company_id);
         }
-        return view('poolowner.index', compact(['tab', 'companys','company_id','point', 'profile', 'billing_info']));
-        //return view('poolowner.index', compact(['companys','company_id','point', 'profile',  'isEdit']));
-        
+        return view('poolowner.index', compact(['tab', 'companys', 'company_id', 'point', 'profile', 'billing_info']));
     }
 
     public function started() {
         $this->loadHeadInPage('home');
         return view('started');
     }
-
-    public function _saveProfile(Request $request) {
-        $user = $this->getUserByToken();
-        $profile = $this->profile->find($user->id);
-        if (!$profile)
-            $profile = $this->profile;
-        $profile->fullname = $request->input('fullname');
-        $profile->zipcode = $request->input('zipcode');
-        $profile->city = $request->input('city');
-        $profile->address = $request->input('address');
-        $profile->state = $request->input('state');
-        $profile->zipcode = $request->input('zipcode');
-        $profile->phone = $request->input('phone');
-        $result = $profile->save();
-        return response()->json(['returnValue' => $result]);
-    }
-
-    public function getUserByToken() {
-        $api = new ApiToken;
-        return $api->getUserByToken();
-    }
-
+    
     public function uploadResizeAvatar() {
-        $common = new Common;
-        $user = Auth::user();
-        $result = $common->uploadResizeImage('uploads/profile');
-        if ($result) {
-            $profile = $this->profile->find($user->id);
-            if ($profile) {
-                $profile->avatar = $result;//$result['path'];
-                $profile->save();
-            } else {
-                $data['user_id'] = $user->id;
-                $data['avatar'] = $result;
-                $this->profile->create($data);
-            }
-            return response()->json([
-                    'error' => false,
-                    'message' => '',
-                    'path' => $result,
-                    'code' => 200], 200
-            )->header('Content-Type', 'application/json');
-        }
-        return response()->json([
-                    'error' => false,
-                    'message' => '',
-                    'code' => 200], 200
-        )->header('Content-Type', 'application/json');
+        $result = $this->repoProfile->uploadResizeAvatar('uploads/profile');
+        if($result)
+            return $this->common->responseJson(true, 200, '', ['path' => $result]); 
+        return $this->common->responseJson(false);
     }
 
     public function selectCompany($company_id){
@@ -146,9 +105,7 @@ class PoolOwnerController extends Controller {
                     $message->to($company->email);
             });
             $this->notification->saveNotification($company->user_id,$content,false);
-            
         }
-
         return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
@@ -169,92 +126,38 @@ class PoolOwnerController extends Controller {
         return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
-    public function ratingCompany(Request $request){
+    public function ratingCompany(Request $request) {
         $point = $request->input('company_point');
         $company_id = $request->input('company_id');
-        if(!isset($point)||$point==0){
+        if (!isset($point) || $point == 0) {
             $point = 1;
         }
         $user_id = Auth::id();
         $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
         return redirect()->route('poolowner');
     }
-    
+
     public function saveNewEmail(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = User::find($obj->id);
-        $oldEmail = $obj->email;
-        $email = $request->input('email');
-        $result = false;
-        if($obj->email != $email) {
-            $obj->email = $email;
-            try {
-                $obj->save();
-                $data = [
-                    'email' => [$email, $oldEmail],
-                    'subject' => 'Changed email',
-                    'data' => []
-                ];
-                $common = new Common;
-                $common->sendmail('emails.verifytpl', $data);
-                $result = true;
-            } catch (Exception $e) {
-            }
-        }
-        return response()->json([
-                    'success' => $result,
-                    'message' => '',
-                    'code' => 200], 200
-        )->header('Content-Type', 'application/json');
+        return $this->common->responseJson( $this->repoProfile->saveNewEmail($request->all()) );
     }
-    
+
     public function saveNewPassword(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = User::find($obj->id);
-        $result = false;
-        $password = \Hash::make($request->input('password'));
-        $newpwd = $request->input('new-password');
-        $rewpwd = $request->input('re-password');
-        //dd($obj->password,$password, $request->input('password'));
-        if(($obj->password==$password) && ($newpwd==$rewpwd)) {
-            $obj->password = $newpwd;
-            $result = $obj->save();
-        }
-        return response()->json([
-                    'success' => $result,
-                    'message' => '',
-                    'code' => 200], 200
-        )->header('Content-Type', 'application/json');
+        return $this->common->responseJson( $this->repoProfile->saveNewPassword($request->all()) );
     }
-    
+
     public function saveProfile(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = Profile::find($obj->id);
-        $obj->fullname = $request->input('fullname');
-        $obj->address = $request->input('address');
-        $obj->state = $request->input('state');
-        $obj->zipcode = $request->input('zipcode');
-        $obj->city = $request->input('city');
-        $result = $obj->save();
-        return response()->json([
-                    'error' => !$result,
-                    'message' => '',
-                    'code' => 200], 200
-        )->header('Content-Type', 'application/json');
+        return $this->common->responseJson( $this->repoProfile->saveProfile($request->all()) );
     }
-    
+
     public function savePoolInfo(Request $request) {
-        dd($request->all());
+        $order = new OrderRepository;
+        return $this->common->responseJson($order->savePoolInfo($request->all()));
     }
 
-    public function updateBillingInfo(Request $request){
-        $user = $this->getUserByToken();
+    public function updateBillingInfo(Request $request) {
+        $user = $this->common->getUserByToken();
         $result = $this->billing->updateBillingInfo($user->id, $request->all());
-
-        return response()->json([
-                    'error' => !$result,
-                    'message' => '',
-                    'code' => 200], 200
-        )->header('Content-Type', 'application/json');
+        return $this->common->responseJson($result);
     }
+
 }

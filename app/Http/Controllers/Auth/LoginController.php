@@ -9,7 +9,9 @@ use App\Repositories\AclRepository;
 use Auth;
 use App\Models\User;
 
-//use App\Repositories\UserRepository;
+use App\Repositories\UserRepository;
+use App\Http\Requests\TechnicianRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller {
     /*
@@ -31,14 +33,16 @@ use AuthenticatesUsers;
      * @var string
      */
     protected $redirectTo = '/home';
+    protected $user;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct(UserRepository $user) {
         $this->middleware('guest', ['except' => 'logout']);
+        $this->user = $user;
     }
 
     protected function sendLoginResponse(Request $request) {
@@ -76,6 +80,35 @@ use AuthenticatesUsers;
         }
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
+    }
+
+
+    public function verify($confirmCode) 
+    {
+        $user = $this->user->getUserByTocken($confirmCode);
+        if(isset($user)){
+            $email = $user->email;
+            return view('technician.verify',compact(['email','confirmCode']));
+        }else{
+            return Redirect::to('/page-not-found'); 
+        }
+        
+    }
+
+    public function confirm(TechnicianRequest $request){
+        $result = $this->user->confirmTechnicianAccount($request->all());
+        if($result){
+            $data = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'status' => 'active',
+            ];
+
+            if (Auth::attempt($data)) {
+                return $this->sendLoginResponse($request);
+            }
+        }
+        return Redirect::to('/page-not-found'); 
     }
 
 }

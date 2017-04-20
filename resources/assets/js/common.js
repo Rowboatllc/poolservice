@@ -1,19 +1,12 @@
 jQuery(document).ready(function () {
-    /*function saveForm($form, callback) {
-        sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
-            (callback || jQuery.noop)(result);
-        }, function () {
-            console.log('something wrong');
-        })
-    }*/
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             //console.log(isValidate($fieldset), $fieldset);
             //return;
             if(!isValidate($fieldset))
@@ -26,17 +19,19 @@ jQuery(document).ready(function () {
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
         }).on('click', '.upload-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('input[type="file"]').trigger('click');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.save-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('form').submit();
         }).on('click', '.cancel-editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.inputerror').removeClass('inputerror');
+            //revertEditableFieldValues($fieldset);
         });
     }
 
@@ -172,7 +167,7 @@ ajaxUploadFile = {
     resetUpload: function(form, callback) {
         var result = jQuery('#'+this.frameName).contents().find('body').text();
         result = JSON.parse(result);
-        if(result.error==false) {
+        if(result.success==true) {
             if(typeof callback == 'function')
                 callback(form, result);
         } else {
@@ -245,8 +240,17 @@ function getEditableFieldValues($obj){
     return values;
 }
 
+function revertEditableFieldValues($obj){
+    $obj.find('.contenteditable').each(function(){
+        let $me = jQuery(this);
+        let value = $me.data('value');
+        $me.is(':input') ? $me.val(value) : $me.text(value);
+    });
+}
+
 function saveEditableContent($obj, callback) {
-    var data = getEditableFieldValues( $obj );
+    let data = getEditableFieldValues( $obj );
+    console.log(data);
     data = jQuery.param(data);
     sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
         (callback || jQuery.noop)(result);

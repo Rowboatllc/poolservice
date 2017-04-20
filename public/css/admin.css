@@ -8351,7 +8351,7 @@ span.stars span {
 }
 
 .col {
-  padding-bottom: 15px;
+  padding-bottom: 7px;
 }
 
 .modal-content form {
@@ -8832,8 +8832,13 @@ span.stars span {
   text-transform: uppercase;
 }
 
-.poolowner_poolinfo .icon.savefieldset {
+.poolowner_poolinfo .icon.saveform-fieldset {
   margin-left: 100px;
+}
+
+.poolowner_poolinfo input[type="checkbox"] {
+  margin-left: -32px;
+  margin-top: -2px;
 }
 
 .my-pool-service-company tr td {

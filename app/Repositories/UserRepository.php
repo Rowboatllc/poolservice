@@ -251,4 +251,25 @@ class UserRepository
     public function getUserByUserId($user_id){
         return $this->user->find($user_id);
     }
+
+    public function confirmTechnicianAccount(array $array)
+    {
+        $user =  $this->user->where([
+            ['confirmation_code', $array['confirmCode']],
+            ['email', $array['email']],
+            ['status', 'pending'],            
+            ])->first();
+        if(isset($user)){
+            $user->password = bcrypt($array['password']);
+            $user->status = 'active';
+            return $user->save();
+        }else{
+            return false;
+        }
+    }
+
+    public function getUserByTocken($confirmCode){
+        return $this->user->where([['confirmation_code', $confirmCode],['status', 'pending']])->first();
+    }
+
 }

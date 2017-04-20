@@ -23,7 +23,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('login/{token?}/{email?}', array('uses' => 'UserController@showLogin'))->name('login');
     Route::post('login', array('uses' => 'UserController@doLogin'))->name('login');
 
-    Route::get('/service-company', array('uses' => 'CompanyController@index'))->name('service-company');
+    Route::get('/service-company', array('uses' => 'CompanyController@showCompanyDashboard'))->name('service-company');
 
     Route::group(['prefix' => 'register'], function () {
         Route::get('/pool-owner-register', array('uses' => 'RegisServiceController@poolOwnerIndex'))->name('pool-owner-register');
@@ -36,29 +36,35 @@ Route::group(['middleware' => ['guest']], function () {
         Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
         Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
     });
+
+    Route::group(['prefix' => 'technician'], function () {
+        Route::get('verify/{confirmCode}', array('uses' => 'Auth\LoginController@verify'))->name('technician-verify');
+        Route::post('verify', array('uses' => 'Auth\LoginController@confirm'))->name('technician-confirm');
+    });
 });
 
 
 Route::group(['middleware' => ['auth']], function () {
-    
+
     Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
     Route::group(['prefix' => 'poolowner'], function () {
         Route::get('', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('poolowner');
         Route::get('select-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select-company');
         Route::get('select-new-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
         Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
+    });
+
+    Route::group(['prefix' => 'service-company'], function () {
+        Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
+    });
+
+    Route::group(['prefix' => 'technician'], function () {
+        Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
         
     });
 
-    // Route::group(['prefix' => 'service-company'], function () {
-    //     Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
-        
-    // });
-
     Route::group(['middleware' => ['permission']], function () {
-        
         Route::group(['prefix' => 'admin'], function () {
-            
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
             Route::get('poolowner', 'Admin\PoolOwnerController@index')->name('admin-poolowner');
             Route::get('poolservice', 'Admin\PoolServiceController@index')->name('admin-poolservice');
@@ -73,18 +79,14 @@ Route::group(['middleware' => ['auth']], function () {
             // Token
             Route::get('deletetoken/{id}', 'TestController@deleteToken');
             Route::get('revoketoken/{id}/{revoke?}', 'TestController@revokeToken');
-            
+
             //Option
             Route::get('option', array('uses' => 'Admin\OptionController@index'))->name('admin-option');
-            
+
             //Profile
-            //Route::post('ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
-            
+            Route::post('ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
         });
     });
 });
-
-Route::post('admin/ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
-Route::get('confirm-by-email/{email}/{code}', array('uses' => 'TestController@confirmByEmail'))->name('confirm-by-email');
-
-Route::get('testmail', array('uses' => 'TestController@testmail'))->name('confirm-by-email');
+//Route::get('confirm-by-email/{email}/{code}', array('uses' => 'TestController@confirmByEmail'))->name('confirm-by-email');
+//Route::get('testmail', array('uses' => 'TestController@testmail'))->name('confirm-by-email');
