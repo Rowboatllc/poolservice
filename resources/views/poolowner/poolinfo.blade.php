@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-9">
-            <div class="fieldset" method="POST" action="{{route('admin-save-poolowner-poolinfo')}}" >
+            <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-poolinfo')}}" >
                 <div class="checkbox">
                     <label><input data-child=".rdo_weekly_pool" name="is-pool[]" type="checkbox" class="is-pool" value="pool">Pool</label>
                     <span class="glyphicon glyphicon-floppy-save saveform-fieldset icon badge no_display"></span>

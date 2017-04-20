@@ -32,20 +32,14 @@ Route::post('get-page', 'PageController@getPage');
 Route::group(['prefix' => 'admin/option'], function () {
     Route::post('removeoption', array('uses' => 'Admin\OptionController@removeoption'))->name('remove-option');
     Route::post('save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
-    Route::post('save-group', array('uses' => 'Admin\OptionController@saveGroup'))->name('save-groupoption');
-    
+    Route::post('save-group', array('uses' => 'Admin\OptionController@saveGroup'))->name('save-groupoption');    
 });
 
-Route::group(['prefix' => 'admin'], function () {
-    // Poolowner
-    Route::post('poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-poolowner-profile');
-    Route::post('save-email', 'PoolOwner\PoolOwnerController@saveNewEmail')->name('poolowner-save-email');
-    Route::post('save-password', 'PoolOwner\PoolOwnerController@saveNewPassword')->name('poolowner-save-password');
-    Route::post('save-poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('admin-save-poolowner-profile');
-    Route::post('save-poolowner-poolinfo', 'PoolOwner\PoolOwnerController@savePoolInfo')->name('admin-save-poolowner-poolinfo');
-});
-
-Route::group(['prefix' => 'poolowner'], function () {
+Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function () {
     Route::post('update-billing-info', array('uses' => 'PoolOwner\PoolOwnerController@updateBillingInfo'))->name('update-billing-info');
+    Route::post('save-email', 'PoolOwner\PoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
+    Route::post('save-password', 'PoolOwner\PoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
+    Route::post('save-poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
+    Route::post('save-poolowner-poolinfo', 'PoolOwner\PoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
 });  
             

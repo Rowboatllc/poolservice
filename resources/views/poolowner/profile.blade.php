@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="fieldset" method="POST" action="{{route('poolowner-save-email')}}">
+            <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-email')}}">
                 <div class="col-md-3 text-right col"> <span class="labeltext">Email:</span> </div>
                 <div class="col-md-9 col">
                     <div name="email" class="contenteditable" contenteditable="true">{{ $profile->email }}</div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="fieldset pwdfieldset" method="POST" action="{{route('poolowner-save-password')}}">
+            <div class="fieldset pwdfieldset" method="POST" action="{{route('dashboard-poolowner-save-password')}}">
                 <div class="col-md-3 text-right col"><span class="labeltext">Password:</span></div>
                 <div class="col-md-9 col">
                     <div name="password" class="contenteditable password" contenteditable="true" data-validate="require"></div>
@@ -47,7 +47,7 @@
                 <div class="clearfix"></div>
             </div>
             
-            <div class="fieldset" method="POST" action="{{route('admin-save-poolowner-profile')}}">
+            <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-profile')}}">
                 <div class="col-md-3 text-right col"><span class="labeltext">First and last name:</span></div>
                 <div class="col-md-9 col">
                     <div name="fullname" class="contenteditable" contenteditable="true" data-validate="require">{{ $profile->fullname }}</div>
