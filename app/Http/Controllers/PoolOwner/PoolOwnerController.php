@@ -18,6 +18,7 @@ use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
+use App\Repositories\NotificationRepositoryInterface;
 
 class PoolOwnerController extends Controller {
 
@@ -30,13 +31,19 @@ class PoolOwnerController extends Controller {
     protected $billing;
     protected $profile;
     protected $user;
+    protected $notification;
     
-    public function __construct(UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
+    
+    public function __construct(
+        UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, 
+        BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
         parent::__construct($page);
         $this->user = $user;        
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
+        $this->notification = $notification;
+        
     }
 
     public function index(Request $request) {
@@ -131,12 +138,15 @@ class PoolOwnerController extends Controller {
         $result = $this->company->selectCompany($user_id,$company_id);
         if($result){
             $company = $this->company->getCompanyById($company_id);
+            $content = 'Customers sign up for your service';
             Mail::send('emails.select-company', compact('company'), function($message) 
-            use ($company)
+            use ($company, $content)
             {     
-                    $message->subject('Customers sign up for your service');
+                    $message->subject($content);
                     $message->to($company->email);
             });
+            $this->notification->saveNotification($company->user_id,$content,false);
+            
         }
 
         return redirect()->route('poolowner',['tab' => "service_company"]);
@@ -147,12 +157,14 @@ class PoolOwnerController extends Controller {
         $result = $this->company->removeAllSelectCompany($user_id);
         if($result){
             $company = $this->company->getCompanyById($company_id);
+            $content = 'Customers remove for your service';
             Mail::send('emails.remove-company', compact('company'), function($message) 
-            use ($company)
+            use ($company, $content)
             {     
-                    $message->subject('Customers remove for your service');
+                    $message->subject($content);
                     $message->to($company->email);
             });
+            $this->notification->saveNotification($company->user_id,$content,false);
         }
         return redirect()->route('poolowner',['tab' => "service_company"]);
     }
