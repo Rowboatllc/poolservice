@@ -39,11 +39,17 @@ class UserController extends Controller {
 
     public function doLogin(Request $request) 
     {
-        // validate login
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // login passed and navigate to home screen
-            return redirect()->route('home');
-        }
+        $user=$request->only('email', 'password');
+        // check email and password is correct and actice
+        $valid=$this->user->checkLogin($user);
+        if($valid)
+        {
+            // validate login
+            if (Auth::attempt($user)) {
+                // login passed and navigate to home screen
+                return redirect()->route('home');
+            }
+        }        
 
         // validation failed and redirect user to login again 
         return redirect()->back()

@@ -222,14 +222,10 @@ class UserRepository
         ])->save();
     }
 
-    public function login(array $arr)
+    public function checkLogin(array $arr)
     {
         $user=$this->user->where('email', $arr['email'])
-                        ->where('password', $arr['password'])->first();
-        
-        return $user->forceFill([
-            'password' => bcrypt($arr['password']),
-            'status' => 'unclaimed',
-        ])->save();
+                        ->whereNotIn('status', ['pending'])->first();
+        return $user!=null;
     }
 }
