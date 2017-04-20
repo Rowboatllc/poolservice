@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
+use Mail;
 
 use App\Common\Common;
 use App\Models\User;
@@ -16,6 +17,7 @@ use App\Models\BillingInfo;
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
+use App\Repositories\UserRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -27,18 +29,21 @@ class PoolOwnerController extends Controller {
     protected $company;
     protected $billing;
     protected $profile;
-
-    public function __construct(PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
+    protected $user;
+    
+    public function __construct(UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
         parent::__construct($page);
+        $this->user = $user;        
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
     }
 
-    public function index() {
+    public function index(Request $request) {
         $this->loadHeadInPage('home');
         $user = Auth::user();
         $common = new Common;
+        $tab = $request->input('tab');
 
         // profile
         $profile = $this->profile->find($user->id);
@@ -51,7 +56,6 @@ class PoolOwnerController extends Controller {
         //Billing Info
 
         $billing_info = $this->billing->getBillingInfo($user->id);
-        $isEdit = true;
 
         // my pool service company
         $companys = $this->company->getSelectedCompany($user->id);
@@ -63,7 +67,7 @@ class PoolOwnerController extends Controller {
             $company_id = $companys[0]->id;
             $point = $this->company->getRatingCompany($user->id, $company_id);
         }
-        return view('poolowner.index', compact(['companys','company_id','point', 'profile', 'billing_info', 'isEdit']));
+        return view('poolowner.index', compact(['tab', 'companys','company_id','point', 'profile', 'billing_info']));
         //return view('poolowner.index', compact(['companys','company_id','point', 'profile',  'isEdit']));
         
     }
@@ -99,7 +103,6 @@ class PoolOwnerController extends Controller {
         $user = Auth::user();
         $result = $common->uploadResizeImage('uploads/profile');
         if ($result) {
-
             $profile = $this->profile->find($user->id);
             if ($profile) {
                 $profile->avatar = $result;//$result['path'];
@@ -126,13 +129,32 @@ class PoolOwnerController extends Controller {
     public function selectCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->selectCompany($user_id,$company_id);
-        return redirect()->route('poolowner');
+        if($result){
+            $company = $this->company->getCompanyById($company_id);
+            Mail::send('emails.select-company', compact('company'), function($message) 
+            use ($company)
+            {     
+                    $message->subject('Customers sign up for your service');
+                    $message->to($company->email);
+            });
+        }
+
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
-    public function selectNewCompany(){
+    public function selectNewCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->removeAllSelectCompany($user_id);
-        return redirect()->route('poolowner');
+        if($result){
+            $company = $this->company->getCompanyById($company_id);
+            Mail::send('emails.remove-company', compact('company'), function($message) 
+            use ($company)
+            {     
+                    $message->subject('Customers remove for your service');
+                    $message->to($company->email);
+            });
+        }
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request){
@@ -146,35 +168,48 @@ class PoolOwnerController extends Controller {
         return redirect()->route('poolowner');
     }
     
-    public function saveAccount(Request $request) {
+    public function saveNewEmail(Request $request) {
         $obj = $this->getUserByToken();
         $obj = User::find($obj->id);
+        $oldEmail = $obj->email;
         $email = $request->input('email');
         $result = false;
-        $password = \Hash::make($request->input('password'));
         if($obj->email != $email) {
             $obj->email = $email;
-            $haveChange = true;
-        }
-        if($obj->password != \Hash::make($password)) {
-            $obj->password = $password;
-            $haveChange = true;
-        }
-        if(isset($haveChange)) {
-            $obj->confirmation_code = str_random(30);
-            $obj->status = 'pending';
-            $result = $obj->save();
-            if($result) {
-                $info = [
-                    'email' => $email,
-                    'code' => $obj->confirmation_code
+            try {
+                $obj->save();
+                $data = [
+                    'email' => [$email, $oldEmail],
+                    'subject' => 'Changed email',
+                    'data' => []
                 ];
                 $common = new Common;
-                $common->verifyEmail($info);
+                $common->sendmail('emails.verifytpl', $data);
+                $result = true;
+            } catch (Exception $e) {
             }
         }
         return response()->json([
-                    'error' => $result,
+                    'success' => $result,
+                    'message' => '',
+                    'code' => 200], 200
+        )->header('Content-Type', 'application/json');
+    }
+    
+    public function saveNewPassword(Request $request) {
+        $obj = $this->getUserByToken();
+        $obj = User::find($obj->id);
+        $result = false;
+        $password = \Hash::make($request->input('password'));
+        $newpwd = $request->input('new-password');
+        $rewpwd = $request->input('re-password');
+        //dd($obj->password,$password, $request->input('password'));
+        if(($obj->password==$password) && ($newpwd==$rewpwd)) {
+            $obj->password = $newpwd;
+            $result = $obj->save();
+        }
+        return response()->json([
+                    'success' => $result,
                     'message' => '',
                     'code' => 200], 200
         )->header('Content-Type', 'application/json');
@@ -202,22 +237,10 @@ class PoolOwnerController extends Controller {
 
     public function updateBillingInfo(Request $request){
         $user = $this->getUserByToken();
-    
-        $billingInfo = new BillingInfo();
-        $billingInfo->user_id = $user->id;
-        $billingInfo->name_card = $request->input('name_card');
-        $billingInfo->card_last_digits = $request->input('card_last_digits');
-        $billingInfo->expiration_date = $request->input('expiration_date');
-        $billingInfo->address = $request->input('address');
-        $billingInfo->city = $request->input('city');
-        $billingInfo->state = $request->input('state');
-        $billingInfo->zipcode = $request->input('zipcode');
-        $billingInfo->token = $request->input('token');
-        
-        $result = $this->billing->updateBillingInfo($billingInfo);
+        $result = $this->billing->updateBillingInfo($user->id, $request->all());
 
         return response()->json([
-                    'error' => $result,
+                    'error' => !$result,
                     'message' => '',
                     'code' => 200], 200
         )->header('Content-Type', 'application/json');

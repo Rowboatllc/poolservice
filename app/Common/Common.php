@@ -50,10 +50,10 @@ class Common {
         }
     }
 
-    public function verifyEmail($info) {
-        Mail::send('emails.verifytpl', ['confirmation_code' => $info['code'], 'email' => $info['email']], function($message)
+    public function sendmail($tpl, $info) {
+        Mail::send($tpl, $info['data'], function($message)
                 use ($info) {
-            $message->subject('Authentication your new account');
+            $message->subject($info['subject']);
             $message->to($info['email']);
         });   
     }

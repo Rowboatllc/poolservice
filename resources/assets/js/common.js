@@ -1,54 +1,4 @@
 jQuery(document).ready(function () {
-
-    function sendData(url, data, method, callback, error) {
-        showLoading();
-        method = method || 'POST';
-        var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-        if (typeof data == 'string') {
-            data = data + '&_token=' + token;
-        } else {
-            data._token = token;
-        }
-        jQuery.ajax({
-            url: url,
-            method: method,
-            data: data,
-            //dataType: "application/json",
-            success: function (result) {
-                (callback || jQuery.noop)(result);
-                hideLoading();
-            },
-            error: function (result) {
-                (error || jQuery.noop)(result);
-                hideLoading();
-            }
-        });
-    }
-
-    function sendDataWithToken(url, data, method, callback, error) {
-        showLoading();
-        var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
-        method = method || 'POST';
-        jQuery.ajax({
-            url: url,
-            method: method,
-            data: data,
-            //dataType: "application/json",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": "Bearer " + key
-            },
-            success: function (result) {
-                (callback || jQuery.noop)(result);
-                hideLoading();
-            },
-            error: function (result) {
-               (error || jQuery.noop)(result);
-               hideLoading();
-            }
-        });
-    }
-
     /*function saveForm($form, callback) {
         sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
             (callback || jQuery.noop)(result);
@@ -56,17 +6,6 @@ jQuery(document).ready(function () {
             console.log('something wrong');
         })
     }*/
-    
-    function saveEditableContent($obj, callback) {
-        var data = getEditableFieldValues( $obj );
-        data = jQuery.param(data);
-        sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
-            (callback || jQuery.noop)(result);
-        }, function () {
-            console.log('something wrong');
-        });
-    }
-
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
@@ -80,8 +19,9 @@ jQuery(document).ready(function () {
             if(!isValidate($fieldset))
                 return;
             saveEditableContent($fieldset, function(result){
-                if(result.error==false)
-                    console.log('changed');
+                if(result.success!=true)
+                    return;
+                console.log('changed');
                 $fieldset.find('.contenteditable').toggleClass('active');
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
@@ -101,21 +41,6 @@ jQuery(document).ready(function () {
     }
 
     globalAssignEvent();
-
-    function showLoading() {
-    }
-    function hideLoading() {
-    }
-
-    function getEditableFieldValues($obj){
-        let values = [];
-        $obj.find('.contenteditable').each(function(){
-            let $me = jQuery(this);
-            let value = $me.is('select') ? $me.val() : $me.text();
-            values.push({ name : $me.attr('name'), value: value });
-        });
-        return values;
-    }
     
     var dboptionMethods = {
         params: function () {
@@ -204,7 +129,6 @@ jQuery(document).ready(function () {
 
 });
 
-
 // Upload ajax
 ajaxUploadFile = {
     frameName: 'frameUpload',
@@ -257,16 +181,79 @@ ajaxUploadFile = {
     }
 }
 
-// Public function
-function afterUploadedImage(form, result) {
-    $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
-    let cur = new Date();
-    let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
-    $img.attr('src', newPath);
-    document.querySelector(form).reset();
-    jQuery('#'+ajaxUploadFile.frameName).remove();
+function showLoading() {
+}
+function hideLoading() {
+}
+    
+function sendData(url, data, method, callback, error) {
+    showLoading();
+    method = method || 'POST';
+    var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
+    if (typeof data == 'string') {
+        data = data + '&_token=' + token;
+    } else {
+        data._token = token;
+    }
+    jQuery.ajax({
+        url: url,
+        method: method,
+        data: data,
+        //dataType: "application/json",
+        success: function (result) {
+            (callback || jQuery.noop)(result);
+            hideLoading();
+        },
+        error: function (result) {
+            (error || jQuery.noop)(result);
+            hideLoading();
+        }
+    });
 }
 
+function sendDataWithToken(url, data, method, callback, error) {
+    showLoading();
+    var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
+    method = method || 'POST';
+    jQuery.ajax({
+        url: url,
+        method: method,
+        data: data,
+        //dataType: "application/json",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + key
+        },
+        success: function (result) {
+            (callback || jQuery.noop)(result);
+            hideLoading();
+        },
+        error: function (result) {
+           (error || jQuery.noop)(result);
+           hideLoading();
+        }
+    });
+}
+
+function getEditableFieldValues($obj){
+    let values = [];
+    $obj.find('.contenteditable').each(function(){
+        let $me = jQuery(this);
+        let value = $me.is(':input') ? $me.val() : $me.text();
+        values.push({ name : $me.attr('name'), value: value });
+    });
+    return values;
+}
+
+function saveEditableContent($obj, callback) {
+    var data = getEditableFieldValues( $obj );
+    data = jQuery.param(data);
+    sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+        (callback || jQuery.noop)(result);
+    }, function () {
+        console.log('something wrong');
+    });
+}
 
 function isValidate($fieldset) {
     let $fields = $fieldset.find('[data-validate]');
@@ -277,7 +264,7 @@ function isValidate($fieldset) {
             result = false;
         }
     });
-    return result;
+    return (result && ($fieldset.find('.inputerror').length==0));
 }
 
 function checkOneField(field) {
@@ -305,37 +292,3 @@ function checkContent(value, type) {
         break;
     }
 }
-
-
-// Poolowner poolinfo
-jQuery(document).ready(function () {
-    jQuery('.poolowner_poolinfo input[type="checkbox"]').bind('click', function(){
-        $children = jQuery(this).data('child');
-        $children = jQuery($children);
-        if(!jQuery(this).is(':checked')) {
-            $children.each(function(){
-                jQuery(this).eq(0).prop('checked', false);
-            })
-        } else {
-            $children.first().eq(0).prop('checked', true);
-        }
-    });
-    jQuery('.poolowner_poolinfo input[type="radio"]').bind('click', function(){
-        $parent = jQuery(this).data('parent');
-        $parent = jQuery($parent);
-        $parent.eq(0).prop('checked', true);
-    });
-    jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
-        $obj = $(this).parents('.fieldset');
-        let data = $obj.find('input').serialize();
-        if(data=='') {
-            //show error
-        } else {
-            sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
-                (callback || jQuery.noop)(result);
-            }, function () {
-                console.log('something wrong');
-            });
-        }
-    });
-});

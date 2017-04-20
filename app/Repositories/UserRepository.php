@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\DB;
 class UserRepository
 {
     protected $user;
+    protected $profile;
 	
-    public function __construct(User $user)
+    public function __construct(User $user, Profile $profile)
     {
         $this->user = $user;
+        $this->profile = $profile;
     }
 
 	public function AddNewPoolOwnerSubscriber(array $array)
@@ -227,5 +229,13 @@ class UserRepository
         $user=$this->user->where('email', $arr['email'])
                         ->whereNotIn('status', ['pending'])->first();
         return $user!=null;
+    }
+
+    public function getProfileByUserId($user_id){
+        return $this->profile->find($user_id);
+    }
+
+    public function getUserByUserId($user_id){
+        return $this->user->find($user_id);
     }
 }

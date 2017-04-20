@@ -13,7 +13,8 @@ class CompanyRepository implements CompanyRepositoryInterface
     protected $company;
     protected $order;
     protected $selected;
-    protected $rating;    
+    protected $rating;
+    protected $user;    
 
     public function __construct(Company $company, Order $order, Selected $selected, Rating $rating)
     {
@@ -21,6 +22,7 @@ class CompanyRepository implements CompanyRepositoryInterface
         $this->order = $order;
         $this->selected = $selected;
         $this->rating = $rating;
+        $this->user = app('App\Repositories\UserRepository');
     }
 
     public function getAllCompanySupportOwner($user_id){
@@ -44,6 +46,12 @@ class CompanyRepository implements CompanyRepositoryInterface
     private function cmp($a, $b)
     {
         return strcmp($b->point, $a->point);
+    }
+
+    public function getCompanyById($company_id){
+        $company = $this->company->find($company_id);
+        $company->email = $this->user->getUserByUserId($company->user_id)->email;
+        return $company;
     }
 
     public function getSelectedCompany($user_id){

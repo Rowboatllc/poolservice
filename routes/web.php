@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'poolowner'], function () {
         Route::get('', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('poolowner');
         Route::get('select-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectCompany'))->name('select-company');
-        Route::get('select-new-company', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
+        Route::get('select-new-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
         Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
         
     });
@@ -79,3 +79,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::post('admin/ajax-upload-file', 'PoolOwner\PoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
 Route::get('confirm-by-email/{email}/{code}', array('uses' => 'TestController@confirmByEmail'))->name('confirm-by-email');
+
+Route::get('testmail', array('uses' => 'TestController@testmail'))->name('confirm-by-email');

@@ -17,7 +17,7 @@ const { mix } = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js');
 
 // common.js
-mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/common.js'], 'public/js/common.js');
+mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/poolowner.js', 'resources/assets/js/common.js'], 'public/js/common.js');
 
 // admin.js
 mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/admin/admin.js'], 'public/js/admin/admin.js');

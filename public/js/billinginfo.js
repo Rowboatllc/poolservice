@@ -52,7 +52,7 @@ function globalAssignEventBilling() {
 		if(!isValidate($fieldset))
 			return;
 		saveEditableDataBilling($fieldset, function(result){
-			if(result.error==false){
+			if(result.error==true){
 				$("#payment-errors").html("update your billing info error.");
 				$("#payment-errors").css("display", "block");
 				$('#billing_ccv').css("display", "inline");
