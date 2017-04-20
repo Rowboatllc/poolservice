@@ -2,6 +2,7 @@
 
 namespace App\Common;
 
+use App\Repositories\ApiToken;
 use Illuminate\Support\Facades\Storage;
 use Request;
 use Auth;
@@ -64,6 +65,11 @@ class Common {
             $message->subject($info['subject']);
             $message->to($info['email']);
         });
+    }
+    
+    public function getUserByToken() {
+        $api = new ApiToken;
+        return $api->getUserByToken();
     }
 
     public function checkValidZipcode($code) {

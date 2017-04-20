@@ -167,7 +167,7 @@ ajaxUploadFile = {
     resetUpload: function(form, callback) {
         var result = jQuery('#'+this.frameName).contents().find('body').text();
         result = JSON.parse(result);
-        if(result.error==false) {
+        if(result.success==true) {
             if(typeof callback == 'function')
                 callback(form, result);
         } else {

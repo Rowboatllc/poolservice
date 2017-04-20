@@ -5,18 +5,22 @@ namespace App\Http\Controllers\PoolOwner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Common\ZipcodeState;
 use App\Repositories\ApiToken;
 use Mail;
 use App\Common\Common;
+
 use App\Models\User;
 use App\Models\Profile;
-use App\Models\BillingInfo;
 use App\Models\Order;
+
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
+use App\Repositories\NotificationRepositoryInterface;
+use App\Repositories\OrderRepository;
+
+//use App\Repositories\ProfileRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -30,14 +34,21 @@ class PoolOwnerController extends Controller {
     protected $profile;
     protected $user;
     protected $common;
-
-    public function __construct(UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) {
+    protected $notification;
+    protected $repoProfile;
+    
+    
+    public function __construct(
+        UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, 
+        BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
         parent::__construct($page);
-        $this->user = $user;
+        $this->user = $user;        
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
         $this->common = app('App\Common\Common');
+        $this->notification = $notification;
+        $this->repoProfile = app('App\Repositories\ProfileRepository');
     }
 
     public function index(Request $request) {
@@ -73,58 +84,46 @@ class PoolOwnerController extends Controller {
         $this->loadHeadInPage('home');
         return view('started');
     }
-
-    public function getUserByToken() {
-        $api = new ApiToken;
-        return $api->getUserByToken();
-    }
-
+    
     public function uploadResizeAvatar() {
-        $common = new Common;
-        $user = Auth::user();
-        $result = $common->uploadResizeImage('uploads/profile');
-        if ($result) {
-            $profile = $this->profile->find($user->id);
-            if ($profile) {
-                $profile->avatar = $result;
-                $profile->save();
-            } else {
-                $data['user_id'] = $user->id;
-                $data['avatar'] = $result;
-                $this->profile->create($data);
-            }
-            return $this->common->responseJson(false, 200, '', ['path' => $result]);
-        }
+        $result = $this->repoProfile->uploadResizeAvatar('uploads/profile');
+        if($result)
+            return $this->common->responseJson(true, 200, '', ['path' => $result]); 
         return $this->common->responseJson(false);
     }
 
-    public function selectCompany($company_id) {
+    public function selectCompany($company_id){
         $user_id = Auth::id();
-        $result = $this->company->selectCompany($user_id, $company_id);
-        if ($result) {
+        $result = $this->company->selectCompany($user_id,$company_id);
+        if($result){
             $company = $this->company->getCompanyById($company_id);
-            Mail::send('emails.select-company', compact('company'), function($message)
-                    use ($company) {
-                $message->subject('Customers sign up for your service');
-                $message->to($company->email);
+            $content = 'Customers sign up for your service';
+            Mail::send('emails.select-company', compact('company'), function($message) 
+            use ($company, $content)
+            {     
+                    $message->subject($content);
+                    $message->to($company->email);
             });
+            $this->notification->saveNotification($company->user_id,$content,false);
         }
-
-        return redirect()->route('poolowner', ['tab' => "service_company"]);
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
-    public function selectNewCompany($company_id) {
+    public function selectNewCompany($company_id){
         $user_id = Auth::id();
         $result = $this->company->removeAllSelectCompany($user_id);
-        if ($result) {
+        if($result){
             $company = $this->company->getCompanyById($company_id);
-            Mail::send('emails.remove-company', compact('company'), function($message)
-                    use ($company) {
-                $message->subject('Customers remove for your service');
-                $message->to($company->email);
+            $content = 'Customers remove for your service';
+            Mail::send('emails.remove-company', compact('company'), function($message) 
+            use ($company, $content)
+            {     
+                    $message->subject($content);
+                    $message->to($company->email);
             });
+            $this->notification->saveNotification($company->user_id,$content,false);
         }
-        return redirect()->route('poolowner', ['tab' => "service_company"]);
+        return redirect()->route('poolowner',['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request) {
@@ -139,69 +138,24 @@ class PoolOwnerController extends Controller {
     }
 
     public function saveNewEmail(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = User::find($obj->id);
-        $oldEmail = $obj->email;
-        $email = $request->input('email');
-        $result = false;
-        if ($obj->email != $email) {
-            $obj->email = $email;
-            try {
-                $obj->save();
-                $data = [
-                    'email' => [$email, $oldEmail],
-                    'subject' => 'Changed email',
-                    'data' => []
-                ];
-                $common = new Common;
-                $common->sendmail('emails.verifytpl', $data);
-                $result = true;
-            } catch (Exception $e) {
-                return $this->common->responseJson($result);
-            }
-        }
-        return $this->common->responseJson($result);
+        return $this->common->responseJson( $this->repoProfile->saveNewEmail($request->all()) );
     }
 
     public function saveNewPassword(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = User::find($obj->id);
-        $result = false;
-        $password = $request->input('password');
-        $newpwd = $request->input('new-password');
-        $rewpwd = $request->input('re-password');
-        if (\Hash::check($password, $obj->password)) {
-            $obj->password = \Hash::make($newpwd);
-            $result = $obj->save();
-        }
-        return $this->common->responseJson($result);
+        return $this->common->responseJson( $this->repoProfile->saveNewPassword($request->all()) );
     }
 
     public function saveProfile(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = Profile::find($obj->id);
-        $obj->fullname = $request->input('fullname');
-        $obj->address = $request->input('address');
-        $obj->state = $request->input('state');
-        $obj->zipcode = $request->input('zipcode');
-        $obj->city = $request->input('city');
-        $result = $obj->save();
-        return $this->common->responseJson($result);
+        return $this->common->responseJson( $this->repoProfile->saveProfile($request->all()) );
     }
 
     public function savePoolInfo(Request $request) {
-        $obj = $this->getUserByToken();
-        $obj = Order::where('user_id', $obj->id)->first();
-        $pool = $request->input('is-pool');
-        $water = $request->input('watertype_weekly_pool');
-        $obj->cleaning_object = $pool;
-        if ($water)
-            $obj->water = $water;
-        return $this->common->responseJson($obj->save());
+        $order = new OrderRepository;
+        return $this->common->responseJson($order->savePoolInfo($request->all()));
     }
 
     public function updateBillingInfo(Request $request) {
-        $user = $this->getUserByToken();
+        $user = $this->common->getUserByToken();
         $result = $this->billing->updateBillingInfo($user->id, $request->all());
         return $this->common->responseJson($result);
     }

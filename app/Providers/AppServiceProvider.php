@@ -41,5 +41,9 @@ class AppServiceProvider extends ServiceProvider
                 'App\Repositories\BillingInfoRepositoryInterface', 
                 'App\Repositories\BillingInfoRepository'
         );
+        $this->app->bind(
+                'App\Repositories\NotificationRepositoryInterface', 
+                'App\Repositories\NotificationRepository'
+        );
     }
 }

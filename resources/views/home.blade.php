@@ -15,6 +15,8 @@
             <div class="space-title text-center">
                     <a href="register/pool-owner-register" type="button" class="btn btn-primary">CREATE POOL OWNER ACCOUNT</a>
                     <a href="register/pool-service-register" type="button" class="btn btn-primary">CREATE POOL SERVICE ACCOUNT</a>
+
+                    <a href="service-company" type="button" class="btn btn-primary">SERVICE COMPANY</a>
                     <space />
                     <button type="button" class="btn btn-default">LEARN MORE</button>
             </div>

@@ -111,124 +111,133 @@ jQuery(document).ready(function () {
         }
     });
 });
+// Poolowner poolinfo
 jQuery(document).ready(function () {
-
-    function sendData(url, data, method, callback, error) {
-        showLoading();
-        method = method || 'POST';
-        var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-        if (typeof data == 'string') {
-            data = data + '&_token=' + token;
+    function assignEvent() {
+        jQuery('.poolowner_poolinfo input[type="checkbox"]').bind('click', function(){
+            let $children = jQuery(this).data('child');
+            $children = jQuery($children);
+            if(!jQuery(this).is(':checked')) {
+                $children.each(function(){
+                    jQuery(this).eq(0).prop('checked', false);
+                })
+            } else {
+                $children.first().eq(0).prop('checked', true);
+            }
+            toggleSaveButton();
+        });
+        jQuery('.poolowner_poolinfo input[type="radio"]').bind('click', function(){
+            let $parent = jQuery(this).data('parent');
+            $parent = jQuery($parent);
+            $parent.eq(0).prop('checked', true);
+            toggleSaveButton();
+        });
+        jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
+            let $obj = $(this).parents('.fieldset');
+            let data = $obj.find('input').serialize();
+            if(data=='') {
+                //show error
+            } else {
+                sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+                    if(result.success!=true)
+                        return
+                    console.log('saved');
+                }, function () {
+                    console.log('something wrong');
+                });
+            }
+        });
+    }
+    assignEvent();
+    function toggleSaveButton() {
+        let $obj = jQuery('.poolowner_poolinfo');
+        let data = $obj.find('input').serialize();
+        if(data=='') {
+            $obj.find('.saveform-fieldset').addClass('no_display');
         } else {
-            data._token = token;
+            $obj.find('.saveform-fieldset').removeClass('no_display');
         }
-        jQuery.ajax({
-            url: url,
-            method: method,
-            data: data,
-            //dataType: "application/json",
-            success: function (result) {
-                (callback || jQuery.noop)(result);
-                hideLoading();
-            },
-            error: function (result) {
-                (error || jQuery.noop)(result);
-                hideLoading();
-            }
-        });
     }
+});
 
-    function sendDataWithToken(url, data, method, callback, error) {
-        showLoading();
-        var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
-        method = method || 'POST';
-        jQuery.ajax({
-            url: url,
-            method: method,
-            data: data,
-            //dataType: "application/json",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": "Bearer " + key
-            },
-            success: function (result) {
-                (callback || jQuery.noop)(result);
-                hideLoading();
-            },
-            error: function (result) {
-               (error || jQuery.noop)(result);
-               hideLoading();
-            }
+function afterUploadedImage(form, result) {
+    let $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
+    let cur = new Date();
+    let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
+    $img.attr('src', newPath);
+    document.querySelector(form).reset();
+    jQuery('#'+ajaxUploadFile.frameName).remove();
+}
+
+// Poolowner profile
+jQuery(document).ready(function () {
+    let $ownerProfile = jQuery('.poolowner_profile .pwdfieldset');
+    $ownerProfile.find('[name="new-password"], [name="re-password"]').bind('keyup', function(){
+        let $newpwd = $ownerProfile.find('[name="new-password"]');
+        let $repwd = $ownerProfile.find('[name="re-password"]');
+        ( jQuery.trim($newpwd.text()) == jQuery.trim($repwd.text()) ) ? 
+            $repwd.removeClass('inputerror') : 
+            $repwd.addClass('inputerror');
+    });
+    $ownerProfile.find('.icon.editfieldset').bind('click', function(){
+        $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
+    });
+    $ownerProfile.find('.icon.cancel-editfieldset').bind('click', function(){
+        $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
+    });
+    $ownerProfile.find('.icon.save-poolownerfieldset').bind('click', function(){
+        let $fieldset = $(this).parents('.fieldset');
+        if(!isValidate($fieldset))
+            return;
+        saveEditableContent($fieldset, function(result){
+            if(result.success!=true)
+                return;
+            console.log('changed');
+            $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.icon.badge').toggleClass('no_display');
+            $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
         });
-    }
+    });
+});
 
-    /*function saveForm($form, callback) {
-        sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
-            (callback || jQuery.noop)(result);
-        }, function () {
-            console.log('something wrong');
-        })
-    }*/
-    
-    function saveEditableContent($obj, callback) {
-        var data = getEditableFieldValues( $obj );
-        data = jQuery.param(data);
-        sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
-            (callback || jQuery.noop)(result);
-        }, function () {
-            console.log('something wrong');
-        });
-    }
-
+jQuery(document).ready(function () {
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             //console.log(isValidate($fieldset), $fieldset);
             //return;
             if(!isValidate($fieldset))
                 return;
             saveEditableContent($fieldset, function(result){
-                if(result.error==false)
-                    console.log('changed');
+                if(result.success!=true)
+                    return;
+                console.log('changed');
                 $fieldset.find('.contenteditable').toggleClass('active');
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
         }).on('click', '.upload-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('input[type="file"]').trigger('click');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.save-imagefieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('form').submit();
         }).on('click', '.cancel-editfieldset', function () {
-            $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).parents('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.inputerror').removeClass('inputerror');
+            //revertEditableFieldValues($fieldset);
         });
     }
 
     globalAssignEvent();
-
-    function showLoading() {
-    }
-    function hideLoading() {
-    }
-
-    function getEditableFieldValues($obj){
-        let values = [];
-        $obj.find('.contenteditable').each(function(){
-            let $me = jQuery(this);
-            let value = $me.is('select') ? $me.val() : $me.text();
-            values.push({ name : $me.attr('name'), value: value });
-        });
-        return values;
-    }
     
     var dboptionMethods = {
         params: function () {
@@ -317,7 +326,6 @@ jQuery(document).ready(function () {
 
 });
 
-
 // Upload ajax
 ajaxUploadFile = {
     frameName: 'frameUpload',
@@ -361,7 +369,7 @@ ajaxUploadFile = {
     resetUpload: function(form, callback) {
         var result = jQuery('#'+this.frameName).contents().find('body').text();
         result = JSON.parse(result);
-        if(result.error==false) {
+        if(result.success==true) {
             if(typeof callback == 'function')
                 callback(form, result);
         } else {
@@ -370,16 +378,88 @@ ajaxUploadFile = {
     }
 }
 
-// Public function
-function afterUploadedImage(form, result) {
-    $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
-    let cur = new Date();
-    let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
-    $img.attr('src', newPath);
-    document.querySelector(form).reset();
-    jQuery('#'+ajaxUploadFile.frameName).remove();
+function showLoading() {
+}
+function hideLoading() {
+}
+    
+function sendData(url, data, method, callback, error) {
+    showLoading();
+    method = method || 'POST';
+    var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
+    if (typeof data == 'string') {
+        data = data + '&_token=' + token;
+    } else {
+        data._token = token;
+    }
+    jQuery.ajax({
+        url: url,
+        method: method,
+        data: data,
+        //dataType: "application/json",
+        success: function (result) {
+            (callback || jQuery.noop)(result);
+            hideLoading();
+        },
+        error: function (result) {
+            (error || jQuery.noop)(result);
+            hideLoading();
+        }
+    });
 }
 
+function sendDataWithToken(url, data, method, callback, error) {
+    showLoading();
+    var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
+    method = method || 'POST';
+    jQuery.ajax({
+        url: url,
+        method: method,
+        data: data,
+        //dataType: "application/json",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + key
+        },
+        success: function (result) {
+            (callback || jQuery.noop)(result);
+            hideLoading();
+        },
+        error: function (result) {
+           (error || jQuery.noop)(result);
+           hideLoading();
+        }
+    });
+}
+
+function getEditableFieldValues($obj){
+    let values = [];
+    $obj.find('.contenteditable').each(function(){
+        let $me = jQuery(this);
+        let value = $me.is(':input') ? $me.val() : $me.text();
+        values.push({ name : $me.attr('name'), value: value });
+    });
+    return values;
+}
+
+function revertEditableFieldValues($obj){
+    $obj.find('.contenteditable').each(function(){
+        let $me = jQuery(this);
+        let value = $me.data('value');
+        $me.is(':input') ? $me.val(value) : $me.text(value);
+    });
+}
+
+function saveEditableContent($obj, callback) {
+    let data = getEditableFieldValues( $obj );
+    console.log(data);
+    data = jQuery.param(data);
+    sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+        (callback || jQuery.noop)(result);
+    }, function () {
+        console.log('something wrong');
+    });
+}
 
 function isValidate($fieldset) {
     let $fields = $fieldset.find('[data-validate]');
@@ -390,7 +470,7 @@ function isValidate($fieldset) {
             result = false;
         }
     });
-    return result;
+    return (result && ($fieldset.find('.inputerror').length==0));
 }
 
 function checkOneField(field) {
@@ -418,37 +498,3 @@ function checkContent(value, type) {
         break;
     }
 }
-
-
-// Poolowner poolinfo
-jQuery(document).ready(function () {
-    jQuery('.poolowner_poolinfo input[type="checkbox"]').bind('click', function(){
-        $children = jQuery(this).data('child');
-        $children = jQuery($children);
-        if(!jQuery(this).is(':checked')) {
-            $children.each(function(){
-                jQuery(this).eq(0).prop('checked', false);
-            })
-        } else {
-            $children.first().eq(0).prop('checked', true);
-        }
-    });
-    jQuery('.poolowner_poolinfo input[type="radio"]').bind('click', function(){
-        $parent = jQuery(this).data('parent');
-        $parent = jQuery($parent);
-        $parent.eq(0).prop('checked', true);
-    });
-    jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
-        $obj = $(this).parents('.fieldset');
-        let data = $obj.find('input').serialize();
-        if(data=='') {
-            //show error
-        } else {
-            sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
-                (callback || jQuery.noop)(result);
-            }, function () {
-                console.log('something wrong');
-            });
-        }
-    });
-});
