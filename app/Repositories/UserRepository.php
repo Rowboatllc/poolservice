@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Order;
 use App\Models\Poolowner;
 use App\Models\BillingInfo;
+use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository
@@ -81,7 +82,10 @@ class UserRepository
 
         // add pool_owners info
         $poolOwner=new Poolowner();
-		$poolOwner->user_id='pending';        
+		$poolOwner->user_id='pending';  
+        // add user to user_group
+        $userGroup=new UserGroup();
+        $userGroup->group_id=2;
         try {
             // using transaction to save data to database
             DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner)
@@ -90,7 +94,7 @@ class UserRepository
                 $user->status='pending';
                 $user_db=$user->save();
                 // set user_id for another object
-                $profile->user_id=$pool->user_id=$bill->user_id=$poolOwner->user_id=$user->id;
+                $profile->user_id=$pool->user_id=$bill->user_id=$poolOwner->user_id=$userGroup->user_id=$user->id;
                 //save pool owner
                 $poolOwner->save();
                 // save user profile			
@@ -99,6 +103,8 @@ class UserRepository
                 $pool->save();
                 // save billing info
                 $bill->save();
+                // save user to user group
+                $userGroup->save();
             });
         } catch (Exception $e) {
             return Redirect::to('/page-not-found');
@@ -160,22 +166,26 @@ class UserRepository
         $company->logo='';
         $company->status='pending';
         $company->website=$array['website'];
-
+        // add user to user_group
+        $userGroup=new UserGroup();
+        $userGroup->group_id=3;
         try {
             // using transaction to save data to database
-            DB::transaction(function() use ($user, $profile,$bill,$company)
+            DB::transaction(function() use ($user, $profile,$bill,$company,$userGroup)
             {
                 // save user
                 $user->status='pending';
                 $user_db=$user->save();
                 // set user_id for another object
-                $profile->user_id=$bill->user_id=$company->user_id=$user->id;
+                $profile->user_id=$bill->user_id=$company->user_id=$userGroup->user_id=$user->id;
                 // save user profile			
                 $profile->save();
                 // save billing info
                 $bill->save();
                 // save company
                 $company->save();
+                // save user to user group
+                $userGroup->save();
             });
         } catch (Exception $e) {
             return Redirect::to('/page-not-found');
@@ -226,9 +236,12 @@ class UserRepository
 
     public function checkLogin(array $arr)
     {
-        $user=$this->user->where('email', $arr['email'])
-                        ->whereNotIn('status', ['pending'])->first();
-        return $user!=null;
+        $user = DB::table('users')->select('user_group.group_id')
+                ->join('user_group', 'user_group.user_id','=','users.id')
+                ->where(['users.email' => $arr['email']])
+                ->whereNotIn('status', ['pending'])
+                ->first();
+        return $user;
     }
 
     public function getProfileByUserId($user_id){

@@ -46,8 +46,15 @@ class UserController extends Controller {
         {
             // validate login
             if (Auth::attempt($user)) {
-                // login passed and navigate to home screen
-                return redirect()->route('home');
+                if($valid->group_id===3)
+                {
+                    // login passed and navigate to service company home screen
+                    return redirect()->route('home');                    
+                }
+                else{
+                    // login passed and navigate to pool home screen
+                    return redirect()->route('home');
+                }                
             }
         }        
 
