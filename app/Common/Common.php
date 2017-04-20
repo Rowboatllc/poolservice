@@ -9,9 +9,7 @@ use Mail;
 
 class Common {
 
-    public function __construct() {
-        
-    }
+    public function __construct() {}
 
     public function getEloquentById($eloquent, $id) {
         $result = $eloquent->find($id);
@@ -50,18 +48,28 @@ class Common {
         }
     }
 
+    public function responseJson($result = false, $code = 200, $message = '', $param=[]) {
+        $data = [
+            'success' => $result,
+            'message' => $message,
+            'code' => $code
+        ];
+        $param = array_merge($data, $param);
+        return response()->json($param, $code)->header('Content-Type', 'application/json');
+    }
+
     public function sendmail($tpl, $info) {
         Mail::send($tpl, $info['data'], function($message)
                 use ($info) {
             $message->subject($info['subject']);
             $message->to($info['email']);
-        });   
+        });
     }
-    
+
     public function checkValidZipcode($code) {
         return $code;
     }
-    
+
     public function getSupportedStates() {
         return [];
     }

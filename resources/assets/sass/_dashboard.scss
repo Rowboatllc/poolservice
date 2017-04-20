@@ -109,9 +109,15 @@
         padding: 10px;
         text-transform: uppercase;
     }
-    .icon.savefieldset {
-       margin-left: 100px
+    .icon.saveform-fieldset {
+       margin-left: 100px 
     }
+    
+    input[type="checkbox"] {
+        margin-left: -32px;
+        margin-top: -2px;
+    }
+    
 }
 
 .my-pool-service-company{
