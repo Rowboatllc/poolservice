@@ -32,6 +32,9 @@ mix.combine(['resources/assets/js/register/jquery.backstretch.js', 'resources/as
 'resources/assets/js/register/additional-methods.js', 'resources/assets/js/register/retina-1.1.0.js', 
 'resources/assets/js/register/register-pool-service.js'], 'public/js/register/register-pool-service.js');
 
+//main pool service
+mix.combine(['resources/assets/js/register/main-pool-service.js'], 'public/js/register/main-pool-service.js');
+
 mix.combine(['resources/assets/js/billinginfo.js'], 'public/js/billinginfo.js');
 
 // Sass
