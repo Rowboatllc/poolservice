@@ -13,13 +13,27 @@ class PermissionSeeder extends Seeder
     {
         // set group user
         $group_admin = factory(App\Models\Group::class)->create([
+            'id' => '1',
             'name' => 'admin',
             'description' => 'We are admin page.',
         ]);
 
         $group_pool_owner = factory(App\Models\Group::class)->create([
+            'id' => '2',
             'name' => 'pool_owner',
             'description' => 'We are pool owner.',
+        ]);
+
+        $group_service_company = factory(App\Models\Group::class)->create([
+            'id' => '3',
+            'name' => 'service_company',
+            'description' => 'We are service_company page.',
+        ]);
+
+        $group_technician = factory(App\Models\Group::class)->create([
+            'id' => '4',
+            'name' => 'technician',
+            'description' => 'We are technician page.',
         ]);
 
         // set permission

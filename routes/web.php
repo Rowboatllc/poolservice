@@ -34,6 +34,11 @@ Route::group(['middleware' => ['guest']], function () {
         Route::post('/check-zipcode-exists', array('uses' => 'RegisServiceController@check_zipcode_exists'))->name('check-zipcode-exists');
         Route::post('/add-email-notify', array('uses' => 'RegisServiceController@addEmailNotify'))->name('add-email-notify');
     });
+
+    Route::group(['prefix' => 'technician'], function () {
+        Route::get('verify/{confirmCode}', array('uses' => 'Auth\LoginController@verify'))->name('technician-verify');
+        Route::post('verify', array('uses' => 'Auth\LoginController@confirm'))->name('technician-confirm');
+    });
 });
 
 
@@ -50,6 +55,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'service-company'], function () {
         Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
+        
+    });
+
+    Route::group(['prefix' => 'technician'], function () {
+        Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
         
     });
 

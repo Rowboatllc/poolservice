@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableTechnicans extends Migration
+class CreateTableTechnicians extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTableTechnicans extends Migration
      */
     public function up()
     {
-        Schema::create('technicans', function (Blueprint $table) {
+        Schema::create('technicians', function (Blueprint $table) {
             $table->integer('user_id')->unique();       
             $table->integer('company_id');
             $table->boolean('is_owner');   
@@ -29,6 +29,6 @@ class CreateTableTechnicans extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('technicans');
+        Schema::dropIfExists('technicians');
     }
 }
