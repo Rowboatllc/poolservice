@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="fieldset" method="POST" action="{{route('poolowner-save-email')}}">
+            <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-email')}}">
                 <div class="col-md-3 text-right col"> <span class="labeltext">Email:</span> </div>
                 <div class="col-md-9 col">
                     <div name="email" class="contenteditable" contenteditable="true">{{ $profile->email }}</div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="fieldset" method="POST" action="{{route('poolowner-save-password')}}">
+            <div class="fieldset pwdfieldset" method="POST" action="{{route('dashboard-poolowner-save-password')}}">
                 <div class="col-md-3 text-right col"><span class="labeltext">Password:</span></div>
                 <div class="col-md-9 col">
                     <div name="password" class="contenteditable password" contenteditable="true" data-validate="require"></div>
@@ -41,13 +41,13 @@
                     <div class="col-md-3 text-right col"><span class="labeltext">New password:</span></div>
                     <div class="col-md-9 col"><div name="new-password" class="contenteditable password" contenteditable="true" data-validate="require"></div></div>
 
-                    <div class="col-md-3 text-right col"><span class="labeltext">Retype:</span></div>
-                    <div class="col-md-9 col"><div name="re-password" class="contenteditable password" contenteditable="true" data-validate="require"></div></div>
+                    <div class="col-md-3 text-right col"><span class="labeltext">Type it again:</span></div>
+                    <div class="col-md-9 col"><div name="re-password" class="contenteditable password" contenteditable="true"></div></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
             
-            <div class="fieldset" method="POST" action="{{route('admin-save-poolowner-profile')}}">
+            <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-profile')}}">
                 <div class="col-md-3 text-right col"><span class="labeltext">First and last name:</span></div>
                 <div class="col-md-9 col">
                     <div name="fullname" class="contenteditable" contenteditable="true" data-validate="require">{{ $profile->fullname }}</div>
@@ -55,10 +55,10 @@
                     <span class="glyphicon glyphicon-floppy-save savefieldset icon badge no_display"></span>
                     <span class="glyphicon glyphicon-remove cancel-editfieldset icon badge no_display"></span>
                 </div>
-                <div class="col-md-3 text-right col"><span class="labeltext">Address:</span></div><div class="col-md-9 col address"><div name="address" class="contenteditable" contenteditable="true">{{ $profile->address }}</div></div>
+                <div class="col-md-3 text-right col"><span class="labeltext">Address:</span></div><div class="col-md-9 col address"><div name="address" class="contenteditable" contenteditable="true"  data-validate="require">{{ $profile->address }}</div></div>
                 <div class="col-md-3 text-right col"><span class="labeltext">city, ST zipcode:</span></div><div class="col-md-9 col">
-                    <div name="city" class="contenteditable auto" contenteditable="true">{{$profile->city}}</div>
-                        {{ Form::select('state', ['Arizona' => 'Arizona', 'Los Angeles' => 'Los Angeles', 'California' => 'California', 'New England' => 'New England'], $profile->state, ['class' => 'contenteditable','contenteditable'=>false]) }}
+                    <div name="city" class="contenteditable auto">{{$profile->city}}</div>
+                        {{ Form::select('state', ['Arizona' => 'Arizona', 'Los Angeles' => 'Los Angeles', 'California' => 'California', 'New England' => 'New England'], $profile->state, ['class' => 'contenteditable','contenteditable'=>false, 'data-validate'=>'require']) }}
                     <div name="zipcode" class="contenteditable auto" contenteditable="true">{{$profile->zipcode}}</div>
                 </div>
                 <div class="clearfix"></div>
