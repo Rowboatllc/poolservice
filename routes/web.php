@@ -50,6 +50,11 @@ Route::group(['middleware' => ['auth']], function () {
         
     });
 
+    Route::group(['prefix' => 'service-company'], function () {
+        Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
+        
+    });
+
     Route::group(['middleware' => ['permission']], function () {
         
         Route::group(['prefix' => 'admin'], function () {

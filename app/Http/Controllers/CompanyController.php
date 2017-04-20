@@ -12,7 +12,6 @@ use App\Http\Requests\LoginRequest;
 use Auth;
 use App\Models\User;
 use Mail;
-use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller {
 
@@ -23,8 +22,8 @@ class CompanyController extends Controller {
         $this->user = $user;
     }
 
-    public function showCompanyDashboard() 
+    public function index() 
     {
-        return view('company.dashboard');
+        return view('company.index');
     }
 }
