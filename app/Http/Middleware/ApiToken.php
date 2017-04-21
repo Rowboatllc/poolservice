@@ -22,7 +22,7 @@ class ApiToken {
         //$authenticated = $token->isValid();
         if (!$token->isValid() || !$request->ajax()) {
             $response = response()->json([
-                        'error' => true,
+                        'success' => false,
                         'message' => 'Not authenticated',
                         'code' => 401], 401
             );

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-4 text-right">
             <div class="fieldset">
-                <img class="img_profile" src="{{$company->logo }}" style=" width: 300px; height: 150px; " />
+                <img class="img_profile" src="{{$company->logo}}" style=" width: 300px; height: 150px; " />
                 <div class="clearfix"></div>
             </div>
         </div>

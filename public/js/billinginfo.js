@@ -52,7 +52,7 @@ function globalAssignEventBilling() {
 		if(!isValidate($fieldset))
 			return;
 		saveEditableDataBilling($fieldset, function(result){
-			if(result.error==true){
+			if(!result.success){
 				$("#payment-errors").html("update your billing info error.");
 				$("#payment-errors").css("display", "block");
 				$('#billing_ccv').css("display", "inline");
@@ -116,9 +116,20 @@ function stripeResponseHandler(status, response) {
 			data_billing = jQuery.param(data_billing);
 			sendDataWithToken($obj.attr('action'), data_billing, $obj.attr('method'), function (result) {
 				(callback || jQuery.noop)(result);
-			}, function () {
-				$("#payment-errors").html("update your billing info success.");
-				$("#payment-errors").css("display", "block");
+			}, function (result) {
+				if(!result.success){
+					$("#payment-errors").html("update your billing info error.");
+					$("#payment-errors").css("display", "block");
+					$('#billing_ccv').css("display", "inline");
+				}else{
+					$fieldset.find('.contenteditable').toggleClass('active');
+					$fieldset.find('.icon.badge').toggleClass('no_display');
+					$('#billing_ccv').css("display", "none");
+					$("#payment-errors").html("update your billing info success.");
+					$("#payment-errors").css("display", "block");
+					var card_last_digits = $("#card_last_digits").text();
+					$("#card_last_digits").text("********"+card_last_digits.slice(card_last_digits.length-4,card_last_digits.length));
+				}
 			});
 		}
 	}
