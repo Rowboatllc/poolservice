@@ -54,6 +54,21 @@ class CompanyRepository implements CompanyRepositoryInterface
         return $company;
     }
 
+    public function getCompanyProfile($user_id){
+        if (!empty($user_id)) {
+            $companys = DB::select('SELECT c.*, p.state, p.city, p.address, p.zipcode, p.phone, u.email FROM `companies` as c
+                                    LEFT JOIN technicians t ON c.id = t.company_id
+                                    LEFT JOIN profiles p  ON c.user_id = p.user_id
+                                    LEFT JOIN users u  ON c.user_id = u.id
+                                    WHERE t.user_id = '.$user_id.'
+                                    ');
+            if(isset($companys)&&!empty($companys)){
+                return $companys[0];
+            }
+        }
+        return null;
+    }
+
     public function getSelectedCompany($user_id){
         if (!empty($user_id)) {
             $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point, COUNT(r.point) as count FROM companies as c

@@ -9,22 +9,25 @@ use Illuminate\Support\Facades\Redirect;
 use Mail;
 
 use App\Repositories\UserRepository;
-
+use App\Repositories\CompanyRepositoryInterface;
 use App\Http\Requests\TechnicianRequest;
 
 class TechnicianController extends Controller {
 
-    private $user;
+    protected $user;
+    protected $company;
 
-    public function __construct(UserRepository $user) 
+    public function __construct(UserRepository $user,CompanyRepositoryInterface $company) 
     {
         $this->user = $user;
+        $this->company = $company;
     }
 
     public function index() 
     {
-        $tab=null;
-        return view('technician.index',compact(['tab']));
+        $user = Auth::user();
+        $company = $this->company->getCompanyProfile($user->id);
+        return view('technician.index',compact(['user','company']));
     }
 
     

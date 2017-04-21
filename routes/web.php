@@ -21,7 +21,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/home', array('uses' => 'HomeController@index'))->name('home');
 
     Route::get('login/{token?}/{email?}', array('uses' => 'UserController@showLogin'))->name('login');
-    Route::post('login', array('uses' => 'UserController@doLogin'))->name('login');
+    Route::post('login', array('uses' => 'Auth\LoginController@login'))->name('login');
 
     Route::get('/service-company', array('uses' => 'CompanyController@index'))->name('service-company');
 
