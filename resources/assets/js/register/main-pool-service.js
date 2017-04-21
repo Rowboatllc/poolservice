@@ -5,11 +5,23 @@ function validationPoolService()
 		rules: {
 			'logo':{
 				required: true,
+			},
+            'wq':{
+				required: true,
+			},
+            'driver_license':{
+				required: true,
 			}
 		},
 		messages: {
 			'logo':{
 				required: "Please upload your logo.",
+			},
+            'wq':{
+				required: "Please upload your W-q.",
+			},
+            'driver_license':{
+				required: "Please upload your Driver License.",
 			}
 		},
         highlight: function(element) {
@@ -50,6 +62,8 @@ $(document).ready(function() {
 
     var frm = $('#frmPoolServiceDashBoard');
     frm.submit(function (ev) {
+        // Create an FormData object
+        var data = new FormData(form[0]);
         $.ajax({
 			beforeSend:function() { 
 				$("#divModelPoolService").css("display", "block");
@@ -59,20 +73,21 @@ $(document).ready(function() {
 			},
             type: frm.attr('method'),
             url: frm.attr('action'),
-            data: frm.serialize(),
+            data: data,
 			success: function(data) {
-				if(data.success===true)
-				{
-					$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
-				}
-				else
-				{
-					$("#notifyModalPoolService #get_your_email").text(data.message);
-				}
+                alert(data.message);
+				// if(data.success===true)
+				// {
+				// 	$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+				// }
+				// else
+				// {
+				// 	$("#notifyModalPoolService #get_your_email").text(data.message);
+				// }
 				
-				$("#notifyModalPoolService").modal();
-				$('#frmPoolServiceDashBoard .btn-next-submit').prop('disabled', 'disabled');	
-				$('#frmPoolServiceDashBoard .btn-previous').prop('disabled', 'disabled');		
+				// $("#notifyModalPoolService").modal();
+				// $('#frmPoolServiceDashBoard .btn-submit').prop('disabled', 'disabled');	
+				// $('#frmPoolServiceDashBoard .btn-previous').prop('disabled', 'disabled');		
 			}
         });
 		
