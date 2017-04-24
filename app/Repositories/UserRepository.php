@@ -14,11 +14,13 @@ class UserRepository
 {
     protected $user;
     protected $profile;
-	
-    public function __construct(User $user, Profile $profile)
+	protected $company;
+
+    public function __construct(User $user, Profile $profile,Company $com)
     {
         $this->user = $user;
         $this->profile = $profile;
+        $this->company=$com;
     }
 
 	public function AddNewPoolOwnerSubscriber(array $array)
@@ -275,4 +277,20 @@ class UserRepository
         return $this->user->where([['confirmation_code', $confirmCode],['status', 'pending']])->first();
     }
 
+    public function updateCompanyProfile(array $arr,$id)
+    {
+        $com=$this->company->where('user_id', $id)->first();
+        if(is_null($com))
+        {
+            return $com;
+        }
+        
+        $com->forceFill([
+            'wq' => $arr['wq']->getClientOriginalName(),
+            'logo' => $arr['logo']->getClientOriginalName(),
+            'driver_license' => $arr['driven_license']->getClientOriginalName(),
+            'cpa' => $arr['cpa']->getClientOriginalName()])->save();
+            
+        return $com;
+    }
 }

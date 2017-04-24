@@ -60,10 +60,50 @@ $(document).ready(function() {
         $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
     });
 
+    $('.btn-submit').on('click', function(e) {
+        e.preventDefault();
+        var frm = $('#frmPoolServiceDashBoard');
+        // Create an FormData object
+        var data = new FormData(frm[0]);
+        $.ajax({
+			beforeSend:function() { 
+				$("#divModelPoolService").css("display", "block");
+			},
+			complete:function() {
+				$("#divModelPoolService").css("display", "none");
+			},
+            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type: 'POST',
+            url: 'upload-company-profile',
+            data: data,
+            contentType: false,
+            processData: false,
+			success: function(data) {
+                alert('ok');
+                $("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+                // alert(data.message);
+				// if(data.success===true)
+				// {
+				// 	$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+				// }
+				// else
+				// {
+				// 	$("#notifyModalPoolService #get_your_email").text(data.message);
+				// }
+				
+				// $("#notifyModalPoolService").modal();
+				// $('#frmPoolServiceDashBoard .btn-submit').prop('disabled', 'disabled');	
+				// $('#frmPoolServiceDashBoard .btn-previous').prop('disabled', 'disabled');		
+			}
+        });
+		
+        return false;
+    });
+
     var frm = $('#frmPoolServiceDashBoard');
     frm.submit(function (ev) {
         // Create an FormData object
-        var data = new FormData(form[0]);
+        var data = new FormData(frm[0]);
         $.ajax({
 			beforeSend:function() { 
 				$("#divModelPoolService").css("display", "block");
@@ -75,7 +115,9 @@ $(document).ready(function() {
             url: frm.attr('action'),
             data: data,
 			success: function(data) {
-                alert(data.message);
+                alert('ok');
+                $("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+                // alert(data.message);
 				// if(data.success===true)
 				// {
 				// 	$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');

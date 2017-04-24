@@ -100,7 +100,7 @@
             <div id="sectionC" class="tab-pane fade">
                 <div class="row sectionC1">
                     <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2" enctype="multipart/form-data">
-                        {{ csrf_field() }}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                 <div class="list-group">
@@ -173,7 +173,7 @@
                                         <h4 style="margin-top: 0;color:#55518a">If you are not CPA certified, you can skip this step.</h4>
                                         <div class="buttons">
                                             <button type="button" class="btn btn-previous">Back</button>
-                                            <button type="submit" class="btn btn-submit">Next</button>
+                                            <button type="button" class="btn btn-submit">Next</button>
                                         </div>
                                     </center>
                                 </div>

@@ -23,7 +23,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('login/{token?}/{email?}', array('uses' => 'UserController@showLogin'))->name('login');
     Route::post('login', array('uses' => 'Auth\LoginController@login'))->name('login');
 
-    Route::get('/service-company', array('uses' => 'CompanyController@index'))->name('service-company');
+    
 
     Route::group(['prefix' => 'register'], function () {
         Route::get('/pool-owner-register', array('uses' => 'RegisServiceController@poolOwnerIndex'))->name('pool-owner-register');
@@ -54,9 +54,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
     });
 
-    // Route::group(['prefix' => 'service-company'], function () {
-    //     Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
-    // });
+
+    Route::post('/upload-company-profile', array('uses' => 'CompanyController@addCompanyProfile'))->name('upload-company-profile');
+
+    Route::group(['prefix' => 'service-company'], function () {
+        Route::get('', array('uses' => 'CompanyController@index'))->name('service-company');
+    });
 
     Route::group(['prefix' => 'technician'], function () {
         Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
