@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div class="panel dashboard-panel panel-default panel-transparent">
+<div class="poolowner index pooltab">
     <div class="container">
         <div class="row">
-            <div class="col">
-                <div class="panel with-nav-tabs panel-primary">
+            <div class="col-xs">
+                <div class="panel with-nav-tabs panel-default">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs">
                             <li class="{{ $tab =='services' || !$tab ? ' in active' : ''}}" ><a href="#services" data-toggle="tab">Services</a></li>

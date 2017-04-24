@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Mail;
 
 use App\Repositories\UserRepository;
+use App\Repositories\ScheduleRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Http\Requests\TechnicianRequest;
 
@@ -16,10 +17,12 @@ class TechnicianController extends Controller {
 
     protected $user;
     protected $company;
+    protected $schedule;
 
-    public function __construct(UserRepository $user,CompanyRepositoryInterface $company) 
+    public function __construct(UserRepository $user,ScheduleRepositoryInterface $schedule, CompanyRepositoryInterface $company) 
     {
         $this->user = $user;
+        $this->schedule = $schedule;
         $this->company = $company;
     }
 
@@ -27,7 +30,8 @@ class TechnicianController extends Controller {
     {
         $user = Auth::user();
         $company = $this->company->getCompanyProfile($user->id);
-        return view('technician.index',compact(['user','company']));
+        $schedules = $this->schedule->getAllScheduleInWeek($user->id);
+        return view('technician.index',compact(['user', 'schedules', 'company']));
     }
 
     
