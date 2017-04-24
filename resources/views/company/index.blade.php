@@ -173,7 +173,7 @@
                                         <h4 style="margin-top: 0;color:#55518a">If you are not CPA certified, you can skip this step.</h4>
                                         <div class="buttons">
                                             <button type="button" class="btn btn-previous">Back</button>
-                                            <button type="button" class="btn btn-submit">Next</button>
+                                            <button type="submit" class="btn btn-submit">Next</button>
                                         </div>
                                     </center>
                                 </div>

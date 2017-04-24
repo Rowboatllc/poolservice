@@ -200,8 +200,6 @@ jQuery(document).ready(function () {
     });
 });
 
-// Service company dashboard
-
 jQuery(document).ready(function () {
     function globalAssignEvent() {
         jQuery('.fieldset')
