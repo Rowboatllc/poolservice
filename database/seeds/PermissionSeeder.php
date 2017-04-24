@@ -98,16 +98,16 @@ class PermissionSeeder extends Seeder
             'user_id' => $user_company->id
         ]);
 
-        $user_technican = factory(App\Models\User::class)->create([
-            'name' => 'Technican',
+        $user_technician = factory(App\Models\User::class)->create([
+            'name' => 'Technician',
             'status' => 'active',            
-            'email' => 'technican@rowboatsoftware.com',            
+            'email' => 'technician@rowboatsoftware.com',            
         ]);
         factory(App\Models\BillingInfo::class)->create([
-            'user_id' => $user_technican->id
+            'user_id' => $user_technician->id
         ]);
         factory(App\Models\Profile::class)->create([
-            'user_id' => $user_technican->id
+            'user_id' => $user_technician->id
         ]);
 
         $group_admin->permissions()->attach($permission_admin_manager->id);
@@ -119,7 +119,7 @@ class PermissionSeeder extends Seeder
         $group_admin->users()->attach( $user_admin->id);
         $group_pool_owner->users()->attach( $user_pool ->id);
         $group_service_company->users()->attach( $user_company->id);
-        $group_technician->users()->attach( $user_technican->id);
+        $group_technician->users()->attach( $user_technician->id);
         
 
 
