@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\ApiToken;
 use Mail;
 use App\Common\Common;
-
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Order;
-
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
@@ -36,13 +34,11 @@ class PoolOwnerController extends Controller {
     protected $common;
     protected $notification;
     protected $repoProfile;
-    
-    
+
     public function __construct(
-        UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, 
-        BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
+    UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
         parent::__construct($page);
-        $this->user = $user;        
+        $this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
@@ -54,13 +50,13 @@ class PoolOwnerController extends Controller {
     public function index(Request $request) {
         $this->loadHeadInPage('home');
         $user = Auth::user();
-        $common = new Common;
+        //$common = new Common;
         $tab = $request->input('tab');
 
         // profile
         $profile = $this->profile->find($user->id);
         if (!$profile) {
-            $profile = $common->getDefaultEloquentAttibutes($this->profile);
+            $profile = $this->common->getDefaultEloquentAttibutes($this->profile);
         }
         $profile->email = $user->email;
 
@@ -70,7 +66,7 @@ class PoolOwnerController extends Controller {
         // my pool service company
         $companys = $this->company->getSelectedCompany($user->id);
         $point = 0;
-        if (!isset($companys) || empty($companys)) {
+        if (empty($companys)) {
             $company_id = 0;
             $companys = $this->company->getAllCompanySupportOwner($user->id);
         } else {
@@ -84,46 +80,44 @@ class PoolOwnerController extends Controller {
         $this->loadHeadInPage('home');
         return view('started');
     }
-    
+
     public function uploadResizeAvatar() {
         $result = $this->repoProfile->uploadResizeAvatar('uploads/profile');
-        if($result)
-            return $this->common->responseJson(true, 200, '', ['path' => $result]); 
+        if ($result)
+            return $this->common->responseJson(true, 200, '', ['path' => $result]);
         return $this->common->responseJson(false);
     }
 
-    public function selectCompany($company_id){
+    public function selectCompany($company_id) {
         $user_id = Auth::id();
-        $result = $this->company->selectCompany($user_id,$company_id);
-        if($result){
+        $result = $this->company->selectCompany($user_id, $company_id);
+        if ($result) {
             $company = $this->company->getCompanyById($company_id);
             $content = 'Customers sign up for your service';
-            Mail::send('emails.select-company', compact('company'), function($message) 
-            use ($company, $content)
-            {     
-                    $message->subject($content);
-                    $message->to($company->email);
+            Mail::send('emails.select-company', compact('company'), function($message)
+                    use ($company, $content) {
+                $message->subject($content);
+                $message->to($company->email);
             });
-            $this->notification->saveNotification($company->user_id,$content,false);
+            $this->notification->saveNotification($company->user_id, $content, false);
         }
-        return redirect()->route('pool-owner',['tab' => "service_company"]);
+        return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
-    public function selectNewCompany($company_id){
+    public function selectNewCompany($company_id) {
         $user_id = Auth::id();
         $result = $this->company->removeAllSelectCompany($user_id);
-        if($result){
+        if ($result) {
             $company = $this->company->getCompanyById($company_id);
             $content = 'Customers remove for your service';
-            Mail::send('emails.remove-company', compact('company'), function($message) 
-            use ($company, $content)
-            {     
-                    $message->subject($content);
-                    $message->to($company->email);
+            Mail::send('emails.remove-company', compact('company'), function($message)
+                    use ($company, $content) {
+                $message->subject($content);
+                $message->to($company->email);
             });
-            $this->notification->saveNotification($company->user_id,$content,false);
+            $this->notification->saveNotification($company->user_id, $content, false);
         }
-        return redirect()->route('pool-owner',['tab' => "service_company"]);
+        return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request) {
@@ -134,19 +128,19 @@ class PoolOwnerController extends Controller {
         }
         $user_id = Auth::id();
         $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
-        return redirect()->route('pool-owner',['tab' => "service_company"]);
+        return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
     public function saveNewEmail(Request $request) {
-        return $this->common->responseJson( $this->repoProfile->saveNewEmail($request->all()) );
+        return $this->common->responseJson($this->repoProfile->saveNewEmail($request->all()));
     }
 
     public function saveNewPassword(Request $request) {
-        return $this->common->responseJson( $this->repoProfile->saveNewPassword($request->all()) );
+        return $this->common->responseJson($this->repoProfile->saveNewPassword($request->all()));
     }
 
     public function saveProfile(Request $request) {
-        return $this->common->responseJson( $this->repoProfile->saveProfile($request->all()) );
+        return $this->common->responseJson($this->repoProfile->saveProfile($request->all()));
     }
 
     public function savePoolInfo(Request $request) {

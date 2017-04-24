@@ -62,7 +62,7 @@ class CompanyRepository implements CompanyRepositoryInterface
                                     LEFT JOIN users u  ON c.user_id = u.id
                                     WHERE t.user_id = '.$user_id.'
                                     ');
-            if(isset($companys)&&!empty($companys)){
+            if(!empty($companys)){
                 return $companys[0];
             }
         }
@@ -101,7 +101,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             ['user_id',$user_id],
             ['status','active']
         ])->first();
-        if(!isset($order)){
+        if(empty($order)){
             return false;
         }
         $this->removeAllSelectCompany($user_id);
@@ -122,7 +122,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             ['company_id', $company_id]
         ])
         ->first();
-        if(isset($rating)){
+        if(!empty($rating)){
             return $rating->point;
         }
         return 0;
@@ -134,7 +134,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             ['company_id', $company_id]
         ])
         ->first();
-        if(isset($rating)){
+        if(!empty($rating)){
             $rating->point = $point;
         }else{
             $rating = new Rating();
