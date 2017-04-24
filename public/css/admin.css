@@ -7943,84 +7943,69 @@ ul.navbar-nav {
   margin-bottom: 0px;
 }
 
-.panel.with-nav-tabs .nav-tabs {
-  border-bottom: none;
+.pooltab {
+  /********************************************************************/
+  /*** PANEL DEFAULT ***/
 }
 
-.panel.with-nav-tabs .nav-justified {
-  margin-bottom: -1px;
+.pooltab .panel.with-nav-tabs .panel-heading {
+  padding: 5px 5px 0 5px !important;
 }
 
-/********************************************************************/
-/*** PANEL PRIMARY ***/
-.with-nav-tabs.panel-primary .nav-tabs > li > a,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-  color: #fff;
+.pooltab .panel.with-nav-tabs .nav-tabs {
+  border-bottom: none !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > .open > a,
-.with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-  color: #fff;
-  background-color: #3071a9;
-  border-color: transparent;
+.pooltab .panel.with-nav-tabs .nav-justified {
+  margin-bottom: -1px !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-  color: #428bca;
-  background-color: #fff;
-  border-color: #428bca;
-  border-bottom-color: transparent;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li > a,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+  color: #777 !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
-  background-color: #428bca;
-  border-color: #3071a9;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > .open > a,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+  color: #777 !important;
+  background-color: #ddd !important;
+  border-color: transparent !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
-  color: #fff;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+  color: #555 !important;
+  background-color: #fff !important;
+  border-color: #ddd !important;
+  border-bottom-color: transparent !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-  background-color: #3071a9;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
+  background-color: #f5f5f5 !important;
+  border-color: #ddd !important;
 }
 
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-  background-color: #4a9fe9;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a {
+  color: #777 !important;
 }
 
-.tab-pane.fade {
-  min-height: 650px;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+  background-color: #ddd !important;
 }
 
-.box-form-contact p {
-  text-align: left;
-  margin: 0px;
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+.pooltab .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+  color: #fff !important;
+  background-color: #555 !important;
 }
 
-.wrap-box-text-contact-us .contact-us-title {
-  text-align: left;
-}
-
-.panel.panel-service, .panel.panel-transparent {
-  background: transparent;
-  border: 0px;
-}
-
-.navbar button.btn.btn_primary {
-  background: #0542ec !important;
-}
-
-/********************************************************************/
 .clickable {
   cursor: pointer;
 }
@@ -8326,7 +8311,7 @@ form {
 
 span.stars, span.stars span {
   display: block;
-  background: url(/images/stars.png) 0 -16px repeat-x;
+  background: url(../images/stars.png) 0 -16px repeat-x;
   width: 80px;
   height: 16px;
   float: left;

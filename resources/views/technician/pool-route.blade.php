@@ -1,45 +1,37 @@
-<div class="container">
-    <div class="row">
-		<div class="col-xs-12">
-			<!-- tabs -->
-			<div class="tabbable tabs-left">
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-					<li><a href="#about" data-toggle="tab">About</a></li>
-					<li><a href="#services" data-toggle="tab">Services</a></li>
-					<li><a href="#contact" data-toggle="tab">Contact</a></li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="home">                
-						<div class="">
-							<h1>Home Tab</h1>
-							<p>These lists are meant to identify articles which deserve editor attention because they are the most important for an encyclopedia to have, as determined by the community of participating editors. They may also be of interest to readers as an alternative to lists of overview articles.</p>                 
-						</div>
-					</div> 
-					<div class="tab-pane" id="about"> 
-						<div class="">
-							<h1>About Tab</h1>
-							<p>because they are the most important for an encyclopedia to have, as determined by the community of participating editors. They may also be of interest to readers as an alternative to lists of overview articles.</p>                 
-						</div>
-					</div>
-				
-					<div class="tab-pane" id="services"> 
-						<div class="">
-							<h1>Services Tab</h1>
-							<p>meant to identify articles which deserve editor attention because they are the most important for an encyclopedia to have, as determined by the community of participating editors. They may also be of interest to readers as an alternative to lists of overview articles.</p>                 
-						</div>
-					</div>
-				
-					<div class="tab-pane" id="contact"> 
-						 <div class="">
-							<h1>Contact Tab</h1>
-							<p>deserve editor attention because they are the most important for an encyclopedia to have, as determined by the community of participating editors. They may also be of interest to readers as an alternative to lists of overview articles.</p>                 
-						 </div>
-					</div>
+<div class="row">
+	<div class="col-md-12">
+		<!-- tabs left -->
+		<div class="tabbable">
+			<ul class="nav nav-pills nav-stacked col-md-2">
+				<li class="active"><a href="#monday" data-toggle="tab">Monday</a></li>
+				<li><a href="#tuesday" data-toggle="tab">Tuesday</a></li>
+				<li><a href="#wednesday" data-toggle="tab">Wednesday</a></li>
+				<li><a href="#thursday" data-toggle="tab">Thursday</a></li>
+				<li><a href="#friday" data-toggle="tab">Friday</a></li>
+			</ul>
+			<div class="tab-content col-md-10">
+				<div class="tab-pane active" id="monday">                
+					@include('technician.day-of-week')
+				</div> 
+				<div class="tab-pane" id="tuesday"> 
+					@include('technician.day-of-week')				
+				</div>
+			
+				<div class="tab-pane" id="wednesday"> 
+					@include('technician.day-of-week')						
+				</div>
+			
+				<div class="tab-pane" id="thursday"> 
+					@include('technician.day-of-week')						 
+				</div>
+
+				<div class="tab-pane" id="friday"> 
+					@include('technician.day-of-week')						 
 				</div>
 			</div>
-			<!-- /tabs -->
 		</div>
+		<!-- /tabs -->
 	</div>
-</div>
 
+</div>
+<!-- /row -->

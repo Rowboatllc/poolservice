@@ -45,5 +45,9 @@ class AppServiceProvider extends ServiceProvider
                 'App\Repositories\NotificationRepositoryInterface', 
                 'App\Repositories\NotificationRepository'
         );
+        $this->app->bind(
+                'App\Repositories\ScheduleRepositoryInterface', 
+                'App\Repositories\ScheduleRepository'
+        );
     }
 }

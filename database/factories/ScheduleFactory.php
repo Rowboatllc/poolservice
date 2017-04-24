@@ -17,12 +17,11 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
         'technican_id' => 1, 
         'order_id' => 1, 
         'company_id' => 1, 
-        'date' => $faker->dateTime, 
+        'date' => $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days'), 
         'img_before' => $faker->imageUrl($width = 640, $height = 480),
         'img_after' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => 'opening', 
-        'cost' => $faker->numberBetween(25,50),
-        'cleaning_steps' => $faker->dateTime, 
-        'comment' => $faker->dateTime
+        'status' => 'opening',
+        'cleaning_steps' => [1,2,3], 
+        'comment' => $faker->sentence
     ];
 });

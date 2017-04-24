@@ -73,7 +73,7 @@ class CompanyController extends Controller {
         }
         else
         {
-            return response()->json(['success' => fal,'message' => 'error occured in system !!!'],200);
+            return response()->json(['success' => false,'message' => 'error occured in system !!!'],200);
         }        
     }
 }

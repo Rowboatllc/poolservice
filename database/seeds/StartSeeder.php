@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
  
 use Faker\Factory as Faker;
 
-class CompanySeeder extends Seeder
+class StartSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -49,5 +49,19 @@ class CompanySeeder extends Seeder
         DB::table('technicians')->insert([
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
+
+        for($i=0;$i<20;$i++){
+
+            $order_new = factory(App\Models\Order::class)->create([
+            'user_id' => $user->id
+            ]);
+
+            $schedule = factory(App\Models\Schedule::class)->create([
+                'technican_id' => $user_technician->id, 
+                'order_id' => $order_new->id, 
+                'company_id' => $company->id,
+            ]);
+        }
+        
     }
 }
