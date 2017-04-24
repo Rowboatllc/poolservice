@@ -15,6 +15,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     protected $selected;
     protected $rating;
     protected $user;    
+    private $common;
 
     public function __construct(Company $company, Order $order, Selected $selected, Rating $rating)
     {
@@ -23,6 +24,7 @@ class CompanyRepository implements CompanyRepositoryInterface
         $this->selected = $selected;
         $this->rating = $rating;
         $this->user = app('App\Repositories\UserRepository');
+        $this->common = app('App\Common\Common');
     }
 
     public function getAllCompanySupportOwner($user_id){
@@ -143,5 +145,27 @@ class CompanyRepository implements CompanyRepositoryInterface
             $rating->point = $point;
         }
         return $rating->save();
+    }
+    
+    public function getCustomers($user_id){
+        return DB::select("select profiles.* from profiles where profiles.user_id in (select orders.user_id from orders 
+        left join selecteds on selecteds.order_id = orders.id
+        left join companies on companies.id = selecteds.company_id
+        where companies.user_id = ". $user_id ." and selecteds.status = 'active')");
+    }
+    
+    public function getServiceOffers($user_id){
+        $offers = DB::select("select orders.* from orders 
+        left join selecteds on selecteds.order_id = orders.id
+        left join companies on companies.id = selecteds.company_id
+        where companies.user_id = ". $user_id ." and selecteds.status = 'pending'");
+        if($offers) {
+            for($i=0; $i<count($offers); $i++) {
+            //foreach($offers as $key=>$value) {
+                //$offers[$i]->services = $this->common->getServiceByKeys($offers[$i]->services);
+                //var_dump($offers[$i]->services);
+            }
+        }
+        return $offers;
     }
 }

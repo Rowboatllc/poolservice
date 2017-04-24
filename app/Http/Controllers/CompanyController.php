@@ -13,18 +13,24 @@ use Auth;
 use App\Models\User;
 use Mail;
 
+use App\Repositories\CompanyRepositoryInterface;
+
 class CompanyController extends Controller {
 
     private $user;
 
-    public function __construct(UserRepository $user) 
+    public function __construct(UserRepository $user, CompanyRepositoryInterface $company) 
     {
         $this->user = $user;
+        $this->company = $company;
     }
 
     public function index() 
     {
-        return view('company.index');
+        $user = Auth::user();
+        $customers = $this->company->getCustomers($user->id);
+        $offers = $this->company->getServiceOffers($user->id);
+        return view('company.index', compact(['customers', 'offers']));
     }
 
     public function addCompanyProfile(Request $request) 

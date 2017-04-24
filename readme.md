@@ -14,3 +14,9 @@ System Requirement
 
 Mysql version >= 5.7.8
 PHP >= 5.6.4
+
+
+Testing card number
+-------------------
+
+https://stripe.com/docs/testing
