@@ -20,13 +20,13 @@ class PermissionSeeder extends Seeder
 
         $group_pool_owner = factory(App\Models\Group::class)->create([
             'id' => '2',
-            'name' => 'pool_owner',
+            'name' => 'pool-owner',
             'description' => 'We are pool owner.',
         ]);
 
         $group_service_company = factory(App\Models\Group::class)->create([
             'id' => '3',
-            'name' => 'service_company',
+            'name' => 'service-company',
             'description' => 'We are service_company page.',
         ]);
 
@@ -70,10 +70,44 @@ class PermissionSeeder extends Seeder
         ]);
 
         // set new user admin
-        $user_user = factory(App\Models\User::class)->create([
-            'name' => 'User',
+        $user_pool = factory(App\Models\User::class)->create([
+            'name' => 'Pool',
             'status' => 'active',            
-            'email' => 'user@rowboatsoftware.com',            
+            'email' => 'pool@rowboatsoftware.com',            
+        ]);
+
+        factory(App\Models\Order::class)->create([
+            'user_id' => $user_pool->id
+        ]);
+        factory(App\Models\BillingInfo::class)->create([
+            'user_id' => $user_pool->id
+        ]);
+        factory(App\Models\Profile::class)->create([
+            'user_id' => $user_pool->id
+        ]);
+
+        $user_company = factory(App\Models\User::class)->create([
+            'name' => 'Company',
+            'status' => 'active',            
+            'email' => 'company@rowboatsoftware.com',            
+        ]);
+        factory(App\Models\BillingInfo::class)->create([
+            'user_id' => $user_company->id
+        ]);
+        factory(App\Models\Profile::class)->create([
+            'user_id' => $user_company->id
+        ]);
+
+        $user_technician = factory(App\Models\User::class)->create([
+            'name' => 'Technician',
+            'status' => 'active',            
+            'email' => 'technician@rowboatsoftware.com',            
+        ]);
+        factory(App\Models\BillingInfo::class)->create([
+            'user_id' => $user_technician->id
+        ]);
+        factory(App\Models\Profile::class)->create([
+            'user_id' => $user_technician->id
         ]);
 
         $group_admin->permissions()->attach($permission_admin_manager->id);
@@ -83,6 +117,11 @@ class PermissionSeeder extends Seeder
         $group_admin->permissions()->attach( $permission_admin_administrator->id);
 
         $group_admin->users()->attach( $user_admin->id);
+        $group_pool_owner->users()->attach( $user_pool ->id);
+        $group_service_company->users()->attach( $user_company->id);
+        $group_technician->users()->attach( $user_technician->id);
+        
+
 
 
     }

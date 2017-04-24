@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Auth;
 use Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ApiToken {
 
@@ -75,11 +76,10 @@ class ApiToken {
     
     public function getUserByToken() {
         $api_token = Request::bearerToken();
-        $result = \DB::table('users')->select('users.*')
+        $result = DB::table('users')->select('users.*')
                 ->join('tokens', 'tokens.user_id','=','users.id')
                 ->where(['tokens.api_token' => $api_token])
                 ->first();
-        //dd($result);
         return $result;
     }
 

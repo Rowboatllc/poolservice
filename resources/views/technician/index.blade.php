@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="panel dashboard-panel container bs-example">
+<div class="panel dashboard-panel container bs-example technician">
     <div class="form-box">
         <div class="panel-heading">
             <ul class="nav nav-tabs">

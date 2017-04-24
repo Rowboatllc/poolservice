@@ -9008,3 +9008,50 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   width: 100px;
   height: 50px;
 }
+
+.technician .tabs-left > .nav-tabs {
+  border-bottom: 0;
+}
+
+.technician .tab-content > .tab-pane,
+.technician .pill-content > .pill-pane {
+  display: none;
+}
+
+.technician .tab-content > .active,
+.technician .pill-content > .active {
+  display: block;
+}
+
+.technician .tabs-left > .nav-tabs > li {
+  float: none;
+}
+
+.technician .tabs-left > .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+
+.technician .tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+
+.technician .tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  border-radius: 4px 0 0 4px;
+}
+
+.technician .tabs-left > .nav-tabs > li > a:hover,
+.technician .tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+}
+
+.technician .tabs-left > .nav-tabs .active > a,
+.technician .tabs-left > .nav-tabs .active > a:hover,
+.technician .tabs-left > .nav-tabs .active > a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #ffffff;
+}

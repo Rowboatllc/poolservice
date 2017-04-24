@@ -106,7 +106,7 @@ class PoolOwnerController extends Controller {
             });
             $this->notification->saveNotification($company->user_id,$content,false);
         }
-        return redirect()->route('poolowner',['tab' => "service_company"]);
+        return redirect()->route('pool-owner',['tab' => "service_company"]);
     }
 
     public function selectNewCompany($company_id){
@@ -123,7 +123,7 @@ class PoolOwnerController extends Controller {
             });
             $this->notification->saveNotification($company->user_id,$content,false);
         }
-        return redirect()->route('poolowner',['tab' => "service_company"]);
+        return redirect()->route('pool-owner',['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request) {
@@ -134,7 +134,7 @@ class PoolOwnerController extends Controller {
         }
         $user_id = Auth::id();
         $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
-        return redirect()->route('poolowner');
+        return redirect()->route('pool-owner',['tab' => "service_company"]);
     }
 
     public function saveNewEmail(Request $request) {

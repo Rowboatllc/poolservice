@@ -14,13 +14,16 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-        $user = DB::table('users')->where('email','user@rowboatsoftware.com')->first();
+        $user = DB::table('users')->where('email','pool@rowboatsoftware.com')->first();
         
         $order = factory(App\Models\Order::class)->create([
             'user_id' => $user->id
             ]);
         $order = DB::table('orders')->find($order->id);
-        factory(App\Models\Company::class, 10)->make(['zipcodes' => $order->zipcode])->each(function ($com){
+
+        $user_company = DB::table('users')->where('email','company@rowboatsoftware.com')->first();
+
+        factory(App\Models\Company::class, 10)->make(['zipcodes' => $order->zipcode,'user_id'=>$user_company->id])->each(function ($com){
             $faker = Faker::create();
             $random = rand(1, 3);
             $com->services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
@@ -40,5 +43,11 @@ class CompanySeeder extends Seeder
                 'company_id' => $company->id
                 ]);
         }
+
+        $company = DB::table('companies')->first();
+        $user_technician = DB::table('users')->where('email','technician@rowboatsoftware.com')->first();
+        DB::table('technicians')->insert([
+            ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
+        ]);
     }
 }

@@ -9,4 +9,6 @@ class Rating extends Model
     protected $fillable = [
         'user_id', 'company_id', 'point'
     ];
+
+    public $timestamps = false;
 }

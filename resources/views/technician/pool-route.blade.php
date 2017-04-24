@@ -1,7 +1,6 @@
 <div class="container">
     <div class="row">
 		<div class="col-xs-12">
-		  <h3>Nav Tab left Side </h3>
 			<!-- tabs -->
 			<div class="tabbable tabs-left">
 				<ul class="nav nav-tabs">
