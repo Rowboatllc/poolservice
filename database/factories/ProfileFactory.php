@@ -12,16 +12,17 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\BillingInfo::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Profile::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => rand(1,100),
-        'name_card' => $faker->creditCardType,
-        'token' => str_random(10),
-        'expiration_date' => $faker->creditCardExpirationDateString,
-        'card_last_digits' => $faker->creditCardNumber,
+        'user_id' => 1,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'fullname' => $faker->name,
         'address' => $faker->address,
         'city' => $faker->city,
         'state' => $faker->state,
-        'zipcode' => array(intval(substr($faker->postcode,0,5)))
+        'zipcode' => intval(substr($faker->postcode,0,5)),
+        'phone' => $faker->phoneNumber,
+        'avatar' => $faker->imageUrl
     ];
 });

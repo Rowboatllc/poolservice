@@ -7,7 +7,7 @@ class Company extends Model
 	protected $table = 'companies';
 
     protected $fillable = [
-        'user_id', 'name', 'services', 'zipcodes','logo','status','website'
+        'user_id', 'name', 'services', 'zipcodes','logo','status','website','wq','cpa','driver_license'
     ];
 
     protected $casts = [

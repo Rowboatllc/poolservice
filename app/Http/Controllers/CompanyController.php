@@ -26,4 +26,9 @@ class CompanyController extends Controller {
     {
         return view('company.index');
     }
+
+    public function addCompanyProfile(Request $request) 
+    {
+        return response()->json(['success' => true,'message' => $email],200);
+    }
 }

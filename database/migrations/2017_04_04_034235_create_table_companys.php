@@ -20,6 +20,10 @@ class CreateTableCompanys extends Migration
             $table->json('services');
             $table->json('zipcodes');
             $table->string('logo');
+            $table->boolean('approved')->default(false);
+            $table->string('wq');
+            $table->string('driver_license');
+            $table->string('cpa')->nullable();
             $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive'))->default('pending');
             $table->string('website');        
             $table->timestamps();            

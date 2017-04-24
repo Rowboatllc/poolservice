@@ -2,24 +2,18 @@
 
 @section('content')
 
-<div class="panel dashboard-panel panel-default panel-transparent">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="panel with-nav-tabs panel-primary">
-                    <div class="panel-heading">
-                        <ul class="nav nav-tabs">
-                            <li class="{{ $tab =='pool_routes' ? ' in active' : ''}}" ><a href="#pool_routes" data-toggle="tab">Pool Routes</a></li>
-                            <li class="{{ $tab =='profile' ? ' in active' : ''}}" ><a href="#profile" data-toggle="tab">Profile</a></li>                     
-                        </ul>
-                    </div>
-                    <div class="panel-body panel-body-manager">
-                        <div class="tab-content">
-                            <div class="tab-pane fade {{ $tab =='pool_routes' || !$tab ? ' in active' : ''}}" id="pool_routes">Services Page</div>
-                            <div class="tab-pane fade {{ $tab =='profile' ? ' in active' : ''}}" id="profile">Profile </div>                        
-                        </div>
-                    </div>
-                </div>
+<div class="panel dashboard-panel container bs-example technician">
+    <div class="form-box">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#pool_routes" data-toggle="tab">Pool Routes</a></li>
+                <li ><a href="#profile" data-toggle="tab">Profile Company</a></li>
+            </ul>
+        </div>
+        <div class="panel-body panel-body-manager">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="pool_routes">@include('technician.pool-route') </div>
+                <div class="tab-pane fade" id="profile">@include('technician.profile') </div>
             </div>
         </div>
     </div>

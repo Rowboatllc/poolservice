@@ -14,7 +14,7 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-        $user = DB::table('users')->where('email','user@rowboatsoftware.com')->first();
+        $user = DB::table('users')->where('email','pool@rowboatsoftware.com')->first();
         
         $order = factory(App\Models\Order::class)->create([
             'user_id' => $user->id

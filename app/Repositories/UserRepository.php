@@ -166,6 +166,9 @@ class UserRepository
         $company->logo='';
         $company->status='pending';
         $company->website=$array['website'];
+        $company->wq='';
+        $company->driver_license='';
+        $company->cpa='';
         // add user to user_group
         $userGroup=new UserGroup();
         $userGroup->group_id=3;

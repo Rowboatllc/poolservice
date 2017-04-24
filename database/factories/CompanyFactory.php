@@ -23,6 +23,9 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'zipcodes' => $zipcodes,
         'logo' => $faker->imageUrl($width = 640, $height = 480),
         'status' => $faker->randomElement(array ('active', 'inactive')),
-        'website' => $faker->url
+        'website' => $faker->url,
+        'wq'=>'abc.jpg',
+        'driver_license'=>'abc.jpg',
+        'cpa'=>'abc.jpg'
     ];
 });

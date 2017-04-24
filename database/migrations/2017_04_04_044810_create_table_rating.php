@@ -18,8 +18,6 @@ class CreateTableRating extends Migration
             $table->integer('user_id');
             $table->integer('company_id');
             $table->integer('point');            
-            $table->timestamps();
-            
         });
     }
 
