@@ -33,6 +33,24 @@ function validationPoolService()
 	});	
 }
 
+var _URL = window.URL || window.webkitURL;
+function displayPreview(files,id) {
+    var img = new Image();
+    
+    img.onload = function () {
+            var imgsrc=this.src;        
+                doSomething(imgsrc,id); //call function
+            };   
+    img.src = _URL.createObjectURL(files);
+}
+
+// Do what you want in this function
+function doSomething(imgsrc,id)
+{
+    $("#"+id+" img").remove();
+    $('#'+id+'').append('<img src="'+imgsrc+'">'); 
+}
+
 $(document).ready(function() {
 
     validationPoolService();
@@ -49,6 +67,30 @@ $(document).ready(function() {
         }
     });
 
+    $("#file_logo").on('change',function () 
+    {        
+        var file = this.files[0];
+        displayPreview(file,'preview_logo');
+    });
+
+    $("#file_wq").on('change',function () 
+    {        
+        var file = this.files[0];
+        displayPreview(file,'preview_wq');
+    });
+
+    $("#file_driven_license").on('change',function () 
+    {        
+        var file = this.files[0];
+        displayPreview(file,'preview_driven_license');
+    });
+
+    $("#file_cpa").on('change',function () 
+    {        
+        var file = this.files[0];
+        displayPreview(file,'preview_cpa');
+    });
+
     // back info
 	$('.btn-previous').on('click', function(e) {
         e.preventDefault();
@@ -60,79 +102,37 @@ $(document).ready(function() {
         $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
     });
 
-    // $('.btn-submit').on('click', function(e) {
-    //     e.preventDefault();
-    //     var frm = $('#frmPoolServiceDashBoard');
-    //     // Create an FormData object
-    //     var data = new FormData(frm[0]);
-    //     $.ajax({
-	// 		beforeSend:function() { 
-	// 			$("#divModelPoolService").css("display", "block");
-	// 		},
-	// 		complete:function() {
-	// 			$("#divModelPoolService").css("display", "none");
-	// 		},
-    //         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    //         type: 'POST',
-    //         url: 'upload-company-profile',
-    //         data: data,
-    //         contentType: false,
-    //         processData: false,
-	// 		success: function(data) {
-    //             alert('ok');
-    //             $("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
-    //             // alert(data.message);
-	// 			// if(data.success===true)
-	// 			// {
-	// 			// 	$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
-	// 			// }
-	// 			// else
-	// 			// {
-	// 			// 	$("#notifyModalPoolService #get_your_email").text(data.message);
-	// 			// }
-				
-	// 			// $("#notifyModalPoolService").modal();
-	// 			// $('#frmPoolServiceDashBoard .btn-submit').prop('disabled', 'disabled');	
-	// 			// $('#frmPoolServiceDashBoard .btn-previous').prop('disabled', 'disabled');		
-	// 		}
-    //     });
-		
-    //     return false;
-    // });
-
-    var frm = $('#frmPoolServiceDashBoard');
-    frm.submit(function (ev) {
-        // Create an FormData object
+    $('.btn-submit').on('click', function(e) {
+        e.preventDefault();
+        var frm = $('#frmPoolServiceDashBoard');
         var data = new FormData(frm[0]);
-        $.ajax({
-			beforeSend:function() { 
-				$("#divModelPoolService").css("display", "block");
-			},
-			complete:function() {
-				$("#divModelPoolService").css("display", "none");
-			},
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: data,
-			success: function(data) {
-                alert('ok');
-                $("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
-                // alert(data.message);
-				// if(data.success===true)
-				// {
-				// 	$("#notifyModalPoolService #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
-				// }
-				// else
-				// {
-				// 	$("#notifyModalPoolService #get_your_email").text(data.message);
-				// }
-				
-				// $("#notifyModalPoolService").modal();
-				// $('#frmPoolServiceDashBoard .btn-submit').prop('disabled', 'disabled');	
-				// $('#frmPoolServiceDashBoard .btn-previous').prop('disabled', 'disabled');		
-			}
+        var xhr = new XMLHttpRequest();
+        (xhr.upload || xhr).addEventListener('progress', function(e) {
+            var done = e.position || e.loaded
+            var total = e.totalSize || e.total;
+            console.log('xhr progress: ' + Math.round(done/total*100) + '%');
         });
-		
-        return false;
+        xhr.addEventListener('load', function(e) {
+            console.log('xhr upload complete', e, this.responseText);
+        });
+        var token = $("meta[name='csrf-token']").attr("content");        
+        xhr.open('POST', frm.attr('action'), true);
+        xhr.onprogress = function () {
+            $("#divModelPoolService").css("display", "block");
+        };
+        xhr.setRequestHeader("X-CSRF-Token", token);
+        
+        
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log(xhr.responseText);     
+                $('#sectionC1').addClass('divLoadData');   
+                $('#sectionC2').removeClass('divLoadData');
+            }
+
+            $("#divModelPoolService").css("display", "none");
+        };
+
+        xhr.send(data);        
     });
 });

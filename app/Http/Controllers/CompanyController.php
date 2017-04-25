@@ -29,7 +29,6 @@ class CompanyController extends Controller {
 
     public function addCompanyProfile(Request $request) 
     {
-        // dd($request->all());
         $user=Auth::user();
         $company=$this->user->updateCompanyProfile($request->all(),$user->id);
         if($company)
