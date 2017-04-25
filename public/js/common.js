@@ -200,8 +200,57 @@ jQuery(document).ready(function () {
     });
 });
 
-// Service company dashboard
 
+// My Pool Service company
+jQuery(document).ready(function () {
+    let $company = jQuery('.my-pool-service-company .list-company');
+    $company.find('.btn-choose').bind('click', function(){
+        let link = $(this).attr('title');
+        console.log(link);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+            }
+        };
+        xhttp.open("GET", link, true);
+        xhttp.send();
+
+        $company.find('.item-company').toggleClass('no_display');
+        var self = $(this).parent().parent();
+        self.toggleClass('no_display');
+        $company.find('.btn.btn-primary').toggleClass('no_display');
+    });
+    $company.find('.btn-choose-new').bind('click', function(){
+        var self = $(this).parent().parent();
+        self.toggleClass('no_display');       
+        $company.find('.item-company').toggleClass('no_display');
+        $company.find('.btn.btn-primary').toggleClass('no_display');                
+    });
+});
+
+// Service company dashboard
+jQuery(document).ready(function () {
+    function assignEvent() {
+        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+            var $me = jQuery(this);
+            let data = $me.data();
+            let url = $me.parents('[data-updateurl]');
+            url = url.data('updateurl');
+            if(data=='')
+                return;
+            sendDataWithToken(url, data, 'POST', function (result) {
+                if(result.success!=true)
+                    return;
+                $me.parents('tr').find('.status').text(data.status);
+                console.log('saved');
+            }, function () {
+                console.log('something wrong');
+            });
+        });
+    }
+    assignEvent();
+});
 jQuery(document).ready(function () {
     function globalAssignEvent() {
         jQuery('.fieldset')

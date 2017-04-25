@@ -86,3 +86,32 @@ jQuery(document).ready(function () {
         });
     });
 });
+
+
+// My Pool Service company
+jQuery(document).ready(function () {
+    let $company = jQuery('.my-pool-service-company .list-company');
+    $company.find('.btn-choose').bind('click', function(){
+        let link = $(this).attr('title');
+        console.log(link);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+            }
+        };
+        xhttp.open("GET", link, true);
+        xhttp.send();
+
+        $company.find('.item-company').toggleClass('no_display');
+        var self = $(this).parent().parent();
+        self.toggleClass('no_display');
+        $company.find('.btn.btn-primary').toggleClass('no_display');
+    });
+    $company.find('.btn-choose-new').bind('click', function(){
+        var self = $(this).parent().parent();
+        self.toggleClass('no_display');       
+        $company.find('.item-company').toggleClass('no_display');
+        $company.find('.btn.btn-primary').toggleClass('no_display');                
+    });
+});

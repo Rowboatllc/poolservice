@@ -36,6 +36,7 @@ mix.combine(['resources/assets/js/register/jquery.backstretch.js', 'resources/as
 mix.combine(['resources/assets/js/register/main-pool-service.js'], 'public/js/register/main-pool-service.js');
 
 mix.combine(['resources/assets/js/billinginfo.js'], 'public/js/billinginfo.js');
+mix.combine(['resources/assets/js/technician.js'], 'public/js/technician.js');
 
 // Sass
 

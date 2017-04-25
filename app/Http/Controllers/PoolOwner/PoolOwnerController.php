@@ -93,7 +93,7 @@ class PoolOwnerController extends Controller {
             });
             $this->notification->saveNotification($company->user_id, $content, false);
         }
-        return redirect()->route('pool-owner', ['tab' => "service_company"]);
+        dd($user_id);
     }
 
     public function selectNewCompany($company_id) {

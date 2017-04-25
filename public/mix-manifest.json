@@ -7,5 +7,6 @@
   "/js/register/register-pool-owner.js": "/js/register/register-pool-owner.js",
   "/js/register/register-pool-service.js": "/js/register/register-pool-service.js",
   "/js/register/main-pool-service.js": "/js/register/main-pool-service.js",
-  "/js/billinginfo.js": "/js/billinginfo.js"
+  "/js/billinginfo.js": "/js/billinginfo.js",
+  "/js/technician.js": "/js/technician.js"
 }
