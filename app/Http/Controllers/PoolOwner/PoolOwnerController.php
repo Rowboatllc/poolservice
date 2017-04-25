@@ -50,7 +50,6 @@ class PoolOwnerController extends Controller {
     public function index(Request $request) {
         $this->loadHeadInPage('home');
         $user = Auth::user();
-        //$common = new Common;
         $tab = $request->input('tab');
 
         // profile
@@ -79,13 +78,6 @@ class PoolOwnerController extends Controller {
     public function started() {
         $this->loadHeadInPage('home');
         return view('started');
-    }
-
-    public function uploadResizeAvatar() {
-        $result = $this->repoProfile->uploadResizeAvatar('uploads/profile');
-        if ($result)
-            return $this->common->responseJson(true, 200, '', ['path' => $result]);
-        return $this->common->responseJson(false);
     }
 
     public function selectCompany($company_id) {
@@ -129,29 +121,6 @@ class PoolOwnerController extends Controller {
         $user_id = Auth::id();
         $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
         return redirect()->route('pool-owner', ['tab' => "service_company"]);
-    }
-
-    public function saveNewEmail(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveNewEmail($request->all()));
-    }
-
-    public function saveNewPassword(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveNewPassword($request->all()));
-    }
-
-    public function saveProfile(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveProfile($request->all()));
-    }
-
-    public function savePoolInfo(Request $request) {
-        $order = new OrderRepository;
-        return $this->common->responseJson($order->savePoolInfo($request->all()));
-    }
-
-    public function updateBillingInfo(Request $request) {
-        $user = $this->common->getUserByToken();
-        $result = $this->billing->updateBillingInfo($user->id, $request->all());
-        return $this->common->responseJson($result);
     }
 
 }
