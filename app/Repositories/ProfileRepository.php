@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Common\Common;
 use App\Models\Profile;
 use Auth;
 
@@ -63,8 +62,7 @@ class ProfileRepository {
                 'subject' => 'Changed email',
                 'data' => []
             ];
-            $common = new Common;
-            $common->sendmail('emails.verifytpl', $data);
+            $this->common->sendmail('emails.verifytpl', $data);
             return true;
         } catch (Exception $e) {
             return false;

@@ -6,6 +6,8 @@ use App\Models\Company;
 use App\Models\Order;
 use App\Models\Selected;
 use App\Models\Rating;
+use App\Models\User;
+
 use Illuminate\Support\Facades\DB;
 
 class CompanyRepository implements CompanyRepositoryInterface {
@@ -24,6 +26,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         $this->rating = $rating;
         $this->user = app('App\Repositories\UserRepository');
         $this->common = app('App\Common\Common');
+        $this->notification = app('App\Common\Common');
     }
 
     public function getAllCompanySupportOwner($user_id) {
@@ -158,8 +161,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         $offers = DB::select("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
         left join selecteds on selecteds.order_id = orders.id
         left join companies on companies.id = selecteds.company_id
-        where companies.user_id = " . $user_id );
-        //where companies.user_id = " . $user_id . " and selecteds.status = 'pending' or selecteds.status = 'denied'");
+        where companies.user_id = " . $user_id . " and selecteds.status <> 'inactive'");
         if ($offers) {
             for ($i = 0; $i < count($offers); $i++) {
                 $offers[$i]->services = $this->common->getServiceByKeys(json_decode($offers[$i]->services));
@@ -170,9 +172,32 @@ class CompanyRepository implements CompanyRepositoryInterface {
     }
     
     public function changeOfferStatus($data) {
+        $user = $this->common->getUserByToken();
+        $emailPoolOwner = $this->getPoolownerFromOffer($data['id']);
+        $emailPoolOwner = $emailPoolOwner[0]->email;
         $obj = $this->selected->find($data['id']);
         $obj->status = $data['status'];
-        return $obj->update();
+        try {
+            $obj->update();
+            $data = [
+                'email' => [$user->email, $emailPoolOwner],
+                'subject' => 'Service Notification',
+                'data' => ['status' => $obj->status]
+            ];
+            $this->common->sendmail('emails.offer-notification', $data);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+        return false;
+    }
+    
+    public function getPoolownerFromOffer($id) {
+        return DB::select("
+            select users.* from users
+            left join orders on orders.user_id = users.id
+            left join selecteds on selecteds.order_id = orders.id
+            where selecteds.status <> 'inactive' limit 0,1");
     }
 
 }
