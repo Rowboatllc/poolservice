@@ -1,10 +1,10 @@
 <div class="box-body table-responsive no-padding company-customer">
     <table class="table table-hover">
         <tr>
-            <th><a style='cursor:pointer;'>Customer</a></th>
-            <th><a style='cursor:pointer;'>Full name</a></th>
-            <th><a style='cursor:pointer;'>Phone</a></th>
-            <th><a style='cursor:pointer;'>Address</a></th>
+            <th><a>Customer</a></th>
+            <th><a>Full name</a></th>
+            <th><a>Phone</a></th>
+            <th><a>Address</a></th>
         </tr>
         @foreach ($customers as $customer)
             <tr>	

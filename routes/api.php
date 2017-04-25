@@ -43,3 +43,8 @@ Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function 
     Route::post('save-poolowner-poolinfo', 'PoolOwner\PoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
 });  
             
+Route::group(['prefix' => 'company', 'middleware' => ['api.token']], function () {
+    //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
+    //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
+    Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
+});           

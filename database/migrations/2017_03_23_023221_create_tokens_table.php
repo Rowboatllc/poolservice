@@ -19,7 +19,7 @@ class CreateTokensTable extends Migration
             $table->string('api_token');
             $table->string('client');
             $table->string('revoked')->default(0);
-            $table->string('expires_on');
+            $table->dateTime('expires_on');
             $table->timestamps();
         });
     }

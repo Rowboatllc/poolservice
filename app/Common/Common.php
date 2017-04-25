@@ -89,18 +89,12 @@ class Common {
     }
     
     public function getServiceByKeys($keys) {
-        
         $all = $this->getAllServices();
-        return $all;
-        /*$keys = (array)keys;
-        
-        foreach($keys as $item){
-            
+        $arr = [];
+        foreach($keys as $key=>$item){
+            $arr[] = $all[$item];
         }
-        function myfunction($key) {
-          return $all[$key];
-        }
-        return array_map("myfunction",(array)$keys);*/
+        return implode(' | ',$arr);
     }
 
 }
