@@ -5,18 +5,17 @@ namespace App\Http\Controllers\PoolOwner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\ApiToken;
 use Mail;
-use App\Common\Common;
+/*use App\Repositories\ApiToken;
+ * use App\Common\Common;
 use App\Models\User;
 use App\Models\Profile;
-use App\Models\Order;
+use App\Models\Order;*/
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
-use App\Repositories\UserRepository;
+//use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepositoryInterface;
-use App\Repositories\OrderRepository;
 
 //use App\Repositories\ProfileRepository;
 
@@ -30,15 +29,16 @@ class PoolOwnerController extends Controller {
     protected $company;
     protected $billing;
     protected $profile;
-    protected $user;
+    //protected $user;
     protected $common;
     protected $notification;
     protected $repoProfile;
 
     public function __construct(
-    UserRepository $user, PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
+        //UserRepository $user, 
+            PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
         parent::__construct($page);
-        $this->user = $user;
+        //$this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');
@@ -119,7 +119,7 @@ class PoolOwnerController extends Controller {
             $point = 1;
         }
         $user_id = Auth::id();
-        $result = $this->company->saveRatingCompany($user_id, $company_id, $point);
+        $this->company->saveRatingCompany($user_id, $company_id, $point);
         return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
