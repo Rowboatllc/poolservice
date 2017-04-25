@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Common\Common;
+use App\Models\Profile;
 use Auth;
 
 class ProfileRepository {

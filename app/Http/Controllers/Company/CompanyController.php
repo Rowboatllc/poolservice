@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
@@ -30,6 +30,7 @@ class CompanyController extends Controller {
         $user = Auth::user();
         $customers = $this->company->getCustomers($user->id);
         $offers = $this->company->getServiceOffers($user->id);
+        //dd($offers);
         return view('company.index', compact(['customers', 'offers']));
     }
 

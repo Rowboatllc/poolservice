@@ -79,5 +79,22 @@ class Common {
     public function getSupportedStates() {
         return [];
     }
+    
+    public function getAllServices() {
+        return [
+            'weekly_learning' => 'weeklys learning',
+            'deep_cleaning' => 'deep cleaning',
+            'pool_spa_repair' => 'pool spa repair',
+        ];
+    }
+    
+    public function getServiceByKeys($keys) {
+        $all = $this->getAllServices();
+        $arr = [];
+        foreach($keys as $key=>$item){
+            $arr[] = $all[$item];
+        }
+        return implode(' | ',$arr);
+    }
 
 }

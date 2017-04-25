@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-3 text-right col"><span class="labeltext">Address:</span></div><div class="col-md-9 col address"><div name="address" class="contenteditable" contenteditable="true"  data-validate="require">{{ $profile->address }}</div></div>
                 <div class="col-md-3 text-right col"><span class="labeltext">city, ST zipcode:</span></div><div class="col-md-9 col">
-                    <div name="city" class="contenteditable auto">{{$profile->city}}</div>
+                    <div name="city" class="contenteditable auto" contenteditable="true">{{$profile->city}}</div>
                         {{ Form::select('state', ['Arizona' => 'Arizona', 'Los Angeles' => 'Los Angeles', 'California' => 'California', 'New England' => 'New England'], $profile->state, ['class' => 'contenteditable','contenteditable'=>false, 'data-validate'=>'require']) }}
                     <div name="zipcode" class="contenteditable auto" contenteditable="true">{{$profile->zipcode}}</div>
                 </div>

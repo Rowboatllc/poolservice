@@ -36,10 +36,15 @@ Route::group(['prefix' => 'admin/option'], function () {
 });
 
 Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function () {
-    Route::post('update-billing-info', array('uses' => 'PoolOwner\PoolOwnerController@updateBillingInfo'))->name('update-billing-info');
-    Route::post('save-email', 'PoolOwner\PoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
-    Route::post('save-password', 'PoolOwner\PoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
-    Route::post('save-poolowner-profile', 'PoolOwner\PoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
-    Route::post('save-poolowner-poolinfo', 'PoolOwner\PoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
+    Route::post('update-billing-info', array('uses' => 'PoolOwner\ApiPoolOwnerController@updateBillingInfo'))->name('update-billing-info');
+    Route::post('save-email', 'PoolOwner\ApiPoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
+    Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
+    Route::post('save-poolowner-profile', 'PoolOwner\ApiPoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
+    Route::post('save-poolowner-poolinfo', 'PoolOwner\ApiPoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
 });  
             
+Route::group(['prefix' => 'company', 'middleware' => ['api.token']], function () {
+    //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
+    //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
+    Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
+});           
