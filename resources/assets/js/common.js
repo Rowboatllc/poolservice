@@ -299,7 +299,6 @@ function checkContent(value, type) {
         break;
     }
 }
-<<<<<<< HEAD
 
 function saveForm($form, callback) {
     sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
@@ -308,5 +307,3 @@ function saveForm($form, callback) {
         console.log('something wrong');
     })
 }
-=======
->>>>>>> c4d8e3b645e4a9a52247d01154998e473bdab2fa
