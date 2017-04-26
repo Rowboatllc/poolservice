@@ -76,26 +76,6 @@ function getEditableFieldValues($obj){
 	});
 	return values;
 }
-function sendDataWithToken(url, data, method, callback, error) {
-	var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
-	method = method || 'POST';
-	jQuery.ajax({
-		url: url,
-		method: method,
-		data: data,
-		//dataType: "application/json",
-		headers: {
-			"Accept": "application/json",
-			"Authorization": "Bearer " + key
-		},
-		success: function (result) {
-			(callback || jQuery.noop)(result);
-		},
-		error: function (result) {
-			(error || jQuery.noop)(result);
-		}
-	});
-}
 function stripeResponseHandler(status, response) {
 	if (response.error) {
 		$("#payment-errors").html(response.error.message);
@@ -114,7 +94,7 @@ function stripeResponseHandler(status, response) {
 			var callback =Stripe.callback;
 			data_billing.push(tok);			
 			data_billing = jQuery.param(data_billing);
-			sendDataWithToken($obj.attr('action'), data_billing, $obj.attr('method'), function (result) {
+			sendData($obj.attr('action'), data_billing, $obj.attr('method'), function (result) {
 				(callback || jQuery.noop)(result);
 			}, function (result) {
 				if(!result.success){

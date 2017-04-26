@@ -15,7 +15,7 @@
 
           <div class="col-md-3 text-right col"><span class="labeltext">Number Card:</span></div>
           <div class="col-md-9 col">
-            <div name="card_last_digits" id="card_last_digits" class="contenteditable password" contenteditable="true" data-validate="require">{{$billing_info->card_last_digits}}</div>
+            <div name="card_last_digits" id="card_last_digits" class="contenteditable" contenteditable="true" data-validate="require">{{$billing_info->card_last_digits}}</div>
           </div>
 
           <div class="col-md-3 text-right col"><span class="labeltext">Expiration Date:</span></div>

@@ -43,10 +43,4 @@ class ApiPoolOwnerController extends Controller {
         return $this->common->responseJson($order->savePoolInfo($request->all()));
     }
 
-    public function updateBillingInfo(Request $request) {
-        $user = $this->common->getUserByToken();
-        $result = $this->billing->updateBillingInfo($user->id, $request->all());
-        return $this->common->responseJson($result);
-    }
-
 }

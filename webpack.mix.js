@@ -17,7 +17,7 @@ const { mix } = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js');
 
 // common.js
-mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/poolowner.js', 'resources/assets/js/servicecompany.js', 'resources/assets/js/common.js'], 'public/js/common.js');
+mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/servicecompany.js', 'resources/assets/js/common.js', 'resources/assets/js/star-rating.js'], 'public/js/common.js');
 
 // admin.js
 mix.combine(['resources/assets/js/nav.js', 'resources/assets/js/admin/admin.js'], 'public/js/admin/admin.js');
@@ -36,7 +36,8 @@ mix.combine(['resources/assets/js/register/jquery.backstretch.js', 'resources/as
 mix.combine(['resources/assets/js/register/main-pool-service.js'], 'public/js/register/main-pool-service.js');
 
 mix.combine(['resources/assets/js/billinginfo.js'], 'public/js/billinginfo.js');
-mix.combine(['resources/assets/js/technician.js'], 'public/js/technician.js');
+mix.combine(['resources/assets/js/billinginfo.js'], 'public/js/billinginfo.js');
+mix.combine(['resources/assets/js/poolowner.js'], 'public/js/poolowner.js');
 
 // Sass
 
