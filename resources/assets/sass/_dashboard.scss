@@ -7,6 +7,11 @@
     border: 1px solid red !important;
 }
 
+[contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    display: block;
+}
+    
 .dashboard-panel {
     .panel-primary > .panel-heading {
         padding: 10px 15px 0px;
@@ -117,7 +122,16 @@
         margin-left: -32px;
         margin-top: -2px;
     }
-    
+}
+
+.technician-professionnal-service {
+    .technician-img {
+        width: 25%;
+    }
+    form.form_technician-avatar {
+        width: 70%;
+        display: inline-block
+    }
 }
 
 .my-pool-service-company{

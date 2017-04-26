@@ -195,6 +195,9 @@ function sendData(url, data, method, callback, error) {
         method: method,
         data: data,
         //dataType: "application/json",
+        headers: {
+            "X-CSRF-Token": token
+        },
         success: function (result) {
             (callback || jQuery.noop)(result);
             hideLoading();
@@ -295,4 +298,12 @@ function checkContent(value, type) {
         case 'number':
         break;
     }
+}
+
+function saveForm($form, callback) {
+    sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
+        (callback || jQuery.noop)(result);		
+    }, function () {
+        console.log('something wrong');
+    })
 }

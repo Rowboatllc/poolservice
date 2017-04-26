@@ -15,29 +15,37 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     }
 
     public function getAllScheduleInWeek($technician_id){
-        $schedules = DB::select('SELECT *, DAYOFWEEK(s.date) dayOfWeek FROM schedules as s
+        $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date)dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
+                                    LEFT JOIN orders o ON o.id = s.order_id
+                                    LEFT JOIN profiles p ON p.user_id = o.user_id
                                     WHERE WEEKOFYEAR(date) = WEEKOFYEAR(CURDATE())
                                     AND s.technican_id = '.$technician_id.'
                                     ORDER BY `dayOfWeek` ASC
-                                ');
-        $result = ["monday" => [], "tuesday" => [], "wednesday" => [], "thursday" => [], "friday" => []];                          
+                                    ');
+        $result = array(
+            array("name" => "Monday", "value" => []),
+            array("name" => "Tuesday", "value" => []),
+            array("name" => "Wednesday", "value" => []),
+            array("name" => "Thursday", "value" => []),
+            array("name" => "Friday", "value" => [])
+        );                          
         if(isset($schedules)){
             foreach($schedules as $schedule){
                 switch ($schedule->dayOfWeek) {
                     case 2:
-                        $result["monday"][] = $schedule;
+                        $result[0]["value"][] = $schedule;
                         break;
                     case 3:
-                        $result["tuesday"][] = $schedule;
+                        $result[1]["value"][] = $schedule;
                         break;
                     case 4:
-                        $result["wednesday"][] = $schedule;
+                        $result[2]["value"][] = $schedule;
                         break;
                     case 5:
-                        $result["thursday"][] = $schedule;
+                        $result[3]["value"][] = $schedule;
                         break;
                     case 6:
-                        $result["friday"][] = $schedule;
+                        $result[4]["value"][] = $schedule;
                         break;
                 }
             }

@@ -63,16 +63,16 @@ class PoolOwnerController extends Controller {
         $billing_info = $this->billing->getBillingInfo($user->id);
 
         // my pool service company
-        $companys = $this->company->getSelectedCompany($user->id);
+        
+        $companys = $this->company->getAllCompanySupportOwner($user->id);
+        $company_select_arr = $this->company->getSelectedCompany($user->id);
         $point = 0;
-        if (empty($companys)) {
-            $company_id = 0;
-            $companys = $this->company->getAllCompanySupportOwner($user->id);
-        } else {
-            $company_id = $companys[0]->id;
-            $point = $this->company->getRatingCompany($user->id, $company_id);
+        $company_select = null;
+        if (!empty($company_select_arr)) {
+            $company_select = $company_select_arr[0];
+            $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
-        return view('poolowner.index', compact(['tab', 'companys', 'company_id', 'point', 'profile', 'billing_info']));
+        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info']));
     }
 
     public function started() {
@@ -81,46 +81,70 @@ class PoolOwnerController extends Controller {
     }
 
     public function selectCompany($company_id) {
-        $user_id = Auth::id();
-        $result = $this->company->selectCompany($user_id, $company_id);
-        if ($result) {
-            $company = $this->company->getCompanyById($company_id);
-            $content = 'Customers sign up for your service';
-            Mail::send('emails.select-company', compact('company'), function($message)
-                    use ($company, $content) {
-                $message->subject($content);
-                $message->to($company->email);
-            });
-            $this->notification->saveNotification($company->user_id, $content, false);
+        try{
+            $user_id = Auth::id();
+            $result = $this->company->selectCompany($user_id, $company_id);
+            if ($result) {
+                $company = $this->company->getCompanyById($company_id);
+                $content = 'Customers sign up for your service';
+                Mail::send('emails.select-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+            }
+            return $this->common->responseJson(true);
+        }catch(\Exception $e){
+            return $this->common->responseJson(false);
         }
-        return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
     public function selectNewCompany($company_id) {
-        $user_id = Auth::id();
-        $result = $this->company->removeAllSelectCompany($user_id);
-        if ($result) {
-            $company = $this->company->getCompanyById($company_id);
-            $content = 'Customers remove for your service';
-            Mail::send('emails.remove-company', compact('company'), function($message)
-                    use ($company, $content) {
-                $message->subject($content);
-                $message->to($company->email);
-            });
-            $this->notification->saveNotification($company->user_id, $content, false);
+        try{
+            $user_id = Auth::id();
+            $result = $this->company->removeAllSelectCompany($user_id);
+            if ($result) {
+                $company = $this->company->getCompanyById($company_id);
+                $content = 'Customers remove for your service';
+                Mail::send('emails.remove-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+            }
+            return $this->common->responseJson(true);
+        }catch(\Exception $e){
+            return $this->common->responseJson(false);
         }
-        return redirect()->route('pool-owner', ['tab' => "service_company"]);
     }
 
     public function ratingCompany(Request $request) {
-        $point = $request->input('company_point');
-        $company_id = $request->input('company_id');
-        if (!isset($point) || $point == 0) {
-            $point = 1;
+        try{
+            $point = $request->input('company_point');
+            $company_id = $request->input('company_id');
+            if (!isset($point) || $point == 0) {
+                $point = 1;
+            }
+            $user_id = Auth::id();
+            $this->company->saveRatingCompany($user_id, $company_id, $point);
+            return $this->common->responseJson(true);
+        }catch(\Exception $e){
+            return $this->common->responseJson(false);
         }
+    }
+
+    public function updateBillingInfo(Request $request) {
         $user_id = Auth::id();
-        $this->company->saveRatingCompany($user_id, $company_id, $point);
-        return redirect()->route('pool-owner', ['tab' => "service_company"]);
+        $result = $this->billing->updateBillingInfo($user_id, $request->all());
+        return $this->common->responseJson($result);
+    }
+
+    public function getPointRatingCompany($company_id){
+        $user_id = Auth::id();
+        $point = $this->company->getRatingCompany($user_id, $company_id);
+        return $this->common->responseJson(true, 200, '', ['point'=>$point]);        
     }
 
 }

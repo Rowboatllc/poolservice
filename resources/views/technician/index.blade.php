@@ -27,4 +27,11 @@
 @endsection
 
 @section('lib')
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBryrrkxzanAKewPE3p9-XK2XTPYwpyKeU&callback=initMap">
+</script>
+
+
+<script src="{{ asset('/js/technician.js') }}"></script>
+
 @endsection
