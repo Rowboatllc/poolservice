@@ -36,7 +36,7 @@ Route::group(['prefix' => 'admin/option'], function () {
 });
 
 Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function () {
-    Route::post('update-billing-info', array('uses' => 'PoolOwner\ApiPoolOwnerController@updateBillingInfo'))->name('update-billing-info');
+    // Route::post('update-billing-info', array('uses' => 'PoolOwner\ApiPoolOwnerController@updateBillingInfo'))->name('update-billing-info');
     Route::post('save-email', 'PoolOwner\ApiPoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
     Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
     Route::post('save-poolowner-profile', 'PoolOwner\ApiPoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
