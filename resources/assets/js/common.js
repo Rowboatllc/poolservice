@@ -299,3 +299,11 @@ function checkContent(value, type) {
         break;
     }
 }
+
+function saveForm($form, callback) {
+    sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
+        (callback || jQuery.noop)(result);		
+    }, function () {
+        console.log('something wrong');
+    })
+}

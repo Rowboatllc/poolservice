@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth']], function () {
 
             //Profile
             Route::post('ajax-upload-file', 'PoolOwner\ApiPoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
+            Route::post('ajax-upload-image/{folder}', 'ApiController@uploadImage')->name('ajax-upload-image');
         });
     });
 });

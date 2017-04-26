@@ -47,4 +47,9 @@ Route::group(['prefix' => 'company', 'middleware' => ['api.token']], function ()
     //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
     //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
     Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
-});           
+});
+
+Route::group(['prefix' => 'technician', 'middleware' => ['api.token']], function () {
+    Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
+    Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
+});

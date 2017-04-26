@@ -26,7 +26,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         $this->rating = $rating;
         $this->user = app('App\Repositories\UserRepository');
         $this->common = app('App\Common\Common');
-        $this->notification = app('App\Common\Common');
+        $this->notification = app('App\Repositories\NotificationRepository');
     }
 
     public function getAllCompanySupportOwner($user_id) {
@@ -185,6 +185,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                 'data' => ['status' => $obj->status]
             ];
             $this->common->sendmail('emails.offer-notification', $data);
+            $this->notification->saveNotification($user->id, 'Offer from '. $emailPoolOwner . ' was ' .$obj->status, 0);
             return true;
         } catch (Exception $e) {
             return false;
@@ -199,5 +200,4 @@ class CompanyRepository implements CompanyRepositoryInterface {
             left join selecteds on selecteds.order_id = orders.id
             where selecteds.status <> 'inactive' limit 0,1");
     }
-
 }

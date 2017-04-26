@@ -17,7 +17,7 @@ class CreateTableTechnicians extends Migration
             $table->integer('user_id')->unique();       
             $table->integer('company_id');
             $table->boolean('is_owner');   
-            $table->dateTime('avaliable_days');
+            $table->dateTime('avaliable_days')->nullable();
             $table->timestamps();
         });
     }
