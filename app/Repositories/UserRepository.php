@@ -9,6 +9,7 @@ use App\Models\Poolowner;
 use App\Models\BillingInfo;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserRepository
 {
@@ -291,6 +292,22 @@ class UserRepository
             'driver_license' => $arr['driven_license']->getClientOriginalName(),
             'cpa' => $arr['cpa']->getClientOriginalName()])->save();
             
-        return $com;
+        $comProfile = getCompanyProfile($id);
+        return $comProfile;
+    }
+
+    public function getCompanyProfile($id)
+    {
+        $comProfile = DB::table('companies')
+                ->select('companies.name','companies.website','companies.logo','companies.approved','profiles.address','profiles.fullname','profiles.phone','companies.wq','companies.cpa','companies.driver_license')
+                ->join('profiles', 'companies.user_id','=','profiles.user_id')
+                ->where(['companies.user_id' => $id])
+                ->first();
+        if($comProfile)
+        {
+            $comProfile->logo=Storage::url($comProfile->logo);
+        }
+
+        return $comProfile;
     }
 }

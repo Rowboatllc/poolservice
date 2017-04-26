@@ -120,14 +120,44 @@ $(document).ready(function() {
         xhr.onprogress = function () {
             $("#divModelPoolService").css("display", "block");
         };
-        xhr.setRequestHeader("X-CSRF-Token", token);
-        
+        xhr.setRequestHeader("X-CSRF-Token", token);        
         
         xhr.onreadystatechange = function () {
             if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                console.log(xhr.responseText);     
-                $('#sectionC1').addClass('divLoadData');   
-                $('#sectionC2').removeClass('divLoadData');
+                console.log(xhr.responseText); 
+                var data=JSON.parse(xhr.responseText);
+                var img=$('#preview_logo img');
+                $('.logo-data').append(img);
+                //load select box
+                $('#review_select').append($('<option>').append('<li>W-q <i class="fa fa-car"></i></li>'));
+                $('#review_select').append($('<option>').append("<li>Driver's-License <i class='fa fa-car'></i></li>"));
+                $('#review_select').append($('<option>').append("<li>CPA Certification <i class='fa fa-car'></i></li>"));
+                //load pool-service info
+                var table="<table>";
+                table+="<tr>";
+                table+="<td>Company Name</td>";
+                table+="<td>"+data.message.name+"</td>";
+                table+="</tr>";
+                table+="<tr>";
+                table+="<td>Website</td>";
+                table+="<td>"+data.message.website+"</td>";
+                table+="</tr>";
+                table+="<tr>";
+                table+="<td>First and last name</td>";
+                table+="<td>"+data.message.fullname+"</td>";
+                table+="</tr>";
+                table+="<tr>";
+                table+="<td>Address</td>";
+                table+="<td>"+data.message.address+"</td>";
+                table+="</tr>";
+                table+="<tr>";
+                table+="<td>Telephone Number</td>";
+                table+="<td>"+data.message.phone+"</td>";
+                table+="</tr>";
+                table+="</table>";
+                $('.address-data').append(table);
+                $('.sectionC1').addClass('divLoadData');   
+                $('.sectionC2').removeClass('divLoadData');
             }
 
             $("#divModelPoolService").css("display", "none");

@@ -30,7 +30,8 @@ class CompanyController extends Controller {
         $user = Auth::user();
         $customers = $this->company->getCustomers($user->id);
         $offers = $this->company->getServiceOffers($user->id);
-        return view('company.index', compact(['customers', 'offers']));
+        $comProfile=$this->user->getCompanyProfile($user->id);
+        return view('company.index', compact(['customers', 'offers','comProfile']));
     }
 
     public function addCompanyProfile(Request $request) 
