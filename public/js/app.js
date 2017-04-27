@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -11172,6 +11172,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -11194,13 +11198,13 @@ __webpack_require__(30);
 /* 10 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: \"../../resources/assets/sass/_variables.scss\" is not in the SourceMap.\n    at SourceMapConsumer_sourceContentFor [as sourceContentFor] (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-consumer.js:704:13)\n    at SourceMapGenerator.<anonymous> (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-generator.js:235:40)\n    at Array.forEach (native)\n    at SourceMapGenerator_applySourceMap [as applySourceMap] (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-generator.js:234:32)\n    at MapGenerator.applyPrevMaps (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:146:22)\n    at MapGenerator.generateMap (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:194:46)\n    at MapGenerator.generate (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:297:25)\n    at LazyResult.stringify (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\lazy-result.js:294:24)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\lazy-result.js:231:27\n    at runLoaders (D:\\rowboat\\htdocs\\poolservice\\node_modules\\webpack\\lib\\NormalModule.js:192:19)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss-loader\\index.js:148:13");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: \"../../resources/assets/sass/_variables.scss\" is not in the SourceMap.\n    at SourceMapConsumer_sourceContentFor [as sourceContentFor] (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-consumer.js:704:13)\n    at SourceMapGenerator.<anonymous> (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-generator.js:235:40)\n    at Array.forEach (native)\n    at SourceMapGenerator_applySourceMap [as applySourceMap] (D:\\rowboat\\htdocs\\poolservice\\node_modules\\source-map\\lib\\source-map-generator.js:234:32)\n    at MapGenerator.applyPrevMaps (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:146:22)\n    at MapGenerator.generateMap (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:194:46)\n    at MapGenerator.generate (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\map-generator.js:297:25)\n    at LazyResult.stringify (D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\lazy-result.js:294:24)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss\\lib\\lazy-result.js:231:27\n    at runLoaders (D:\\rowboat\\htdocs\\poolservice\\node_modules\\webpack\\lib\\NormalModule.js:192:19)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (D:\\rowboat\\htdocs\\poolservice\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at D:\\rowboat\\htdocs\\poolservice\\node_modules\\postcss-loader\\index.js:148:13");
 
 /***/ }),
 /* 12 */

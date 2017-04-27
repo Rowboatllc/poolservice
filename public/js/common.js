@@ -130,9 +130,38 @@ jQuery(document).ready(function () {
                 console.log('something wrong');
             });
         });
+        
+        jQuery('.technician-professionnal-service .save-techinician').bind('click', function() {
+           $form = jQuery(this).parents('form');
+            saveForm($form, function(result){
+                console.log(result);
+                $form.parents('.modal').modal('hide');
+            });
+        });
+        
+        jQuery('.technician-professionnal-service .remove-item-list').bind('click', function() {
+            if(!confirm("Press a button!"))
+                return;
+            console.log('do delete');
+            
+        });
+        
+        jQuery('.technician-professionnal-service .edit-item-list').bind('click', function() {
+        });
+        
     }
     assignEvent();
 });
+
+function afterUploadedTechnicianAvatar(form, result) {
+    let $img = jQuery('.technician-img');
+    let cur = new Date();
+    let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
+    $img.attr('src', newPath);
+    jQuery('.technician-professionnal-service input[name="avatar"]').val(result.path);
+    document.querySelector(form).reset();
+    jQuery('#'+ajaxUploadFile.frameName).remove();
+}
 jQuery(document).ready(function () {
     function globalAssignEvent() {
         jQuery('.fieldset')
@@ -435,6 +464,13 @@ function checkContent(value, type) {
     }
 }
 
+function saveForm($form, callback) {
+    sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
+        (callback || jQuery.noop)(result);		
+    }, function () {
+        console.log('something wrong');
+    })
+}
 /*!
  * bootstrap-star-rating v4.0.2
  * http://plugins.krajee.com/star-rating

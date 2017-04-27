@@ -1,11 +1,10 @@
 {
   "/js/app.js": "/js/app.js",
-  "/css/admin.css": "/css/admin.css",
-  "/css/app.css": "/css/app.css",
   "/js/common.js": "/js/common.js",
   "/js/admin/admin.js": "/js/admin/admin.js",
   "/js/register/register-pool-owner.js": "/js/register/register-pool-owner.js",
   "/js/register/register-pool-service.js": "/js/register/register-pool-service.js",
   "/js/register/main-pool-service.js": "/js/register/main-pool-service.js",
-  "/js/billinginfo.js": "/js/billinginfo.js"
+  "/js/billinginfo.js": "/js/billinginfo.js",
+  "/js/poolowner.js": "/js/poolowner.js"
 }
