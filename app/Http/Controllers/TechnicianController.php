@@ -18,12 +18,14 @@ class TechnicianController extends Controller {
     protected $user;
     protected $company;
     protected $schedule;
+    protected $common;
 
     public function __construct(UserRepository $user,ScheduleRepositoryInterface $schedule, CompanyRepositoryInterface $company) 
     {
         $this->user = $user;
         $this->schedule = $schedule;
         $this->company = $company;
+        $this->common = app('App\Common\Common');
     }
 
     public function index() 
@@ -32,6 +34,24 @@ class TechnicianController extends Controller {
         $company = $this->company->getCompanyProfile($user->id);
         $schedules = $this->schedule->getAllScheduleInWeek($user->id);
         return view('technician.index',compact(['user', 'schedules', 'company']));
+    }
+
+    public function enroute() 
+    {
+        $user = Auth::user();
+        return $this->common->responseJson($order->savePoolInfo($request->all()));
+    }
+
+    public function completeSteps() 
+    {
+        $user = Auth::user();
+        return $this->common->responseJson($order->savePoolInfo($request->all()));
+    }
+
+    public function unableSteps() 
+    {
+        $user = Auth::user();
+        return $this->common->responseJson($order->savePoolInfo($request->all()));
     }
 
     

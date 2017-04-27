@@ -33,5 +33,5 @@
 
 
 <script src="{{ asset('/js/technician.js') }}"></script>
-
+<script src="{{ asset('/js/map.js') }}"></script>
 @endsection

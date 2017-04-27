@@ -35,3 +35,83 @@
 
 </div>
 <!-- /row -->
+
+<div id="cleaningStepsModal" class="modal fade schedule-day-of-week confirm-steps" role="dialog">
+    <form role="form" action="{{route('rating-company')}}" method="post" id="form-rating-company">
+    {{ csrf_field() }}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Cleaning Steps</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="post-review-box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="text-left">
+								<div class="row">
+									<div class="col-md">
+										<fieldset>
+											<div>
+												<h5>Weekly cleaniing <span id="day-of-schedule">03-03-2017</span></h5>
+											</div>
+											<div class="checkbox">
+												<input id="step1" type="checkbox">
+												<label for="step1">
+													Test and adjust chemicals
+												</label>
+												<br/>
+												<label>- Alkalinity: HI ppm</label>
+												<br/>													
+												<label>- pH balance: 7.9 pH</label>
+											</div>
+											<div class="checkbox">
+												<input id="step2" type="checkbox">
+												<label for="step2">
+													Backwash the filter
+												</label>
+											</div>
+											<div class="checkbox">
+												<input id="step3" type="checkbox">
+												<label for="step3">
+													Empty the skimmer
+												</label>
+											</div>
+											<div class="checkbox">
+												<input id="step4" type="checkbox">
+												<label for="step4">
+													Empty the pump baskets
+												</label>
+											</div>
+											<div class="checkbox">
+												<input id="step5" type="checkbox">
+												<label for="step5">
+													Brush walls and steps
+												</label>
+											</div>
+											<div class="checkbox">
+												<input id="step6" type="checkbox">
+												<label for="step6">
+													Skim debris from water surface
+												</label>
+											</div>
+											<div class="form-group">
+												<label for="comment">Comment:</label>
+												<textarea class="form-control" rows="5" id="comment" ></textarea>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" title="{{ route('technician-complete-steps') }}">Unable to service</button>
+                    <button type="button" class="btn btn-primary btn-save-rating" title="{{ route('technician-unable-steps') }}">Service complete</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

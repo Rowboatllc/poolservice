@@ -67,7 +67,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'technician'], function () {
         Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
-        
+        Route::get('/enroute/{$schedule_id}', array('uses' => 'TechnicianController@enroute'))->name('technician-enroute');
+        Route::post('/complete-steps', array('uses' => 'TechnicianController@completeSteps'))->name('technician-complete-steps');
+        Route::post('/unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
     });
 
     Route::group(['middleware' => ['permission']], function () {
