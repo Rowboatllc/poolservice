@@ -29,16 +29,13 @@ class PoolOwnerController extends Controller {
     protected $company;
     protected $billing;
     protected $profile;
-    //protected $user;
     protected $common;
     protected $notification;
     protected $repoProfile;
 
     public function __construct(
-        //UserRepository $user, 
             PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
         parent::__construct($page);
-        //$this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
         $this->profile = app('App\Models\Profile');

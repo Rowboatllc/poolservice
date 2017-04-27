@@ -8,14 +8,14 @@
           </div>
           <div class="col-md-3 text-right col"><span class="labeltext">Name Card:</span></div>
           <div class="col-md-9 col">
-              <div name="name_card" class="contenteditable" contenteditable="true" data-validate="require">{{$billing_info->name_card}}</div>
+              <div name="name_card" class="contenteditable" contenteditable="true" data-validate="require">{{$billing_info->name_card or "&nbsp"}}</div>
               <span class="glyphicon glyphicon-pencil editfieldset_billing icon badge">&nbsp;</span>
               <span class="glyphicon glyphicon-floppy-save savefieldset_billing icon badge no_display">&nbsp;</span>
           </div>
 
           <div class="col-md-3 text-right col"><span class="labeltext">Number Card:</span></div>
           <div class="col-md-9 col">
-            <div name="card_last_digits" id="card_last_digits" class="contenteditable" contenteditable="true" data-validate="require">{{$billing_info->card_last_digits}}</div>
+            <div name="card_last_digits" id="card_last_digits" class="contenteditable" contenteditable="true" data-validate="require">********{{$billing_info->card_last_digits or "&nbsp"}}</div>
           </div>
 
           <div class="col-md-3 text-right col"><span class="labeltext">Expiration Date:</span></div>
