@@ -1,16 +1,6 @@
 <?php
 
 return [
-
-    'disks' => [
-
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'visibility' => 'public',
-        ],
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
