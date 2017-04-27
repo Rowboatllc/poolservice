@@ -18,24 +18,37 @@ class TechnicianRepository {
     }
     
     public function getList($id) {
-        return \DB::select("
-            SELECT profiles.fullname, profiles.phone, users.email, users.status, users.id, companies.id as company_id FROM `profiles`
-            LEFT JOIN users on users.id = profiles.user_id
-            LEFT JOIN technicians on technicians.user_id = users.id
-            LEFT JOIN companies on companies.id = technicians.company_id
-            WHERE companies.user_id = ". $id);
+        return DB::table('profiles')
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('technicians', 'technicians.user_id', '=', 'users.id')
+            ->join('companies', 'companies.id', '=', 'technicians.company_id')
+            ->select('profiles.fullname', 'profiles.phone', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
+            ->where ('companies.user_id', $id)
+            ->paginate(5);
+    }
+    
+    public function listTechnicians($id) {
+        $objs = DB::table('profiles')
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('technicians', 'technicians.user_id', '=', 'users.id')
+            ->join('companies', 'companies.id', '=', 'technicians.company_id')
+            ->select('profiles.fullname', 'profiles.phone', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
+            ->where ('companies.user_id', $id)
+            ->paginate(5);
+        //dd($objs);
+        return $objs->toJson();
     }
     
     public function saveTechnician($data) {
         $profile = new Profile;
         $user = new User;
-        $technician = new Technician;
+        //$technician = new Technician;
         $is_owner = empty($data['is_owner']) ? 0 : 1;
         DB::beginTransaction();
         if(!empty($data['id'])) {
             $profile = Profile::find($data['id']);
             $user = User::find($data['id']);
-            $technician = Technician::find($data['id']);
+            $technician = $this->techinician->find($data['id']);
             $profile->fullname = $data['fullname'];
             $profile->phone = $data['phone'];
             $user->email = $data['email'];
@@ -43,7 +56,7 @@ class TechnicianRepository {
             try {
                 $profile->save();
                 $user->save();
-                $technician->save();
+                $this->techinician->save();
                 DB::commit();
                 return true;
             } catch (Exception $e) {
@@ -62,7 +75,7 @@ class TechnicianRepository {
                 'fullname' => $data['fullname'],
                 'phone' => $data['phone']
             ]);
-            $technician->create([
+            $this->techinician->create([
                 'user_id' => $result->id,
                 'company_id' => $data['company'],
                 'is_owner' => $is_owner
@@ -78,7 +91,19 @@ class TechnicianRepository {
     }
     
     public function removeTechnician($data) {
-        
+        $profile = new Profile;
+        $user = new User;
+        DB::beginTransaction();
+        try {
+            $this->techinician->find($data['id'])->delete();
+            $profile->find($data['id'])->delete();
+            $user->find($data['id'])->delete();
+            DB::commit();
+            return true;
+        } catch (Exception $e) { 
+            DB::rollback();
+            return false;
+        }
     }
     
 }

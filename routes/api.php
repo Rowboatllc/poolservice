@@ -50,6 +50,7 @@ Route::group(['prefix' => 'company', 'middleware' => ['api.token']], function ()
 });
 
 Route::group(['prefix' => 'technician', 'middleware' => ['api.token']], function () {
+    Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
     Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
     Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
 });
