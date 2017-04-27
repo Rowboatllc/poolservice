@@ -292,8 +292,8 @@ class UserRepository
             'driver_license' => $arr['driven_license']->getClientOriginalName(),
             'cpa' => $arr['cpa']->getClientOriginalName()])->save();
             
-        $comProfile = getCompanyProfile($id);
-        return $comProfile;
+        $comProfile = self::getCompanyProfile($id);
+        return $comProfile;   
     }
 
     public function getCompanyProfile($id)
@@ -303,10 +303,6 @@ class UserRepository
                 ->join('profiles', 'companies.user_id','=','profiles.user_id')
                 ->where(['companies.user_id' => $id])
                 ->first();
-        if($comProfile)
-        {
-            $comProfile->logo=Storage::url($comProfile->logo);
-        }
 
         return $comProfile;
     }

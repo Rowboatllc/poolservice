@@ -42,36 +42,37 @@ class CompanyController extends Controller {
         $company=$this->user->updateCompanyProfile($request->all(),$user->id);
         if($company)
         {
-            $logo=$request['logo'];
-            $wq=$request['wq'];
-            $cpa=$request['cpa'];
-            $driver_license=$request['driver_license'];
-            
-            if($logo)
+            $extension_logo = $request['logo']->extension();
+            $extension_wq = $request['wq']->extension();
+            $extension_cpa = $request['cpa']->extension();
+            $extension_driver_license = $request['driver_license']->extension();
+            if (!($request['logo']->isValid() && $extension_logo!='exe' && in_array($extension_logo, ['jpg', 'png']))
+                ||!($request['wq']->isValid() && $extension_wq!='exe' && in_array($extension_logo, ['jpg', 'png']))
+                ||!($request['cpa']->isValid() && $extension_cpa!='exe' && in_array($extension_logo, ['jpg', 'png']))
+                ||!($request['driver_license']->isValid() && $extension_driver_license!='exe' && in_array($extension_logo, ['jpg', 'png']))
+            )
             {
+                return redirect()->back()
+                    ->withInput($request->all())
+                    ->withErrors(['Invalid upload image.']);
+            }
+            else
+            {
+                //logo
                 $logoCom=$logo->getClientOriginalName();                
-                $logo->storeAs('company-profile',$logoCom);
-            }
-
-            if($wq)
-            {
+                $logo->storeAs('company-image',$logoCom);
+                //wq
                 $logoWq=$wq->getClientOriginalName();                
-                $wq->storeAs('company-profile',$logoWq);
-            }
-
-            if($driver_license)
-            {
+                $wq->storeAs('company-image',$logoWq);
+                //driver_license
                 $logoDriver_license=$driver_license->getClientOriginalName();
-                $driver_license->storeAs('company-profile',$logoDriver_license);
-            }
-
-            if($cpa)
-            {
+                $driver_license->storeAs('company-image',$logoDriver_license);
+                //cpa
                 $logoCpa=$cpa->getClientOriginalName();
-                $cpa->storeAs('company-profile',$logoCpa);
-            }
+                $cpa->storeAs('company-image',$logoCpa);
 
-            return response()->json(['success' => true,'message' => $company],200);
+                return response()->json(['success' => true,'message' => $company],200);
+            }            
         }
         else
         {

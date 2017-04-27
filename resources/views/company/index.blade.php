@@ -125,14 +125,14 @@
                             </select>
                         </div>
                         <div class="logo-data col-sm-4">
-                            <img src="{{$comProfile->logo}}">
+                            <img src="{{ Storage::url('app/company-image/'.$comProfile->logo) }}">
                         </div>
                         <div class="address-data col-sm-4">
                             
                         </div>
                     </div>                    
                 @else
-                    <div class="row sectionC1 divLoadData">
+                    <div class="row sectionC1">
                         <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
@@ -226,7 +226,7 @@
                 <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
             </div>
             <div id="sectionE" class="tab-pane fade">
-                @include('company.technician')
+                <!--@include('company.technician')-->
             </div>
             <div id="sectionF" class="tab-pane fade">
                 @include('company.customer')
