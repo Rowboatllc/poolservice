@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'dev.poolservice.com'),
+    'url' => env('APP_URL', 'http://dev.poolservice.com'),
 
     /*
     |--------------------------------------------------------------------------
