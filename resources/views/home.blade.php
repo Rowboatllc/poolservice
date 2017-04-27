@@ -1,10 +1,10 @@
 @extends('layouts.template')
 
-@section('head')
+{{-- @section('head')
     <title>{{ $title or 'PoolService' }}</title>
     <meta name="description" content="{{$description}}">
     <meta name="keywords" content="{{$keywords}}">
-@endsection
+@endsection --}}
 
 @section('baner')
 <div class="header-top baner">
@@ -15,10 +15,7 @@
             <div class="space-title text-center">
                     <a href="register/pool-owner-register" type="button" class="btn btn-primary">CREATE POOL OWNER ACCOUNT</a>
                     <a href="register/pool-service-register" type="button" class="btn btn-primary">CREATE POOL SERVICE ACCOUNT</a>
-
-                    <a href="service-company" type="button" class="btn btn-primary">SERVICE COMPANY</a>
-                    <space />
-                    <button type="button" class="btn btn-default">LEARN MORE</button>
+                    <button type="button" class="btn">LEARN MORE</button>
             </div>
         </div>
     </div>

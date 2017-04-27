@@ -50,15 +50,11 @@ class StartSeeder extends Seeder
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
 
-        for($i=0;$i<20;$i++){
-
-            $order_new = factory(App\Models\Order::class)->create([
-            'user_id' => $user->id
-            ]);
-
+        $orders = DB::table('orders')->where('user_id','<>', $user->id)->get();
+        foreach($orders as $order){
             $schedule = factory(App\Models\Schedule::class)->create([
                 'technican_id' => $user_technician->id, 
-                'order_id' => $order_new->id, 
+                'order_id' => $order->id, 
                 'company_id' => $company->id,
             ]);
         }

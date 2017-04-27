@@ -69,7 +69,7 @@ class PermissionSeeder extends Seeder
             'email' => 'admin@rowboatsoftware.com',            
         ]);
 
-        // set new user admin
+        // set new user user_pool
         $user_pool = factory(App\Models\User::class)->create([
             'name' => 'Pool',
             'status' => 'active',            
@@ -86,6 +86,7 @@ class PermissionSeeder extends Seeder
             'user_id' => $user_pool->id
         ]);
 
+        // set new user user_company
         $user_company = factory(App\Models\User::class)->create([
             'name' => 'Company',
             'status' => 'active',            
@@ -98,6 +99,7 @@ class PermissionSeeder extends Seeder
             'user_id' => $user_company->id
         ]);
 
+        // set new user user_technician
         $user_technician = factory(App\Models\User::class)->create([
             'name' => 'Technician',
             'status' => 'active',            
@@ -109,6 +111,20 @@ class PermissionSeeder extends Seeder
         factory(App\Models\Profile::class)->create([
             'user_id' => $user_technician->id
         ]);
+
+         // list user poolowner
+        $user_pools = factory(App\Models\User::class, 30)->create();
+        foreach($user_pools as $user_pool){
+            factory(App\Models\Order::class)->create([
+                'user_id' => $user_pool->id
+            ]);
+            factory(App\Models\BillingInfo::class)->create([
+                'user_id' => $user_pool->id
+            ]);
+            factory(App\Models\Profile::class)->create([
+                'user_id' => $user_pool->id
+            ]);
+        }
 
         $group_admin->permissions()->attach($permission_admin_manager->id);
         $group_admin->permissions()->attach($permission_admin_option->id);

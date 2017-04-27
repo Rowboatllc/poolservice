@@ -20,7 +20,7 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
         'date' => $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days'), 
         'img_before' => $faker->imageUrl($width = 640, $height = 480),
         'img_after' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => 'opening',
+        'status' => $faker->randomElement(array ('opening', 'complete')),
         'cleaning_steps' => [1,2,3], 
         'comment' => $faker->sentence
     ];

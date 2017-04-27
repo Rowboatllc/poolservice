@@ -43,9 +43,9 @@ function globalAssignEventBilling() {
 		$fieldset.find('.contenteditable').toggleClass('active');
 		$fieldset.find('.icon.badge').toggleClass('no_display');
 		$('#billing_ccv').css("display", "inline");
-		$("#ccv_number").text('');
+		$("#ccv_number").text(' ');
 		var card_last_digits = $("#card_last_digits").text();
-		$("#card_last_digits").text(card_last_digits.slice(8,card_last_digits.length));
+		$("#card_last_digits").text(card_last_digits.slice(8,card_last_digits.length)+' ');
 	}).on('click', '.savefieldset_billing', function () {
 		$fieldset = $(this).parents('.fieldset');
 		//return;
