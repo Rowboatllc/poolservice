@@ -85,13 +85,13 @@ class UserRepository
 
         // add pool_owners info
         $poolOwner=new Poolowner();
-		$poolOwner->user_id='pending';  
+		$poolOwner->user_id='pending'; 
         // add user to user_group
         $userGroup=new UserGroup();
         $userGroup->group_id=2;
         try {
             // using transaction to save data to database
-            DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner)
+            DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner,$userGroup)
             {
                 // save user
                 $user->status='pending';
