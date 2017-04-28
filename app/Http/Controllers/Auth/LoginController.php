@@ -75,7 +75,13 @@ use AuthenticatesUsers;
             'status' => 'active',
         ];
 
-        if (Auth::attempt($data)) {
+        $data1 = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'status' => 'unclaimed',
+        ];
+
+        if (Auth::attempt($data)||Auth::attempt($data1)) {
             return $this->sendLoginResponse($request);
         }
         $this->incrementLoginAttempts($request);
@@ -104,7 +110,13 @@ use AuthenticatesUsers;
                 'status' => 'active',
             ];
 
-            if (Auth::attempt($data)) {
+            $data1 = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'status' => 'unclaimed',
+            ];
+
+            if (Auth::attempt($data)||Auth::attempt($data1)) {
                 return $this->sendLoginResponse($request);
             }
         }

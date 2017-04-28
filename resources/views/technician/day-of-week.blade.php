@@ -15,6 +15,7 @@
                             <td class="text-center">{{$key}}</td>
                             <td valign="middle" data-toggle="modal" data-target="#cleaningStepsModal" class="addres-schedule">
                                 <span>{{$sc->address}}</span>
+                                <input type="hidden" name="schedule_id" value="{{$sc->id}}">                                
                                 <input type="hidden" name="date" value="{{$sc->date}}">
                                 <input type="hidden" name="cleaning_steps" value="{{$sc->cleaning_steps}}">                                
                                 <input type="hidden" name="comment" value="{{$sc->comment}}">                           

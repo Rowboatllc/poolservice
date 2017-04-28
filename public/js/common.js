@@ -405,13 +405,13 @@ ajaxUploadFile = {
     }
 }
 
-$(document).ajaxStop(function () {
-    $('#loading').hide();
-});
+// $(document).ajaxStop(function () {
+//     $('#loading').hide();
+// });
 
-$(document).ajaxStart(function () {
-    $('#loading').show();
-});
+// $(document).ajaxStart(function () {
+//     $('#loading').show();
+// });
 
 function showLoading() {
     $('#loading').show();

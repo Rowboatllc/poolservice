@@ -70,7 +70,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ config('app.url') }}public/js/lib/jquery.tmpl.js" ></script>
+<script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
 
 <script class="rowtpl" type="text/x-jquery-tmpl">
     <tr>

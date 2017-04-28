@@ -60,16 +60,16 @@ class TechnicianController extends Controller {
         }
     }
 
-    public function completeSteps() 
+    public function completeSteps(Request $request) 
     {
-        $user = Auth::user();
-        return $this->common->responseJson($order->savePoolInfo($request->all()));
+        $result = $this->schedule->updateSchedule($request->all(), 'complete');
+        return $this->common->responseJson($result);
     }
 
-    public function unableSteps() 
+    public function unableSteps(Request $request) 
     {
-        $user = Auth::user();
-        return $this->common->responseJson($order->savePoolInfo($request->all()));
+        $result = $this->schedule->updateSchedule($request->all(), 'unable');
+        return $this->common->responseJson($result);        
     }
 
     

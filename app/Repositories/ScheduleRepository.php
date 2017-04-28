@@ -75,4 +75,22 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return 0;
     }
 
+    public function updateSchedule(array $array, $status){
+        $schedule_id = $array['schedule_id'];
+        $schedule = $this->schedule->find($schedule_id);
+        if(isset($schedule)){
+            $schedule->status = $status;
+            $schedule->comment = $array['comment'];
+            $cleaning_steps	= [];
+            for($i=1;$i<=6;$i++){
+                if(isset($array['step'.$i]) && $array['step'.$i]=="on")
+                    $cleaning_steps[] = $i;
+            }
+            $schedule->cleaning_steps = $cleaning_steps;
+            
+            return $schedule->save();
+        }
+        return 0;
+    }
+
 }

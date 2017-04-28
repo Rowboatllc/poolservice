@@ -53,9 +53,10 @@
 										<fieldset>
 											<div>
 												<h5>Weekly cleaniing <span id="day-of-schedule">03-03-2017</span></h5>
+												<input name="schedule_id" id="schedule_id" type="hidden" value="0">
 											</div>
 											<div class="checkbox">
-												<input id="step1" type="checkbox">
+												<input name="step1" id="step1" type="checkbox">
 												<label for="step1">
 													Test and adjust chemicals
 												</label>
@@ -65,38 +66,38 @@
 												<label>- pH balance: 7.9 pH</label>
 											</div>
 											<div class="checkbox">
-												<input id="step2" type="checkbox">
+												<input name="step2" id="step2" type="checkbox">
 												<label for="step2">
 													Backwash the filter
 												</label>
 											</div>
 											<div class="checkbox">
-												<input id="step3" type="checkbox">
+												<input name="step3" id="step3" type="checkbox">
 												<label for="step3">
 													Empty the skimmer
 												</label>
 											</div>
 											<div class="checkbox">
-												<input id="step4" type="checkbox">
+												<input name="step4" id="step4" type="checkbox">
 												<label for="step4">
 													Empty the pump baskets
 												</label>
 											</div>
 											<div class="checkbox">
-												<input id="step5" type="checkbox">
+												<input name="step5" id="step5" type="checkbox">
 												<label for="step5">
 													Brush walls and steps
 												</label>
 											</div>
 											<div class="checkbox">
-												<input id="step6" type="checkbox">
+												<input name="step6" id="step6" type="checkbox">
 												<label for="step6">
 													Skim debris from water surface
 												</label>
 											</div>
 											<div class="form-group">
 												<label for="comment">Comment:</label>
-												<textarea class="form-control" rows="5" id="comment" ></textarea>
+												<textarea class="form-control" rows="5" name="comment" id="comment" ></textarea>
 											</div>
 										</fieldset>
 									</div>
@@ -106,8 +107,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" title="{{ route('technician-unable-steps') }}">Unable to service</button>
-                    <button type="button" class="btn btn-primary btn-save-rating" title="{{ route('technician-complete-steps') }}">Service complete</button>
+                    <button type="button" class="btn btn-warning btn-unable-steps" title="{{ route('technician-unable-steps') }}">Unable to service</button>
+                    <button type="button" class="btn btn-primary btn-complete-steps" title="{{ route('technician-complete-steps') }}">Service complete</button>
                 </div>
             </div>
 
