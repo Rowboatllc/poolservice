@@ -66,13 +66,19 @@ class RegisServiceController extends Controller
         $email=$request['email'];
         if($val)
         {
-            //send email to verify user password_hash
-            Mail::send('emails.verify', compact('confirmation_code','email'), function($message) 
-            use ($request,$email)
-            {     
-                 $message->subject('Authentication your new account');
-                 $message->to($email, $request['fullname']);
-            });
+            try {
+                //send email to verify user password_hash
+                Mail::send('emails.verify', compact('confirmation_code','email'), function($message) 
+                use ($request,$email)
+                {     
+                    $message->subject('Authentication your new account');
+                    $message->to($email, $request['fullname']);
+                });
+                print_r(error_get_last());
+            }
+            catch (\Exception $e) {
+                return $e->getMessage();
+            }            
 
             //register success and message to user 
             return response()->json(['success' => true,'message' => $email],200);

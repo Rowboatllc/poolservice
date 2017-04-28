@@ -16,8 +16,7 @@
                 @include('company.offered-service')
             </div>
             <div id="sectionB" class="tab-pane fade">
-                <h3>Section B</h3>
-                <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+                @include('company.route')
             </div>
             <div id="sectionC" class="tab-pane fade">
                 @include('company.profile')

@@ -55,4 +55,24 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         
     }
 
+    public function getPoolownerInSchedule($schedule_id){
+        $users = DB::select('SELECT u.* FROM users as u
+                            LEFT JOIN orders o ON u.id = o.user_id
+                            LEFT JOIN schedules s ON s.order_id = o.id
+                            WHERE s.id = '.$schedule_id.'
+                            ');
+        if(isset($users))
+            return $users[0];
+        else
+            return null;
+    }
+    public function updateStatus($schedule_id, $status){
+        $schedule = $this->schedule->find($schedule_id);
+        if(isset($schedule)){
+            $schedule->status = $status;
+            return $schedule->save();
+        }
+        return 0;
+    }
+
 }
