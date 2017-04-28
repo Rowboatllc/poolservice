@@ -39,7 +39,7 @@ class TechnicianController extends Controller {
     public function enroute() 
     {
         $user = Auth::user();
-        return $this->common->responseJson($order->savePoolInfo($request->all()));
+        return $this->common->responseJson(true);
     }
 
     public function completeSteps() 

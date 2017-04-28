@@ -9094,6 +9094,10 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   width: 30px;
 }
 
+.technician .schedule-day-of-week tr th {
+  border-top: 0px !important;
+}
+
 /*!
  * bootstrap-star-rating v4.0.2
  * http://plugins.krajee.com/star-rating

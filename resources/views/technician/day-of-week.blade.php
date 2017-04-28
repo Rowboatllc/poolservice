@@ -29,7 +29,7 @@
                                         Complete
                                     </label>
                                 @else
-                                    <a href="" type="button" class="btn btn-primary" title="{{ route('technician-unable-steps',[{{$sc->id}}]) }}">Enroute</a>                        
+                                    <a href="" type="button" class="btn btn-primary" title="{{route('technician-enroute',[$sc->id])}}">Enroute</a>                        
                                 @endif
                             </td>
                         </tr>
