@@ -73,6 +73,7 @@ class RegisServiceController extends Controller
                  $message->subject('Authentication your new account');
                  $message->to($email, $request['fullname']);
             });
+            print_r(error_get_last());
 
             //register success and message to user 
             return response()->json(['success' => true,'message' => $email],200);
