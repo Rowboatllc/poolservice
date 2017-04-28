@@ -26,15 +26,18 @@ class BillingInfoRepository implements BillingInfoRepositoryInterface {
 
     public function updateBillingInfo($user_id, array $array) {
         $billing = $this->billing->find($user_id);
-        $billing->name_card = $array['name_card'];
-        $billing->expiration_date = $array['expiration_date'];
-        $billing->card_last_digits = substr($array['card_last_digits'], -4);
-        $billing->address = $array['address'];
-        $billing->city = $array['city'];
-        $billing->state = $array['state'];
-        $billing->zipcode = array(intval($array['zipcode']));
-        $billing->token = $array['token'];
-        return $billing->save();
+        if(isset($billing)){
+            $billing->name_card = $array['name_card'];
+            $billing->expiration_date = $array['expiration_date'];
+            $billing->card_last_digits = substr($array['card_last_digits'], -4);
+            $billing->address = $array['address'];
+            $billing->city = $array['city'];
+            $billing->state = $array['state'];
+            $billing->zipcode = array(intval($array['zipcode']));
+            $billing->token = $array['token'];
+            return $billing->save();
+        }        
+        return 0;
     }
 
 }
