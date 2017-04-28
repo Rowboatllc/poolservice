@@ -16,7 +16,7 @@
             </select>
         </div>
         <div class="logo-data col-sm-4">
-            <img src="{{ Storage::url('app/company-image/'.$comProfile->logo) }}">
+            <img src="{{ asset('storage/'.$comProfile->logo) }}">
         </div>
         <div class="address-data col-sm-4">
             <table class="table table-hover table-bordered" id="infoTable">

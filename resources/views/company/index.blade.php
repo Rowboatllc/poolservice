@@ -16,7 +16,7 @@
                 @include('company.offered-service')
             </div>
             <div id="sectionB" class="tab-pane fade">
-                @include('company.route')
+                <!--@include('company.route')-->
             </div>
             <div id="sectionC" class="tab-pane fade">
                 @include('company.profile')
