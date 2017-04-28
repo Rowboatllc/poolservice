@@ -176,9 +176,19 @@ ajaxUploadFile = {
     }
 }
 
+$(document).ajaxStop(function () {
+    $('#loading').hide();
+});
+
+$(document).ajaxStart(function () {
+    $('#loading').show();
+});
+
 function showLoading() {
+    $('#loading').show();
 }
 function hideLoading() {
+    $('#loading').hide();
 }
     
 function sendData(url, data, method, callback, error) {

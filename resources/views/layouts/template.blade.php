@@ -37,6 +37,7 @@
                 @yield('baner')
                 <div id="main" class="row">
                     <div id="app" ng-app="app">
+                        <div id="loading"><div class="loader"></div></div>
                         @yield('content')
                     </div>    
                 </div>

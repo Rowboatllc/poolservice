@@ -22,7 +22,7 @@ class EditTableSchedules extends Migration
             $table->date('date');
             $table->string('img_before');   
             $table->string('img_after');  
-            $table->enum('status', array('opening', 'unable', 'complete'))->default('opening');
+            $table->enum('status', array('opening', 'checkin', 'unable', 'complete'))->default('opening');
             $table->json('cleaning_steps');   
             $table->string('comment');
             $table->timestamps();

@@ -13,6 +13,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
+    $random = rand(1, 6);
+    $cleaning_steps = $faker->randomElements([1,2,3,4,5,6], $random);
     return [
         'technican_id' => 1, 
         'order_id' => 1, 
@@ -20,8 +22,8 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
         'date' => $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days'), 
         'img_before' => $faker->imageUrl($width = 640, $height = 480),
         'img_after' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => $faker->randomElement(array ('opening', 'complete')),
-        'cleaning_steps' => [1,2,3], 
+        'status' => $faker->randomElement(array ('opening', 'checkin', 'unable', 'complete')),
+        'cleaning_steps' => $cleaning_steps, 
         'comment' => $faker->sentence
     ];
 });

@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 
         schedule.find('#day-of-schedule').html(date);
 
-        if (status == "complete") {
+        if (status == "complete" || status == "unable") {
             schedule.find('#comment').html(comment);
             schedule.find('#comment').attr("readonly","true");
             schedule.find('.modal-footer').css("display", "none");
@@ -36,5 +36,21 @@ jQuery(document).ready(function() {
             }
         }
 
+    });
+
+    schedules.find('.technician-checkin').bind('click', function() {
+        let self = $(this).parent().parent();
+        self.find('.addres-schedule').click();
+    });
+
+    schedules.find('.technician-enroute').bind('click', function() {
+        let link = $(this).attr('title');
+        let self = $(this).parent().parent();
+        sendData(link,[],'GET', function (result) {
+            (jQuery.noop)(result);
+            if(result.success){
+                self.find('.btn-technician').toggleClass('no_display');                
+            }
+        }, function (result) {});
     });
 });
