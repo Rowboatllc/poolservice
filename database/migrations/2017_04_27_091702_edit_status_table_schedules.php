@@ -14,7 +14,7 @@ class EditStatusTableSchedules extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('name', 50)->change();
+            // $table->string('name', 50)->change();
         });
     }
 
