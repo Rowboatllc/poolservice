@@ -11,7 +11,8 @@
         @yield('head')
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
+        <meta name="api-token" content="{{ print_apitoken() }}">
+        
         <title>{{ config('app.name', 'PoolService') }}</title>
        
         <!-- CSS -->

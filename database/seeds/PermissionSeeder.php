@@ -62,6 +62,16 @@ class PermissionSeeder extends Seeder
             'alias' => 'admin-administrator',            
         ]);
 
+        $permission_ajax_upload_file = factory(App\Models\Permission::class)->create([
+            'name' => 'ajax-upload-file',
+            'alias' => 'ajax-upload-file',            
+        ]);
+        
+        $permission_ajax_upload_img = factory(App\Models\Permission::class)->create([
+            'name' => 'ajax-upload-image',
+            'alias' => 'ajax-upload-image',            
+        ]);
+        
         // set new user admin
         $user_admin = factory(App\Models\User::class)->create([
             'name' => 'Admin',
@@ -137,7 +147,9 @@ class PermissionSeeder extends Seeder
         $group_service_company->users()->attach( $user_company->id);
         $group_technician->users()->attach( $user_technician->id);
         
-
+        // allow upload 
+        $group_service_company->permissions()->attach($permission_ajax_upload_img->id);
+        $group_service_company->permissions()->attach($permission_ajax_upload_file->id);
 
 
     }

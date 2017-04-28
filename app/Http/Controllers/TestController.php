@@ -69,6 +69,15 @@ class TestController extends Controller
             );
     }
     
+    public function getTokenByUserId($user_id) {
+        $tk = new ApiToken;
+        $token =  $tk->selectByUserid($user_id);
+        return response()->json([
+                        'valid' => $token]
+            );
+    }
+    
+    
     public function testmail() {
         Mail::send('testmail', ['user' => 'something here'], function ($m){
             $m->from('lapnguyen1@localhost', 'Your Application');

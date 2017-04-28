@@ -1,22 +1,3 @@
-/*!
- * $ Templates Plugin 1.0.4
- * https://github.com/KanbanSolutions/jquery-tmpl
- *
- * Copyright Software Freedom Conservancy, Inc.
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- */
-
-/*
-    Tags:
-    {%if <condition> %}<action>{%/if%}
-    {%if <condition> %}<action>{%else%}<action>{%/if%}
-    {%if <condition> %}<action>{%elif <condition> %}<action>{%else%}<action>{%/if%}
-    {%each <array_or_object> %}$value, $index{%/each%}
-    {%tmpl <template>%}
-    {%= js call %}
-    {%html js call %}
-*/
 (function($, undefined) {
     var oldManip = $.fn.domManip, tmplItmAtt = "_tmplitem",
             newTmplItems = {}, wrappedItems = {}, appendToTmplItems, topTmplItem = { key: 0, data: {} }, itemKey = 0, cloneIndex = 0, stack = [];

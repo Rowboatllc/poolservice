@@ -1,5 +1,5 @@
 <div class="box-body table-responsive no-padding technician-professionnal-service">
-    <div class="text-right"><button class="btn btn-success" data-toggle="modal" data-target="#technician-professionnal-serviceModal">Add new pool service professional</button></div>
+    <div class="text-right"><button class="btn btn-success new-technician" data-toggle="modal" data-target=".technician-professionnal-serviceModal">Add new pool service professional</button></div>
     @if (count($technicians) == 0)
     You currently have no service technician listed in your account
     @else
@@ -7,18 +7,20 @@
         <table class="table table-hover table-list" data-url="{{ route('dashboard-company-list-technician') }}" data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-company-remove-technician') }}" >
             <tr>
                 <th></th>
+                <th></th>
                 <th>Name</th>
                 <th>Mobile phone</th>
                 <th>Email address</th>
                 <th></th>
             </tr>
             @foreach ($technicians as $technician)
-            <tr>	
+            <tr>
+                <td><span data-cell="img-avatar" data-value="{{ config('app.url').'storage/app/'.$technician->avatar }}" class="avatar" style="background-image: url({{ config('app.url').'storage/app/'.$technician->avatar }})"></span></td>
                 <td class="status" data-cell="status">{{$technician->status}}</td>
-                <td  data-cell="fullname" >{{$technician->fullname}}</td>
-                <td  data-cell="phone">{{$technician->phone}}</td>
-                <td  data-cell="email">{{$technician->email}}</td>
-                <td>
+                <td data-cell="fullname">{{$technician->fullname}}</td>
+                <td data-cell="phone">{{$technician->phone}}</td>
+                <td data-cell="email">{{$technician->email}}</td>
+                <td data-cell="id" data-value="{{$technician->id}}">
                     <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="{{$technician->id}}"></span> | 
                     <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="{{$technician->id}}"></span>
                 </td>
@@ -26,11 +28,11 @@
             @endforeach
         </table>
         {{ $technicians->links() }}
-        <ul class="pagination"></ul>
+        <!--<ul class="pagination"></ul>-->
     </div>
     @endif
 
-    <div class="modal fade" id="technician-professionnal-serviceModal" role="dialog">
+    <div class="modal fade technician-professionnal-serviceModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -38,7 +40,7 @@
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
-                    <img class="technician-img" path="{{ config('app.url').'../storage/app/' }}" src="" />
+                    <img class="technician-img" name="img-avatar" path="{{ config('app.url').'storage/app/' }}" src="" />
                     <form name="form_upload" class="form_technician-avatar"  action="{{ route('ajax-upload-image', 'uploads') }}" enctype="multipart/form-data" method="POST" onsubmit="return ajaxUploadFile.submit(this, {'onComplete': function () {
                                           ajaxUploadFile.resetUpload('.form_technician-avatar', afterUploadedTechnicianAvatar)
                                       }})" >
@@ -56,7 +58,7 @@
                             <input name="email" type="text" class="form-control" placeholder="email address" />
                             <input type="hidden" name="company" value="{{$technician->company_id or 0}}" />
                             <input type="hidden" name="id" />
-                            <input type="hidden" name="avatar" />
+                            <input type="hidden" name="avatar-path" />
                         </div>
                         <div class="text-center">
                             <button class="btn btn-success" data-dismiss="modal">Cancel</button>
@@ -72,12 +74,12 @@
 
 <script class="rowtpl" type="text/x-jquery-tmpl">
     <tr>
-        <td class="status" >${status}</td>
-        <td>${fullname}</td>
-        <td>${phone}</td>
-        <td>${email}</td>
+        <td data-cell="status" class="status" >${status}</td>
+        <td data-cell="fullname">${fullname}</td>
+        <td data-cell="phone">${phone}</td>
+        <td data-cell="email">${email}</td>
         <td>
-            <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
+            <span data-cell="id" class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
             <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="${id}"></span>
         </td>
     </tr>

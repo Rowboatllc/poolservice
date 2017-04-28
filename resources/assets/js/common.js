@@ -211,7 +211,7 @@ function sendData(url, data, method, callback, error) {
 
 function sendDataWithToken(url, data, method, callback, error) {
     showLoading();
-    var key = 'EBZTD1ykD5k8U7GSfZDxlbu3smwlow3IEtBplB8n302cN2PuH0dcE6ooGEGS';
+    var key = jQuery('meta[name="api-token"]').attr('content');
     method = method || 'POST';
     jQuery.ajax({
         url: url,

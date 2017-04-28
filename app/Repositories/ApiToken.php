@@ -39,14 +39,16 @@ class ApiToken {
         return str_random(60);
     }
 
-    public function create() {
-        $data = Request::all();
+    public function create($user_id='') {
+        /*$data = Request::all();
         if (!$this->check($data))
-            return false;
+            return false;*/
+        if(empty($user_id))
+            $user_id = Auth::user()->id;
         $data = [
             'api_token' => $this->generateTokenString(),
-            'user_id' => Auth::user()->id,
-            'client' => $_SERVER['HTTP_USER_AGENT'],
+            'user_id' => $user_id,
+            'client' => '',//$_SERVER['HTTP_USER_AGENT'],
             'expires_on' => Carbon::now()->addDays($this->lifetime)
         ];
         return $this->token->create($data);
@@ -61,7 +63,7 @@ class ApiToken {
     public function delete($id) {
         return $this->token->find($id)->delete();
     }
-
+    
     public function revoke($id, $revoked = 1) {
         $item = $this->token->find($id);
         $item->revoked = $revoked;
@@ -81,6 +83,14 @@ class ApiToken {
                 ->where(['tokens.api_token' => $api_token])
                 ->first();
         return $result;
+    }
+    
+    public function deleteByUserid($user_id) {
+        return $this->token->where('user_id',$user_id)->delete();
+    }
+    
+    public function selectByUserid($user_id) {
+        return $this->token->where('user_id',$user_id)->first();
     }
 
 }

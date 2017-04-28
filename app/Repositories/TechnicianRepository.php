@@ -22,27 +22,18 @@ class TechnicianRepository {
             ->join('users', 'users.id', '=', 'profiles.user_id')
             ->join('technicians', 'technicians.user_id', '=', 'users.id')
             ->join('companies', 'companies.id', '=', 'technicians.company_id')
-            ->select('profiles.fullname', 'profiles.phone', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
-            ->where ('companies.user_id', $id)
+            ->select('profiles.fullname', 'profiles.phone', 'profiles.avatar', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
+            ->where('companies.user_id', $id)
             ->paginate(5);
     }
     
     public function listTechnicians($id) {
-        $objs = DB::table('profiles')
-            ->join('users', 'users.id', '=', 'profiles.user_id')
-            ->join('technicians', 'technicians.user_id', '=', 'users.id')
-            ->join('companies', 'companies.id', '=', 'technicians.company_id')
-            ->select('profiles.fullname', 'profiles.phone', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
-            ->where ('companies.user_id', $id)
-            ->paginate(5);
-        //dd($objs);
-        return $objs->toJson();
+        return $this->getList($id)->toJson();
     }
     
     public function saveTechnician($data) {
         $profile = new Profile;
         $user = new User;
-        //$technician = new Technician;
         $is_owner = empty($data['is_owner']) ? 0 : 1;
         DB::beginTransaction();
         if(!empty($data['id'])) {
