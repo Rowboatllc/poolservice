@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableSchedules extends Migration
+class EditTableSchedules extends Migration
 {
     /**
      * Run the migrations.
@@ -13,6 +13,7 @@ class CreateTableSchedules extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('schedules');
         Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('technican_id');    
