@@ -36,7 +36,7 @@
 <!-- /row -->
 
 <div id="cleaningStepsModal" class="modal fade schedule-day-of-week confirm-steps" role="dialog">
-    <form role="form" action="{{route('rating-company')}}" method="post" id="form-rating-company">
+    <form role="form" method="post" id="form-confirm-steps">
     {{ csrf_field() }}
         <div class="modal-dialog">
             <div class="modal-content">
@@ -106,8 +106,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" title="{{ route('technician-complete-steps') }}">Unable to service</button>
-                    <button type="button" class="btn btn-primary btn-save-rating" title="{{ route('technician-unable-steps') }}">Service complete</button>
+                    <button type="button" class="btn btn-warning" title="{{ route('technician-unable-steps') }}">Unable to service</button>
+                    <button type="button" class="btn btn-primary btn-save-rating" title="{{ route('technician-complete-steps') }}">Service complete</button>
                 </div>
             </div>
 

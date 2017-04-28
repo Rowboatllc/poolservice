@@ -123,16 +123,19 @@ class PermissionSeeder extends Seeder
         ]);
 
          // list user poolowner
-        $user_pools = factory(App\Models\User::class, 30)->create();
-        foreach($user_pools as $user_pool){
+        $user_pools = factory(App\Models\User::class, 30)->create([
+            'status' => 'active',   
+        ]);
+        
+        foreach($user_pools as $user_pool_new){
             factory(App\Models\Order::class)->create([
-                'user_id' => $user_pool->id
+                'user_id' => $user_pool_new->id
             ]);
             factory(App\Models\BillingInfo::class)->create([
-                'user_id' => $user_pool->id
+                'user_id' => $user_pool_new->id
             ]);
             factory(App\Models\Profile::class)->create([
-                'user_id' => $user_pool->id
+                'user_id' => $user_pool_new->id
             ]);
         }
 
