@@ -95,4 +95,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return null;
     }
 
+    public function getAllScheduleByPoolowner($user_id){
+        return DB::select('SELECT s.*, o.price  FROM schedules as s
+                            LEFT JOIN orders o ON o.id = s.order_id
+                            WHERE o.user_id = '.$user_id.'
+                            ');
+    }
+
 }

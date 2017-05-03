@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="well well-sm">
-            <div class="box-body table-responsive no-padding schedule-day-of-week" style='overflow:visible;'>
+            <div class="box-body table-responsive no-padding services" style='overflow:visible;'>
                 <table class="table table-hover">
                     <tr>
                         <th><a style='cursor:pointer;'>Order</a></th>
@@ -10,7 +10,7 @@
                         <th><a style='cursor:pointer;'>Zipcode</a></th>
                         <th><a style='cursor:pointer;'>Status</a></th>                        
                     </tr>
-                    @foreach ($schedule["value"] as $key=>$sc)
+                    @foreach ($schedules as $key=>$sc)
                         <tr class="item schedule">
                             <td class="text-center">{{$key}}</td>
                             <td valign="middle" data-toggle="modal" data-target="#cleaningStepsModal" class="addres-schedule">

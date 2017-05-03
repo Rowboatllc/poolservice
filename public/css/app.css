@@ -9384,3 +9384,15 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 .rating-container .caption {
   display: none !important;
 }
+
+.poolowner .services tr th {
+  border-top: 0px !important;
+}
+
+.poolowner .services label.btn-unable {
+  color: red;
+}
+
+.poolowner .services label.btn-complete {
+  color: blue;
+}
