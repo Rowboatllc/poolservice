@@ -41,16 +41,10 @@ Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function 
     Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
     Route::post('save-poolowner-profile', 'PoolOwner\ApiPoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
     Route::post('save-poolowner-poolinfo', 'PoolOwner\ApiPoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
-});  
-            
-Route::group(['prefix' => 'company', 'middleware' => ['api.token']], function () {
-    //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
-    //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
-    Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
 });
-
+/*
 Route::group(['prefix' => 'technician', 'middleware' => ['api.token']], function () {
     Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
     Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
     Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
-});
+});*/
