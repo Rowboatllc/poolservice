@@ -88,9 +88,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             }
             $schedule->cleaning_steps = $cleaning_steps;
             
-            return $schedule->save();
+            if($schedule->save()){
+                return $schedule;
+            }
         }
-        return 0;
+        return null;
     }
 
 }

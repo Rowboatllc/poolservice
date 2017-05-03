@@ -45,13 +45,13 @@ class TechnicianController extends Controller {
             $schedule = $this->schedule->updateStatus($schedule_id, 'checkin');            
             $user = $this->schedule->getPoolownerInSchedule($schedule_id);
             if (isset($user) && $schedule) {
-                $content = 'Technician is on the way';
-                Mail::send('emails.technician-enroute', compact('user'), function($message)
-                        use ($user, $content) {
-                    $message->subject($content);
-                    $message->to($user->email);
-                });
-                $this->notification->saveNotification($user->id, $content, false);
+                // $content = 'Technician is on the way';
+                // Mail::send('emails.technician-enroute', compact('user'), function($message)
+                //         use ($user, $content) {
+                //     $message->subject($content);
+                //     $message->to($user->email);
+                // });
+                // $this->notification->saveNotification($user->id, $content, false);
             }
             return $this->common->responseJson(true);
         }
@@ -62,14 +62,20 @@ class TechnicianController extends Controller {
 
     public function completeSteps(Request $request) 
     {
-        $result = $this->schedule->updateSchedule($request->all(), 'complete');
-        return $this->common->responseJson($result);
+        $schedule = $this->schedule->updateSchedule($request->all(), 'complete');
+        if(isset($schedule)){ 
+            return $this->common->responseJson(true, 200, '',["schedule"=>$schedule]);            
+        }
+        return $this->common->responseJson(false);
     }
 
     public function unableSteps(Request $request) 
     {
-        $result = $this->schedule->updateSchedule($request->all(), 'unable');
-        return $this->common->responseJson($result);        
+        $schedule = $this->schedule->updateSchedule($request->all(), 'unable');
+        if(isset($schedule)){
+            return $this->common->responseJson(true, 200, '',["schedule"=>$schedule]);   
+        }
+        return $this->common->responseJson(false);      
     }
 
     
