@@ -287,10 +287,10 @@ class UserRepository
         }
         
         $com->forceFill([
-            'wq' => $arr['wq']->getClientOriginalName(),
-            'logo' => $arr['logo']->getClientOriginalName(),
-            'driver_license' => $arr['driven_license']->getClientOriginalName(),
-            'cpa' => $arr['cpa']->getClientOriginalName()])->save();
+            'wq' => '/company-image/'.$arr['wq']->getClientOriginalName(),
+            'logo' => '/company-image/'.$arr['logo']->getClientOriginalName(),
+            'driver_license' => '/company-image/'.$arr['driven_license']->getClientOriginalName(),
+            'cpa' => '/company-image/'.$arr['cpa']->getClientOriginalName()])->save();
             
         $comProfile = self::getCompanyProfile($id);
         return $comProfile;   
@@ -302,6 +302,27 @@ class UserRepository
                 ->select('companies.name','companies.website','companies.logo','companies.approved','profiles.address','profiles.fullname','profiles.phone','companies.wq','companies.cpa','companies.driver_license')
                 ->join('profiles', 'companies.user_id','=','profiles.user_id')
                 ->where(['companies.user_id' => $id])
+                ->first();
+
+        return $comProfile;
+    }
+
+    public function getUserSchedule($id)
+    {
+        $comProfile = DB::table('schedules')
+                ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
+                ->join('orders', 'schedules.order_id','=','orders.id')
+                ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
+                ->where(['schedules.technican_id' => $id])->get();
+        return $comProfile;
+    }
+
+    public function getUserInfo($id)
+    {
+        $comProfile = DB::table('users')
+                ->select('users.id','users.name','profiles.avatar')
+                ->join('profiles', 'profiles.user_id','=','users.id')
+                ->where(['users.id' => $id])
                 ->first();
 
         return $comProfile;

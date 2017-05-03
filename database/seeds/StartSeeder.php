@@ -17,7 +17,7 @@ class StartSeeder extends Seeder
         $user = DB::table('users')->where('email','pool@rowboatsoftware.com')->first();
         
         $order = factory(App\Models\Order::class)->create([
-            'user_id' => $user->id
+            'poolowner_id' => $user->id
             ]);
         $order = DB::table('orders')->find($order->id);
 
@@ -50,14 +50,21 @@ class StartSeeder extends Seeder
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
 
-        $orders = DB::table('orders')->where('user_id','<>', $user->id)->get();
-        foreach($orders as $order){
+        $orders = DB::table('orders')->where('poolowner_id','<>', $user->id)->get();
+        foreach($orders as $order_new){
             $schedule = factory(App\Models\Schedule::class)->create([
                 'technican_id' => $user_technician->id, 
-                'order_id' => $order->id, 
+                'order_id' => $order_new->id, 
                 'company_id' => $company->id,
             ]);
         }
+
+        $random = rand(2,10);
+        factory(App\Models\Schedule::class, $random)->create([
+            'technican_id' => $user_technician->id, 
+            'order_id' => $order->id, 
+            'company_id' => $company->id,
+        ]);
         
     }
 }

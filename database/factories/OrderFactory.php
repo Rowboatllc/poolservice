@@ -19,7 +19,7 @@ $factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
     $cleaning_object = $faker->randomElements(['pool', 'spa'], $random1);
     $zipcode[] = intval(substr($faker->postcode,0,5));
     return [
-        'user_id' => $faker->numberBetween(1,20),
+        'poolowner_id' => $faker->numberBetween(1,20),
         'services' => $services,
         'zipcode' => $zipcode,
         'time' => $faker->dateTime,

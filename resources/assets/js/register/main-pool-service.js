@@ -53,6 +53,30 @@ function doSomething(imgsrc,id)
 
 $(document).ready(function() {
 
+    $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+      _renderItem: function( ul, item ) {
+        var li = $( "<li>" ),
+          wrapper = $( "<div>", { text: item.label } );
+ 
+        if ( item.disabled ) {
+          li.addClass( "ui-state-disabled" );
+        }
+ 
+        $( "<span>", {
+          style: item.element.attr( "data-style" ),
+          "class": "ui-icon " + item.element.attr( "data-class" )
+        })
+          .appendTo( wrapper );
+ 
+        return li.append( wrapper ).appendTo( ul );
+      }
+    });
+ 
+    $( "#review_select" )
+      .iconselectmenu()
+      .iconselectmenu( "menuWidget" )
+        .addClass( "ui-menu-icons" );
+
     validationPoolService();
     // next info
 	$('.btn-next-info').on('click', function(e) {
@@ -127,12 +151,14 @@ $(document).ready(function() {
                 console.log(xhr.responseText); 
                 var data=JSON.parse(xhr.responseText);
                 var img=$('#preview_logo img');
-                $('.logo-data').append(img);
+                $('.logo-data').empty().append(img);
                 //load select box
-                $('#review_select').append($('<option>').append('<li>W-q <i class="fa fa-car"></i></li>'));
+                $('#review_select').empty().append($('<option>').append('<li>Awaiting Verification</li>'));
+                $('#review_select').append($('<option>').append('<li>W-q <i class="fa fa-car"></i></li>'));                
                 $('#review_select').append($('<option>').append("<li>Driver's-License <i class='fa fa-car'></i></li>"));
                 $('#review_select').append($('<option>').append("<li>CPA Certification <i class='fa fa-car'></i></li>"));
                 //load pool-service info
+                $('.address-data #infoTable tr').remove();
                 var table=$('.address-data #infoTable');                
                 var row="<tr>";
                 row+="<td>Company Name</td>";
@@ -167,7 +193,7 @@ $(document).ready(function() {
     });
 
     // routes tab
-    $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+    $(".sectionB1 div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");

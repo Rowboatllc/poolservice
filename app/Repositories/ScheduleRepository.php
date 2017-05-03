@@ -17,7 +17,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     public function getAllScheduleInWeek($technician_id){
         $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date)dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
                                     LEFT JOIN orders o ON o.id = s.order_id
-                                    LEFT JOIN profiles p ON p.user_id = o.user_id
+                                    LEFT JOIN profiles p ON p.user_id = o.poolowner_id
                                     WHERE WEEKOFYEAR(date) = WEEKOFYEAR(CURDATE())
                                     AND s.technican_id = '.$technician_id.'
                                     ORDER BY `dayOfWeek` ASC
@@ -57,7 +57,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 
     public function getPoolownerInSchedule($schedule_id){
         $users = DB::select('SELECT u.* FROM users as u
-                            LEFT JOIN orders o ON u.id = o.user_id
+                            LEFT JOIN orders o ON u.id = o.poolowner_id
                             LEFT JOIN schedules s ON s.order_id = o.id
                             WHERE s.id = '.$schedule_id.'
                             ');
@@ -73,6 +73,33 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             return $schedule->save();
         }
         return 0;
+    }
+
+    public function updateSchedule(array $array, $status){
+        $schedule_id = $array['schedule_id'];
+        $schedule = $this->schedule->find($schedule_id);
+        if(isset($schedule)){
+            $schedule->status = $status;
+            $schedule->comment = $array['comment'];
+            $cleaning_steps	= [];
+            for($i=1;$i<=6;$i++){
+                if(isset($array['step'.$i]) && $array['step'.$i]=="on")
+                    $cleaning_steps[] = $i;
+            }
+            $schedule->cleaning_steps = $cleaning_steps;
+            
+            if($schedule->save()){
+                return $schedule;
+            }
+        }
+        return null;
+    }
+
+    public function getAllScheduleByPoolowner($user_id){
+        return DB::select('SELECT s.*, o.price  FROM schedules as s
+                            LEFT JOIN orders o ON o.id = s.order_id
+                            WHERE o.poolowner_id = '.$user_id.'
+                            ');
     }
 
 }

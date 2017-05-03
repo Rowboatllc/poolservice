@@ -82,5 +82,3 @@ Route::group(['middleware' => ['auth']], function () {
         });
     //});
 });
-//Route::get('confirm-by-email/{email}/{code}', array('uses' => 'TestController@confirmByEmail'))->name('confirm-by-email');
-//Route::get('testmail', array('uses' => 'TestController@testmail'))->name('confirm-by-email');

@@ -27,7 +27,9 @@ class CompanyController extends Controller {
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         $technicians = $technicianRepo->getList($user->id);
-        return view('company.index', compact(['customers', 'offers', 'technicians','comProfile']));
+        $routes=$this->user->getUserSchedule($user->id);
+        $user=$this->user->getUserInfo($user->id);
+        return view('company.index', compact(['customers', 'offers', 'technicians','comProfile','routes','user']));
     }
 
     public function addCompanyProfile(Request $request) 
@@ -51,17 +53,17 @@ class CompanyController extends Controller {
             )
             {
                 //logo
-                $logoCom=$logo->getClientOriginalName();                
-                $logo->storeAs('company-image',$logoCom);
+                $logoCom=$logo->getClientOriginalName();     
+                $logo->move(public_path().'/company-image/',$logoCom);
                 //wq
-                $logoWq=$wq->getClientOriginalName();                
-                $wq->storeAs('company-image',$logoWq);
+                $logoWq=$wq->getClientOriginalName();   
+                $wq->move(public_path().'/company-image/',$logoWq); 
                 //driver_license
                 $logoDriver_license=$driver_license->getClientOriginalName();
-                $driver_license->storeAs('company-image',$logoDriver_license);
+                $driver_license->move(public_path().'/company-image/',$logoDriver_license);
                 //cpa
                 $logoCpa=$cpa->getClientOriginalName();
-                $cpa->storeAs('company-image',$logoCpa);
+                $cpa->move(public_path().'/company-image/',$logoCpa);
 
                 return response()->json(['success' => true,'message' => $company],200);
             }

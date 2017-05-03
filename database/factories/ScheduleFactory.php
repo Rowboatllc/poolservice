@@ -15,14 +15,23 @@
 $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
     $random = rand(1, 6);
     $cleaning_steps = $faker->randomElements([1,2,3,4,5,6], $random);
+    $date = $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days');
+    $now = new \DateTime();
+    if($date < $now){
+        $status = $faker->randomElement(array ('unable', 'complete'));        
+    }else if($date > $now){
+        $status = 'opening';
+    }else{
+        $status = $faker->randomElement(array ('opening', 'checkin', 'unable', 'complete'));                
+    }
     return [
         'technican_id' => 1, 
         'order_id' => 1, 
         'company_id' => 1, 
-        'date' => $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days'), 
+        'date' => $date, 
         'img_before' => $faker->imageUrl($width = 640, $height = 480),
         'img_after' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => $faker->randomElement(array ('opening', 'checkin', 'unable', 'complete')),
+        'status' => $status,
         'cleaning_steps' => $cleaning_steps, 
         'comment' => $faker->sentence
     ];

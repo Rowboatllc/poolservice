@@ -6,18 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Mail;
-/*use App\Repositories\ApiToken;
- * use App\Common\Common;
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Order;*/
+
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
-//use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepositoryInterface;
-
-//use App\Repositories\ProfileRepository;
+use App\Repositories\ScheduleRepositoryInterface;
 
 class PoolOwnerController extends Controller {
 
@@ -32,15 +26,18 @@ class PoolOwnerController extends Controller {
     protected $common;
     protected $notification;
     protected $repoProfile;
+    protected $schedule;
 
     public function __construct(
-            PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, NotificationRepositoryInterface $notification) {
+            PageRepositoryInterface $page, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, 
+            NotificationRepositoryInterface $notification, ScheduleRepositoryInterface $schedule) {
         parent::__construct($page);
         $this->company = $company;
         $this->billing = $billing;
+        $this->notification = $notification;
+        $this->schedule = $schedule;
         $this->profile = app('App\Models\Profile');
         $this->common = app('App\Common\Common');
-        $this->notification = $notification;
         $this->repoProfile = app('App\Repositories\ProfileRepository');
     }
 
@@ -69,7 +66,8 @@ class PoolOwnerController extends Controller {
             $company_select = $company_select_arr[0];
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
-        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info']));
+        $schedules = $this->schedule->getAllScheduleByPoolowner($user->id);
+        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules']));
     }
 
     public function started() {

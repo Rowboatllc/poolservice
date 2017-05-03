@@ -13,11 +13,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Poolowner::class, function (Faker\Generator $faker) {
-    $random = rand(1, 3);
-    $services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
     return [
-        'name' => $faker->company,
-        'services' => $services,
-        'zipcode' => $faker->postcode
+        'user_id' => 2,
+        'pool_status' => 'active',
     ];
 });
