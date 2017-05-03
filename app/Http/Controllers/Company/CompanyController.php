@@ -33,7 +33,9 @@ class CompanyController extends Controller {
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         $technicians = $technicianRepo->getList($user->id);
-        return view('company.index', compact(['customers', 'offers', 'technicians','comProfile']));
+        $routes=$this->user->getUserSchedule($user->id);
+        $user=$this->user->getUserInfo($user->id);
+        return view('company.index', compact(['customers', 'offers', 'technicians','comProfile','routes','user']));
     }
 
     public function addCompanyProfile(Request $request) 

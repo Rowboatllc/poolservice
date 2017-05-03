@@ -1,6 +1,6 @@
 <div class="company-profile-service">    
     <div class="row sectionB1">
-        <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2" enctype="multipart/form-data">
+        <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="col-xs-9 bhoechie-tab-container">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
@@ -51,22 +51,42 @@
                             </div>
                         </div>   
                         <div class="row">
-                            <div class="border-1">
-                                
-                            </div>
-
-                            <nav class="navbar navbar-default">
-                                <div class="container-fluid">
-                                    <div class="navbar-header">
-                                        <img src="/storage/Screen Shot 2017-04-26 at 9.50.53 PM.png" alt="..." class="rounded-circle">
-                                    </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <img src="{{ $user->avatar }}">
+                                    <label>{{$user->name}}</label>
                                 </div>
-                            </nav>
+                                <!--<div class="form-group">
+                                    <select id="pool_service_list" name="pool_service_list" >
+                                        <option selected="selected">Chose pool service professional</option>
+                                        @if($user)
+                                            <option value="wq" data-class="ui-icon-circle-check">W-q</option>
+                                            <option value="driver_license" data-class="ui-icon-circle-check">Driver's License</option>
+                                            <option value="cpa" data-class="ui-icon-circle-check">cpa</option>
+                                        @endif                            
+                                    </select>
+                                </div>-->
+                            </div>
                         </div> 
 
                         <div class="row">
-                            <table>
-                                
+                            <table class="table table-hover">
+                                <tr>
+                                    <th><a></a></th>
+                                    <th><a>Order</a></th>
+                                    <th><a>Street Address</a></th>
+                                    <th><a>City</a></th>
+                                    <th><a>Zipcode</a></th>
+                                </tr>
+                                @foreach ($routes as $route)
+                                    <tr>	
+                                        <td></td>
+                                        <td>{{$route->address}}</td>
+                                        <td>{{$route->address}}</td>
+                                        <td>{{$route->city}}</td>
+                                        <td>{{$route->zipcode}}</td>
+                                    </tr>
+                                @endforeach
                             </table>
                         </div> 
                     </div>

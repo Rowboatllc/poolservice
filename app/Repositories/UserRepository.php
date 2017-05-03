@@ -306,4 +306,25 @@ class UserRepository
 
         return $comProfile;
     }
+
+    public function getUserSchedule($id)
+    {
+        $comProfile = DB::table('schedules')
+                ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
+                ->join('orders', 'schedules.order_id','=','orders.id')
+                ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
+                ->where(['schedules.technican_id' => $id])->get();
+        return $comProfile;
+    }
+
+    public function getUserInfo($id)
+    {
+        $comProfile = DB::table('users')
+                ->select('users.id','users.name','profiles.avatar')
+                ->join('profiles', 'profiles.user_id','=','users.id')
+                ->where(['users.id' => $id])
+                ->first();
+
+        return $comProfile;
+    }
 }
