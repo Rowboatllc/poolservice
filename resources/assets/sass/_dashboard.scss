@@ -11,6 +11,14 @@
     content: attr(placeholder);
     display: block;
 }
+
+.tab-content {
+    padding-top: 20px
+}
+
+[data-orderfield] {
+    cursor: pointer
+}
     
 .dashboard-panel {
     .panel-primary > .panel-heading {

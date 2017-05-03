@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container">
+<div class="container panel">
     <div class="form-box">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#sectionA">Services Offered</a></li>
@@ -13,7 +13,7 @@
         </ul>
         <div class="tab-content">
             <div id="sectionA" class="tab-pane fade in active">
-                @include('company.offered-service')
+                @include('company.offered-services')
             </div>
             <div id="sectionB" class="tab-pane fade">
                 @include('company.route')

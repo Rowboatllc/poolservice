@@ -17,18 +17,23 @@ class TechnicianRepository {
         $this->techinician = app('App\Models\Technician');
     }
     
-    public function getList($id) {
+    public function listBuilder($id) {
         return DB::table('profiles')
             ->join('users', 'users.id', '=', 'profiles.user_id')
             ->join('technicians', 'technicians.user_id', '=', 'users.id')
             ->join('companies', 'companies.id', '=', 'technicians.company_id')
-            ->select('profiles.fullname', 'profiles.phone', 'profiles.avatar', 'users.email', 'users.status', 'users.id', 'companies.id as company_id')
             ->where('companies.user_id', $id)
-            ->paginate(5);
+            ->select('profiles.fullname', 'profiles.phone', 'profiles.avatar', 'users.email', 'users.status', 'users.id', 'companies.id as company_id');
     }
     
-    public function listTechnicians($id) {
-        return $this->getList($id)->toJson();
+    public function getList($id, $data=[]) {
+        $list = $this->listBuilder($id);
+        return $this->common->pagingSort($list, $data);
+    }
+    
+    public function listTechnicians($id, $data) {
+        $list = $this->listBuilder($id);
+        return $this->common->pagingSort($list, $data)->toJson();
     }
     
     public function saveTechnician($data) {
@@ -47,7 +52,7 @@ class TechnicianRepository {
             try {
                 $profile->save();
                 $user->save();
-                $this->techinician->save();
+                $technician->save();
                 DB::commit();
                 return true;
             } catch (Exception $e) {

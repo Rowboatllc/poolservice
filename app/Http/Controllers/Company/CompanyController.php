@@ -5,13 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\UserFormRequest;
-use App\Http\Requests\LoginRequest;
 use Auth;
-use App\Models\User;
-use Mail;
 
 use App\Repositories\CompanyRepositoryInterface;
 

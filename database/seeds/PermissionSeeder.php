@@ -13,25 +13,21 @@ class PermissionSeeder extends Seeder
     {
         // set group user
         $group_admin = factory(App\Models\Group::class)->create([
-            'id' => '1',
             'name' => 'admin',
             'description' => 'We are admin page.',
         ]);
 
         $group_pool_owner = factory(App\Models\Group::class)->create([
-            'id' => '2',
             'name' => 'pool-owner',
             'description' => 'We are pool owner.',
         ]);
 
         $group_service_company = factory(App\Models\Group::class)->create([
-            'id' => '3',
             'name' => 'service-company',
             'description' => 'We are service_company page.',
         ]);
 
         $group_technician = factory(App\Models\Group::class)->create([
-            'id' => '4',
             'name' => 'technician',
             'description' => 'We are technician page.',
         ]);
@@ -154,6 +150,42 @@ class PermissionSeeder extends Seeder
         $group_service_company->permissions()->attach($permission_ajax_upload_img->id);
         $group_service_company->permissions()->attach($permission_ajax_upload_file->id);
 
+        
+        $arr = [
+            'poolowner' => [
+                'dashboard-poolowner-save-email',
+                'dashboard-poolowner-save-password',
+                'dashboard-poolowner-save-profile',
+                'dashboard-poolowner-save-poolinfo',
+            ],
+            'company' => [
+                'dashboard-company-update-offer'
+            ],
+            'techician'=>[
+                'dashboard-company-list-technician',
+                'dashboard-company-save-technician',
+                'dashboard-company-remove-technician'
+            ]
+        ];
 
+        foreach($arr as $group => $ps){
+            foreach($ps as $k => $p){
+                $pms = factory(App\Models\Permission::class)->create([
+                    'name' => $p,
+                    'alias' => $p
+                ]);
+                switch($group) {
+                    case 'poolowner':
+                        $group_pool_owner->permissions()->attach($pms);
+                        break;
+                    case 'company':
+                        $group_service_company->permissions()->attach($pms);
+                        break;
+                    case '':
+                        $group_technician->permissions()->attach($pms);
+                        break;
+                }
+            }
+        }
     }
 }

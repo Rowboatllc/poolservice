@@ -96,5 +96,14 @@ class Common {
         }
         return implode(' | ',$arr);
     }
+    
+    public function pagingSort($list, $data) {
+        if(!empty($data['orderfield'])) {
+            $field = $data['orderfield'];
+            $direction = (empty($data['orderdir']) ? 'asc' : $data['orderdir']);
+            $list = $list->orderBy($field, $direction);
+        }
+        return $list->paginate(5);
+    }
 
 }

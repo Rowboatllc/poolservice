@@ -14,7 +14,7 @@ class OrderRepository {
     
     public function savePoolInfo($data) {
         $obj = $this->common->getUserByToken();
-        $obj = Order::where('user_id', $obj->id)->first();
+        $obj = Order::where('poolowner_id', $obj->id)->first();
         $pool = $data['is-pool'];
         $water = empty($data['watertype_weekly_pool']) ? 'chlorine' : $data['watertype_weekly_pool'];
         $obj->cleaning_object = $pool;
