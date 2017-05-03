@@ -10,7 +10,7 @@
                         <th><a style='cursor:pointer;'>Zipcode</a></th>
                         <th><a style='cursor:pointer;'>Status</a></th>                        
                     </tr>
-                    @foreach ($schedules as $key=>$sc)
+                    {{-- @foreach ($schedules as $key=>$sc)
                         <tr class="item schedule">
                             <td class="text-center">{{$key}}</td>
                             <td valign="middle" data-toggle="modal" data-target="#cleaningStepsModal" class="addres-schedule">
@@ -34,7 +34,7 @@
                                 <a class="btn btn-primary btn-technician technician-enroute {{$sc->status == 'opening' ? '' : 'no_display'}} {{ $schedule['name'] != getdate()['weekday'] ? ' disabled' : ''}}" style="width: 80px;" title="{{route('technician-enroute',[$sc->id])}}">Enroute</a>                                                                
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </table>
             </div>
         </div>

@@ -6,18 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Mail;
-/*use App\Repositories\ApiToken;
- * use App\Common\Common;
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Order;*/
+
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
-//use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepositoryInterface;
-
-//use App\Repositories\ProfileRepository;
+use App\Repositories\ScheduleRepositoryInterface;
 
 class PoolOwnerController extends Controller {
 
