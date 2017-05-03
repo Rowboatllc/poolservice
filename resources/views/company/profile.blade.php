@@ -5,13 +5,13 @@
             <select id="review_select" name="review_select" >
                 <option selected="selected">Awaiting Verification</option>
                 @if($comProfile->approved)
-                    <option value="wq">W-q</option>
-                    <option value="driver_license">Driver's License</option>
-                    <option value="cpa">cpa</option>
+                    <option value="wq" data-class="ui-icon-circle-check">W-q</option>
+                    <option value="driver_license" data-class="ui-icon-circle-check">Driver's License</option>
+                    <option value="cpa" data-class="ui-icon-circle-check">cpa</option>
                 @else
-                    <option value="wq">W-q</option>
-                    <option value="driver_license">Driver's License</option>
-                    <option value="cpa">cpa</option>
+                    <option value="wq" data-class="ui-icon-circle-check">W-q</option>
+                    <option value="driver_license" data-class="ui-icon-circle-check">Driver's License</option>
+                    <option value="cpa" data-class="ui-icon-circle-check">cpa</option>
                 @endif                            
             </select>
         </div>
