@@ -57,17 +57,17 @@ class CompanyController extends Controller {
             )
             {
                 //logo
-                $logoCom=$logo->getClientOriginalName();                
-                $logo->storeAs('company-image',$logoCom);
+                $logoCom=$logo->getClientOriginalName();     
+                $logo->move(public_path().'/company-image/',$logoCom);
                 //wq
-                $logoWq=$wq->getClientOriginalName();                
-                $wq->storeAs('company-image',$logoWq);
+                $logoWq=$wq->getClientOriginalName();   
+                $wq->move(public_path().'/company-image/',$logoWq); 
                 //driver_license
                 $logoDriver_license=$driver_license->getClientOriginalName();
-                $driver_license->storeAs('company-image',$logoDriver_license);
+                $driver_license->move(public_path().'/company-image/',$logoDriver_license);
                 //cpa
                 $logoCpa=$cpa->getClientOriginalName();
-                $cpa->storeAs('company-image',$logoCpa);
+                $cpa->move(public_path().'/company-image/',$logoCpa);
 
                 return response()->json(['success' => true,'message' => $company],200);
             }

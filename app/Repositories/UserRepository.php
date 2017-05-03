@@ -287,10 +287,10 @@ class UserRepository
         }
         
         $com->forceFill([
-            'wq' => $arr['wq']->getClientOriginalName(),
-            'logo' => $arr['logo']->getClientOriginalName(),
-            'driver_license' => $arr['driven_license']->getClientOriginalName(),
-            'cpa' => $arr['cpa']->getClientOriginalName()])->save();
+            'wq' => '/company-image/'.$arr['wq']->getClientOriginalName(),
+            'logo' => '/company-image/'.$arr['logo']->getClientOriginalName(),
+            'driver_license' => '/company-image/'.$arr['driven_license']->getClientOriginalName(),
+            'cpa' => '/company-image/'.$arr['cpa']->getClientOriginalName()])->save();
             
         $comProfile = self::getCompanyProfile($id);
         return $comProfile;   
