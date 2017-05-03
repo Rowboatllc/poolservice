@@ -86,8 +86,11 @@ class PermissionSeeder extends Seeder
             'email' => 'pool@rowboatsoftware.com',            
         ]);
 
-        factory(App\Models\Order::class)->create([
+        factory(App\Models\Poolowner::class)->create([
             'user_id' => $user_pool->id
+        ]);
+        factory(App\Models\Order::class)->create([
+            'poolowner_id' => $user_pool->id
         ]);
         factory(App\Models\BillingInfo::class)->create([
             'user_id' => $user_pool->id
@@ -128,8 +131,11 @@ class PermissionSeeder extends Seeder
         ]);
         
         foreach($user_pools as $user_pool_new){
-            factory(App\Models\Order::class)->create([
+            factory(App\Models\Poolowner::class)->create([
                 'user_id' => $user_pool_new->id
+            ]);
+            factory(App\Models\Order::class)->create([
+                'poolowner_id' => $user_pool_new->id
             ]);
             factory(App\Models\BillingInfo::class)->create([
                 'user_id' => $user_pool_new->id

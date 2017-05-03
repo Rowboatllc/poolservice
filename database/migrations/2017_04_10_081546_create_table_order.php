@@ -15,7 +15,7 @@ class CreateTableOrder extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');         
+            $table->integer('poolowner_id');         
             $table->json('services');
             $table->json('zipcode');   
             $table->dateTime('time');

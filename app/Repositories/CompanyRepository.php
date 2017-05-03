@@ -36,7 +36,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                                          AND JSON_CONTAINS(c.zipcodes, o.zipcode)
                                                          AND o.status = "active"
                                     LEFT JOIN ratings r ON r.company_id = c.id
-                                    WHERE o.user_id = ' . $user_id . '
+                                    WHERE o.poolowner_id = ' . $user_id . '
                                     AND c.status = "active"
                                     GROUP BY c.id
                                     ORDER BY point
@@ -80,7 +80,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                         SELECT s.company_id FROM selecteds s
                                         LEFT JOIN orders o ON o.id = s.order_id
                                                             AND o.status = "active"
-                                        WHERE o.user_id = ' . $user_id . '
+                                        WHERE o.poolowner_id = ' . $user_id . '
                                         AND s.status = "pending" OR s.status = "active"
                                     )
                                     AND c.status = "active"
@@ -95,7 +95,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return DB::statement('UPDATE `selecteds` SET `status`= "inactive"
                                 WHERE `order_id` IN (
                                     SELECT o.id FROM orders o
-                                    WHERE o.user_id = ' . $user_id . '
+                                    WHERE o.poolowner_id = ' . $user_id . '
                                 )
                             ');
     }

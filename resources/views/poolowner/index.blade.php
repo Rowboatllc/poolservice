@@ -18,7 +18,7 @@
                     </div>
                     <div class="panel-body panel-body-manager">
                         <div class="tab-content">
-                            <div class="tab-pane fade {{ $tab =='services' || !$tab ? ' in active' : ''}}" id="services">Services Page</div>
+                            <div class="tab-pane fade {{ $tab =='services' || !$tab ? ' in active' : ''}}" id="services">@include('poolowner.services')</div>
                             <div class="tab-pane fade {{ $tab =='pool_info' ? ' in active' : ''}}" id="pool_info">@include('poolowner.poolinfo')</div>
                             <div class="tab-pane fade {{ $tab =='profile' ? ' in active' : ''}}" id="profile">@include('poolowner.profile')</div>
                             <div class="tab-pane fade {{ $tab =='billing_info' ? ' in active' : ''}}" id="billing_info">@include('poolowner.billing-info')</div>

@@ -45,13 +45,13 @@ class TechnicianController extends Controller {
             $schedule = $this->schedule->updateStatus($schedule_id, 'checkin');            
             $user = $this->schedule->getPoolownerInSchedule($schedule_id);
             if (isset($user) && $schedule) {
-                // $content = 'Technician is on the way';
-                // Mail::send('emails.technician-enroute', compact('user'), function($message)
-                //         use ($user, $content) {
-                //     $message->subject($content);
-                //     $message->to($user->email);
-                // });
-                // $this->notification->saveNotification($user->id, $content, false);
+                $content = 'Technician is on the way';
+                Mail::send('emails.technician-enroute', compact('user'), function($message)
+                        use ($user, $content) {
+                    $message->subject($content);
+                    $message->to($user->email);
+                });
+                $this->notification->saveNotification($user->id, $content, false);
             }
             return $this->common->responseJson(true);
         }
