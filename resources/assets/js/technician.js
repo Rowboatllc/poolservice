@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
 
     });
 
-    schedules.find('.technician-checkin').bind('click', function() {
+    schedules.find('.btn-status').bind('click', function() {
         let self = $(this).parent().parent();
         self.find('.addres-schedule').click();
     });
@@ -58,29 +58,15 @@ jQuery(document).ready(function() {
     });
 
     schedules.find('.btn-unable-steps').bind('click', function() {
-        let link = $(this).attr('title');
-        let frm = $('#form-confirm-steps');
-        let data = new FormData(frm[0]);
-        $('#loading').show();
-        $.ajax({
-            type: "POST",
-            data: data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            url: link
-        }).done(function (rawData) {
-            $('#loading').hide();
-            $('.modal-header .close').click();
-            let self = schedules.selected.parent();
-            self.find('[name="status"]').val('complete');
-        }).fail(function () {
-            $('#loading').hide();
-        })
+        change(this,'unable');
     });
 
     schedules.find('.btn-complete-steps').bind('click', function() {
-        let link = $(this).attr('title');
+        change(this,'complete');
+    });
+
+    function change(me, status){
+        let link = $(me).attr('title');
         let frm = $('#form-confirm-steps');
         let data = new FormData(frm[0]);
         $('#loading').show();
@@ -95,10 +81,18 @@ jQuery(document).ready(function() {
             $('#loading').hide();
             $('.modal-header .close').click();
             let self = schedules.selected.parent();
-            self.find('[name="status"]').val('complete');
+            self.find('[name="status"]').val(status);
+            self.find('.technician-checkin').toggleClass('no_display');   
+            self.find('.btn-'+status).toggleClass('no_display'); 
+
+            let form_self = schedules.selected;
+            let schedule = rawData.schedule;
+            cleaning_steps = form_self.find('[name="cleaning_steps"]').val(schedule.cleaning_steps);
+            form_self.find('[name="comment"]').val(schedule.comment);
+            form_self.find('[name="status"]').val(schedule.status);  
             
         }).fail(function () {
             $('#loading').hide();
         })
-    });
+    }
 });

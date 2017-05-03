@@ -3,5 +3,11 @@
         tr th {
             border-top: 0px !important;
         }
+        label.btn-unable {
+            color: red;
+        }
+        label.btn-complete {
+            color: blue;
+        }
     }
 }

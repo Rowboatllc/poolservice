@@ -24,15 +24,14 @@
                             <td valign="middle"><span>{{$sc->city}}</span></td>
                             <td valign="middle"><span>{{$sc->zipcode}}</span></td>
                             <td valign="middle" style=" width: 95px; ">
-                                @if($sc->status=="complete"||$sc->status=="unable")
-                                   <label style="font-size: 1em">
-                                        <input type="checkbox" value="1" readonly checked  onclick="return false;">
-                                        {{ucfirst($sc->status)}}
-                                    </label>
-                                @else
-                                    <a class="btn btn-primary btn-technician technician-checkin {{$sc->status == 'checkin' ? '' : 'no_display'}} " style="width: 80px;" >Check In</a>
-                                    <a class="btn btn-primary btn-technician technician-enroute {{$sc->status != 'checkin' ? '' : 'no_display'}} " style="width: 80px;" title="{{route('technician-enroute',[$sc->id])}}">Enroute</a>                                                                
-                                @endif
+                                <label style="font-size: 1em" class="btn-status btn-complete {{$sc->status == 'complete' ? '' : 'no_display'}} ">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> Complete
+                                </label>
+                                <label style="font-size: 1em" class="btn-status btn-unable {{$sc->status == 'unable' ? '' : 'no_display'}} ">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Unable
+                                </label>
+                                <a class="btn btn-primary btn-technician technician-checkin {{$sc->status == 'checkin' ? '' : 'no_display'}} btn-status" style="width: 80px;" >Check In</a>
+                                <a class="btn btn-primary btn-technician technician-enroute {{$sc->status == 'opening' ? '' : 'no_display'}} " style="width: 80px;" title="{{route('technician-enroute',[$sc->id])}}">Enroute</a>                                                                
                             </td>
                         </tr>
                     @endforeach
