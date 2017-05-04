@@ -1,20 +1,19 @@
 @extends('layouts.template')
 
 @section('content')
-
-<div class="container">
+<div class="container panel">
     <div class="form-box">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#sectionA">Services Offered</a></li>
             <li><a data-toggle="tab" href="#sectionB">Pool Routes</a></li>
             <li><a data-toggle="tab" href="#sectionC">Company Profile</a></li>
             <li><a data-toggle="tab" href="#sectionD">Billing Info</a></li>
-            <li><a data-toggle="tab" href="#sectionE">Pool Service Technicians</a></li>
+            <li><a data-toggle="tab" href="#sectionE">Pool Service Professionals</a></li>
             <li><a data-toggle="tab" href="#sectionF">My PoolService Customers</a></li>
         </ul>
         <div class="tab-content">
             <div id="sectionA" class="tab-pane fade in active">
-                @include('company.offered-service')
+                @include('company.offered-services')
             </div>
             <div id="sectionB" class="tab-pane fade">
                 @include('company.route')
@@ -62,8 +61,13 @@
 @endsection
 
 @section('lib')
+        
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/register/main-pool-service.js') }}"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDieZ7uAY4DPdT3Z4fp4KtykHl6dWryYdw&callback=initMap">
+        </script>    
+        <script src="{{ asset('js/register/main-pool-service.js') }}"></script>
+        <script src="{{ asset('/js/route-google-map.js') }}"></script>
 @endsection

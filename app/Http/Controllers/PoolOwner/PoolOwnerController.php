@@ -5,12 +5,14 @@ namespace App\Http\Controllers\PoolOwner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\NotificationRepositoryInterface;
 use App\Repositories\ScheduleRepositoryInterface;
+use App\Repositories\OrderRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -51,12 +53,14 @@ class PoolOwnerController extends Controller {
             $profile = $this->common->getDefaultEloquentAttibutes($this->profile);
         }
         $profile->email = $user->email;
-
+        
+        $orderRepo = new OrderRepository;
+        $poolinfo = $orderRepo->getPoolInfo($user->id);
+        
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
-
-        // my pool service company
         
+        // my pool service company
         $companys = $this->company->getAllCompanySupportOwner($user->id);
         $company_select_arr = $this->company->getSelectedCompany($user->id);
         $point = 0;
@@ -66,8 +70,7 @@ class PoolOwnerController extends Controller {
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
         $schedules = $this->schedule->getAllScheduleByPoolowner($user->id);
-        // dd($schedules);
-        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules']));
+        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules','poolinfo']));
     }
 
     public function started() {
@@ -76,15 +79,43 @@ class PoolOwnerController extends Controller {
     }
 
     public function selectCompany($company_id) {
-        $user_id = Auth::id();
-        $result = $this->company->selectCompany($user_id, $company_id);
-        return $this->common->responseJson($result);
+        try{
+            $user_id = Auth::id();
+            $result = $this->company->selectCompany($user_id, $company_id);
+            if ($result) {
+                $company = $this->company->getCompanyById($company_id);
+                $content = 'Customers sign up for your service';
+                Mail::send('emails.select-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+            }
+            return $this->common->responseJson(true);
+        }catch(\Exception $e){
+            return $this->common->responseJson(false);
+        }
     }
 
     public function selectNewCompany($company_id) {
-        $user_id = Auth::id();
-        $result = $this->company->removeAllSelectCompany($user_id, $company_id);
-        return $this->common->responseJson($result);
+        try{
+            $user_id = Auth::id();
+            $result = $this->company->removeAllSelectCompany($user_id);
+            if ($result) {
+                $company = $this->company->getCompanyById($company_id);
+                $content = 'Customers remove for your service';
+                Mail::send('emails.remove-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+            }
+            return $this->common->responseJson(true);
+        }catch(\Exception $e){
+            return $this->common->responseJson(false);
+        }
     }
 
     public function ratingCompany(Request $request) {

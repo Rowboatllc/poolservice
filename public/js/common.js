@@ -115,7 +115,7 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
     function assignEvent() {
         // company-offered-service
-        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+        /*jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
             let $me = jQuery(this);
             let data = $me.data();
             let url = $me.parents('[data-updateurl]');
@@ -131,16 +131,34 @@ jQuery(document).ready(function () {
                 console.log('something wrong');
             });
         });
+        */
+        jQuery('.company_service_offers input[type="checkbox"]').bind('click', function(){
+            toggleSaveButton();
+        });
+        
+        jQuery('.company_service_offers .saveform-fieldset').bind('click', function(){
+            $me = jQuery(this);
+            let $obj = $me.parents('.fieldset');
+            let data = $obj.find('input').serialize();
+            if(data=='')
+                return
+            sendData($obj.attr('action'), data, $obj.attr('method'), function (result) {
+                if(result.success!=true)
+                    return
+                $me.addClass('no_display');
+            }, function () {
+                console.log('something wrong');
+            });
+        });
+       
         //technician-professionnal-service
         jQuery('.technician-professionnal-service').on('click','.save-techinician', function() {
             let $me = jQuery(this);
             let $form = $me.parents('form');
             saveForm($form, function(result){
-                console.log(result);
                 $form.parents('.modal').modal('hide');
-                page = jQuery('.technician-professionnal-service .table-responsive').find('.pagination .active').text();
-                url = jQuery('.technician-professionnal-service table').data('url');
-                reloadCurrentPage(page, url, function(result){
+                let params = jQuery('.technician-professionnal-service .table-responsive').data();
+                reloadCurrentPage(params, params.url, function(result){
                     console.log(result);
                 });
             });
@@ -150,10 +168,9 @@ jQuery(document).ready(function () {
             let $me = jQuery(this);
             let url = $me.parents('table').data('removeurl');
             let id = $me.data('id');
-            sendDataWithToken(url, {id:id}, 'POST', function (result) {
-                page = $me.parents('.table-responsive').find('.pagination li.active span').text();
-                url = $me.parents('table').data('url');
-                reloadCurrentPage(page, url, function(result){
+            sendData(url, {id:id}, 'POST', function (result) {
+                let params = $me.parents('.table-responsive').data();
+                reloadCurrentPage(params, params.url, function(result){
                     console.log(result);
                 });
             }, function () {
@@ -180,15 +197,45 @@ jQuery(document).ready(function () {
             event.preventDefault();
             let $me = jQuery(this);
             let page = $me.text();
-            console.log(page);
-            let url = $me.parents('.table-responsive').find('table').data('url');
-            reloadCurrentPage(page, url, function(result){
+            //console.log(page);
+            //let url = $me.parents('.table-responsive').data('url');
+            $me.parents('.table-responsive').data('page', page);
+            let params = $me.parents('.table-responsive').data();
+            reloadCurrentPage(params, params.url, function(result){
+                console.log(result);
+            });
+        }).on('click', '[data-orderfield]', function(event) {
+            let $me = jQuery(this);
+            $coverTable = $me.parents('.table-responsive');
+            $orderDirection = $coverTable.data('orderdir')||'asc';
+            $orderField = $coverTable.data('orderfield')||'';
+            if($orderField==$me.data('orderfield')) {
+                $orderDirection = (($orderDirection=='asc')? 'desc' : 'asc');
+                $coverTable.data('orderdir', $orderDirection);
+            } else {
+                $coverTable.data('orderfield', $me.data('orderfield'));
+            }
+            let params = $coverTable.data();
+            reloadCurrentPage(params, params.url, function(result){
                 console.log(result);
             });
         });
         
     }
+    
+    function toggleSaveButton() {
+        let $obj = jQuery('.company_service_offers');
+        let data = $obj.find('input').serialize();
+        console.log('data', data);
+        if(data=='') {
+            $obj.find('.saveform-fieldset').addClass('no_display');
+        } else {
+            $obj.find('.saveform-fieldset').removeClass('no_display');
+        }
+    }
+    
     assignEvent();
+    autoPaging('.technician-professionnal-service');
 });
 
 function afterUploadedTechnicianAvatar(form, result) {
@@ -201,11 +248,11 @@ function afterUploadedTechnicianAvatar(form, result) {
     jQuery('#'+ajaxUploadFile.frameName).remove();
 }
 
-function reloadCurrentPage(page, url, callback) {
-    sendDataWithToken(url, {page:page}, 'POST', function(result){
+function reloadCurrentPage(params, url, callback) {
+    sendData(url, params, 'POST', function(result){
         let list = JSON.parse(result.list);
         parseData(".rowtpl", ".technician-professionnal-service .table-list", list.data, true);
-        parsePaging(Math.ceil(list.total/list.per_page), ".technician-professionnal-service .pagination", page);
+        parsePaging(Math.ceil(list.total/list.per_page), ".technician-professionnal-service .pagination", (params.page||''));
     });
 }
 
@@ -215,17 +262,33 @@ function parseData(tpl, dest, data, append) {
     $(tpl).tmpl(data).appendTo(dest);
 }
 
-function parsePaging(total, dest, curpage) {
+function parsePaging(totalpage, dest, curpage) {
     let str=''; 
     let activeClass;
-    if(curpage=='') curpage=1
-    if(total>1) {
-        for(let i=1; i<=total; i++) {
+    if(curpage=='') curpage=1;
+    if(totalpage>1) {
+        for(let i=1; i<=totalpage; i++) {
             activeClass = (i==curpage) ? 'active' : '';
             str = str + '<li class="'+activeClass+'"><span>'+ i +'</span></li>';
         }
     }
     jQuery(dest).html('').append(str);
+}
+
+function autoPaging(cover_div) {
+    let tables = jQuery(cover_div).find('.table-responsive');
+    let totalpage, curpage, $me;
+    tables.each(function(){
+        $me = jQuery(this);
+        totalpage = $me.data('totalpage');
+        curpage = $me.data('page');
+        setCurrentPage(this, curpage)
+        parsePaging(totalpage, $me.find('.pagination')[0], curpage);
+    });
+}
+
+function setCurrentPage(cover_div, page) {
+    jQuery(cover_div).data('page', page)
 }
 jQuery(document).ready(function () {
     function globalAssignEvent() {
@@ -424,16 +487,11 @@ function sendData(url, data, method, callback, error) {
     showLoading();
     method = method || 'POST';
     var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-    if (typeof data == 'string') {
-        data = data + '&_token=' + token;
-    } else {
-        data._token = token;
-    }
     jQuery.ajax({
         url: url,
         method: method,
         data: data,
-        //dataType: "application/json",
+        dataType: "json",
         headers: {
             "X-CSRF-Token": token
         },
@@ -456,7 +514,7 @@ function sendDataWithToken(url, data, method, callback, error) {
         url: url,
         method: method,
         data: data,
-        //dataType: "application/json",
+        dataType: "json",
         headers: {
             "Accept": "application/json",
             "Authorization": "Bearer " + key
@@ -494,7 +552,7 @@ function saveEditableContent($obj, callback) {
     let data = getEditableFieldValues( $obj );
     console.log(data);
     data = jQuery.param(data);
-    sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+    sendData($obj.attr('action'), data, $obj.attr('method'), function (result) {
         (callback || jQuery.noop)(result);
     }, function () {
         console.log('something wrong');
@@ -540,7 +598,7 @@ function checkContent(value, type) {
 }
 
 function saveForm($form, callback) {
-    sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
+    sendData($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
         (callback || jQuery.noop)(result);		
     }, function () {
         console.log('something wrong');

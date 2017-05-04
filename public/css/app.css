@@ -8884,6 +8884,14 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   display: block;
 }
 
+.tab-content {
+  padding-top: 20px;
+}
+
+[data-orderfield] {
+  cursor: pointer;
+}
+
 .dashboard-panel .panel-primary > .panel-heading {
   padding: 10px 15px 0px;
   background-color: none;
@@ -9050,11 +9058,9 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 
 .company-profile-service {
   /*  bhoechie tab */
-  /* select with custom icons */
-  /* select with CSS avatar icons */
 }
 
-.company-profile-service div.bhoechie-tab-container {
+.company-profile-service div.profile-tab-container {
   z-index: 10;
   background-color: #ffffff;
   padding: 0 !important;
@@ -9070,22 +9076,22 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   filter: alpha(opacity=97);
 }
 
-.company-profile-service div.bhoechie-tab-menu {
+.company-profile-service div.profile-tab-menu {
   padding-right: 0;
   padding-left: 0;
   padding-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group {
+.company-profile-service div.profile-tab-menu div.list-group {
   margin-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a {
+.company-profile-service div.profile-tab-menu div.list-group > a {
   margin-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a .glyphicon,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a .fa {
+.company-profile-service div.profile-tab-menu div.list-group > a .glyphicon,
+.company-profile-service div.profile-tab-menu div.list-group > a .fa {
   color: #5A55A3;
 }
 
@@ -9094,20 +9100,20 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   -moz-border-top-right-radius: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a:last-child {
+.company-profile-service div.profile-tab-menu div.list-group > a:last-child {
   border-bottom-right-radius: 0;
   -moz-border-bottom-right-radius: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active .glyphicon,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active .fa {
+.company-profile-service div.profile-tab-menu div.list-group > a.active,
+.company-profile-service div.profile-tab-menu div.list-group > a.active .glyphicon,
+.company-profile-service div.profile-tab-menu div.list-group > a.active .fa {
   background-color: #5A55A3;
   background-image: #5A55A3;
   color: #ffffff;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active:after {
+.company-profile-service div.profile-tab-menu div.list-group > a.active:after {
   content: '';
   position: absolute;
   left: 100%;
@@ -9119,14 +9125,14 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   border-left: 10px solid #5A55A3;
 }
 
-.company-profile-service div.bhoechie-tab-content {
+.company-profile-service div.profile-tab-content {
   background-color: #ffffff;
   /* border: 1px solid #eeeeee; */
   padding-left: 20px;
   padding-top: 10px;
 }
 
-.company-profile-service div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
+.company-profile-service div.profile-tab div.profile-tab-content:not(.active) {
   display: none;
 }
 
@@ -9149,46 +9155,147 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   width: 30px;
 }
 
-.company-profile-service h2 {
+.company-route-service {
+  /*  bhoechie tab */
+  /* select with custom icons */
+  /* select with CSS avatar icons */
+}
+
+.company-route-service div.route-tab-container {
+  z-index: 10;
+  background-color: #ffffff;
+  padding: 0 !important;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  margin-left: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+  opacity: 0.97;
+  filter: alpha(opacity=97);
+}
+
+.company-route-service div.route-tab-menu {
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group {
+  margin-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a {
+  margin-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a .glyphicon,
+.company-route-service div.route-tab-menu div.list-group > a .fa {
+  color: #5A55A3;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a:first-child {
+  border-top-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a:last-child {
+  border-bottom-right-radius: 0;
+  -moz-border-bottom-right-radius: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a.active,
+.company-route-service div.route-tab-menu div.list-group > a.active .glyphicon,
+.company-route-service div.route-tab-menu div.list-group > a.active .fa {
+  background-color: #5A55A3;
+  background-image: #5A55A3;
+  color: #ffffff;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a.active:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -13px;
+  border-left: 0;
+  border-bottom: 13px solid transparent;
+  border-top: 13px solid transparent;
+  border-left: 10px solid #5A55A3;
+}
+
+.company-route-service div.route-tab-content {
+  background-color: #ffffff;
+  /* border: 1px solid #eeeeee; */
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+.company-route-service div.route-tab div.route-tab-content:not(.active) {
+  display: none;
+}
+
+.company-route-service .is-disabled {
+  pointer-events: none;
+}
+
+.company-route-service .divLoadData {
+  display: none;
+  padding-top: 10px;
+}
+
+.company-route-service img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.company-route-service .portrait {
+  height: 80px;
+  width: 30px;
+}
+
+.company-route-service h2 {
   margin: 30px 0 0 0;
 }
 
-.company-profile-service fieldset {
+.company-route-service fieldset {
   border: 0;
 }
 
-.company-profile-service label {
+.company-route-service label {
   display: block;
 }
 
-.company-profile-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
+.company-route-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
   padding: 0.5em 0 0.5em 3em;
 }
 
-.company-profile-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
+.company-route-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
   height: 24px;
   width: 24px;
   top: 0.1em;
 }
 
-.company-profile-service .ui-icon.video {
+.company-route-service .ui-icon.video {
   background: url("images/24-video-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service .ui-icon.podcast {
+.company-route-service .ui-icon.podcast {
   background: url("images/24-podcast-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service .ui-icon.rss {
+.company-route-service .ui-icon.rss {
   background: url("images/24-rss-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service option.avatar {
+.company-route-service option.avatar {
   background-repeat: no-repeat !important;
   padding-left: 20px;
 }
 
-.company-profile-service .avatar .ui-icon {
+.company-route-service .avatar .ui-icon {
   background-position: left top;
 }
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\TechnicianRepository;
+use Auth;
 
 class ApiCompanyController extends Controller {
 
@@ -32,14 +33,12 @@ class ApiCompanyController extends Controller {
     
     
     public function listTechnician(Request $request) {
-        $technicianRepo = new \App\Repositories\TechnicianRepository;
-        $user = $this->common->getUserByToken();
-        $result = $technicianRepo->listTechnicians($user->id);
+        $repoTech = new TechnicianRepository;
+        $user = Auth::user();
+        $result = $repoTech->listTechnicians($user->id, $request->all());
         if ($result)
             return $this->common->responseJson(true, 200, '', ['list' => $result]);
         return $this->common->responseJson(false);
-        //return $this->common->responseJson(true, 200, '', ['path' => $result]);
-        //return $this->common->responseJson($technicianRepo->listTechnicians($user->id));
     }
     
     public function saveTechnician(Request $request) {
@@ -50,5 +49,9 @@ class ApiCompanyController extends Controller {
     public function removeTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
         return $this->common->responseJson($repoTech->removeTechnician($request->all()));
+    }
+    
+    public function changeServiceOffer(Request $request) {
+        return $this->common->responseJson($this->company->changeServiceOffer($request->all()));
     }
 }

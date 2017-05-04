@@ -3,20 +3,21 @@
     @if (count($technicians) == 0)
     You currently have no service technician listed in your account
     @else
-    <div class="table-responsive">
-        <table class="table table-hover table-list" data-url="{{ route('dashboard-company-list-technician') }}" data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-company-remove-technician') }}" >
+    <div class="table-responsive" data-totalpage="{{ceil($technicians->total()/$technicians->perPage())}}" data-page="{{$technicians->currentPage()}}" data-url="{{ route('dashboard-company-list-technician') }}" >
+        <table class="table table-hover table-list" data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-company-remove-technician') }}" >
             <tr>
-                <th></th>
-                <th></th>
-                <th>Name</th>
-                <th>Mobile phone</th>
-                <th>Email address</th>
+                <th width="15%"></th>
+                <th width="25%"><span data-orderfield="fullname">Name</span></th>
+                <th width="25%"><span data-orderfield="phone">Mobile phone</span></th>
+                <th width="25%"><span data-orderfield="email">Email address</span></th>
                 <th></th>
             </tr>
             @foreach ($technicians as $technician)
             <tr>
-                <td><span data-cell="img-avatar" data-value="{{ config('app.url').'storage/app/'.$technician->avatar }}" class="avatar" style="background-image: url({{ config('app.url').'storage/app/'.$technician->avatar }})"></span></td>
-                <td class="status" data-cell="status">{{$technician->status}}</td>
+                <td>
+                    <span data-cell="img-avatar" data-value="{{ config('app.url').'storage/app/'.$technician->avatar }}" class="avatar" style="background-image: url({{ config('app.url').'storage/app/'.$technician->avatar }})"></span>
+                    <span class="status" data-cell="status">{{$technician->status}}</span>
+                </td>
                 <td data-cell="fullname">{{$technician->fullname}}</td>
                 <td data-cell="phone">{{$technician->phone}}</td>
                 <td data-cell="email">{{$technician->email}}</td>
@@ -27,8 +28,7 @@
             </tr>
             @endforeach
         </table>
-        {{ $technicians->links() }}
-        <!--<ul class="pagination"></ul>-->
+        <ul class="pagination"></ul>
     </div>
     @endif
 
@@ -78,12 +78,9 @@
         <td data-cell="fullname">${fullname}</td>
         <td data-cell="phone">${phone}</td>
         <td data-cell="email">${email}</td>
-        <td>
-            <span data-cell="id" class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
+        <td data-cell="id" data-value="${id}">
+            <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
             <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="${id}"></span>
         </td>
     </tr>
-</script>
-<script class="item-paging-tpl" type="text/x-jquery-tmpl">
-    <li><span>${number}</span></li>
 </script>

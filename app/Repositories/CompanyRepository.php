@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Selected;
 use App\Models\Rating;
 use App\Models\User;
+use Auth;
 
 use Illuminate\Support\Facades\DB;
 use Mail;
@@ -185,13 +186,15 @@ class CompanyRepository implements CompanyRepositoryInterface {
     }
 
     public function getCustomers($user_id) {
-        return DB::select("select profiles.* from profiles where profiles.user_id in (select orders.user_id from orders 
+        return DB::select("select profiles.* from profiles where profiles.user_id in (select orders.poolowner_id from orders 
         left join selecteds on selecteds.order_id = orders.id
         left join companies on companies.id = selecteds.company_id
         where companies.user_id = " . $user_id . " and selecteds.status = 'active')");
     }
 
     public function getServiceOffers($user_id) {
+        $results = $this->company->where('user_id',$user_id)->select('services')->first();
+        return $results->services;
         $offers = DB::select("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
         left join selecteds on selecteds.order_id = orders.id
         left join companies on companies.id = selecteds.company_id
@@ -205,7 +208,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return $offers;
     }
     
-    public function changeOfferStatus($data) {
+    /*public function changeOfferStatus($data) {
         $user = $this->common->getUserByToken();
         $emailPoolOwner = $this->getPoolownerFromOffer($data['id']);
         $emailPoolOwner = $emailPoolOwner[0]->email;
@@ -225,12 +228,22 @@ class CompanyRepository implements CompanyRepositoryInterface {
             return false;
         }
         return false;
+    }*/
+    
+    /*
+        services: ["weekly_cleaning", "deep_cleaning", "pool_spa_repair"]
+    */
+    public function changeServiceOffer($data) {
+        $user = Auth::user();//$this->common->getUserByToken();
+        $company = $this->company->where('user_id', $user->id)->first();
+        $company->services = $data['services'];
+        return $company->save();
     }
     
     public function getPoolownerFromOffer($id) {
         return DB::select("
             select users.* from users
-            left join orders on orders.user_id = users.id
+            left join orders on orders.poolowner_id = users.id
             left join selecteds on selecteds.order_id = orders.id
             where selecteds.status <> 'inactive' limit 0,1");
     }

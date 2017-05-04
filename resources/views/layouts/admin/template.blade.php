@@ -19,11 +19,6 @@
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-        <!-- Scripts -->
-        <script>
-            window.Laravel = {};
-            window.Laravel.csrfToken = '{{csrf_token()}}';
-        </script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/admin/admin.js') }}"></script>
     </head>

@@ -25,10 +25,10 @@ jQuery(document).ready(function () {
             if(data=='') {
                 //show error
             } else {
-                sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+                sendData($obj.attr('action'), data, $obj.attr('method'), function (result) {
                     if(result.success!=true)
                         return
-                    console.log('saved');
+                    $obj.find('.saveform-fieldset').addClass('no_display');
                 }, function () {
                     console.log('something wrong');
                 });

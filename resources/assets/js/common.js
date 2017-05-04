@@ -195,16 +195,11 @@ function sendData(url, data, method, callback, error) {
     showLoading();
     method = method || 'POST';
     var token = data._token = jQuery('meta[name="csrf-token"]').attr('content');
-    if (typeof data == 'string') {
-        data = data + '&_token=' + token;
-    } else {
-        data._token = token;
-    }
     jQuery.ajax({
         url: url,
         method: method,
         data: data,
-        //dataType: "application/json",
+        dataType: "json",
         headers: {
             "X-CSRF-Token": token
         },
@@ -227,7 +222,7 @@ function sendDataWithToken(url, data, method, callback, error) {
         url: url,
         method: method,
         data: data,
-        //dataType: "application/json",
+        dataType: "json",
         headers: {
             "Accept": "application/json",
             "Authorization": "Bearer " + key
@@ -265,7 +260,7 @@ function saveEditableContent($obj, callback) {
     let data = getEditableFieldValues( $obj );
     console.log(data);
     data = jQuery.param(data);
-    sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+    sendData($obj.attr('action'), data, $obj.attr('method'), function (result) {
         (callback || jQuery.noop)(result);
     }, function () {
         console.log('something wrong');
@@ -311,7 +306,7 @@ function checkContent(value, type) {
 }
 
 function saveForm($form, callback) {
-    sendDataWithToken($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
+    sendData($form.attr('action'), $form.serialize(), $form.attr('method'), function (result) {
         (callback || jQuery.noop)(result);		
     }, function () {
         console.log('something wrong');

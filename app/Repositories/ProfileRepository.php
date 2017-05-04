@@ -35,9 +35,9 @@ class ProfileRepository {
         return $result;
     }
     
-    public function saveProfile($data) {
-        $obj = $this->common->getUserByToken();
-        $obj = Profile::find($obj->id);
+    public function saveProfile($id, $data) {
+        //$obj = $this->common->getUserByToken();
+        $obj = Profile::find($id);
         $obj->fullname = $data['fullname'];
         $obj->address = $data['address'];
         $obj->state = $data['state'];
@@ -46,9 +46,8 @@ class ProfileRepository {
         return $obj->save();
     }
     
-    public function saveNewEmail($data) {
-        $obj = $this->common->getUserByToken();
-        $obj = $this->user->find($obj->id);
+    public function saveNewEmail($id, $data) {
+        $obj = $this->user->find($id);
         $oldEmail = $obj->email;
         $email = $data['email'];
         $result = false;
@@ -69,9 +68,8 @@ class ProfileRepository {
         }
     }
     
-    public function saveNewPassword($data) {
-        $obj = $this->common->getUserByToken();
-        $obj = $this->user->find($obj->id);
+    public function saveNewPassword($id, $data) {
+        $obj = $this->user->find($id);
         $password = $data['password'];
         $newpwd = $data['new-password'];
         $rewpwd = $data['re-password'];

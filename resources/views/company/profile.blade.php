@@ -46,8 +46,8 @@
     <div class="row sectionC1 {{ $comProfile->wq==null ? '' : 'divLoadData' }}">
         <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+            <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 profile-tab-container">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 profile-tab-menu">
                     <div class="list-group">
                         <a href="#" class="list-group-item active text-center is-disabled">
                             <h4 class="glyphicon glyphicon-plane"></h4><br/>Company Logo
@@ -63,9 +63,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 profile-tab">
                     <!-- flight section -->
-                    <div class="form-group bhoechie-tab-content active">
+                    <div class="form-group profile-tab-content active">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-plane" style="font-size:14em;color:#55518a"></h4>-->
                             <h4 style="margin-top: 0;color:#55518a">Upload your company logo</h4>
@@ -79,7 +79,7 @@
                         </center>                            
                     </div>
                     <!-- train section -->
-                    <div class="form-group bhoechie-tab-content">
+                    <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h4>-->
                             <h4 style="margin-top: 0;color:#55518a">Upload your W-q</h4>
@@ -97,7 +97,7 @@
                     </div>
 
                     <!-- hotel search -->
-                    <div class="form-group bhoechie-tab-content">
+                    <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h4>-->
                             <h4 style="margin-top: 0;color:#55518a">Upload a scan og your driver's license</h4>
@@ -111,7 +111,7 @@
                             </div>
                         </center>
                     </div>
-                    <div class="form-group bhoechie-tab-content">
+                    <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h4>-->
                             <h4 style="margin-top: 0;color:#55518a">Upload a scan of CPA certification</h4>
