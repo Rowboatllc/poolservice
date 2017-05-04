@@ -1,6 +1,6 @@
 function validationPoolService()
 {
-	var form = $( "#frmPoolServiceDashBoard" );
+	let form = $( "#frmPoolServiceDashBoard" );
 	form.validate({
 		rules: {
 			'logo':{
@@ -33,12 +33,12 @@ function validationPoolService()
 	});	
 }
 
-var _URL = window.URL || window.webkitURL;
+let _URL = window.URL || window.webkitURL;
 function displayPreview(files,id) {
-    var img = new Image();
+    let img = new Image();
     
     img.onload = function () {
-            var imgsrc=this.src;        
+            let imgsrc=this.src;        
                 loadImage(imgsrc,id); //call function
             };   
     img.src = _URL.createObjectURL(files);
@@ -55,7 +55,7 @@ $(document).ready(function() {
     validationPoolService();
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
       _renderItem: function( ul, item ) {
-        var li = $( "<li>" ),
+        let li = $( "<li>" ),
           wrapper = $( "<div>", { text: item.label } );
  
         if ( item.disabled ) {
@@ -81,10 +81,10 @@ $(document).ready(function() {
 	$('.btn-next-info').on('click', function(e) {
         if($( "#frmPoolServiceDashBoard" ).valid()) {
             e.preventDefault();
-            var current_active_step = $(this).parents('.f2').find('.list-group-item.active').next();
+            let current_active_step = $(this).parents('.f2').find('.list-group-item.active').next();
             current_active_step.siblings('a.active').removeClass("active");
             current_active_step.addClass("active");
-            var index = current_active_step.index();
+            let index = current_active_step.index();
             $("div.profile-tab>div.profile-tab-content").removeClass("active");
             $("div.profile-tab>div.profile-tab-content").eq(index).addClass("active");
         }
@@ -92,53 +92,53 @@ $(document).ready(function() {
 
     $("#file_logo").on('change',function () 
     {        
-        var file = this.files[0];
+        let file = this.files[0];
         displayPreview(file,'preview_logo');
     });
 
     $("#file_wq").on('change',function () 
     {        
-        var file = this.files[0];
+        let file = this.files[0];
         displayPreview(file,'preview_wq');
     });
 
     $("#file_driven_license").on('change',function () 
     {        
-        var file = this.files[0];
+        let file = this.files[0];
         displayPreview(file,'preview_driven_license');
     });
 
     $("#file_cpa").on('change',function () 
     {        
-        var file = this.files[0];
+        let file = this.files[0];
         displayPreview(file,'preview_cpa');
     });
 
     // back info
 	$('.btn-previous').on('click', function(e) {
         e.preventDefault();
-        var current_active_step = $(this).parents('.f2').find('.list-group-item.active').prev();
+        let current_active_step = $(this).parents('.f2').find('.list-group-item.active').prev();
         current_active_step.siblings('a.active').removeClass("active");
         current_active_step.addClass("active");
-        var index = current_active_step.index();
+        let index = current_active_step.index();
         $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
         $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
     });
 
     $('.btn-submit').on('click', function(e) {
         e.preventDefault();
-        var frm = $('#frmPoolServiceDashBoard');
-        var data = new FormData(frm[0]);
-        var xhr = new XMLHttpRequest();
+        let frm = $('#frmPoolServiceDashBoard');
+        let data = new FormData(frm[0]);
+        let xhr = new XMLHttpRequest();
         (xhr.upload || xhr).addEventListener('progress', function(e) {
-            var done = e.position || e.loaded
-            var total = e.totalSize || e.total;
+            let done = e.position || e.loaded
+            let total = e.totalSize || e.total;
             console.log('xhr progress: ' + Math.round(done/total*100) + '%');
         });
         xhr.addEventListener('load', function(e) {
             console.log('xhr upload complete', e, this.responseText);
         });
-        var token = $("meta[name='csrf-token']").attr("content");        
+        let token = $("meta[name='csrf-token']").attr("content");        
         xhr.open('POST', frm.attr('action'), true);
         xhr.onprogress = function () {
             $("#divModelPoolService").css("display", "block");
@@ -148,8 +148,8 @@ $(document).ready(function() {
         xhr.onreadystatechange = function () {
             if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 console.log(xhr.responseText); 
-                var data=JSON.parse(xhr.responseText);
-                var img=$('#preview_logo img');
+                let data=JSON.parse(xhr.responseText);
+                let img=$('#preview_logo img');
                 $('.logo-data').empty().append(img);
                 //load select box
                 $('#review_select').empty().append($('<option>').append('<li>Awaiting Verification</li>'));
@@ -158,8 +158,8 @@ $(document).ready(function() {
                 $('#review_select').append($('<option>').append("<li>CPA Certification <i class='fa fa-car'></i></li>"));
                 //load pool-service info
                 $('.address-data #infoTable tr').remove();
-                var table=$('.address-data #infoTable');                
-                var row="<tr>";
+                let table=$('.address-data #infoTable');                
+                let row="<tr>";
                 row+="<td>Company Name</td>";
                 row+="<td>"+data.message.name+"</td>";
                 row+="</tr>";
@@ -196,7 +196,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
-        var index = $(this).index();
+        let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
     });

@@ -2,8 +2,8 @@
     <div class="row sectionB1">
         <form role="form" id="frmPoolServiceRoute" action="{{route('upload-company-profile')}}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="col-xs-9 route-tab-container">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 route-tab-menu">
+            <div class="col-xs-11 route-tab-container">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
                     <div class="list-group">
                         <a href="#" class="list-group-item active text-center">
                             <h4 class="glyphicon glyphicon-plane"></h4><br/>Monday
@@ -22,7 +22,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 route-tab">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 route-tab">
                     <div class="form-group route-tab-content active">
                         <div class="row">
                             <div class="col-sm-10">
@@ -97,6 +97,17 @@
                     </div>
 
                     <div class="form-group route-tab-content">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 route-tab">
+                    <div class="panel panel-default">
+                        <div class="text-center header">Route Map</div>
+                        <div class="panel-body text-center">
+                            <div id="route-map" class="route-map"></div>
+                            &nbsp;
+                            <div id="route-warnings-panel"></div>
+                        </div>
                     </div>
                 </div>
             </div>
