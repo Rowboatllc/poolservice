@@ -8,7 +8,7 @@
             <li><a data-toggle="tab" href="#sectionB">Pool Routes</a></li>
             <li><a data-toggle="tab" href="#sectionC">Company Profile</a></li>
             <li><a data-toggle="tab" href="#sectionD">Billing Info</a></li>
-            <li><a data-toggle="tab" href="#sectionE">Pool Service Technicians</a></li>
+            <li><a data-toggle="tab" href="#sectionE">Pool Service Professionals</a></li>
             <li><a data-toggle="tab" href="#sectionF">My PoolService Customers</a></li>
         </ul>
         <div class="tab-content">
