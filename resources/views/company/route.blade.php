@@ -1,5 +1,5 @@
 <div class="company-route-service">    
-    <div class="row sectionB1">
+    <div class="sectionB1">
         <form role="form" id="frmPoolServiceRoute" action="{{route('upload-company-profile')}}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="col-xs-11 route-tab-container">
@@ -22,7 +22,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 route-tab">
+                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 route-tab">
                     <div class="form-group route-tab-content active">
                         <div class="row">
                             <div class="col-sm-10">
@@ -39,18 +39,18 @@
                     </div>
 
                     <div class="form-group route-tab-content">
-                        <div class="row">
-                            <div class="col-sm-10">
+                        <div class="col-md-12">
+                            <div class="col-sm-8">
                                 <h4 style="margin-top: 0;color:#55518a">If you are not available to service pool on Monday, check "Not available" box</h4>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <div class="form-group" >                        
                                     <input type="checkbox" name="chk_tuesday" id="chk_tuesday" class="chk_tuesday">
                                     <label for="chk_tuesday" id=lblTuesday>Not Available</label>
                                 </div>
                             </div>
                         </div>   
-                        <div class="row">
+                        <div class="col-md-12">
                             <div class="form-inline">
                                 <div class="form-group">
                                     <img src="{{ $user->avatar }}">
@@ -69,25 +69,35 @@
                             </div>
                         </div> 
 
-                        <div class="row">
-                            <table class="table table-hover">
-                                <tr>
-                                    <th><a></a></th>
-                                    <th><a>Order</a></th>
-                                    <th><a>Street Address</a></th>
-                                    <th><a>City</a></th>
-                                    <th><a>Zipcode</a></th>
-                                </tr>
-                                @foreach ($routes as $route)
-                                    <tr>	
-                                        <td></td>
-                                        <td>{{$route->address}}</td>
-                                        <td>{{$route->address}}</td>
-                                        <td>{{$route->city}}</td>
-                                        <td>{{$route->zipcode}}</td>
+                        <div>
+                            <div class="col-md-7">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th><a></a></th>
+                                        <th><a>Order</a></th>
+                                        <th><a>Street Address</a></th>
+                                        <th><a>City</a></th>
+                                        <th><a>Zipcode</a></th>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach ($routes as $route)
+                                        <tr>	
+                                            <td></td>
+                                            <td>{{$route->address}}</td>
+                                            <td>{{$route->address}}</td>
+                                            <td>{{$route->city}}</td>
+                                            <td>{{$route->zipcode}}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div> 
+                            <div class="col-md-5">
+                                <div class="panel">
+                                    <div class="text-center header">Route Map</div>
+                                    <div class="panel-body text-center">
+                                        <div id="route-map" style="width: 320px; height: 400px;" class="route-map"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div> 
                     </div>
 
@@ -97,17 +107,6 @@
                     </div>
 
                     <div class="form-group route-tab-content">
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 route-tab">
-                    <div class="panel panel-default">
-                        <div class="text-center header">Route Map</div>
-                        <div class="panel-body text-center">
-                            <div id="route-map" class="route-map"></div>
-                            &nbsp;
-                            <div id="route-warnings-panel"></div>
-                        </div>
                     </div>
                 </div>
             </div>

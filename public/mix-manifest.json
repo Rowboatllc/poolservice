@@ -9,6 +9,7 @@
   "/js/register/main-pool-service.js": "/js/register/main-pool-service.js",
   "/js/billinginfo.js": "/js/billinginfo.js",
   "/js/poolowner.js": "/js/poolowner.js",
+  "/js/route-google-map.js": "/js/route-google-map.js",
   "/js/technician.js": "/js/technician.js",
   "/js/map.js": "/js/map.js"
 }
