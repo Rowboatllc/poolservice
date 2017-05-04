@@ -10,6 +10,7 @@ use App\Models\BillingInfo;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Common\Common;
 
 class UserRepository
 {
@@ -303,7 +304,7 @@ class UserRepository
                 ->join('profiles', 'companies.user_id','=','profiles.user_id')
                 ->where(['companies.user_id' => $id])
                 ->first();
-
+        
         return $comProfile;
     }
 
@@ -314,6 +315,33 @@ class UserRepository
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
                 ->where(['schedules.technican_id' => $id])->get();
+        // distint days of week
+        if ($comProfile) {
+            foreach ($comProfile as $p) {
+                if($p->date==Common::getDateOfWeekDay('Monday'))
+                {
+                    $p->date_number=2;
+                }
+                if($p->date==Common::getDateOfWeekDay('Tuesday'))
+                {
+                    $p->date_number=3;
+                }
+                if($p->date==Common::getDateOfWeekDay('Wednesday'))
+                {
+                    $p->date_number=4;
+                }
+                if($p->date==Common::getDateOfWeekDay('Thursday'))
+                {
+                    $p->date_number=5;
+                }
+                if($p->date==Common::getDateOfWeekDay('Friday'))
+                {
+                    $p->date_number=6;
+                }                
+            }
+        }
+
+        // dd($comProfile);
         return $comProfile;
     }
 

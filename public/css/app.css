@@ -9299,8 +9299,34 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   background-position: left top;
 }
 
+.company-route-service div.img-div {
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.company-route-service .img-div img {
+  -webkit-transform: translate(-50%);
+  margin-left: 100px;
+}
+
+.company-route-service .circle-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: url("http://placekitten.com/g/200/400");
+  display: block;
+  background-position-y: 25%;
+}
+
 .technician .schedule-day-of-week tr th {
   border-top: 0px !important;
+}
+
+.technician .schedule-day-of-week tr td {
+  line-height: 1.6;
+  border: 0px;
 }
 
 .technician .schedule-day-of-week label.btn-unable {
@@ -9309,6 +9335,14 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 
 .technician .schedule-day-of-week label.btn-complete {
   color: blue;
+}
+
+.technician .schedule-day-of-week tr:nth-child(even) {
+  background-color: #d9eff3;
+}
+
+.technician .well {
+  background: transparent;
 }
 
 /*!
@@ -9502,4 +9536,17 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 
 .poolowner .services label.btn-complete {
   color: blue;
+}
+
+.poolowner .services tr:nth-child(even) {
+  background-color: #d9eff3;
+}
+
+.poolowner .services tr td {
+  line-height: 2.6;
+  border: 0px;
+}
+
+.poolowner .well {
+  background: transparent important;
 }

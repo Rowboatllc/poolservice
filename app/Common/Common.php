@@ -106,4 +106,24 @@ class Common {
         return $list->paginate(5);
     }
 
+    public static function getDateOfWeekDay($day) {
+        $weekDays = array(
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+        );
+
+        $dayNumber = array_search($day, $weekDays);
+        $currentDayNumber =  date('w', strtotime('today'));
+        // dd($currentDayNumber);
+        if ($dayNumber > $currentDayNumber) {
+            return date('Y-m-d', strtotime($day));
+        } else {
+            return date('Y-m-d', strtotime($day) - 604800);
+        }
+    }
 }

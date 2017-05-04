@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Auth;
+use App\Common\Common;
 
 use App\Repositories\CompanyRepositoryInterface;
 
@@ -29,6 +30,7 @@ class CompanyController extends Controller {
         $technicians = $technicianRepo->getList($user->id);
         $routes=$this->user->getUserSchedule($user->id);
         $user=$this->user->getUserInfo($user->id);
+        // dd(Common::getDateOfWeekDay('Thursday'));
         return view('company.index', compact(['customers', 'offers', 'technicians','comProfile','routes','user']));
     }
 
