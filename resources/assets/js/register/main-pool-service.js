@@ -39,20 +39,20 @@ function displayPreview(files,id) {
     
     img.onload = function () {
             var imgsrc=this.src;        
-                doSomething(imgsrc,id); //call function
+                loadImage(imgsrc,id); //call function
             };   
     img.src = _URL.createObjectURL(files);
 }
 
 // Do what you want in this function
-function doSomething(imgsrc,id)
+function loadImage(imgsrc,id)
 {
     $("#"+id+" img").remove();
     $('#'+id+'').append('<img src="'+imgsrc+'">'); 
 }
 
 $(document).ready(function() {
-
+    validationPoolService();
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
       _renderItem: function( ul, item ) {
         var li = $( "<li>" ),
@@ -76,8 +76,7 @@ $(document).ready(function() {
       .iconselectmenu()
       .iconselectmenu( "menuWidget" )
         .addClass( "ui-menu-icons" );
-
-    validationPoolService();
+    
     // next info
 	$('.btn-next-info').on('click', function(e) {
         if($( "#frmPoolServiceDashBoard" ).valid()) {
@@ -86,8 +85,8 @@ $(document).ready(function() {
             current_active_step.siblings('a.active').removeClass("active");
             current_active_step.addClass("active");
             var index = current_active_step.index();
-            $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-            $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+            $("div.profile-tab>div.profile-tab-content").removeClass("active");
+            $("div.profile-tab>div.profile-tab-content").eq(index).addClass("active");
         }
     });
 
@@ -193,12 +192,12 @@ $(document).ready(function() {
     });
 
     // routes tab
-    $(".sectionB1 div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+    $(".sectionB1 div.route-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
         var index = $(this).index();
-        $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-        $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+        $("div.route-tab>div.route-tab-content").removeClass("active");
+        $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
     });
 });
