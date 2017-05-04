@@ -12,6 +12,7 @@ use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\NotificationRepositoryInterface;
 use App\Repositories\ScheduleRepositoryInterface;
+use App\Repositories\OrderRepository;
 
 class PoolOwnerController extends Controller {
 
@@ -52,12 +53,14 @@ class PoolOwnerController extends Controller {
             $profile = $this->common->getDefaultEloquentAttibutes($this->profile);
         }
         $profile->email = $user->email;
-
+        
+        $orderRepo = new OrderRepository;
+        $poolinfo = $orderRepo->getPoolInfo($user->id);
+        
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
-
-        // my pool service company
         
+        // my pool service company
         $companys = $this->company->getAllCompanySupportOwner($user->id);
         $company_select_arr = $this->company->getSelectedCompany($user->id);
         $point = 0;
@@ -67,7 +70,7 @@ class PoolOwnerController extends Controller {
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
         $schedules = $this->schedule->getAllScheduleByPoolowner($user->id);
-        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules']));
+        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules','poolinfo']));
     }
 
     public function started() {

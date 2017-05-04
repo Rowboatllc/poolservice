@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\OrderRepository;
+use Auth;
 
 class ApiPoolOwnerController extends Controller {
     
@@ -26,21 +27,25 @@ class ApiPoolOwnerController extends Controller {
         return $this->common->responseJson(false);
     }
     
-    public function saveNewEmail(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveNewEmail($request->all()));
+    public function saveNewEmail(Request $request) {        
+        $user = Auth::user();
+        return $this->common->responseJson($this->repoProfile->saveNewEmail($user->id, $request->all()));
     }
 
     public function saveNewPassword(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveNewPassword($request->all()));
+        $user = Auth::user();
+        return $this->common->responseJson($this->repoProfile->saveNewPassword($user->id, $request->all()));
     }
 
     public function saveProfile(Request $request) {
-        return $this->common->responseJson($this->repoProfile->saveProfile($request->all()));
+        $user = Auth::user();
+        return $this->common->responseJson($this->repoProfile->saveProfile($user->id, $request->all()));
     }
 
     public function savePoolInfo(Request $request) {
         $order = new OrderRepository;
-        return $this->common->responseJson($order->savePoolInfo($request->all()));
+        $user = Auth::user();
+        return $this->common->responseJson($order->savePoolInfo($user->id, $request->all()));
     }
 
 }

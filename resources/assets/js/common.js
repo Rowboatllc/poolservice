@@ -260,7 +260,7 @@ function saveEditableContent($obj, callback) {
     let data = getEditableFieldValues( $obj );
     console.log(data);
     data = jQuery.param(data);
-    sendDataWithToken($obj.attr('action'), data, $obj.attr('method'), function (result) {
+    sendData($obj.attr('action'), data, $obj.attr('method'), function (result) {
         (callback || jQuery.noop)(result);
     }, function () {
         console.log('something wrong');

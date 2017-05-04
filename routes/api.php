@@ -34,17 +34,3 @@ Route::group(['prefix' => 'admin/option'], function () {
     Route::post('save-option', array('uses' => 'Admin\OptionController@saveOption'))->name('save-option');
     Route::post('save-group', array('uses' => 'Admin\OptionController@saveGroup'))->name('save-groupoption');    
 });
-
-Route::group(['prefix' => 'poolowner', 'middleware' => ['api.token']], function () {
-    // Route::post('update-billing-info', array('uses' => 'PoolOwner\ApiPoolOwnerController@updateBillingInfo'))->name('update-billing-info');
-    Route::post('save-email', 'PoolOwner\ApiPoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
-    Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
-    Route::post('save-poolowner-profile', 'PoolOwner\ApiPoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
-    Route::post('save-poolowner-poolinfo', 'PoolOwner\ApiPoolOwnerController@savePoolInfo')->name('dashboard-poolowner-save-poolinfo');
-});
-/*
-Route::group(['prefix' => 'technician', 'middleware' => ['api.token']], function () {
-    Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
-    Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
-    Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
-});*/
