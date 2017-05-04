@@ -9303,12 +9303,25 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   border-top: 0px !important;
 }
 
+.technician .schedule-day-of-week tr td {
+  line-height: 1.6;
+  border: 0px;
+}
+
 .technician .schedule-day-of-week label.btn-unable {
   color: red;
 }
 
 .technician .schedule-day-of-week label.btn-complete {
   color: blue;
+}
+
+.technician .schedule-day-of-week tr:nth-child(even) {
+  background-color: #d9eff3;
+}
+
+.technician .well {
+  background: transparent;
 }
 
 /*!
@@ -9492,14 +9505,31 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   display: none !important;
 }
 
-.poolowner .services tr th {
-  border-top: 0px !important;
-}
-
-.poolowner .services label.btn-unable {
+.poolowner .services label.btn-billing-error, .poolowner .services label.btn-unable {
   color: red;
 }
 
-.poolowner .services label.btn-complete {
+.poolowner .services label.btn-upcoming {
+  color: grey;
+}
+
+.poolowner .services label.btn-complete, .poolowner .services label.btn-billing-success {
   color: blue;
+}
+
+.poolowner .well {
+  background: transparent !important;
+}
+
+.poolowner tr th {
+  border-top: 0px !important;
+}
+
+.poolowner tr:nth-child(even) {
+  background-color: #d9eff3 !important;
+}
+
+.poolowner tr td {
+  line-height: 2.6 !important;
+  border: 0px !important;
 }

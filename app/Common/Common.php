@@ -106,4 +106,13 @@ class Common {
         return $list->paginate(5);
     }
 
+    public function formatDate($date){
+        if(!isset($date)){
+            return null;
+        }
+
+        $date_new = new \DateTime($date);
+        return $date_new->format('m-d-Y');
+    }
+
 }
