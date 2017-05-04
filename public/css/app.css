@@ -1431,7 +1431,6 @@ img {
   background-color: #f5f8fa;
   border: 1px solid #ddd;
   border-radius: 4px;
-  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   max-width: 100%;
@@ -3032,7 +3031,6 @@ output {
   border: 1px solid #ccd0d2;
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
@@ -4025,7 +4023,6 @@ input[type="button"].btn-block {
 
 .fade {
   opacity: 0;
-  -webkit-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
 }
 
@@ -4053,11 +4050,8 @@ tbody.collapse.in {
   position: relative;
   height: 0;
   overflow: hidden;
-  -webkit-transition-property: height, visibility;
   transition-property: height, visibility;
-  -webkit-transition-duration: 0.35s;
   transition-duration: 0.35s;
-  -webkit-transition-timing-function: ease;
   transition-timing-function: ease;
 }
 
@@ -5719,7 +5713,6 @@ a.badge:hover, a.badge:focus {
   background-color: #f5f8fa;
   border: 1px solid #ddd;
   border-radius: 4px;
-  -webkit-transition: border 0.2s ease-in-out;
   transition: border 0.2s ease-in-out;
 }
 
@@ -5874,13 +5867,11 @@ a.thumbnail.active {
   text-align: center;
   background-color: #3097D1;
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -webkit-transition: width 0.6s ease;
   transition: width 0.6s ease;
 }
 
 .progress-striped .progress-bar,
 .progress-bar-striped {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-size: 40px 40px;
 }
@@ -5896,7 +5887,6 @@ a.thumbnail.active {
 }
 
 .progress-striped .progress-bar-success {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
@@ -5905,7 +5895,6 @@ a.thumbnail.active {
 }
 
 .progress-striped .progress-bar-info {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
@@ -5914,7 +5903,6 @@ a.thumbnail.active {
 }
 
 .progress-striped .progress-bar-warning {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
@@ -5923,7 +5911,6 @@ a.thumbnail.active {
 }
 
 .progress-striped .progress-bar-danger {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
@@ -6727,7 +6714,6 @@ button.close {
 .modal.fade .modal-dialog {
   -webkit-transform: translate(0, -25%);
   transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
@@ -7153,7 +7139,6 @@ button.close {
 .carousel-inner > .item {
   display: none;
   position: relative;
-  -webkit-transition: 0.6s ease-in-out left;
   transition: 0.6s ease-in-out left;
 }
 
@@ -7167,7 +7152,6 @@ button.close {
 
 @media all and (transform-3d), (-webkit-transform-3d) {
   .carousel-inner > .item {
-    -webkit-transition: -webkit-transform 0.6s ease-in-out;
     transition: -webkit-transform 0.6s ease-in-out;
     transition: transform 0.6s ease-in-out;
     transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;
@@ -7247,7 +7231,6 @@ button.close {
 }
 
 .carousel-control.left {
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
@@ -7256,7 +7239,6 @@ button.close {
 .carousel-control.right {
   left: auto;
   right: 0;
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
@@ -7718,7 +7700,6 @@ body {
   background: #333;
   background: rgba(51, 51, 51, 0.3);
   border: 0;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 
@@ -8538,7 +8519,6 @@ button.btn {
   border-radius: 4px;
   text-shadow: none;
   box-shadow: none;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 
@@ -9078,11 +9058,9 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 
 .company-profile-service {
   /*  bhoechie tab */
-  /* select with custom icons */
-  /* select with CSS avatar icons */
 }
 
-.company-profile-service div.bhoechie-tab-container {
+.company-profile-service div.profile-tab-container {
   z-index: 10;
   background-color: #ffffff;
   padding: 0 !important;
@@ -9098,22 +9076,22 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   filter: alpha(opacity=97);
 }
 
-.company-profile-service div.bhoechie-tab-menu {
+.company-profile-service div.profile-tab-menu {
   padding-right: 0;
   padding-left: 0;
   padding-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group {
+.company-profile-service div.profile-tab-menu div.list-group {
   margin-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a {
+.company-profile-service div.profile-tab-menu div.list-group > a {
   margin-bottom: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a .glyphicon,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a .fa {
+.company-profile-service div.profile-tab-menu div.list-group > a .glyphicon,
+.company-profile-service div.profile-tab-menu div.list-group > a .fa {
   color: #5A55A3;
 }
 
@@ -9122,20 +9100,20 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   -moz-border-top-right-radius: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a:last-child {
+.company-profile-service div.profile-tab-menu div.list-group > a:last-child {
   border-bottom-right-radius: 0;
   -moz-border-bottom-right-radius: 0;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active .glyphicon,
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active .fa {
+.company-profile-service div.profile-tab-menu div.list-group > a.active,
+.company-profile-service div.profile-tab-menu div.list-group > a.active .glyphicon,
+.company-profile-service div.profile-tab-menu div.list-group > a.active .fa {
   background-color: #5A55A3;
   background-image: #5A55A3;
   color: #ffffff;
 }
 
-.company-profile-service div.bhoechie-tab-menu div.list-group > a.active:after {
+.company-profile-service div.profile-tab-menu div.list-group > a.active:after {
   content: '';
   position: absolute;
   left: 100%;
@@ -9147,14 +9125,14 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   border-left: 10px solid #5A55A3;
 }
 
-.company-profile-service div.bhoechie-tab-content {
+.company-profile-service div.profile-tab-content {
   background-color: #ffffff;
   /* border: 1px solid #eeeeee; */
   padding-left: 20px;
   padding-top: 10px;
 }
 
-.company-profile-service div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
+.company-profile-service div.profile-tab div.profile-tab-content:not(.active) {
   display: none;
 }
 
@@ -9177,46 +9155,147 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   width: 30px;
 }
 
-.company-profile-service h2 {
+.company-route-service {
+  /*  bhoechie tab */
+  /* select with custom icons */
+  /* select with CSS avatar icons */
+}
+
+.company-route-service div.route-tab-container {
+  z-index: 10;
+  background-color: #ffffff;
+  padding: 0 !important;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  margin-left: 50px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+  opacity: 0.97;
+  filter: alpha(opacity=97);
+}
+
+.company-route-service div.route-tab-menu {
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group {
+  margin-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a {
+  margin-bottom: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a .glyphicon,
+.company-route-service div.route-tab-menu div.list-group > a .fa {
+  color: #5A55A3;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a:first-child {
+  border-top-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a:last-child {
+  border-bottom-right-radius: 0;
+  -moz-border-bottom-right-radius: 0;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a.active,
+.company-route-service div.route-tab-menu div.list-group > a.active .glyphicon,
+.company-route-service div.route-tab-menu div.list-group > a.active .fa {
+  background-color: #5A55A3;
+  background-image: #5A55A3;
+  color: #ffffff;
+}
+
+.company-route-service div.route-tab-menu div.list-group > a.active:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -13px;
+  border-left: 0;
+  border-bottom: 13px solid transparent;
+  border-top: 13px solid transparent;
+  border-left: 10px solid #5A55A3;
+}
+
+.company-route-service div.route-tab-content {
+  background-color: #ffffff;
+  /* border: 1px solid #eeeeee; */
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+.company-route-service div.route-tab div.route-tab-content:not(.active) {
+  display: none;
+}
+
+.company-route-service .is-disabled {
+  pointer-events: none;
+}
+
+.company-route-service .divLoadData {
+  display: none;
+  padding-top: 10px;
+}
+
+.company-route-service img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.company-route-service .portrait {
+  height: 80px;
+  width: 30px;
+}
+
+.company-route-service h2 {
   margin: 30px 0 0 0;
 }
 
-.company-profile-service fieldset {
+.company-route-service fieldset {
   border: 0;
 }
 
-.company-profile-service label {
+.company-route-service label {
   display: block;
 }
 
-.company-profile-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
+.company-route-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
   padding: 0.5em 0 0.5em 3em;
 }
 
-.company-profile-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
+.company-route-service .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
   height: 24px;
   width: 24px;
   top: 0.1em;
 }
 
-.company-profile-service .ui-icon.video {
+.company-route-service .ui-icon.video {
   background: url("images/24-video-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service .ui-icon.podcast {
+.company-route-service .ui-icon.podcast {
   background: url("images/24-podcast-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service .ui-icon.rss {
+.company-route-service .ui-icon.rss {
   background: url("images/24-rss-square.png") 0 0 no-repeat;
 }
 
-.company-profile-service option.avatar {
+.company-route-service option.avatar {
   background-repeat: no-repeat !important;
   padding-left: 20px;
 }
 
-.company-profile-service .avatar .ui-icon {
+.company-route-service .avatar .ui-icon {
   background-position: left top;
 }
 

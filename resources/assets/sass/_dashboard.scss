@@ -172,7 +172,7 @@
 
 .company-profile-service {
     /*  bhoechie tab */
-    div.bhoechie-tab-container{
+    div.profile-tab-container{
         z-index: 10;
         background-color: #ffffff;
         padding: 0 !important;
@@ -188,37 +188,37 @@
         opacity: 0.97;
         filter: alpha(opacity=97);
     }
-    div.bhoechie-tab-menu{
+    div.profile-tab-menu{
         padding-right: 0;
         padding-left: 0;
         padding-bottom: 0;
     }
-    div.bhoechie-tab-menu div.list-group{
+    div.profile-tab-menu div.list-group{
         margin-bottom: 0;
     }
-    div.bhoechie-tab-menu div.list-group>a{
+    div.profile-tab-menu div.list-group>a{
         margin-bottom: 0;
     }
-    div.bhoechie-tab-menu div.list-group>a .glyphicon,
-    div.bhoechie-tab-menu div.list-group>a .fa {
+    div.profile-tab-menu div.list-group>a .glyphicon,
+    div.profile-tab-menu div.list-group>a .fa {
         color: #5A55A3;
     }
     div.bhoechie-tab-menu div.list-group>a:first-child{
         border-top-right-radius: 0;
         -moz-border-top-right-radius: 0;
     }
-    div.bhoechie-tab-menu div.list-group>a:last-child{
+    div.profile-tab-menu div.list-group>a:last-child{
         border-bottom-right-radius: 0;
         -moz-border-bottom-right-radius: 0;
     }
-    div.bhoechie-tab-menu div.list-group>a.active,
-    div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
-    div.bhoechie-tab-menu div.list-group>a.active .fa{
+    div.profile-tab-menu div.list-group>a.active,
+    div.profile-tab-menu div.list-group>a.active .glyphicon,
+    div.profile-tab-menu div.list-group>a.active .fa{
         background-color: #5A55A3;
         background-image: #5A55A3;
         color: #ffffff;
     }
-    div.bhoechie-tab-menu div.list-group>a.active:after{
+    div.profile-tab-menu div.list-group>a.active:after{
         content: '';
         position: absolute;
         left: 100%;
@@ -230,14 +230,103 @@
         border-left: 10px solid #5A55A3;
         }
 
-        div.bhoechie-tab-content{
+        div.profile-tab-content{
         background-color: #ffffff;
         /* border: 1px solid #eeeeee; */
         padding-left: 20px;
         padding-top: 10px;
     }
 
-    div.bhoechie-tab div.bhoechie-tab-content:not(.active){
+    div.profile-tab div.profile-tab-content:not(.active){
+        display: none;
+    }
+    .is-disabled {
+        pointer-events: none;   
+    }
+    .divLoadData {
+        display: none;
+        padding-top:10px;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .portrait {
+        height: 80px;
+        width: 30px;
+    }
+}
+
+.company-route-service {
+    /*  bhoechie tab */
+    div.route-tab-container{
+        z-index: 10;
+        background-color: #ffffff;
+        padding: 0 !important;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        border:1px solid #ddd;
+        margin-top: 20px;
+        margin-left: 50px;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        background-clip: padding-box;
+        opacity: 0.97;
+        filter: alpha(opacity=97);
+    }
+    div.route-tab-menu{
+        padding-right: 0;
+        padding-left: 0;
+        padding-bottom: 0;
+    }
+    div.route-tab-menu div.list-group{
+        margin-bottom: 0;
+    }
+    div.route-tab-menu div.list-group>a{
+        margin-bottom: 0;
+    }
+    div.route-tab-menu div.list-group>a .glyphicon,
+    div.route-tab-menu div.list-group>a .fa {
+        color: #5A55A3;
+    }
+    div.route-tab-menu div.list-group>a:first-child{
+        border-top-right-radius: 0;
+        -moz-border-top-right-radius: 0;
+    }
+    div.route-tab-menu div.list-group>a:last-child{
+        border-bottom-right-radius: 0;
+        -moz-border-bottom-right-radius: 0;
+    }
+    div.route-tab-menu div.list-group>a.active,
+    div.route-tab-menu div.list-group>a.active .glyphicon,
+    div.route-tab-menu div.list-group>a.active .fa{
+        background-color: #5A55A3;
+        background-image: #5A55A3;
+        color: #ffffff;
+    }
+    div.route-tab-menu div.list-group>a.active:after{
+        content: '';
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        margin-top: -13px;
+        border-left: 0;
+        border-bottom: 13px solid transparent;
+        border-top: 13px solid transparent;
+        border-left: 10px solid #5A55A3;
+        }
+
+        div.route-tab-content{
+        background-color: #ffffff;
+        /* border: 1px solid #eeeeee; */
+        padding-left: 20px;
+        padding-top: 10px;
+    }
+
+    div.route-tab div.route-tab-content:not(.active){
         display: none;
     }
     .is-disabled {
