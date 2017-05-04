@@ -5,7 +5,6 @@ namespace App\Http\Controllers\PoolOwner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Mail;
 
 use App\Repositories\PageRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
@@ -67,6 +66,7 @@ class PoolOwnerController extends Controller {
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
         $schedules = $this->schedule->getAllScheduleByPoolowner($user->id);
+        // dd($schedules);
         return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info','schedules']));
     }
 
@@ -76,43 +76,15 @@ class PoolOwnerController extends Controller {
     }
 
     public function selectCompany($company_id) {
-        try{
-            $user_id = Auth::id();
-            $result = $this->company->selectCompany($user_id, $company_id);
-            if ($result) {
-                $company = $this->company->getCompanyById($company_id);
-                $content = 'Customers sign up for your service';
-                Mail::send('emails.select-company', compact('company'), function($message)
-                        use ($company, $content) {
-                    $message->subject($content);
-                    $message->to($company->email);
-                });
-                $this->notification->saveNotification($company->user_id, $content, false);
-            }
-            return $this->common->responseJson(true);
-        }catch(\Exception $e){
-            return $this->common->responseJson(false);
-        }
+        $user_id = Auth::id();
+        $result = $this->company->selectCompany($user_id, $company_id);
+        return $this->common->responseJson($result);
     }
 
     public function selectNewCompany($company_id) {
-        try{
-            $user_id = Auth::id();
-            $result = $this->company->removeAllSelectCompany($user_id);
-            if ($result) {
-                $company = $this->company->getCompanyById($company_id);
-                $content = 'Customers remove for your service';
-                Mail::send('emails.remove-company', compact('company'), function($message)
-                        use ($company, $content) {
-                    $message->subject($content);
-                    $message->to($company->email);
-                });
-                $this->notification->saveNotification($company->user_id, $content, false);
-            }
-            return $this->common->responseJson(true);
-        }catch(\Exception $e){
-            return $this->common->responseJson(false);
-        }
+        $user_id = Auth::id();
+        $result = $this->company->removeAllSelectCompany($user_id, $company_id);
+        return $this->common->responseJson($result);
     }
 
     public function ratingCompany(Request $request) {

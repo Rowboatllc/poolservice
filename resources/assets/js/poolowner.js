@@ -113,12 +113,16 @@ jQuery(document).ready(function () {
     company.find('.btn-choose').bind('click', function(){
         let link = $(this).attr('title');
         let self = $(this).parent().parent();
-        sendData(link,[],'GET',changeNew(self),changeNewError());
+        sendData(link,[],'GET',function(result){
+            changeNew(self,result)
+        },changeNewError());
     });
     company.find('.btn-choose-new').bind('click', function(){
         let link = $(this).attr('title');
         let self = $(this).parent().parent();
-        sendData(link,[],'GET',changeSuccess(self),changeError());
+        sendData(link,[],'GET',function(result){
+            changeSuccess(self,result)
+        },changeError());
     });
 
     $(".btn-save-rating").click(function (e) {
@@ -140,30 +144,38 @@ jQuery(document).ready(function () {
 
     });
 
-    function changeSuccess(self){
-        company.find('.item-company').toggleClass('no_display');
-        self.toggleClass('no_display');
-        company.find('.btn.btn-primary').toggleClass('no_display');
+    function changeSuccess(self, result){
+        if(result.success){
+            company.find('.item-company').toggleClass('no_display');
+            self.toggleClass('no_display');
+            company.find('.btn.btn-primary').toggleClass('no_display');
+        }else{
+            
+        }        
     }
 
     function changeError(){
     }
 
-    function changeNew(self){
-        self.toggleClass('no_display');       
-        company.find('.item-company').toggleClass('no_display');
-        company.find('.btn.btn-primary').toggleClass('no_display');
+    function changeNew(self,result){
+        if(result.success){
+            self.toggleClass('no_display');       
+            company.find('.item-company').toggleClass('no_display');
+            company.find('.btn.btn-primary').toggleClass('no_display');
 
-        let company_id = self.find('.company_id').val();
-        $('#startModal').find('#company_id').val(company_id);
+            let company_id = self.find('.company_id').val();
+            $('#startModal').find('#company_id').val(company_id);
 
-        let link = 'poolowner/get-point-rating-company/'+company_id;
-        sendData(link,[],'GET', function (result) {
-            (jQuery.noop)(result);
-            if(result.success){
-                $('#startModal').find('#company_point').val(result.point);                
-            }
-        }, function (result) {});
+            let link = 'poolowner/get-point-rating-company/'+company_id;
+            sendData(link,[],'GET', function (result) {
+                (jQuery.noop)(result);
+                if(result.success){
+                    $('#startModal').find('#company_point').val(result.point);                
+                }
+            }, function (result) {});
+        }else{
+
+        }
     }
 
     function changeNewError(){
