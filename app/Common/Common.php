@@ -82,9 +82,9 @@ class Common {
     
     public function getAllServices() {
         return [
-            'weekly_learning' => 'weeklys learning',
-            'deep_cleaning' => 'deep cleaning',
-            'pool_spa_repair' => 'pool spa repair',
+            'weekly_learning' => 'Weeklys learning',
+            'deep_cleaning' => 'Deep cleaning',
+            'pool_spa_repair' => 'Pool spa repair',
         ];
     }
     

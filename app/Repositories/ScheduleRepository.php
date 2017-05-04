@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\DB;
 class ScheduleRepository implements ScheduleRepositoryInterface {
 
     protected $schedule;    
+    protected $common;    
 
     public function __construct(Schedule $schedule)
     {
-        $this->schedule = $schedule;
+        $this->schedule = $schedule;        
+        $this->common = app('App\Common\Common');
+
     }
 
     public function getAllScheduleInWeek($technician_id){
@@ -31,6 +34,9 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         );                          
         if(isset($schedules)){
             foreach($schedules as $schedule){
+                if($schedule->status =='billing_success' || $schedule->status == 'billing_error'){
+                    $schedule->status = 'complete';
+                }
                 switch ($schedule->dayOfWeek) {
                     case 2:
                         $result[0]["value"][] = $schedule;
@@ -49,6 +55,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                         break;
                 }
             }
+            
         }
 
         return $result;                          
@@ -96,10 +103,19 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     }
 
     public function getAllScheduleByPoolowner($user_id){
-        return DB::select('SELECT s.*, o.price  FROM schedules as s
+        $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
+                            ORDER BY `date` DESC
                             ');
+        if(isset($services)){
+            foreach($services as $service){
+                $keys = json_decode($service->services, true);
+                $service->service_name = $this->common->getServiceByKeys($keys);
+            }
+            return $services;
+        }
+        return [];
     }
 
 }

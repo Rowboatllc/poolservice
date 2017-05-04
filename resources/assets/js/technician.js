@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
         schedule.find('#day-of-schedule').html(date);
         schedule.find('#schedule_id').val(id);
         
-        if (status == "complete" || status == "unable") {
+        if (status == "complete" || status == "unable" || status == 'billing_success' || status == 'billing_error') {
             schedule.find('#comment').val(comment);
             schedule.find('#comment').attr("readonly","true");
             schedule.find('.modal-footer').css("display", "none");

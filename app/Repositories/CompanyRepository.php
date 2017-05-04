@@ -10,6 +10,7 @@ use App\Models\User;
 use Auth;
 
 use Illuminate\Support\Facades\DB;
+use Mail;
 
 class CompanyRepository implements CompanyRepositoryInterface {
 
@@ -92,30 +93,63 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return [];
     }
 
-    public function removeAllSelectCompany($user_id) {
-        return DB::statement('UPDATE `selecteds` SET `status`= "inactive"
+    public function removeAllSelectCompany($user_id, $company_id, $check = true) {
+        $result = DB::statement('UPDATE `selecteds` SET `status`= "inactive"
                                 WHERE `order_id` IN (
                                     SELECT o.id FROM orders o
                                     WHERE o.poolowner_id = ' . $user_id . '
                                 )
                             ');
+        try{
+            if ($result && $check) {
+                $company = $this->getCompanyById($company_id);
+                $content = 'Customers remove for your service';
+                Mail::send('emails.remove-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+            }
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
+        return false;
     }
 
     public function selectCompany($user_id, $company_id, $status = 'pending') {
         $order = $this->order->where([
-                    ['user_id', $user_id],
+                    ['poolowner_id', $user_id],
                     ['status', 'active']
                 ])->first();
         if (empty($order)) {
             return false;
         }
-        $this->removeAllSelectCompany($user_id);
+        // $this->removeAllSelectCompany($user_id, $company_id, false);
         $selected = new Selected();
         $selected->order_id = $order->id;
         $selected->company_id = $company_id;
         $selected->status = $status;
 
-        return $selected->save();
+        $result = $selected->save();
+
+        try{
+            if ($result) {
+                $company = $this->getCompanyById($company_id);
+                $content = 'Customers sign up for your service';
+                Mail::send('emails.remove-company', compact('company'), function($message)
+                        use ($company, $content) {
+                    $message->subject($content);
+                    $message->to($company->email);
+                });
+                $this->notification->saveNotification($company->user_id, $content, false);
+                return true;
+            }
+        }catch(Exception $e){
+            return false;
+        }
+        return false;
     }
 
     public function activeSelectCompany($id, $status = 'active') {

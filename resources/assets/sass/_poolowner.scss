@@ -9,5 +9,16 @@
         label.btn-complete {
             color: blue;
         }
+        tr:nth-child(even) {
+            background-color: #d9eff3;
+        }
+        tr td{
+            line-height: 2.6;
+            border: 0px;
+        }
+        
+    }
+    .well {
+        background: transparent important;
     }
 }

@@ -159,15 +159,18 @@ class PermissionSeeder extends Seeder
         
         $arr = [
             'poolowner' => [
+                'pool-owner',
                 'dashboard-poolowner-save-email',
                 'dashboard-poolowner-save-password',
                 'dashboard-poolowner-save-profile',
-                'dashboard-poolowner-save-poolinfo',
+                'dashboard-poolowner-save-poolinfo'
             ],
             'company' => [
-                'dashboard-company-update-offer'
+                'service-company',
+                'dashboard-company-change-services-offer'
             ],
             'techician'=>[
+                'technician',
                 'dashboard-company-list-technician',
                 'dashboard-company-save-technician',
                 'dashboard-company-remove-technician'

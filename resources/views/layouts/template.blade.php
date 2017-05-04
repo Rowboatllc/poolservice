@@ -11,7 +11,6 @@
         @yield('head')
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="api-token" content="{{ print_apitoken() }}">
         
         <title>{{ config('app.name', 'PoolService') }}</title>
        
@@ -19,12 +18,6 @@
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-        <!-- Scripts -->
-        <script>
-            window.Laravel = {};
-            window.Laravel.csrfToken = '{{csrf_token()}}';
-        </script>
         
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>

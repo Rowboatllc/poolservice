@@ -18,11 +18,11 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
     $date = $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days');
     $now = new \DateTime();
     if($date < $now){
-        $status = $faker->randomElement(array ('unable', 'complete'));        
+        $status = $faker->randomElement(array ('unable', 'billing_success', 'billing_error'));        
     }else if($date > $now){
         $status = 'opening';
     }else{
-        $status = $faker->randomElement(array ('opening', 'checkin', 'unable', 'complete'));                
+        $status = $faker->randomElement(array ('opening', 'checkin', 'unable', 'billing_success', 'billing_error'));                
     }
     return [
         'technican_id' => 1, 
