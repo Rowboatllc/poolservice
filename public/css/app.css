@@ -8303,6 +8303,10 @@ span.stars span {
   background-position: 0 0;
 }
 
+span.stars {
+  margin-top: 7px;
+}
+
 .stars.starrr {
   color: #cfcb36;
   font-size: 20px;
@@ -9299,27 +9303,6 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   background-position: left top;
 }
 
-.company-route-service div.img-div {
-  height: 200px;
-  width: 200px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.company-route-service .img-div img {
-  -webkit-transform: translate(-50%);
-  margin-left: 100px;
-}
-
-.company-route-service .circle-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-image: url("http://placekitten.com/g/200/400");
-  display: block;
-  background-position-y: 25%;
-}
-
 .technician .schedule-day-of-week tr th {
   border-top: 0px !important;
 }
@@ -9526,27 +9509,31 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   display: none !important;
 }
 
-.poolowner .services tr th {
-  border-top: 0px !important;
-}
-
-.poolowner .services label.btn-unable {
+.poolowner .services label.btn-billing-error, .poolowner .services label.btn-unable {
   color: red;
 }
 
-.poolowner .services label.btn-complete {
+.poolowner .services label.btn-upcoming {
+  color: grey;
+}
+
+.poolowner .services label.btn-complete, .poolowner .services label.btn-billing-success {
   color: blue;
 }
 
-.poolowner .services tr:nth-child(even) {
-  background-color: #d9eff3;
-}
-
-.poolowner .services tr td {
-  line-height: 2.6;
-  border: 0px;
-}
-
 .poolowner .well {
-  background: transparent important;
+  background: transparent !important;
+}
+
+.poolowner tr th {
+  border-top: 0px !important;
+}
+
+.poolowner tr:nth-child(even) {
+  background-color: #d9eff3 !important;
+}
+
+.poolowner tr td {
+  line-height: 2.6 !important;
+  border: 0px !important;
 }

@@ -182,3 +182,48 @@ jQuery(document).ready(function () {
     }
 
 });
+
+// Services
+
+jQuery(document).ready(function () {
+
+    let services = jQuery('.poolowner .services');
+    services.find('.item-schedule-poolowner').bind('click', function() {
+        services.selected = $(this);     
+        let date = $(this).find('[name="date"]').val();
+        let now = $(this).find('[name="now"]').val();
+        let dateFormat = $(this).find('[name="dateFormat"]').val();
+        let cleaning_steps = $(this).find('[name="cleaning_steps"]').val();
+        let comment = $(this).find('[name="comment"]').val();
+        let status = $(this).find('[name="status"]').val();
+
+        let schedule = jQuery('.services.confirm-info-steps');
+
+        schedule.find('#day-of-schedule').html(dateFormat);
+        schedule.find('#comment').html('');
+        schedule.find('#recommendation').html('');
+
+        for (var i = 1; i <= 6; i++) {
+            let check = schedule.find('#step' + i);
+            check.prop('checked', false);
+        }
+        
+        if (status == "complete" || status == "unable" || status == 'billing_success' || status == 'billing_error') {
+            schedule.find('#comment').html(comment);
+            
+            for (var i = 1; i <= 6; i++) {
+                let check = schedule.find('#step' + i);
+                if (cleaning_steps.indexOf(i) != -1) {
+                    check.prop('checked', true);                    
+                }
+            }
+
+            var date1 = new Date(date);var date2 = new Date(now);
+            if(date2-date1>0 && date2-date1< 4*60*60*1000){
+                schedule.find('#recommendation').html('Recommendation: No pool use for '+ Math.ceil((date2-date1)/1000/60/60)+ 'hours');
+            }
+
+        }
+
+    });
+});

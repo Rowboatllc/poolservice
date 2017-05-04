@@ -37,6 +37,9 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                 if($schedule->status =='billing_success' || $schedule->status == 'billing_error'){
                     $schedule->status = 'complete';
                 }
+
+                $schedule->dateFormat = $this->common->formatDate($schedule->date);
+
                 switch ($schedule->dayOfWeek) {
                     case 2:
                         $result[0]["value"][] = $schedule;
@@ -77,6 +80,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $schedule = $this->schedule->find($schedule_id);
         if(isset($schedule)){
             $schedule->status = $status;
+            $schedule->date = new \DateTime();
             return $schedule->save();
         }
         return 0;
@@ -94,7 +98,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                     $cleaning_steps[] = $i;
             }
             $schedule->cleaning_steps = $cleaning_steps;
-            
+            $schedule->date = new \DateTime();
             if($schedule->save()){
                 return $schedule;
             }
@@ -112,6 +116,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             foreach($services as $service){
                 $keys = json_decode($service->services, true);
                 $service->service_name = $this->common->getServiceByKeys($keys);
+
+                $service->dateFormat = $this->common->formatDate($service->date);
             }
             return $services;
         }

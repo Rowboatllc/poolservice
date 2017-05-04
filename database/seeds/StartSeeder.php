@@ -59,12 +59,29 @@ class StartSeeder extends Seeder
             ]);
         }
 
-        $random = rand(2,10);
-        factory(App\Models\Schedule::class, $random)->create([
-            'technican_id' => $user_technician->id, 
-            'order_id' => $order->id, 
-            'company_id' => $company->id,
-        ]);
-        
+        $random = rand(5,10);
+        $date = new \DateTime();
+        $date->modify('+7 day');
+        for($i=0;$i<$random;$i++){
+            $status = 'opening';
+            $ran = array ('opening', 'checkin', 'unable', 'billing_success', 'billing_error');
+            if($i==0){
+                $ran = array ('opening');
+            }
+            if($i>1){
+                $ran = array ('unable', 'billing_success', 'billing_error');
+            }
+            $status = $ran[array_rand($ran, 1)];
+
+            factory(App\Models\Schedule::class)->create([
+                'technican_id' => $user_technician->id, 
+                'order_id' => $order->id, 
+                'company_id' => $company->id,
+                'date' => $date,
+                'status' => $status
+            ]);
+
+            $date->modify('-7 day');
+        }
     }
 }

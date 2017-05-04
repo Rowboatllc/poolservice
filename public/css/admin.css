@@ -8303,6 +8303,10 @@ span.stars span {
   background-position: 0 0;
 }
 
+span.stars {
+  margin-top: 7px;
+}
+
 .stars.starrr {
   color: #cfcb36;
   font-size: 20px;
