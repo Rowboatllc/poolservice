@@ -52,7 +52,7 @@ function loadImage(imgsrc,id)
 }
 
 $(document).ready(function() {
-
+    validationPoolService();
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
       _renderItem: function( ul, item ) {
         var li = $( "<li>" ),
@@ -76,8 +76,7 @@ $(document).ready(function() {
       .iconselectmenu()
       .iconselectmenu( "menuWidget" )
         .addClass( "ui-menu-icons" );
-
-    validationPoolService();
+    
     // next info
 	$('.btn-next-info').on('click', function(e) {
         if($( "#frmPoolServiceDashBoard" ).valid()) {

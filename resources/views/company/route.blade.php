@@ -1,6 +1,6 @@
 <div class="company-route-service">    
     <div class="row sectionB1">
-        <form role="form" id="frmPoolServiceDashBoard" action="{{route('upload-company-profile')}}" method="post" class="f2">
+        <form role="form" id="frmPoolServiceRoute" action="{{route('upload-company-profile')}}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="col-xs-9 route-tab-container">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 route-tab-menu">
