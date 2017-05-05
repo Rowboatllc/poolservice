@@ -319,7 +319,7 @@ class UserRepository
                 ->where(['schedules.date'=> $date])
                 ->orderBy('schedules.date')
                 ->get();
-        // distint days of week
+
         return $comProfile;
     }
 

@@ -54,8 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
+        
         Route::group(['prefix' => 'service-company'], function () {
             Route::get('', array('uses' => 'Company\CompanyController@index'))->name('service-company');
+            Route::get('load-pool-owner/{id?}/{type?}', array('uses' => 'Company\CompanyController@loadPoolOwner'))->name('load-pool-owner');
         });
         Route::group(['prefix' => 'technician'], function () {
             Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');

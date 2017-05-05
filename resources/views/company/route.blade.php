@@ -35,7 +35,7 @@
                                 <label>{{$user->name}}</label>
                             </div>
                             <div class="form-group">
-                                <select id="pool_service_list" name="pool_service_list" >
+                                <select id="0" name="pool_service_list0" >
                                     <option selected="selected">Chose pool service professional</option>
                                     @foreach ($technicians as $tech)
                                         <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -51,7 +51,7 @@
 
                     <div>
                         <div class="col-md-7">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-route1">
                                 <tr>
                                     <th></th>
                                     <th><a>Order</a></th>
@@ -96,14 +96,14 @@
                     <div class="col-md-12">
                         <div class="form-inline">
                             <div class="form-group">
-                                <img class="img-responsive cattoBorderRadius" src="{{ $user->avatar }}">
+                                <img class="circle-image" src="/company-image/1.png">
                             </div>
 
                             <div class="form-group">
                                 <label>{{$user->name}}</label>
                             </div>
                             <div class="form-group">
-                                <select id="pool_service_list" name="pool_service_list" >
+                                <select id="1" name="pool_service_list1" >
                                     <option selected="selected">Chose pool service professional</option>
                                     @foreach ($technicians as $tech)
                                         <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -119,7 +119,7 @@
 
                     <div>
                         <div class="col-md-7">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-route2">
                                 <tr>
                                     <th></th>
                                     <th><a>Order</a></th>
@@ -164,13 +164,13 @@
                     <div class="col-md-12">
                         <div class="form-inline">
                             <div class="form-group">
-                                <img class="img-responsive cattoBorderRadius" src="{{ $user->avatar }}">
+                                <img class="circle-image" src="/company-image/1.png">
                             </div>
                             <div class="form-group">
                                 <label>{{$user->name}}</label>
                             </div>
                             <div class="form-group">
-                                <select id="pool_service_list" name="pool_service_list" >
+                                <select id="2" name="pool_service_list2" >
                                     <option selected="selected">Chose pool service professional</option>
                                     @foreach ($technicians as $tech)
                                         <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -186,7 +186,7 @@
 
                     <div>
                         <div class="col-md-7">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-route3">
                                 <tr>
                                     <th></th>
                                     <th><a>Order</a></th>
@@ -230,13 +230,13 @@
                     <div class="col-md-12">
                         <div class="form-inline">
                             <div class="form-group">
-                                <img class="img-responsive cattoBorderRadius" src="{{ $user->avatar }}">
+                                <img class="circle-image" src="/company-image/1.png">
                             </div>
                             <div class="form-group">
                                 <label>{{$user->name}}</label>
                             </div>
                             <div class="form-group">
-                                <select id="pool_service_list" name="pool_service_list" >
+                                <select id="3" name="pool_service_list3" >
                                     <option selected="selected">Chose pool service professional</option>
                                     @foreach ($technicians as $tech)
                                         <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -251,7 +251,7 @@
 
                     <div>
                         <div class="col-md-7">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-route4">
                                 <tr>
                                     <th></th>
                                     <th><a>Order</a></th>
@@ -287,7 +287,7 @@
                             <h4 style="margin-top: 0;color:#55518a">If you are not available to service pool on Monday, check "Not available" box</h4>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group" >                        
+                            <div class="form-group">                        
                                 <input type="checkbox" name="chk_tuesday" id="chk_tuesday" class="chk_tuesday">
                                 <label for="chk_tuesday" id=lblTuesday>Not Available</label>
                             </div>
@@ -296,13 +296,13 @@
                     <div class="col-md-12">
                         <div class="form-inline">
                             <div class="form-group">
-                                <img src="{{ $user->avatar }}">
+                                <img class="circle-image" src="/company-image/1.png">
                             </div>
                             <div class="form-group">
                                 <label>{{$user->name}}</label>
                             </div>
                             <div class="form-group">
-                                <select id="pool_service_list" name="pool_service_list" >
+                                <select id="4" name="pool_service_list4" >
                                     <option selected="selected">Chose pool service professional</option>
                                     @foreach ($technicians as $tech)
                                         <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -317,7 +317,7 @@
 
                     <div>
                         <div class="col-md-7">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-route5">
                                 <tr>
                                     <th></th>
                                     <th><a>Order</a></th>
