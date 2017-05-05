@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Storage;
 use Request;
 use Auth;
 use Mail;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class Common {
 
@@ -25,9 +28,9 @@ class Common {
         return $eloquent;
     }
 
-    public function uploadResizeImage($imageFolder) {
+    public function uploadResizeImage($imageFolder, $inputname="avatar") {
         //$imageFolder = 'uploads/profile';
-        $file = Request::file('avatar');
+        $file = Request::file($inputname);
         $extension = $file->extension();
         $user = Auth::user();
         $image_name = md5($user->email) . '.' . $extension;
@@ -49,6 +52,25 @@ class Common {
         }
     }
 
+    public function uploadImage($imageFolder, $inputname, $rename) {
+        //$imageFolder = 'uploads/profile';
+        $file = Request::file($inputname);
+        $extension = $file->extension();
+        $image_name = $rename . '.' . $extension;
+        $filename = $imageFolder . '/' . $image_name;
+        if (!($file->isValid()) || $extension == 'exe' || !in_array($extension, ['jpg', 'png', 'jpeg'])) {
+            return false;
+        }
+        try {
+            if (Storage::exists($filename))
+                Storage::delete($filename);
+            $result = Storage::putFileAs($imageFolder, $file, $image_name);
+            return $filename;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
     public function responseJson($result = false, $code = 200, $message = '', $param=[]) {
         $data = [
             'success' => $result,
@@ -115,4 +137,69 @@ class Common {
         return $date_new->format('m-d-Y');
     }
 
+    public static function getDateOfWeekDay($day) {
+        $weekDays = array(
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        );
+
+        $dayNumber = array_search($day, $weekDays);
+        $currentDayNumber =  date('w', strtotime('today'));
+
+        if ($dayNumber > $currentDayNumber) {
+            return date('Y-m-d', strtotime($day));
+        } else {
+            return date('Y-m-d', strtotime($day) - 604800);
+        }
+    }
+
+    public static function getKeyDatesFromRange($start, $end, $format = 'Y-m-d') {
+        $days   = array();
+        $period = new DatePeriod(
+            $start, // Start date of the period
+            new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
+            $end // Apply the interval 6 times on top of the starting date
+        );    
+        
+        foreach ($period as $day)
+        {
+            $key=date('l', strtotime($day->format($format)));
+            if($key!='Sunday' && $key!='Saturday')
+            {
+                $days[$key] = $day->format($format);
+            }            
+        }
+
+        return $days;
+    }
+
+    public static function getDatesFromRange($start, $end, $format = 'Y-m-d') {
+        $days   = array();
+        $period = new DatePeriod(
+            $start, // Start date of the period
+            new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
+            $end // Apply the interval 6 times on top of the starting date
+        );    
+        
+        foreach ($period as $day)
+        {
+            $key=date('l', strtotime($day->format($format)));
+            if($key!='Sunday' && $key!='Saturday')
+            {
+                $days[] = $day->format($format);
+            }            
+        }
+
+        return $days;
+    }
+
+    public static function getCurrentDay($date,$format = 'Y-m-d')
+    {
+        return date('l', strtotime($date->format($format)));
+    }
 }

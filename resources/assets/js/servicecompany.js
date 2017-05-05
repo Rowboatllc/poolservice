@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
         
         jQuery('.company_service_offers .saveform-fieldset').bind('click', function(){
             $me = jQuery(this);
-            let $obj = $me.parents('.fieldset');
+            let $obj = $me.closest('.fieldset');
             let data = $obj.find('input').serialize();
             if(data=='')
                 return
@@ -39,12 +39,18 @@ jQuery(document).ready(function () {
         });
        
         //technician-professionnal-service
-        jQuery('.technician-professionnal-service').on('click','.save-techinician', function() {
+        jQuery('.technician-professionnal-service').on('click','.new-item', function() {
+            let modal = jQuery(this).data('target');
+            let names = ['fullname', 'phone', 'email', 'id', 'avatar', 'is_owner'];
+            setElementValues(modal, names, '');
+        }).on('click','.save-item', function() {
             let $me = jQuery(this);
-            let $form = $me.parents('form');
+            let $form = $me.closest('form');
+            if(!isValidate($form))
+                return;
             saveForm($form, function(result){
-                $form.parents('.modal').modal('hide');
-                let params = jQuery('.technician-professionnal-service .table-responsive').data();
+                $form.closest('.modal').modal('hide');
+                let params = $form.closest('.content-block').find('.table-responsive').data();
                 reloadCurrentPage(params, params.url, function(result){
                     console.log(result);
                 });
@@ -53,10 +59,10 @@ jQuery(document).ready(function () {
             if(!confirm("Press a button!"))
                 return;
             let $me = jQuery(this);
-            let url = $me.parents('table').data('removeurl');
+            let url = $me.closest('table').data('removeurl');
             let id = $me.data('id');
             sendData(url, {id:id}, 'POST', function (result) {
-                let params = $me.parents('.table-responsive').data();
+                let params = $me.closest('.table-responsive').data();
                 reloadCurrentPage(params, params.url, function(result){
                     console.log(result);
                 });
@@ -65,35 +71,31 @@ jQuery(document).ready(function () {
             })
         }).on('click', '.edit-item-list', function() {
             let $me = jQuery(this);
-            jQuery('.technician-professionnal-service .new-technician').trigger('click');
-            $modal = jQuery('.technician-professionnal-serviceModal');
-            let $cells = $me.parents('tr').find('[data-cell]');
-            $cells.each(function(){
-                let $cell = jQuery(this);
-                let value = $cell.is('[data-value]') ? $cell.data('value') : $cell.text();
-                $item = $modal.find('[name="'+$cell.data('cell')+'"]');//.val( value );
-                if($item.is(':input')) {
-                    $item.val(value);
-                } else if($item.is('img')) {
-                    $item.attr('src', value);
-                } else {
-                    $item.html(value);
-                }
+            let url = $me.closest('table').data('getitemurl');
+            let params = {id:$me.data('id')};
+            $me.closest('.content-block').find('.new-item').trigger('click');
+            $modal = $me.closest('.content-block').find('.modal');
+            
+            sendData(url, params, 'POST', function(result){
+                $items = $modal.find('[name]');
+                $items.each(function(){
+                    let key = jQuery(this).attr('name');
+                    if(typeof result.item[key] != 'undefined')
+                        setElementValue(jQuery(this), result.item[key]);
+                });
             });
         }).on('click', '.pagination li span', function(event) {
             event.preventDefault();
             let $me = jQuery(this);
             let page = $me.text();
-            //console.log(page);
-            //let url = $me.parents('.table-responsive').data('url');
-            $me.parents('.table-responsive').data('page', page);
-            let params = $me.parents('.table-responsive').data();
+            $me.closest('.table-responsive').data('page', page);
+            let params = $me.closest('.table-responsive').data();
             reloadCurrentPage(params, params.url, function(result){
                 console.log(result);
             });
         }).on('click', '[data-orderfield]', function(event) {
             let $me = jQuery(this);
-            $coverTable = $me.parents('.table-responsive');
+            $coverTable = $me.closest('.table-responsive');
             $orderDirection = $coverTable.data('orderdir')||'asc';
             $orderField = $coverTable.data('orderfield')||'';
             if($orderField==$me.data('orderfield')) {
@@ -106,10 +108,20 @@ jQuery(document).ready(function () {
             reloadCurrentPage(params, params.url, function(result){
                 console.log(result);
             });
-        });
+        }).on('click', '.technician-img', function(event) {
+            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
+        }); 
         
     }
     
+    function reloadCurrentPage(params, url, callback) {
+        sendData(url, params, 'POST', function(result){
+            let list = JSON.parse(result.list);
+            parseData(".rowtpl", ".technician-professionnal-service .table-list", list.data, true);
+            parsePaging(Math.ceil(list.total/list.per_page), ".technician-professionnal-service .pagination", (params.page||''));
+        });
+    }
+
     function toggleSaveButton() {
         let $obj = jQuery('.company_service_offers');
         let data = $obj.find('input').serialize();
@@ -130,17 +142,9 @@ function afterUploadedTechnicianAvatar(form, result) {
     let cur = new Date();
     let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
     $img.attr('src', newPath);
-    jQuery('.technician-professionnal-service input[name="avatar-path"]').val(result.path);
+    jQuery('.technician-professionnal-service input[name="avatar"]').val(result.path);
     document.querySelector(form).reset();
     jQuery('#'+ajaxUploadFile.frameName).remove();
-}
-
-function reloadCurrentPage(params, url, callback) {
-    sendData(url, params, 'POST', function(result){
-        let list = JSON.parse(result.list);
-        parseData(".rowtpl", ".technician-professionnal-service .table-list", list.data, true);
-        parsePaging(Math.ceil(list.total/list.per_page), ".technician-professionnal-service .pagination", (params.page||''));
-    });
 }
 
 function parseData(tpl, dest, data, append) {
@@ -176,4 +180,33 @@ function autoPaging(cover_div) {
 
 function setCurrentPage(cover_div, page) {
     jQuery(cover_div).data('page', page)
+}
+
+function setElementValue($item, value) {
+    if($item.is('input[type="checkbox"]')) {
+        var checked = (value==$item.attr('value')) ? true : false;
+        $item[0].checked = checked;
+        return;
+    }
+    if($item.is(':input')) {
+        $item.val(value);
+        return;
+    }
+    if($item.is('img')) {
+        let path = $item.attr('path');
+        $item.attr('src', path+value);
+        return;
+    }   
+    $item.html(value);
+}
+
+
+function setElementValues(cover_div, names, val) {
+    $cover_div = jQuery(cover_div);
+    jQuery.each(names, function(key, value){
+        $item = $cover_div.find('[name="'+value+'"]');
+        for(let i=0; i<$item.length; i++) {
+            setElementValue(jQuery($item[i]), val);
+        }
+    });
 }

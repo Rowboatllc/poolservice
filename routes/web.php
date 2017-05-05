@@ -54,8 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
+        
         Route::group(['prefix' => 'service-company'], function () {
             Route::get('', array('uses' => 'Company\CompanyController@index'))->name('service-company');
+            Route::get('load-pool-owner/{id?}/{type?}', array('uses' => 'Company\CompanyController@loadPoolOwner'))->name('load-pool-owner');
         });
         Route::group(['prefix' => 'technician'], function () {
             Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
@@ -64,8 +66,10 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
             
             Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
+            Route::post('get-technician', 'Company\ApiCompanyController@getTechnician')->name('dashboard-company-get-technician');
             Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
             Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
+            Route::post('ajax-upload-image/{folder}/{name}', 'Company\ApiCompanyController@uploadAvatar')->name('ajax-upload-an-image');
         });
         Route::group(['prefix' => 'admin'], function () {
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');

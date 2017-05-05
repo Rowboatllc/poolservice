@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\User;
-use App\Models\Technician;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class TechnicianRepository {
@@ -23,7 +22,7 @@ class TechnicianRepository {
             ->join('technicians', 'technicians.user_id', '=', 'users.id')
             ->join('companies', 'companies.id', '=', 'technicians.company_id')
             ->where('companies.user_id', $id)
-            ->select('profiles.fullname', 'profiles.phone', 'profiles.avatar', 'users.email', 'users.status', 'users.id', 'companies.id as company_id');
+            ->select('profiles.fullname', 'profiles.phone', 'profiles.avatar', 'users.email', 'users.status', 'users.id', 'companies.id as company_id', 'technicians.is_owner');
     }
     
     public function getList($id, $data=[]) {
@@ -34,6 +33,10 @@ class TechnicianRepository {
     public function listTechnicians($id, $data) {
         $list = $this->listBuilder($id);
         return $this->common->pagingSort($list, $data)->toJson();
+    }
+    
+    public function getTechnician($id, $data) {
+        return $this->listBuilder($id)->where('technicians.user_id', $data['id'])->first();
     }
     
     public function saveTechnician($data) {
@@ -47,6 +50,10 @@ class TechnicianRepository {
             $technician = $this->techinician->find($data['id']);
             $profile->fullname = $data['fullname'];
             $profile->phone = $data['phone'];
+            if(!empty($data['avatar'])){
+                Storage::delete($profile->avatar);
+                $profile->avatar = $data['avatar'];
+            }
             $user->email = $data['email'];
             $technician->is_owner = $is_owner;
             try {
@@ -61,24 +68,39 @@ class TechnicianRepository {
             }
         }
         try {
+            $code = str_random(30);
             $result = $user->create([
-                'email' => $data['fullname'],
+                'email' => $data['email'],
                 'password' => \Hash::make(str_random(9)),
+                'confirmation_code' => $code,
                 'status' => 'pending',
             ]);
-            $profile->create([
+            
+            $profileData = [
                 'user_id' => $result->id,
                 'fullname' => $data['fullname'],
                 'phone' => $data['phone']
-            ]);
+            ];
+            if(!empty($data['avatar']))
+                $profileData['avatar'] = $data['avatar'];
+            $profile->create($profileData);
+            
             $this->techinician->create([
                 'user_id' => $result->id,
-                'company_id' => $data['company'],
+                'company_id' => $data['company_id'],
                 'is_owner' => $is_owner
             ]);
+            
             DB::commit();
-            //send email......
-            //$this->common->sendmail('emails.offer-notification', $data);
+            //Verify mail
+            $data = [
+                'email' => [$data['email']],
+                'subject' => 'Verify email',
+                'data' => [
+                    'link' => route('technician-verify', $code)
+                ]
+            ];
+            $this->common->sendmail('emails.technician-verify', $data);
             return true;
         } catch (Exception $e) { 
             DB::rollback();
@@ -100,6 +122,14 @@ class TechnicianRepository {
             DB::rollback();
             return false;
         }
+    }
+    
+     public function uploadAvatar($folder, $inputname) {
+        $rename = date('YmdHis');
+        return $this->common->uploadImage($folder, $inputname, $rename);
+        /*if ($result)
+            return $this->common->responseJson(true, 200, '', ['path' => $result]);
+        return $this->common->responseJson(false);*/
     }
     
 }

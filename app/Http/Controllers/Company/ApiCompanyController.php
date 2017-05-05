@@ -41,6 +41,15 @@ class ApiCompanyController extends Controller {
         return $this->common->responseJson(false);
     }
     
+    public function getTechnician(Request $request) {
+        $repoTech = new TechnicianRepository;
+        $user = Auth::user();
+        $result = $repoTech->getTechnician($user->id, $request->all());
+        if ($result)
+            return $this->common->responseJson(true, 200, '', ['item' => $result]);
+        return $this->common->responseJson(false);
+    }
+    
     public function saveTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
         return $this->common->responseJson($repoTech->saveTechnician($request->all()));
@@ -49,6 +58,14 @@ class ApiCompanyController extends Controller {
     public function removeTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
         return $this->common->responseJson($repoTech->removeTechnician($request->all()));
+    }
+    
+    public function uploadAvatar($folder, $name) {
+        $repoTech = new TechnicianRepository;
+        $result = $repoTech->uploadAvatar($folder, $name);
+        if ($result)
+            return $this->common->responseJson(true, 200, '', ['path' => $result]);
+        return $this->common->responseJson(false);
     }
     
     public function changeServiceOffer(Request $request) {
