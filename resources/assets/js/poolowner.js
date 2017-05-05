@@ -20,7 +20,7 @@ jQuery(document).ready(function () {
             toggleSaveButton();
         });
         jQuery('.poolowner_poolinfo .saveform-fieldset').bind('click', function(){
-            let $obj = $(this).parents('.fieldset');
+            let $obj = $(this).closest('.fieldset');
             let data = $obj.find('input').serialize();
             if(data=='') {
                 //show error
@@ -48,7 +48,7 @@ jQuery(document).ready(function () {
 });
 
 function afterUploadedImage(form, result) {
-    let $img = jQuery(document.querySelector(form)).parents('.fieldset').find('img');
+    let $img = jQuery(document.querySelector(form)).closest('.fieldset').find('img');
     let cur = new Date();
     let newPath = $img.attr('path')+result.path+'?'+cur.getMilliseconds();
     $img.attr('src', newPath);
@@ -73,7 +73,7 @@ jQuery(document).ready(function () {
         $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
     });
     $ownerProfile.find('.icon.save-poolownerfieldset').bind('click', function(){
-        let $fieldset = $(this).parents('.fieldset');
+        let $fieldset = $(this).closest('.fieldset');
         if(!isValidate($fieldset))
             return;
         saveEditableContent($fieldset, function(result){

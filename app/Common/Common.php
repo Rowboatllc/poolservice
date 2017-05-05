@@ -25,9 +25,9 @@ class Common {
         return $eloquent;
     }
 
-    public function uploadResizeImage($imageFolder) {
+    public function uploadResizeImage($imageFolder, $inputname="avatar") {
         //$imageFolder = 'uploads/profile';
-        $file = Request::file('avatar');
+        $file = Request::file($inputname);
         $extension = $file->extension();
         $user = Auth::user();
         $image_name = md5($user->email) . '.' . $extension;
@@ -49,6 +49,25 @@ class Common {
         }
     }
 
+    public function uploadImage($imageFolder, $inputname, $rename) {
+        //$imageFolder = 'uploads/profile';
+        $file = Request::file($inputname);
+        $extension = $file->extension();
+        $image_name = $rename . '.' . $extension;
+        $filename = $imageFolder . '/' . $image_name;
+        if (!($file->isValid()) || $extension == 'exe' || !in_array($extension, ['jpg', 'png', 'jpeg'])) {
+            return false;
+        }
+        try {
+            if (Storage::exists($filename))
+                Storage::delete($filename);
+            $result = Storage::putFileAs($imageFolder, $file, $image_name);
+            return $filename;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
     public function responseJson($result = false, $code = 200, $message = '', $param=[]) {
         $data = [
             'success' => $result,

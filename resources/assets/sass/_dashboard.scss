@@ -133,20 +133,60 @@
 }
 
 .technician-professionnal-service {
+    button {
+        font-size: 13px
+    }
+    table {
+        margin-top: 10px;
+        tr {
+            height: 45px;
+            &:even {
+                background-color: gray;
+            }
+            th {
+                text-align: center;
+            }
+            td {
+                position: relative;
+                vertical-align: middle;
+            }
+        }
+    }
     .technician-img {
-        width: 25%;
+        width: 100px;
+        height: auto;
+        min-height: 100px;
     }
     form.form_technician-avatar {
-        width: 70%;
-        display: inline-block
+        display: none
     }
     span.avatar {
-        padding-right: 30px;
-        padding-bottom: 10px;
+        padding-right: 36px;
+        padding-bottom: 36px;
         background-repeat: no-repeat;
-        border-radius: 10px;
-        border: 1px solid green;
+        background-position: center;
         background-size: 100% auto;
+        border-radius: 18px;
+        border: 1px solid rgba(51, 122, 183, 0.2);
+        display: inline-block;
+        position: absolute;
+        left: 30px;
+        top: 3px;
+    }
+    .status {
+        padding-bottom: 20px;
+        padding-right: 20px;
+        border-radius: 10px;
+        display: inline-block;
+        position: absolute;
+        top: 12px;
+        font-size: 20px;
+    }
+    .status.active {
+        color: green;
+    }
+    .status.pending {
+        color: gray;
     }
 }
 

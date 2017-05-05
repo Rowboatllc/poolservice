@@ -2,11 +2,11 @@ jQuery(document).ready(function () {
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
-            let $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).closest('.fieldset');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
-            let $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).closest('.fieldset');
             //console.log(isValidate($fieldset), $fieldset);
             //return;
             if(!isValidate($fieldset))
@@ -19,15 +19,15 @@ jQuery(document).ready(function () {
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
         }).on('click', '.upload-imagefieldset', function () {
-            let $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).closest('.fieldset');
             $fieldset.find('input[type="file"]').trigger('click');
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.save-imagefieldset', function () {
-            let $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).closest('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('form').submit();
         }).on('click', '.cancel-editfieldset', function () {
-            let $fieldset = $(this).parents('.fieldset');
+            let $fieldset = $(this).closest('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.inputerror').removeClass('inputerror');
@@ -58,7 +58,7 @@ jQuery(document).ready(function () {
                 $me('removeOption', [
                     jQuery(obj).parent().data('key'),
                     function () {
-                        jQuery(obj).parents('.an_option').remove();
+                        jQuery(obj).closest('.an_option').remove();
                     }
                 ]);
             });
@@ -74,7 +74,7 @@ jQuery(document).ready(function () {
         },
         saveOptionParams: function (obj) {
             var url = jQuery('.option_panel').data('saveurl');
-            var group = jQuery(obj).parents('.a_group').data('key');
+            var group = jQuery(obj).closest('.a_group').data('key');
             var data = jQuery(obj).parent().find('input').serialize() + '&group=' + group;
             sendData(url, data);
         },
@@ -91,7 +91,7 @@ jQuery(document).ready(function () {
             jQuery('.option_panel .cover_an_option').after($aRow);
         },
         saveGroup: function (obj) {
-            var $covergroup = jQuery(obj).parents('.a_group');
+            var $covergroup = jQuery(obj).closest('.a_group');
             console.log($covergroup);
             var url = jQuery('.option_panel').data('savegroupurl');
             var groupname = $covergroup.find('input[name="group_name"]').val();
@@ -106,7 +106,7 @@ jQuery(document).ready(function () {
         },
         newOption: function (obj) {
             var $aRow = jQuery('.option_panel .cover_an_option .an_option').first().clone();
-            jQuery(obj).parents('.a_group').append($aRow);
+            jQuery(obj).closest('.a_group').append($aRow);
         }
     };
 
@@ -121,7 +121,9 @@ jQuery(document).ready(function () {
     };
 
     jQuery.fn.dboption('assignEvent');
-
+    jQuery('img').on( "error", function(){
+        jQuery(this).attr('src', 'images/shim.png');
+    })
 });
 
 // Upload ajax
@@ -282,7 +284,9 @@ function isValidate($fieldset) {
 function checkOneField(field) {
     let $needs = jQuery(field).data('validate');
     $needs = $needs.split('|');
-    let value = jQuery.trim(jQuery(field).text());
+    let value = (jQuery(field).is(':input')) ? 
+                    jQuery.trim(jQuery(field).val()): 
+                    jQuery.trim(jQuery(field).text());
     for(let i=0; i<$needs.length; i++) {
         if(!checkContent(value, $needs[i]))
             return false;
@@ -301,6 +305,7 @@ function checkContent(value, type) {
             return re.test(value); 
         break;
         case 'number':
+            return jQuery.isNumeric(value);
         break;
     }
 }
