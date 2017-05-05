@@ -1,13 +1,29 @@
 .poolowner{
     .services {
-        tr th {
-            border-top: 0px !important;
-        }
-        label.btn-unable {
+        
+        label.btn-billing-error,label.btn-unable {
             color: red;
         }
-        label.btn-complete {
+        label.btn-upcoming{
+            color: grey;
+        }
+        label.btn-complete, label.btn-billing-success {
             color: blue;
         }
+        
+        
+    }
+    .well {
+        background: transparent !important;
+    }
+    tr th {
+        border-top: 0px !important;
+    }
+    tr:nth-child(even) {
+            background-color: #d9eff3 !important;
+        }
+    tr td{
+        line-height: 2.6 !important;
+        border: 0px !important;
     }
 }

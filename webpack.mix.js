@@ -38,7 +38,7 @@ mix.combine(['resources/assets/js/register/main-pool-service.js'], 'public/js/re
 
 mix.combine(['resources/assets/js/billinginfo.js'], 'public/js/billinginfo.js');
 mix.combine(['resources/assets/js/poolowner.js'], 'public/js/poolowner.js');
-
+mix.combine(['resources/assets/js/route-google-map.js'], 'public/js/route-google-map.js');
 // technician service
 mix.combine(['resources/assets/js/technician.js'], 'public/js/technician.js');
 mix.combine(['resources/assets/js/map.js'], 'public/js/map.js');

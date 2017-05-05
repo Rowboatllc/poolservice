@@ -197,6 +197,7 @@ $(document).ready(function() {
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
         let index = $(this).index();
+        console.log($(this).attr('id'));
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
     });

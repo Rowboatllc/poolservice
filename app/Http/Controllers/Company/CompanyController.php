@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Auth;
-
+use App\Common\Common;
 use App\Repositories\CompanyRepositoryInterface;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class CompanyController extends Controller {
 
@@ -27,9 +30,20 @@ class CompanyController extends Controller {
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         $technicians = $technicianRepo->getList($user->id);
-        $routes=$this->user->getUserSchedule($user->id);
+        
         $user=$this->user->getUserInfo($user->id);
-        return view('company.index', compact(['customers', 'offers', 'technicians','comProfile','routes','user']));
+        $keyDates=Common::getDatesFromRange(new Datetime(),6);
+        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        $currentDate=Common::getCurrentDay(new Datetime());
+        
+        $day1=$this->user->getUserSchedule($user->id,$keyDates[0]);
+        $day2=$this->user->getUserSchedule($user->id,$keyDates[1]);
+        $day3=$this->user->getUserSchedule($user->id,$keyDates[2]);
+        $day4=$this->user->getUserSchedule($user->id,$keyDates[3]);
+        $day5=$this->user->getUserSchedule($user->id,$keyDates[4]);
+
+        return view('company.index', 
+        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','day1','day2','day3','day4','day5']));
     }
 
     public function addCompanyProfile(Request $request) 

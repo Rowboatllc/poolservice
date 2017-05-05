@@ -3,11 +3,22 @@
         tr th {
             border-top: 0px !important;
         }
+        tr td{
+            line-height: 1.6;
+            border: 0px;
+        }
         label.btn-unable {
             color: red;
         }
         label.btn-complete {
             color: blue;
         }
+        tr:nth-child(even) {
+            background-color: #d9eff3;
+        }
+        
+    }
+    .well {
+        background: transparent;
     }
 }

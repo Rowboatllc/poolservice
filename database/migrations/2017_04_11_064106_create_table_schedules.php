@@ -18,10 +18,10 @@ class CreateTableSchedules extends Migration
             $table->integer('technican_id');    
             $table->integer('order_id');         
             $table->integer('company_id');                          
-            $table->date('date');
+            $table->datetime('date');
             $table->string('img_before');   
             $table->string('img_after');  
-            $table->enum('status', array('opening', 'checkin', 'unable', 'complete'))->default('opening');
+            $table->enum('status', array('opening', 'checkin', 'unable', 'billing_success', 'billing_error'))->default('opening');
             $table->json('cleaning_steps');   
             $table->string('comment');
             $table->timestamps();

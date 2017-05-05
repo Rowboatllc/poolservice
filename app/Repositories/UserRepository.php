@@ -10,6 +10,8 @@ use App\Models\BillingInfo;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Common\Common;
+use Datetime;
 
 class UserRepository
 {
@@ -303,17 +305,21 @@ class UserRepository
                 ->join('profiles', 'companies.user_id','=','profiles.user_id')
                 ->where(['companies.user_id' => $id])
                 ->first();
-
+        
         return $comProfile;
     }
 
-    public function getUserSchedule($id)
+    public function getUserSchedule($id,$date)
     {
         $comProfile = DB::table('schedules')
                 ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
-                ->where(['schedules.technican_id' => $id])->get();
+                ->where(['schedules.technican_id' => $id])
+                ->where(['schedules.date'=> $date])
+                ->orderBy('schedules.date')
+                ->get();
+        // distint days of week
         return $comProfile;
     }
 

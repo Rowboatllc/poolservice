@@ -8,17 +8,21 @@ use Illuminate\Support\Facades\DB;
 class ScheduleRepository implements ScheduleRepositoryInterface {
 
     protected $schedule;    
+    protected $common;    
 
     public function __construct(Schedule $schedule)
     {
-        $this->schedule = $schedule;
+        $this->schedule = $schedule;        
+        $this->common = app('App\Common\Common');
+
     }
 
     public function getAllScheduleInWeek($technician_id){
         $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date)dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
                                     LEFT JOIN orders o ON o.id = s.order_id
                                     LEFT JOIN profiles p ON p.user_id = o.poolowner_id
-                                    WHERE WEEKOFYEAR(date) = WEEKOFYEAR(CURDATE())
+                                    WHERE DATE(s.date) < (NOW() + INTERVAL 6 DAY)
+                                    AND DATE(s.date) > (NOW() - INTERVAL 1 DAY)
                                     AND s.technican_id = '.$technician_id.'
                                     ORDER BY `dayOfWeek` ASC
                                     ');
@@ -31,6 +35,12 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         );                          
         if(isset($schedules)){
             foreach($schedules as $schedule){
+                if($schedule->status =='billing_success' || $schedule->status == 'billing_error'){
+                    $schedule->status = 'complete';
+                }
+
+                $schedule->dateFormat = $this->common->formatDate($schedule->date);
+
                 switch ($schedule->dayOfWeek) {
                     case 2:
                         $result[0]["value"][] = $schedule;
@@ -49,8 +59,22 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                         break;
                 }
             }
+            
         }
-
+        $temp = [];
+        $temp2 = [];
+        $check = false;
+        $now = new \DateTime();
+        $date = $now->format('l');
+        foreach($result as $res){
+            if($res['name']==$date||$check){
+                $check = true;
+                $temp2[] = $res;
+            }else{
+                $temp[] = $res;
+            }
+        }
+        $result = array_merge($temp2, $temp);
         return $result;                          
         
     }
@@ -70,6 +94,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $schedule = $this->schedule->find($schedule_id);
         if(isset($schedule)){
             $schedule->status = $status;
+            $schedule->date = new \DateTime();
             return $schedule->save();
         }
         return 0;
@@ -87,7 +112,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                     $cleaning_steps[] = $i;
             }
             $schedule->cleaning_steps = $cleaning_steps;
-            
+            $schedule->date = new \DateTime();
             if($schedule->save()){
                 return $schedule;
             }
@@ -96,10 +121,21 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     }
 
     public function getAllScheduleByPoolowner($user_id){
-        return DB::select('SELECT s.*, o.price  FROM schedules as s
+        $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
+                            ORDER BY `date` DESC
                             ');
+        if(isset($services)){
+            foreach($services as $service){
+                $keys = json_decode($service->services, true);
+                $service->service_name = $this->common->getServiceByKeys($keys);
+
+                $service->dateFormat = $this->common->formatDate($service->date);
+            }
+            return $services;
+        }
+        return [];
     }
 
 }

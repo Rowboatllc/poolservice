@@ -62,7 +62,8 @@ class TechnicianController extends Controller {
 
     public function completeSteps(Request $request) 
     {
-        $schedule = $this->schedule->updateSchedule($request->all(), 'complete');
+        $schedule = $this->schedule->updateSchedule($request->all(), 'billing_success');
+        $schedule->satus = 'complete';
         if(isset($schedule)){ 
             return $this->common->responseJson(true, 200, '',["schedule"=>$schedule]);            
         }

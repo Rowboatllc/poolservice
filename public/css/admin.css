@@ -8322,6 +8322,10 @@ span.stars span {
   background-position: 0 0;
 }
 
+span.stars {
+  margin-top: 7px;
+}
+
 .stars.starrr {
   color: #cfcb36;
   font-size: 20px;
@@ -9090,8 +9094,8 @@ span.stars span {
   border-radius: 4px;
   -moz-border-radius: 4px;
   border: 1px solid #ddd;
-  margin-top: 20px;
-  margin-left: 10px;
+  margin-top: 10px;
+  margin-left: 0px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
@@ -9219,6 +9223,27 @@ span.stars span {
 
 .company-route-service .avatar .ui-icon {
   background-position: left top;
+}
+
+.company-route-service div.img-div {
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.company-route-service .img-div img {
+  -webkit-transform: translate(-50%);
+  margin-left: 100px;
+}
+
+.company-route-service .circle-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: url("http://placekitten.com/g/200/400");
+  display: block;
+  background-position-y: 25%;
 }
 
 /*!

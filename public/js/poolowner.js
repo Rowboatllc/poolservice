@@ -113,12 +113,16 @@ jQuery(document).ready(function () {
     company.find('.btn-choose').bind('click', function(){
         let link = $(this).attr('title');
         let self = $(this).parent().parent();
-        sendData(link,[],'GET',changeNew(self),changeNewError());
+        sendData(link,[],'GET',function(result){
+            changeNew(self,result)
+        },changeNewError());
     });
     company.find('.btn-choose-new').bind('click', function(){
         let link = $(this).attr('title');
         let self = $(this).parent().parent();
-        sendData(link,[],'GET',changeSuccess(self),changeError());
+        sendData(link,[],'GET',function(result){
+            changeSuccess(self,result)
+        },changeError());
     });
 
     $(".btn-save-rating").click(function (e) {
@@ -140,33 +144,86 @@ jQuery(document).ready(function () {
 
     });
 
-    function changeSuccess(self){
-        company.find('.item-company').toggleClass('no_display');
-        self.toggleClass('no_display');
-        company.find('.btn.btn-primary').toggleClass('no_display');
+    function changeSuccess(self, result){
+        if(result.success){
+            company.find('.item-company').toggleClass('no_display');
+            self.toggleClass('no_display');
+            company.find('.btn.btn-primary').toggleClass('no_display');
+        }else{
+            
+        }        
     }
 
     function changeError(){
     }
 
-    function changeNew(self){
-        self.toggleClass('no_display');       
-        company.find('.item-company').toggleClass('no_display');
-        company.find('.btn.btn-primary').toggleClass('no_display');
+    function changeNew(self,result){
+        if(result.success){
+            self.toggleClass('no_display');       
+            company.find('.item-company').toggleClass('no_display');
+            company.find('.btn.btn-primary').toggleClass('no_display');
 
-        let company_id = self.find('.company_id').val();
-        $('#startModal').find('#company_id').val(company_id);
+            let company_id = self.find('.company_id').val();
+            $('#startModal').find('#company_id').val(company_id);
 
-        let link = 'poolowner/get-point-rating-company/'+company_id;
-        sendData(link,[],'GET', function (result) {
-            (jQuery.noop)(result);
-            if(result.success){
-                $('#startModal').find('#company_point').val(result.point);                
-            }
-        }, function (result) {});
+            let link = 'poolowner/get-point-rating-company/'+company_id;
+            sendData(link,[],'GET', function (result) {
+                (jQuery.noop)(result);
+                if(result.success){
+                    $('#startModal').find('#company_point').val(result.point);                
+                }
+            }, function (result) {});
+        }else{
+
+        }
     }
 
     function changeNewError(){
     }
 
+});
+
+// Services
+
+jQuery(document).ready(function () {
+
+    let services = jQuery('.poolowner .services');
+    services.find('.item-schedule-poolowner').bind('click', function() {
+        services.selected = $(this);     
+        let date = $(this).find('[name="date"]').val();
+        let now = $(this).find('[name="now"]').val();
+        let dateFormat = $(this).find('[name="dateFormat"]').val();
+        let cleaning_steps = $(this).find('[name="cleaning_steps"]').val();
+        let comment = $(this).find('[name="comment"]').val();
+        let status = $(this).find('[name="status"]').val();
+
+        let schedule = jQuery('.services.confirm-info-steps');
+
+        schedule.find('#day-of-schedule').html(dateFormat);
+        schedule.find('#comment').html('');
+        schedule.find('#recommendation').html('');
+
+        for (var i = 1; i <= 6; i++) {
+            let check = schedule.find('#step' + i);
+            check.prop('checked', false);
+        }
+        
+        if (status == "complete" || status == "unable" || status == 'billing_success' || status == 'billing_error') {
+            schedule.find('#comment').html(comment);
+            
+            for (var i = 1; i <= 6; i++) {
+                let check = schedule.find('#step' + i);
+                if (cleaning_steps.indexOf(i) != -1) {
+                    check.prop('checked', true);                    
+                }
+            }
+
+            var date1 = new Date(date);var date2 = new Date(now);
+            if(date2-date1>0 && date2-date1< 4*60*60*1000){
+                schedule.find('#recommendation').html('Recommendation: No pool use for '+ Math.ceil((date2-date1)/1000/60/60)+ 'hours');
+            }
+
+        }
+
+    });
 });
