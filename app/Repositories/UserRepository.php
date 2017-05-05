@@ -11,6 +11,7 @@ use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Common\Common;
+use Datetime;
 
 class UserRepository
 {
@@ -308,40 +309,17 @@ class UserRepository
         return $comProfile;
     }
 
-    public function getUserSchedule($id)
+    public function getUserSchedule($id,$date)
     {
         $comProfile = DB::table('schedules')
                 ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
-                ->where(['schedules.technican_id' => $id])->get();
+                ->where(['schedules.technican_id' => $id])
+                ->where(['schedules.date'=> $date])
+                ->orderBy('schedules.date')
+                ->get();
         // distint days of week
-        if ($comProfile) {
-            foreach ($comProfile as $p) {
-                if($p->date==Common::getDateOfWeekDay('Monday'))
-                {
-                    $p->date_number=2;
-                }
-                if($p->date==Common::getDateOfWeekDay('Tuesday'))
-                {
-                    $p->date_number=3;
-                }
-                if($p->date==Common::getDateOfWeekDay('Wednesday'))
-                {
-                    $p->date_number=4;
-                }
-                if($p->date==Common::getDateOfWeekDay('Thursday'))
-                {
-                    $p->date_number=5;
-                }
-                if($p->date==Common::getDateOfWeekDay('Friday'))
-                {
-                    $p->date_number=6;
-                }                
-            }
-        }
-
-        // dd($comProfile);
         return $comProfile;
     }
 
