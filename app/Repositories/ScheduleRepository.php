@@ -21,7 +21,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date)dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
                                     LEFT JOIN orders o ON o.id = s.order_id
                                     LEFT JOIN profiles p ON p.user_id = o.poolowner_id
-                                    WHERE WEEKOFYEAR(date) = WEEKOFYEAR(CURDATE())
+                                    WHERE DATE(s.date) < (NOW() + INTERVAL 6 DAY)
+                                    AND DATE(s.date) > (NOW() - INTERVAL 1 DAY)
                                     AND s.technican_id = '.$technician_id.'
                                     ORDER BY `dayOfWeek` ASC
                                     ');
@@ -60,7 +61,20 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             }
             
         }
-
+        $temp = [];
+        $temp2 = [];
+        $check = false;
+        $now = new \DateTime();
+        $date = $now->format('l');
+        foreach($result as $res){
+            if($res['name']==$date||$check){
+                $check = true;
+                $temp2[] = $res;
+            }else{
+                $temp[] = $res;
+            }
+        }
+        $result = array_merge($temp2, $temp);
         return $result;                          
         
     }

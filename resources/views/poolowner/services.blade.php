@@ -9,13 +9,14 @@
                         <th class="text-center" width="150px"><a style='cursor:pointer;'>Amount</a></th>                     
                         <th></th>                     
                     </tr>
+                    
                     @foreach ($schedules as $key=>$sc)
                         <tr class="item schedule item-schedule-poolowner" data-target="#cleaningStepsInfoModal" data-toggle="modal"  >
                             <td valign="middle" class="service_name text-center" width="350px">
                                 <span>{{$sc->service_name}}</span>                           
                                 <input type="hidden" name="date" value="{{$sc->date}}">
                                 <input type="hidden" name="dateFormat" value="{{$sc->dateFormat}}">
-                                {{-- <input type="hidden" name="now" value="{{new \DateTime()}}"> --}}
+                                {{-- <input type="hidden" name="now" value="{{$time_now}}"> --}}
                                 <input type="hidden" name="cleaning_steps" value="{{$sc->cleaning_steps}}">                                
                                 <input type="hidden" name="comment" value="{{$sc->comment}}">                           
                                 <input type="hidden" name="status" value="{{$sc->status}}" style="width: 95px; ">                           
@@ -24,7 +25,7 @@
                             <td valign="middle" width="150px" class="text-center" ><span>{{$sc->price}}</span></td>
                             <td valign="middle">
                                 <label style="font-size: 1em" class="btn-status btn-upcoming {{ $sc->status == 'checkin' || $sc->status == 'opening' ? '' : 'no_display'}} ">
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> Service upcoming
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ strtotime($sc->date) < strtotime('now') ? 'Not serviced' : 'Service upcoming'}}
                                 </label>
                                 <label style="font-size: 1em" class="btn-status btn-billing-success {{$sc->status == 'billing_success' ? '' : 'no_display'}} ">
                                     <i class="fa fa-check-square-o" aria-hidden="true"></i> Billing success
