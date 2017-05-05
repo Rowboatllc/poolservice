@@ -1,0 +1,1 @@
+user confirmation code = str_random(30);

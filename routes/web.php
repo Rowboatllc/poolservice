@@ -66,8 +66,10 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
             
             Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
+            Route::post('get-technician', 'Company\ApiCompanyController@getTechnician')->name('dashboard-company-get-technician');
             Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
             Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
+            Route::post('ajax-upload-image/{folder}/{name}', 'Company\ApiCompanyController@uploadAvatar')->name('ajax-upload-an-image');
         });
         Route::group(['prefix' => 'admin'], function () {
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
