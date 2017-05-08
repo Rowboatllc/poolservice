@@ -91,4 +91,19 @@ class CompanyController extends Controller {
             return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
         }        
     }
+
+    public function loadPoolOwner(Request $request)
+    {
+        $id=$request['id'];
+        $date=$request['date'];
+        $schedule=$this->user->getUserSchedule($id,$date);
+        dd($schedule);
+        if($schedule)
+        {
+            return response()->json(['success' => true,'message' => $schedule],200);
+        }
+        else{
+            return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
+        }        
+    }
 }

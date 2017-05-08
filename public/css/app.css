@@ -9641,3 +9641,23 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   line-height: 2.6 !important;
   border: 0px !important;
 }
+
+.poolowner .notify-warning {
+  float: right;
+  margin: 5px 5px 40px 0px;
+  line-height: 1em;
+}
+
+.poolowner .notify-warning span {
+  font-size: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.poolowner .notify-warning i.fa.fa-exclamation-circle.btn-warning-clear-pool {
+  font-size: 3em;
+  float: left;
+  margin-right: 7px;
+  color: black;
+  margin-top: -6px;
+}

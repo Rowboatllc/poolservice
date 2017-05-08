@@ -93,11 +93,11 @@ jQuery(document).ready(function () {
     $.fn.stars = function() {
         return $(this).each(function() {
             // Get the value
-            var val = parseFloat($(this).html());
+            let val = parseFloat($(this).html());
             // Make sure that the value is in 0 - 5 range, multiply to get width
-            var size = Math.max(0, (Math.min(5, val))) * 16;
+            let size = Math.max(0, (Math.min(5, val))) * 16;
             // Create stars holder
-            var $span = $('<span />').width(size);
+            let $span = $('<span />').width(size);
             // Replace the numerical value with stars
             $(this).html($span);
         });
@@ -203,7 +203,7 @@ jQuery(document).ready(function () {
         schedule.find('#comment').html('');
         schedule.find('#recommendation').html('');
 
-        for (var i = 1; i <= 6; i++) {
+        for (let i = 1; i <= 6; i++) {
             let check = schedule.find('#step' + i);
             check.prop('checked', false);
         }
@@ -211,16 +211,23 @@ jQuery(document).ready(function () {
         if (status == "complete" || status == "unable" || status == 'billing_success' || status == 'billing_error') {
             schedule.find('#comment').html(comment);
             
-            for (var i = 1; i <= 6; i++) {
+            for (let i = 1; i <= 6; i++) {
                 let check = schedule.find('#step' + i);
                 if (cleaning_steps.indexOf(i) != -1) {
                     check.prop('checked', true);                    
                 }
             }
 
-            var date1 = new Date(date);var date2 = new Date(now);
-            if(date2-date1>0 && date2-date1< 4*60*60*1000){
-                schedule.find('#recommendation').html('Recommendation: No pool use for '+ Math.ceil((date2-date1)/1000/60/60)+ 'hours');
+            let date1 = new Date(date);let date2 = new Date(now);
+            let time = 4*60*60*1000 - (date2 - date1);
+            if(date2-date1>0 && time > 0){
+                let m = Math.round(time/1000/60%60);
+                let h = Math.floor(time/1000/60/60);
+                if(m == 60){
+                    h ++;
+                    m = 0;
+                }
+                schedule.find('#recommendation').html('Recommendation: No pool use for '+ h + ' hours '+ m + ' minutes');
             }
 
         }

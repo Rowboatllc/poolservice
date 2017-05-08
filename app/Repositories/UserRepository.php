@@ -99,7 +99,7 @@ class UserRepository
                 $user->status='pending';
                 $user_db=$user->save();
                 // set user_id for another object
-                $profile->user_id=$pool->user_id=$bill->user_id=$poolOwner->user_id=$userGroup->user_id=$user->id;
+                $profile->user_id=$pool->poolowner_id=$bill->user_id=$poolOwner->user_id=$userGroup->user_id=$user->id;
                 //save pool owner
                 $poolOwner->save();
                 // save user profile			
@@ -319,7 +319,7 @@ class UserRepository
                 ->where(['schedules.date'=> $date])
                 ->orderBy('schedules.date')
                 ->get();
-        // distint days of week
+
         return $comProfile;
     }
 

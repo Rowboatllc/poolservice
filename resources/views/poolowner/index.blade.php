@@ -6,6 +6,15 @@
     <div class="container">
         <div class="row">
             <div class="col-xs">
+                <div class="btn-status {{$time_not_use == '0' ? 'no_display' : ''}} notify-warning">
+                    <i class="fa fa-exclamation-circle btn-warning-clear-pool" aria-hidden="true"></i>
+                    <strong>Shocked the pool. Do not use for the next {{h2m($time_not_use)}}</strong><br />
+                    <span>{{convertToStringAfterXHours($time_not_use)}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs">
                 <div class="panel with-nav-tabs panel-default">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs">

@@ -126,6 +126,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                             WHERE o.poolowner_id = '.$user_id.'
                             ORDER BY `date` DESC
                             ');
+                            
         if(isset($services)){
             foreach($services as $service){
                 $keys = json_decode($service->services, true);
@@ -136,6 +137,30 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             return $services;
         }
         return [];
+    }
+
+    public function getTimePoolownerNotuse($user_id){
+         $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
+                            LEFT JOIN orders o ON o.id = s.order_id
+                            WHERE o.poolowner_id = '.$user_id.'
+                            AND s.date <= NOW()
+                            AND s.date > (NOW() - INTERVAL 1 DAY)
+                            ORDER BY `date` DESC
+                            ');
+        $time = 5;
+        $now = new \DateTime();
+        $time_now = date_format($now, 'Y-m-d H:i:s');
+        if(isset($services)){
+            foreach($services as $service){
+                $temp = (strtotime($time_now)-strtotime($service->date))/60/60;
+                if($temp > 0 && $temp <=4 && $temp <= $time){
+                    $time = $temp;
+                }
+            }            
+        }
+        if($time==5)
+            return 0;
+        return 4-$time;
     }
 
 }

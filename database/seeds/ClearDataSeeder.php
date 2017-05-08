@@ -31,6 +31,6 @@ class ClearDataSeeder extends Seeder
         DB::table('notifications')->delete();
         DB::table('billing_info')->delete();
         DB::table('technicians')->delete();
-        
+        DB::table('zipcodes')->delete();
     }
 }

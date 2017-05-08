@@ -197,8 +197,30 @@ $(document).ready(function() {
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
         let index = $(this).index();
-        console.log($(this).attr('id'));
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
     });
+
+    $('select').on('change', function(e) {
+        var request = $.ajax({
+            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: "service-company/load-pool-owner",
+            method: "GET",
+            data: { id : this.value,date:this.id},
+            dataType: "html"
+        });
+        
+        request.done(function( msg ) {
+            // $( "#log" ).html( msg );
+            // alert(msg.message);
+            alert('hahahahahahahahahahahahahaha');
+        });
+        
+        request.fail(function( jqXHR, textStatus ) {
+            // alert( "Request failed: " + textStatus );
+        });
+    })
+
+    
+
 });
