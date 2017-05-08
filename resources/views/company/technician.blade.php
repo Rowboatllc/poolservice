@@ -23,7 +23,7 @@
                 <td>{{$technician->email}}</td>
                 <td>
                     <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="{{$technician->id}}"></span> | 
-                    <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="{{$technician->id}}"></span>
+                    <span class="glyphicon glyphicon-trash icon text-danger remove-item-list" data-id="{{$technician->id}}"></span>
                 </td>
             </tr>
             @endforeach
@@ -40,7 +40,7 @@
                 <td>${email}</td>
                 <td>
                     <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
-                    <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="${id}"></span>
+                    <span class="glyphicon glyphicon-trash icon text-danger remove-item-list" data-id="${id}"></span>
                 </td>
             </tr>
         </script>
@@ -51,7 +51,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span class="close" data-dismiss="modal">&times;</span>
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">

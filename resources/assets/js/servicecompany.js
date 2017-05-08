@@ -86,6 +86,7 @@ jQuery(document).ready(function () {
             let $me = jQuery(this);
             $coverTable = $me.closest('.table-responsive');
             $orderDirection = $coverTable.data('orderdir')||'asc';
+            
             $orderField = $coverTable.data('orderfield')||'';
             if($orderField==$me.data('orderfield')) {
                 $orderDirection = (($orderDirection=='asc')? 'desc' : 'asc');
@@ -93,6 +94,8 @@ jQuery(document).ready(function () {
             } else {
                 $coverTable.data('orderfield', $me.data('orderfield'));
             }
+            $coverTable.find('[data-orderfield]').removeClass('asc desc');
+            $me.addClass($orderDirection);
             let params = $coverTable.data();
             reloadCurrentPage($coverTable[0], params, params.url);
         }).on('click', '.pagination li span', function(event) {

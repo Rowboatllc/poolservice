@@ -8769,6 +8769,23 @@ span.stars {
   cursor: pointer;
 }
 
+[data-orderfield]:after {
+  margin-left: 5px;
+  font-family: FontAwesome;
+}
+
+[data-orderfield].asc:after {
+  content: "\f0d8";
+}
+
+[data-orderfield].desc:after {
+  content: "\f0d7";
+}
+
+.dashboard .icon:hover {
+  color: #2ab27b;
+}
+
 .dashboard .search-fieldset input.form-control, .dashboard .search-fieldset select.form-control {
   width: auto;
   display: inline-block;
@@ -8922,10 +8939,6 @@ span.stars {
 
 .technician-professionnal-service table tr:even {
   background-color: gray;
-}
-
-.technician-professionnal-service table tr th {
-  text-align: center;
 }
 
 .technician-professionnal-service table tr td {
