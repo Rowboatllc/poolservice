@@ -70,8 +70,11 @@ class PoolOwnerController extends Controller {
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
         $schedules = $this->schedule->getAllScheduleByPoolowner($user->id);
-        $time_now = new \DateTime();        
-        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info', 'schedules', 'poolinfo', 'time_now']));
+        $time_not_use = $this->schedule->getTimePoolownerNotuse($user->id);
+
+        $now = new \DateTime();
+        $time_now = date_format($now, 'Y-m-d H:i:s');
+        return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info', 'schedules', 'poolinfo', 'time_now', 'time_not_use']));
     }
 
     public function started() {

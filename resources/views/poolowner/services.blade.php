@@ -11,12 +11,12 @@
                     </tr>
                     
                     @foreach ($schedules as $key=>$sc)
-                        <tr class="item schedule item-schedule-poolowner" data-target="#cleaningStepsInfoModal" data-toggle="modal"  >
+                        <tr class="item schedule item-schedule-poolowner" data-target="#cleaningStepsInfoModal" data-toggle="modal">
                             <td valign="middle" class="service_name text-center" width="350px">
                                 <span>{{$sc->service_name}}</span>                           
                                 <input type="hidden" name="date" value="{{$sc->date}}">
                                 <input type="hidden" name="dateFormat" value="{{$sc->dateFormat}}">
-                                {{-- <input type="hidden" name="now" value="{{$time_now}}"> --}}
+                                <input type="hidden" name="now" value="{{$time_now}}">
                                 <input type="hidden" name="cleaning_steps" value="{{$sc->cleaning_steps}}">                                
                                 <input type="hidden" name="comment" value="{{$sc->comment}}">                           
                                 <input type="hidden" name="status" value="{{$sc->status}}" style="width: 95px; ">                           
