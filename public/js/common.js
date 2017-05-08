@@ -164,31 +164,24 @@ jQuery(document).ready(function () {
             saveForm($form, function(result){
                 $form.closest('.modal').modal('hide');
                 let params = $form.closest('.content-block').find('.table-responsive').data();
-                reloadCurrentPage(params, params.url, function(result){
-                    console.log(result);
-                });
+                reloadTechnicianPage(params, params.url);
             });
         }).on('click', '.remove-item-list', function() {
-            if(!confirm("Press a button!"))
+            if(!confirm("Do you really want to delete?"))
                 return;
             let $me = jQuery(this);
             let url = $me.closest('table').data('removeurl');
             let id = $me.data('id');
             sendData(url, {id:id}, 'POST', function (result) {
                 let params = $me.closest('.table-responsive').data();
-                reloadCurrentPage(params, params.url, function(result){
-                    console.log(result);
-                });
-            }, function () {
-                console.log('something wrong');
-            })
+                reloadTechnicianPage(params, params.url);
+            });
         }).on('click', '.edit-item-list', function() {
             let $me = jQuery(this);
             let url = $me.closest('table').data('getitemurl');
             let params = {id:$me.data('id')};
             $me.closest('.content-block').find('.new-item').trigger('click');
             $modal = $me.closest('.content-block').find('.modal');
-            
             sendData(url, params, 'POST', function(result){
                 $items = $modal.find('[name]');
                 $items.each(function(){
@@ -197,16 +190,12 @@ jQuery(document).ready(function () {
                         setElementValue(jQuery(this), result.item[key]);
                 });
             });
-        }).on('click', '.pagination li span', function(event) {
-            event.preventDefault();
-            let $me = jQuery(this);
-            let page = $me.text();
-            $me.closest('.table-responsive').data('page', page);
-            let params = $me.closest('.table-responsive').data();
-            reloadCurrentPage(params, params.url, function(result){
-                console.log(result);
-            });
-        }).on('click', '[data-orderfield]', function(event) {
+        }).on('click', '.technician-img', function(event) {
+            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
+        });
+        
+        // paging, sorting
+        jQuery('.dashboard').on('click', '[data-orderfield]', function(event) {
             let $me = jQuery(this);
             $coverTable = $me.closest('.table-responsive');
             $orderDirection = $coverTable.data('orderdir')||'asc';
@@ -218,27 +207,58 @@ jQuery(document).ready(function () {
                 $coverTable.data('orderfield', $me.data('orderfield'));
             }
             let params = $coverTable.data();
-            reloadCurrentPage(params, params.url, function(result){
-                console.log(result);
-            });
-        }).on('click', '.technician-img', function(event) {
-            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
-        }); 
+            reloadCurrentPage($coverTable[0], params, params.url);
+        }).on('click', '.pagination li span', function(event) {
+            event.preventDefault();
+            let $me = jQuery(this);
+            let page = $me.text();
+            $me.closest('.table-responsive').data('page', page);
+            let params = $me.closest('.table-responsive').data();
+            reloadCurrentPage($me.closest('.table-responsive')[0], params, params.url);
+        }).on('click', '.search', function(event) {
+            let $parent = jQuery(this).closest('.table-responsive');
+            let value = jQuery.trim($parent.find('[name="searchvalue"]').val());
+            if(value.length<4)
+                return;
+            let field = $parent.find('[name="searchfield"]').val();
+            $parent.data('searchvalue', value);
+            $parent.data('searchfield', field);
+            $parent.data('page', '');
+            let params = $parent.data();
+            reloadCurrentPage($parent[0], params, params.url);
+        }).on('click', '.clear-filter', function(event) {
+            let $parent = jQuery(this).closest('.table-responsive');
+            $parent.find('[name="searchvalue"]').val('');
+            $parent.find('[name="searchfield"]').val('');
+            $parent.data('searchvalue', '');
+            $parent.data('searchfield', '');
+            $parent.data('page', '');
+            let params = $parent.data();
+            reloadCurrentPage($parent[0], params, params.url);
+        });
         
     }
     
-    function reloadCurrentPage(params, url, callback) {
+    function reloadCurrentPage(parent, params, url, callback) {
+        let $coverdiv = jQuery(parent);
         sendData(url, params, 'POST', function(result){
             let list = JSON.parse(result.list);
-            parseData(".rowtpl", ".technician-professionnal-service .table-list", list.data, true);
-            parsePaging(Math.ceil(list.total/list.per_page), ".technician-professionnal-service .pagination", (params.page||''));
+            parseData($coverdiv.find('[type="text/x-jquery-tmpl"]')[0], $coverdiv.find('table')[0], list.data, true);
+            parsePaging(Math.ceil(list.total/list.per_page), $coverdiv.find('.pagination')[0], (params.page||''));
         });
+    }
+    
+    function reloadTechnicianPage(params, url, callback) {
+        reloadCurrentPage(".technician-professionnal-service", params, url, callback)
+    }
+    
+    function reloadCurrentCustomerPage(params, url, callback) {
+        reloadCurrentPage(".company-customer", params, url, callback)
     }
 
     function toggleSaveButton() {
         let $obj = jQuery('.company_service_offers');
         let data = $obj.find('input').serialize();
-        console.log('data', data);
         if(data=='') {
             $obj.find('.saveform-fieldset').addClass('no_display');
         } else {
@@ -247,7 +267,7 @@ jQuery(document).ready(function () {
     }
     
     assignEvent();
-    autoPaging('.technician-professionnal-service');
+    autoPaging('.dashboard');
 });
 
 function afterUploadedTechnicianAvatar(form, result) {
@@ -286,7 +306,7 @@ function autoPaging(cover_div) {
         $me = jQuery(this);
         totalpage = $me.data('totalpage');
         curpage = $me.data('page');
-        setCurrentPage(this, curpage)
+        setCurrentPage(this, curpage);
         parsePaging(totalpage, $me.find('.pagination')[0], curpage);
     });
 }
@@ -312,7 +332,6 @@ function setElementValue($item, value) {
     }   
     $item.html(value);
 }
-
 
 function setElementValues(cover_div, names, val) {
     $cover_div = jQuery(cover_div);

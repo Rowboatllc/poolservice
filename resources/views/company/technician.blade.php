@@ -1,5 +1,5 @@
 <div class="box-body no-padding technician-professionnal-service content-block">
-    <div class="text-right"><button class="btn btn-primary new-technician new-item" data-toggle="modal" data-target=".technician-professionnal-serviceModal">Add new pool service professional</button></div>
+    <div class="text-right"><span class="btn btn-primary new-technician new-item" data-toggle="modal" data-target=".technician-professionnal-serviceModal">Add new pool service professional</span></div>
     @if (count($technicians) == 0)
     You currently have no service technician listed in your account
     @else
@@ -29,6 +29,21 @@
             @endforeach
         </table>
         <ul class="pagination"></ul>
+        <script class="rowtpl" type="text/x-jquery-tmpl">
+            <tr>
+                <td>
+                    <span class="fa fa-check-circle fa-6 status ${status}" aria-hidden="true"></span>
+                    <span class="avatar" style="background-image: url({{ config('app.url').'storage/app/' }}${avatar})"></span>
+                </td>
+                <td>${fullname}</td>
+                <td>${phone}</td>
+                <td>${email}</td>
+                <td>
+                    <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
+                    <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="${id}"></span>
+                </td>
+            </tr>
+        </script>
     </div>
     @endif
 
@@ -56,14 +71,14 @@
                         <div class="form-group">
                             <input name="fullname" type="text" class="form-control" placeholder="first and last name" data-validate="require" />
                             <input name="phone" type="text" class="form-control" placeholder="mobile phone" data-validate="require|number" />
-                            <input name="email" type="text" class="form-control" placeholder="email address" />
+                            <input name="email" type="text" class="form-control" placeholder="email address"  data-validate="require|email" />
                             <input type="hidden" name="company_id" value="{{$technician->company_id or 0}}" />
                             <input type="hidden" name="id" />
                             <input type="hidden" name="avatar" />
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            <button class="btn btn-success save-techinician save-item">Save</button>
+                            <span class="btn btn-primary" data-dismiss="modal">Cancel</span>
+                            <span class="btn btn-primary save-techinician save-item">Save</span>
                         </div>
                     </form>
                 </div>
@@ -72,19 +87,3 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
-
-<script class="rowtpl" type="text/x-jquery-tmpl">
-    <tr>
-        <td>
-            <span class="avatar" style="background-image: url({{ config('app.url').'storage/app/' }}${avatar})"></span>
-            <span class="status ${status}"></span>
-        </td>
-        <td>${fullname}</td>
-        <td>${phone}</td>
-        <td>${email}</td>
-        <td>
-            <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="${id}"></span> | 
-            <span class="glyphicon glyphicon-trash icon remove-item-list" data-id="${id}"></span>
-        </td>
-    </tr>
-</script>

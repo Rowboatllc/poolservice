@@ -19,6 +19,22 @@
 [data-orderfield] {
     cursor: pointer
 }
+
+.dashboard {
+    .search-fieldset {
+        input.form-control, select.form-control {
+           width: auto;
+           display: inline-block
+        }
+        span.btn {
+            position: relative;
+            top: -2px;
+        }
+        span.clear-filter {
+            text-decoration: line-through;
+        }
+    }
+}
     
 .dashboard-panel {
     .panel-primary > .panel-heading {

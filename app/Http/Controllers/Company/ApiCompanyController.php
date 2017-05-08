@@ -31,7 +31,6 @@ class ApiCompanyController extends Controller {
         return $this->common->responseJson($this->company->changeOfferStatus($request->all()));
     }
     
-    
     public function listTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
         $user = Auth::user();
@@ -58,6 +57,14 @@ class ApiCompanyController extends Controller {
     public function removeTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
         return $this->common->responseJson($repoTech->removeTechnician($request->all()));
+    }
+    
+    public function listCustomers(Request $request) {
+        $user = Auth::user();
+        $result = $this->company->listCustomers($user->id, $request->all());
+        if ($result)
+            return $this->common->responseJson(true, 200, '', ['list' => $result]);
+        return $this->common->responseJson(false);
     }
     
     public function uploadAvatar($folder, $name) {

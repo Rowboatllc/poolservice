@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('select-new-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
             Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
             Route::get('get-point-rating-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@getPointRatingCompany'))->name('get-point-rating-company');
-            
+            // Ajax
             Route::post('save-email', 'PoolOwner\ApiPoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
             Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');
             Route::post('save-poolowner-profile', 'PoolOwner\ApiPoolOwnerController@saveProfile')->name('dashboard-poolowner-save-profile');
@@ -50,7 +50,10 @@ Route::group(['middleware' => ['auth']], function () {
             //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
             //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
             //Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
+            
+            // Ajax
             Route::post('change-services-offer', 'Company\ApiCompanyController@changeServiceOffer')->name('dashboard-company-change-services-offer');
+            Route::post('list-customer', 'Company\ApiCompanyController@listCustomers')->name('dashboard-company-list-customer');
         });
 
         Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
@@ -62,7 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('enroute/{chedule_id}', array('uses' => 'TechnicianController@enroute'))->name('technician-enroute');
             Route::post('complete-steps', array('uses' => 'TechnicianController@completeSteps'))->name('technician-complete-steps');
             Route::post('unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
-            
+            // Ajax
             Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
             Route::post('get-technician', 'Company\ApiCompanyController@getTechnician')->name('dashboard-company-get-technician');
             Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');

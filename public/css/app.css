@@ -8916,6 +8916,20 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   cursor: pointer;
 }
 
+.dashboard .search-fieldset input.form-control, .dashboard .search-fieldset select.form-control {
+  width: auto;
+  display: inline-block;
+}
+
+.dashboard .search-fieldset span.btn {
+  position: relative;
+  top: -2px;
+}
+
+.dashboard .search-fieldset span.clear-filter {
+  text-decoration: line-through;
+}
+
 .dashboard-panel .panel-primary > .panel-heading {
   padding: 10px 15px 0px;
   background-color: none;

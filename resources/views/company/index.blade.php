@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container panel">
+<div class="container panel dashboard">
     <div class="form-box">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab"  href="#sectionA">Services Offered</a></li>
@@ -61,7 +61,7 @@
 @endsection
 
 @section('lib')
-        
+        <!--
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
@@ -69,6 +69,6 @@
         <script src="{{ asset('/js/route-google-map.js') }}"></script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDieZ7uAY4DPdT3Z4fp4KtykHl6dWryYdw&callback=initMap">
-        </script>    
+        </script>    -->
               
 @endsection
