@@ -1,4 +1,3 @@
-
 <div class="company-route-service">    
     <div class="sectionB1">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -75,7 +74,7 @@
                                 <div class="panel">
                                     <div class="text-center header">{{$key}} Route Map</div>
                                     <div class="panel-body text-center">
-                                        <div id="route-map" style="width: 320px; height: 400px;" class="route-map"></div>
+                                        <div id="route-map" style="width: 100%; height: 400px; display:loat;" class="route-map"></div>
                                     </div>
                                 </div>
                             </div>
