@@ -32,18 +32,10 @@ class CompanyController extends Controller {
         $technicians = $technicianRepo->getList($user->id);
         
         $user=$this->user->getUserInfo($user->id);
-        $keyDates=Common::getDatesFromRange(new Datetime(),6);
-        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
-        $currentDate=Common::getCurrentDay(new Datetime());
-        
-        $day1=$this->user->getUserSchedule($user->id,$keyDates[0]);
-        $day2=$this->user->getUserSchedule($user->id,$keyDates[1]);
-        $day3=$this->user->getUserSchedule($user->id,$keyDates[2]);
-        $day4=$this->user->getUserSchedule($user->id,$keyDates[3]);
-        $day5=$this->user->getUserSchedule($user->id,$keyDates[4]);
-
+        $currentDate=Common::getCurrentDay(new Datetime());        
+        $dates=$this->user->getUserSchedule($user->id);
         return view('company.index', 
-        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','day1','day2','day3','day4','day5']));
+        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate']));
     }
 
     public function addCompanyProfile(Request $request) 

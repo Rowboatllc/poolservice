@@ -11,7 +11,9 @@ use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Common\Common;
-use Datetime;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class UserRepository
 {
@@ -309,14 +311,23 @@ class UserRepository
         return $comProfile;
     }
 
-    public function getUserSchedule($id,$date)
+    public function getUserSchedule($id){
+        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        foreach($dates as $key => $value)
+        {      
+            $dates[$key]=self::getUserScheduleByDate($id,$value);
+        }
+        return $dates;
+    }
+
+    private function getUserScheduleByDate($id,$date)
     {
         $comProfile = DB::table('schedules')
                 ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
                 ->where(['schedules.technican_id' => $id])
-                ->where(['schedules.date'=> $date])
+                ->whereDate('schedules.date','=', $date)
                 ->orderBy('schedules.date')
                 ->get();
 
