@@ -111,8 +111,7 @@ class PoolOwnerController extends Controller {
 
     public function updateBillingInfo(Request $request) {
         $user_id = Auth::id();
-        $result = $this->billing->updateBillingInfo($user_id, $request->all());
-        return $this->common->responseJson($result);
+        return $this->billing->updateBillingInfo($user_id, $request->all());
     }
 
     public function getPointRatingCompany($company_id){

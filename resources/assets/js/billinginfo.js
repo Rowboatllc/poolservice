@@ -3,7 +3,7 @@ $(document).ready(function() {
 		
 	globalAssignEventBilling();
 });
-Stripe.setPublishableKey('pk_test_sxFwoflkE2e798m03dfS9QGn');
+Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
 
 function saveEditableDataBilling($obj, callback) {
 	var data_billing = getEditableFieldValues( $obj );
@@ -98,7 +98,7 @@ function stripeResponseHandler(status, response) {
 				(callback || jQuery.noop)(result);
 			}, function (result) {
 				if(!result.success){
-					$("#payment-errors").html("update your billing info error.");
+					$("#payment-errors").html(result.responseJSON.message);
 					$("#payment-errors").css("display", "block");
 					$('#billing_ccv').css("display", "inline");
 				}else{

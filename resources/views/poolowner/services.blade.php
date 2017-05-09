@@ -25,7 +25,7 @@
                             <td valign="middle" width="150px" class="text-center" ><span>{{$sc->price}}</span></td>
                             <td valign="middle">
                                 <label style="font-size: 1em" class="btn-status btn-upcoming {{ $sc->status == 'checkin' || $sc->status == 'opening' ? '' : 'no_display'}} ">
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ strtotime($sc->date) < strtotime('now') ? 'Not serviced' : 'Service upcoming'}}
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ date("Y-m-d",strtotime($sc->date)) < date("Y-m-d",strtotime($time_now)) ? 'Not serviced' : 'Service upcoming'}}
                                 </label>
                                 <label style="font-size: 1em" class="btn-status btn-billing-success {{$sc->status == 'billing_success' ? '' : 'no_display'}} ">
                                     <i class="fa fa-check-square-o" aria-hidden="true"></i> Billing success

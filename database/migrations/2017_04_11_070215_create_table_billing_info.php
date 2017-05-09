@@ -23,6 +23,7 @@ class CreateTableBillingInfo extends Migration
             $table->string('city');
             $table->string('state');      
             $table->json('zipcode');                              
+            $table->string('customer_id');                              
             $table->timestamps();
         });
     }

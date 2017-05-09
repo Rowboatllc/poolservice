@@ -2324,7 +2324,7 @@ function bar_progress(progress_line_object, direction) {
 	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
 }
 
-Stripe.setPublishableKey('pk_test_sxFwoflkE2e798m03dfS9QGn');
+Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
 
 function stripeResponseHandler(status, response) {
 	if (response.error) {

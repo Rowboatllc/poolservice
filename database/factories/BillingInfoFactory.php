@@ -17,6 +17,7 @@ $factory->define(App\Models\BillingInfo::class, function (Faker\Generator $faker
         'user_id' => rand(1,100),
         'name_card' => $faker->creditCardType,
         'token' => str_random(10),
+        'customer_id' => 'cus_AchK8Pnbxxwr5H',
         'expiration_date' => $faker->creditCardExpirationDateString,
         'card_last_digits' => intval(substr($faker->creditCardNumber,-4)),
         'address' => $faker->address,

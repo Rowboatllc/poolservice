@@ -2,18 +2,23 @@
 
 namespace App\Repositories;
 
+use App\Models\Order;
 use App\Models\Schedule;
+
 use Illuminate\Support\Facades\DB;
+use App\Repositories\BillingInfoRepositoryInterface;
 
 class ScheduleRepository implements ScheduleRepositoryInterface {
 
     protected $schedule;    
-    protected $common;    
+    protected $common;
+    protected $billing;    
 
-    public function __construct(Schedule $schedule)
+    public function __construct(Schedule $schedule, BillingInfoRepositoryInterface $billing)
     {
         $this->schedule = $schedule;        
         $this->common = app('App\Common\Common');
+        $this->billing = $billing;
 
     }
 
@@ -104,6 +109,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $schedule_id = $array['schedule_id'];
         $schedule = $this->schedule->find($schedule_id);
         if(isset($schedule)){
+            if($status=='billing_success'){
+                if(!$this->chargeForPoolowner($schedule->order_id,$status)){
+                    $status=='billing_error';
+                }
+            }
             $schedule->status = $status;
             $schedule->comment = $array['comment'];
             $cleaning_steps	= [];
@@ -118,6 +128,13 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             }
         }
         return null;
+    }
+
+    private function chargeForPoolowner($order_id,$status){
+        $order = Order::find($order_id)->first();
+        if(isset($order)){
+            $this->billing->chargeForPayment($order->poolowner_id, $order->price);
+        }
     }
 
     public function getAllScheduleByPoolowner($user_id){
@@ -143,6 +160,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
          $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
+                            AND s.status IN ("unable", "billing_success", "billing_error")
                             AND s.date <= NOW()
                             AND s.date > (NOW() - INTERVAL 1 DAY)
                             ORDER BY `date` DESC
