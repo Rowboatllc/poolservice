@@ -344,4 +344,12 @@ class UserRepository
 
         return $comProfile;
     }
+
+    public function getListTechnician($id) {
+        return DB::table('companies')
+            ->join('technicians', 'technicians.company_id', '=', 'companies.id')
+            ->join('profiles', 'technicians.user_id', '=', 'profiles.user_id')            
+            ->where('companies.user_id', $id)
+            ->select('profiles.fullname', 'profiles.user_id')->get();
+    }
 }

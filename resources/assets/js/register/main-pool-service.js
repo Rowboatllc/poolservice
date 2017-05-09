@@ -202,7 +202,7 @@ $(document).ready(function() {
     });
 
     $('select').on('change', function(e) {
-        var request = $.ajax({
+        let request = $.ajax({
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: "service-company/load-pool-owner",
             method: "GET",
@@ -221,6 +221,17 @@ $(document).ready(function() {
         });
     })
 
-    
+    $('.chk-not-available').on('change',function(e){
+        let date=$(this).attr('date');
+        if($(this).prop('checked')){            
+            $('.avatar-'+date+'').addClass('hidden');
+            $('.name-'+date+'').addClass('hidden');
+            $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
+        }else{
+            $('.avatar-'+date+'').removeClass('hidden');
+            $('.name-'+date+'').removeClass('hidden');
+            $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
+        }        
+    });
 
 });

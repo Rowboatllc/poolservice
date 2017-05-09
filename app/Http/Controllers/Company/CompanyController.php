@@ -34,8 +34,9 @@ class CompanyController extends Controller {
         $user=$this->user->getUserInfo($user->id);
         $currentDate=Common::getCurrentDay(new Datetime());        
         $dates=$this->user->getUserSchedule($user->id);
+        $listTechnicians = $this->user->getListTechnician($user->id);
         return view('company.index', 
-        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate']));
+        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians']));
     }
 
     public function addCompanyProfile(Request $request) 

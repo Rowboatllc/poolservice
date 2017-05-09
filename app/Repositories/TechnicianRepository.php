@@ -29,6 +29,8 @@ class TechnicianRepository {
         $list = $this->listBuilder($id);
         return $this->common->pagingSort($list, $data);
     }
+
+    
     
     public function listTechnicians($id, $data) {
         $list = $this->listBuilder($id);

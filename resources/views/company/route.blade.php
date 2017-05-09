@@ -13,72 +13,74 @@
             </div>
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 route-tab">
                 @foreach ($dates as $key => $value)
-                    <div class="form-group route-tab-content {{$key==$currentDate? 'active': ''}}">
+                    <div class="form-group route-tab-content {{$key==$currentDate? 'active': ''}}">                                         
                         <div class="col-md-12">
                             <div class="col-sm-8">
                                 <h4 style="margin-top: 0;color:#55518a">You currently have no routes list on {{$key}}</h4>
-                                <h4 style="margin-top: 0;color:#55518a">If you are not available to service pool on Monday, check "Not available" box</h4>
+                                <h4 style="margin-top: 0;color:#55518a">If you are not available to service pool on {{$key}}, check "Not available" box</h4>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group" >                        
-                                    <input type="checkbox" name="chk_{{$key}}" id="chk_{{$key}}" class="chk-{{$key}}">
+                                    <input type="checkbox" name="chk_{{$key}}" date="{{$key}}" id="chk_{{$key}}" class="chk-not-available">
                                     <label for="chk-{{$key}}" id=lbl{{$key}}>Not Available</label>
                                 </div>
                             </div>
-                        </div>    
-                        <div class="col-md-12">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <img class="circle-image" src="/company-image/1.png">
-                                </div>
-                                <div class="form-group">
-                                    <label>{{$user->name}}</label>
-                                </div>
-                                <div class="form-group">
-                                    <select id="select_{{$key}}" name="pool_service_list_{{$key}}">
-                                        <option selected="selected">Chose pool service professional</option>
-                                        @foreach ($technicians as $tech)
-                                            <option value="{{$tech->id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
-                                        @endforeach                            
-                                    </select>
-                                </div>
+                        </div>                          
+                        @if(count($value)>0)   
+                            <div class="col-md-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <img class="circle-image avatar-{{$key}}" src="/company-image/1.png">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="name-{{$key}}">{{$user->name}}</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="select_{{$key}}" name="pool_service_list_{{$key}}">
+                                            <option selected="selected">Chose pool service professional</option>
+                                            @foreach ($listTechnicians as $tech)
+                                                <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
+                                            @endforeach                            
+                                        </select>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>{{count($value)}} pools</label>
-                                </div>
-                            </div>
-                        </div> 
-
-                        <div>
-                            <div class="col-md-7">
-                                <table class="table table-hover table-route-{{$key}}">
-                                    <tr>
-                                        <th></th>
-                                        <th><a>Order</a></th>
-                                        <th><a>Street Address</a></th>
-                                        <th><a>City</a></th>
-                                        <th><a>Zipcode</a></th>
-                                    </tr>
-                                    @foreach ($value as $route)
-                                        <tr>	
-                                            <td><input type="checkbox" checked></input></td>
-                                            <td>{{$route->address}}</td>
-                                            <td>{{$route->address}}</td>
-                                            <td>{{$route->city}}</td>
-                                            <td>{{$route->zipcode}}</td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-                            </div> 
-                            <div class="col-md-5 route-map-{{$key}}">
-                                <div class="panel">
-                                    <div class="text-center header">{{$key}} Route Map</div>
-                                    <div class="panel-body text-center">
-                                        <div id="route-map" style="width: 100%; height: 400px; display:loat;" class="route-map"></div>
+                                    <div class="form-group">
+                                        <label>{{count($value)}} pools</label>
                                     </div>
                                 </div>
-                            </div>
-                        </div>                  
+                            </div> 
+
+                            <div>
+                                <div class="col-md-7">
+                                    <table class="table table-hover table-route-{{$key}}">
+                                        <tr>
+                                            <th></th>
+                                            <th><a>Order</a></th>
+                                            <th><a>Street Address</a></th>
+                                            <th><a>City</a></th>
+                                            <th><a>Zipcode</a></th>
+                                        </tr>
+                                        @foreach ($value as $route)
+                                            <tr>	
+                                                <td><input type="checkbox" checked></input></td>
+                                                <td>{{$route->address}}</td>
+                                                <td>{{$route->address}}</td>
+                                                <td>{{$route->city}}</td>
+                                                <td>{{$route->zipcode}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div> 
+                                <div class="col-md-5 route-map-{{$key}}">
+                                    <div class="panel">
+                                        <div class="text-center header">{{$key}} Route Map</div>
+                                        <div class="panel-body text-center">
+                                            <div id="route-map" style="width: 100%; height: 400px; display:loat;" class="route-map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        @endif                
                     </div>
                 @endforeach
             </div>
