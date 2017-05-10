@@ -64,7 +64,7 @@ function validationInputData()
 		,"Your Expiration date is invalid.");
 	form.validate({
 		rules: {
-			'select_zipcode[]': {
+			'zipcode[]': {
 				required: true
 			},
 			'chk_service_type[]':{
@@ -169,6 +169,9 @@ function validationInputData()
 			}
 		},
 		messages: {
+			'zipcode[]': {
+				required: 'Provide your zip code.'
+			},
 			'billing_zipcode':{
 				required: 'Provide your zip code.'
 			},	
@@ -238,7 +241,9 @@ function validationInputData()
 				required: "Provide company name."
 			},
 		},
+		ignore: ':hidden:not("#zipcode")',
 		highlight: function(element) {
+			console.log($(element).closest('.form-group'));
             $(element).closest('.form-group').addClass('has-error');
         },
 		unhighlight: function(element) {
@@ -301,6 +306,14 @@ function validationEmail()
 }
 
 $(document).ready(function() {	
+	$('select[multiple]').multiselect({
+		columns: 5,
+		placeholder: 'Select options',
+		selectAll     : true,
+		selectGroup   : true,
+		search        : true,
+		minSelect     : true,
+	});
 	//main form validation
 	validationInputData();
 	// email form validation
@@ -436,6 +449,9 @@ $(document).ready(function() {
 
 	// next step zipcode
     $('.f1 .btn-next-zipcode').on('click', function() { 
+		$('input[name^="select_zipcode"]').rules('add', {
+			required: true
+		});
 		var parent_fieldset = $(this).parents('fieldset');
 		// navigation steps / progress steps
 		var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -645,12 +661,8 @@ $(document).ready(function() {
 	// 	// maximum number of items that can be selected
 	// 	maxSelect     : false,
 	// });
+});
 
-	$('select[multiple]').multiselect({
-		columns: 5,
-		placeholder: 'Select options',
-		selectAll     : true,
-		selectGroup   : true,
-		search        : true
-	});
+$(function(){
+	
 });

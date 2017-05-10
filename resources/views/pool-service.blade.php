@@ -6,7 +6,7 @@
     <div class="form-box">
         <form role="form" id="frmPoolSubscriber" action="{{route('pool-service-register')}}" method="post" class="f1">
         {{ csrf_field() }}
-            <h3>Register the new Pool Owner To Our App</h3>
+            <h3>Register the new Pool Service To Our App</h3>
             <p>Fill in the form to get instant access</p>
             </space>
             <div class="f1-steps">
@@ -37,16 +37,17 @@
 
             </space>
 
-            <fieldset id="zipcode">
+            <fieldset id="fzipcode">
                 <div class="container" style="max-width:500px;max-hight:400px">
                     <div class="row">
-                        <div class="control-group" id="fields">
-                            <label class="control-label" for="field1">Enter all your zip code at here</label>
-                            <select id="select_zipcode" name="select_zipcode[]" multiple="multiple" required>
+                    <label class="control-label" for="fields">Choose your all zip code at here</label>
+                        <div class="form-group" id="fields">                            
+                            <select id="zipcode" name="zipcode[]" multiple="multiple" required>
                                 @foreach($zipcodes as $zipcode)
                                     <option value="{{$zipcode->zipcode}}">{{$zipcode->zipcode}}</option>
                                 @endforeach
                             </select>
+                            <label for="zipcode" generated="true" class="error"></label>
                         </div>
                     </div>
                 </div>
