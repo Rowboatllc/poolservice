@@ -7,18 +7,21 @@ use App\Models\Schedule;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BillingInfoRepositoryInterface;
+use App\Repositories\CompanyRepositoryInterface;
 
 class ScheduleRepository implements ScheduleRepositoryInterface {
 
     protected $schedule;    
     protected $common;
     protected $billing;    
+    protected $company;    
 
-    public function __construct(Schedule $schedule, BillingInfoRepositoryInterface $billing)
+    public function __construct(Schedule $schedule, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company)
     {
         $this->schedule = $schedule;        
         $this->common = app('App\Common\Common');
         $this->billing = $billing;
+        $this->company = $company;
 
     }
 
@@ -111,7 +114,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         if(isset($schedule)){
             if($status=='billing_success'){
                 if(!$this->chargeForPoolowner($schedule->order_id,$status)){
-                    $status=='billing_error';
+                    $status='billing_error';
                 }
             }
             $schedule->status = $status;
@@ -124,6 +127,15 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             $schedule->cleaning_steps = $cleaning_steps;
             $schedule->date = new \DateTime();
             if($schedule->save()){
+                if($status=='billing_success'){
+                    $schedule_new = $schedule->replicate();
+                    unset($schedule_new->id);
+                    $schedule_new->status = "opening";
+                    $schedule_new->date = $schedule->date->modify('+7 day');
+                    $schedule_new->save();
+                }else{
+                    $this->company->pausePoolownerService($schedule->order_id, $schedule->company_id);
+                }
                 return $schedule;
             }
         }
@@ -133,8 +145,9 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     private function chargeForPoolowner($order_id,$status){
         $order = Order::find($order_id)->first();
         if(isset($order)){
-            $this->billing->chargeForPayment($order->poolowner_id, $order->price);
+            return $this->billing->chargeForPayment($order->poolowner_id, $order->price);
         }
+        return false;
     }
 
     public function getAllScheduleByPoolowner($user_id){

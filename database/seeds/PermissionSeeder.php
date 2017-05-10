@@ -99,7 +99,7 @@ class PermissionSeeder extends Seeder
         $user_company = factory(App\Models\User::class)->create([
             'name' => 'Company',
             'status' => 'active',            
-            'email' => 'company@rowboatsoftware.com',            
+            'email' => 'company@rowboatsoftware.com'          
         ]);
         factory(App\Models\BillingInfo::class)->create([
             'user_id' => $user_company->id
@@ -140,6 +140,7 @@ class PermissionSeeder extends Seeder
                 'user_id' => $user_pool_new->id
             ]);
         }
+
 
         $group_admin->permissions()->attach($permission_admin_manager->id);
         $group_admin->permissions()->attach($permission_admin_option->id);

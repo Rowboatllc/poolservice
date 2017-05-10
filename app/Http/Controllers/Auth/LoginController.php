@@ -68,22 +68,22 @@ use AuthenticatesUsers;
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
+        $remember = $request->input('remember');
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-        $data = [
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'status' => 'active',
-        ];
-
-        $data1 = [
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'status' => 'unclaimed',
-        ];
-
-        if (Auth::attempt($data)||Auth::attempt($data1)) {
-            return $this->sendLoginResponse($request);
+        $statuss = ['active', 'unclaimed', 'billing_error'];
+        foreach($statuss as $status){
+            $data = [
+                'email' => $email,
+                'password' => $password,
+                'status' => $status
+            ];
+            if (Auth::attempt($data, $remember)) {
+                return $this->sendLoginResponse($request);
+            }
         }
+
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
     }
