@@ -82,7 +82,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                         LEFT JOIN orders o ON o.id = s.order_id
                                                             AND o.status = "active"
                                         WHERE o.poolowner_id = ' . $user_id . '
-                                        AND s.status = "pending" OR s.status = "active"
+                                        AND s.status = "pending" OR s.status = "active" OR s.status = "pause"
                                     )
                                     AND c.status = "active"
                                     GROUP BY c.id
@@ -90,6 +90,13 @@ class CompanyRepository implements CompanyRepositoryInterface {
             return $companys;
         }
         return [];
+    }
+
+    public function pausePoolownerService($order_id, $company_id){
+        DB::statement('UPDATE `selecteds` SET `status`= "pause"
+                        WHERE order_id = '.$order_id.'
+                        AND company_id = '.$company_id.'
+                            ');
     }
 
     public function removeAllSelectCompany($user_id, $company_id, $check = true) {

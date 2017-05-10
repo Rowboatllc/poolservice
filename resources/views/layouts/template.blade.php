@@ -8,7 +8,7 @@
         <link rel="icon" href="images/favicon.ico" type="image/x-icon">
         <meta name="description" content="FIND AN EXPERIENCED TECHNICIAN FOR ALL OF YOUR POOL SERVICE NEEDS">
         <meta name="keywords" content="POOL, POOLSERVICE">
-        @yield('head')
+        
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         
@@ -21,6 +21,7 @@
         
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
+        @yield('head')        
     </head>
     <body>
         <div class="container-full">

@@ -92,6 +92,7 @@ class BillingInfoRepository implements BillingInfoRepositoryInterface {
                     "description" => $description,
                     "customer" => $billing->customer_id
                 ));
+                return false;
                 if($charge->status=="succeeded"){
                     return true;
                 }
