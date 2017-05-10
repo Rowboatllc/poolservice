@@ -64,10 +64,8 @@ function validationInputData()
 		,"Your Expiration date is invalid.");
 	form.validate({
 		rules: {
-			'zipcode[0]': {
-				required: true,
-				number: true,
-				maxlength: 5
+			'select_zipcode[]': {
+				required: true
 			},
 			'chk_service_type[]':{
 				required: true,
@@ -207,7 +205,7 @@ function validationInputData()
 			'billing_city':{
 				required: 'Provide your city.'
 			},
-			'zipcode[0]': {
+			'select_zipcode[]': {
 				required: 'Provide your zipcode.'
 			},
 			'email':{
@@ -302,57 +300,11 @@ function validationEmail()
 	});	
 }
 
-function autoAddInput()
-{
-	_.templateSettings.variable = "element";
-	var tpl = _.template($("#form_tpl").html());
-
-	var counter = 1;
-	$(document).on('click', '.btn-add', function(e)
-    {
-		var controlForm = $('.controls');
-        e.preventDefault();
-        var tplData = {
-            i: counter
-        };
-        $("#controls").append(tpl(tplData));
-        $('input[name="zipcode['+counter+']"]').rules("add", {
-            required: true,
-            number: true,
-            maxlength: 5,
-            messages: {
-                required: "Provide your zip code."                
-            },
-            highlight: function(element) {
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            }
-        });
-
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span class="fa fa-minus"></span>');
-
-		counter += 1;
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-
-		e.preventDefault();
-		return false;
-	});
-}
-
 $(document).ready(function() {	
 	//main form validation
 	validationInputData();
 	// email form validation
 	validationEmail();
-	// auto add zipcode
-	autoAddInput();
 	
 	$('#f1-expiration-date').payment('formatCardExpiry');
 
@@ -662,4 +614,43 @@ $(document).ready(function() {
 		
         return false;
     });
+	// $('select[multiple]').multiselect({
+	// 	// text to use in dummy input
+	// 	placeholder   : '',   
+	// 	// how many columns should be use to show options
+	// 	columns       : 1, 
+	// 	// include option search box 
+	// 	search        : false,  
+	// 	// search filter options
+	// 	searchOptions : {
+	// 	default      : 'Search', // search input placeholder text
+	// 	showOptGroups: false     // show option group titles if no options remaining
+	// 	},   
+	// 	// add select all option
+	// 	selectAll     : false,
+	// 	// select entire optgroup 
+	// 	selectGroup   : false, 
+	// 	// minimum height of option overlay
+	// 	minHeight     : 200,  
+	// 	// maximum height of option overlay
+	// 	maxHeight     : null, 
+	// 	// display the checkbox to the user
+	// 	showCheckbox  : true, 
+	// 	// options for jquery.actual
+	// 	jqActualOpts  : {},  
+	// 	// maximum width of option overlay (or selector)
+	// 	maxWidth      : null,
+	// 	// minimum number of items that can be selected
+	// 	minSelect     : false,
+	// 	// maximum number of items that can be selected
+	// 	maxSelect     : false,
+	// });
+
+	$('select[multiple]').multiselect({
+		columns: 5,
+		placeholder: 'Select options',
+		selectAll     : true,
+		selectGroup   : true,
+		search        : true
+	});
 });

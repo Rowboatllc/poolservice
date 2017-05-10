@@ -38,20 +38,15 @@
             </space>
 
             <fieldset id="zipcode">
-                <div class="container">
+                <div class="container" style="max-width:500px;max-hight:400px">
                     <div class="row">
                         <div class="control-group" id="fields">
                             <label class="control-label" for="field1">Enter all your zip code at here</label>
-                            <div class="controls form-inline" id="controls"> 
-                                <div class="entry input-append form-group col-xs-3">
-                                    <input class="zipcode-list form-control" name="zipcode[0]" id="zipcode[0]" type="text"
-                                        placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
-                                    <button type="button" class="btn-success btn-add">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                    <label for="zipcode[0]" generated="true" class="error"></label>
-                                </div>                                
-                            </div>
+                            <select id="select_zipcode" name="select_zipcode[]" multiple="multiple" required>
+                                @foreach($zipcodes as $zipcode)
+                                    <option value="{{$zipcode->zipcode}}">{{$zipcode->zipcode}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -290,27 +285,14 @@
 
 @section('lib')
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"rel="stylesheet" type="text/css" />        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"rel="stylesheet" type="text/css" />    
+        <link href="{{ asset('css/jquery.multiselect.css') }}"rel="stylesheet" type="text/css" />         
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-        <script src="https://checkout.stripe.com/checkout.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> 
-
+        <script src="https://checkout.stripe.com/checkout.js"></script>     
 
         <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('js/register/jquery.multiselect.js') }}"></script>
         <script src="{{ asset('js/register/register-pool-service.js') }}"></script>
-
-                   
-
-        <script type="text/html" id="form_tpl">
-            <div class="entry input-append form-group col-xs-3 center">
-                <input class="zipcode-list form-control" name="zipcode[<%= element.i %>]" id="zipcode[<%= element.i %>]" type="text"
-                    placeholder="Enter zipcode max 5 characters..." maxlength="5"/>
-                <button type="button" class="btn-success btn-add">
-                    <i class="fa fa-plus"></i>
-                </button>
-                <label for="zipcode[<%= element.i %>]" generated="true" class="error"></label>
-            </div>            
-        </script>
 @endsection
 

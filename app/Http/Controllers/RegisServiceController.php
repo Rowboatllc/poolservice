@@ -23,7 +23,8 @@ class RegisServiceController extends Controller
 
     public function poolServiceIndex()
     {
-        return view('pool-service');
+        $zipcodes=$this->user->getListZipcode();
+        return view('pool-service',compact(['zipcodes']));
     }
 
     public function addNewPoolOwner(Request $request)

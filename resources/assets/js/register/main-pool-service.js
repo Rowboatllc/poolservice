@@ -233,5 +233,4 @@ $(document).ready(function() {
             $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
         }        
     });
-
 });

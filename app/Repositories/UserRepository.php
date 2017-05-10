@@ -352,4 +352,13 @@ class UserRepository
             ->where('companies.user_id', $id)
             ->select('profiles.fullname', 'profiles.user_id')->get();
     }
+
+    public function getListZipcode()
+    {
+        return DB::table('zipcodes')    
+            ->where('zipcodes.zipcode','>', 0)
+            ->select('zipcodes.zipcode', 'zipcodes.city')
+            ->orderBy('zipcodes.zipcode')
+            ->get();
+    }
 }
