@@ -61,7 +61,7 @@ class PoolOwnerController extends Controller {
         $billing_info = $this->billing->getBillingInfo($user->id);
         
         // my pool service company
-        $companys = $this->company->getAllCompanySupportOwner($user->id);
+        $companys = $this->company->getAllCompanySupportOwner($user->id,$profile->zipcode);
         $company_select_arr = $this->company->getSelectedCompany($user->id);
         $point = 0;
         $company_select = null;

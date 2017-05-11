@@ -8,6 +8,8 @@ use App\Models\Selected;
 use App\Models\Rating;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\DB;
 use Mail;
 
@@ -19,6 +21,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
     protected $rating;
     protected $user;
     private $common;
+    private $schedule;
 
     public function __construct(Company $company, Order $order, Selected $selected, Rating $rating) {
         $this->company = $company;
@@ -30,17 +33,28 @@ class CompanyRepository implements CompanyRepositoryInterface {
         $this->notification = app('App\Repositories\NotificationRepository');
     }
 
-    public function getAllCompanySupportOwner($user_id) {
+    public function getAllCompanySupportOwner($user_id, $zipcode) {
         if (!empty($user_id)) {
-            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point, COUNT(r.point) as count FROM companies as c 
-                                     LEFT JOIN orders o ON JSON_CONTAINS(c.services, o.services) 
-                                                         AND JSON_CONTAINS(c.zipcodes, o.zipcode)
-                                                         AND o.status = "active"
+            $companys = DB::select('SELECT c.id, c.user_id, c.name, c.logo, AVG(COALESCE(r.point ,0)) AS point,
+                                            COUNT(DISTINCT r.user_id) as count, MAX(s.date) as date_available FROM companies as c 
+                                    LEFT JOIN orders o ON JSON_CONTAINS(c.services, o.services) 
+                                                        AND JSON_CONTAINS(c.zipcodes, o.zipcode)
+                                                        AND o.status = "active"
+                                                        
                                     LEFT JOIN ratings r ON r.company_id = c.id
-                                    WHERE o.poolowner_id = ' . $user_id . '
+
+                                    LEFT JOIN schedules s ON s.company_id = c.id 
+                                                            AND s.status NOT IN ("closed")
+                                                            AND s.order_id IN (
+                                                                SELECT id FROM(
+                                                                        SELECT o1.id FROM orders as o1
+                                                                        WHERE JSON_CONTAINS(o1.zipcode, "['.$zipcode.']")
+                                                                ) as arbitraryTableName
+                                                            )
+                                                            
+                                    WHERE o.poolowner_id = '.$user_id.'
                                     AND c.status = "active"
                                     GROUP BY c.id
-                                    ORDER BY point
                                     ');
             usort($companys, array($this, "cmp"));
             return $companys;
@@ -109,6 +123,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         try {
             if ($result && $check) {
                 $company = $this->getCompanyById($company_id);
+                $this->removeAllScheduleCompanyByPoolowner($user_id, $company_id);
                 $content = 'Customers remove for your service';
                 Mail::send('emails.remove-company', compact('company'), function($message)
                         use ($company, $content) {
@@ -122,6 +137,21 @@ class CompanyRepository implements CompanyRepositoryInterface {
             return false;
         }
         return false;
+    }
+
+    public function removeAllScheduleCompanyByPoolowner($poolowner_id, $company_id){
+        return DB::statement('UPDATE `schedules` SET `status`= "closed"
+                        WHERE `id` IN(
+                            SELECT id FROM(
+                                SELECT s.id FROM schedules as s
+                                LEFT JOIN orders o ON o.id = s.order_id
+                                WHERE s.date >= CURDATE()
+                                AND s.status = "checkin" OR s.status = "opening"
+                                AND s.company_id = '.$company_id.'
+                                AND o.poolowner_id = '.$poolowner_id.'
+                            ) as arbitraryTableName
+                        )'
+                        );
     }
 
     public function selectCompany($user_id, $company_id, $status = 'pending') {

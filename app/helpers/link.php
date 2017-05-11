@@ -45,3 +45,10 @@ function convertToStringAfterXHours($time, $format = "h:i A M d, Y") {
     } 
     return date($format, strtotime('+'.$hours.' hours '.$minutes.' seconds'));
 }
+
+function convertDateAvailable($date, $format = "M d, Y") {
+    if(!isset($date)){
+        return "";
+    }
+    return date($format, strtotime($date));
+}

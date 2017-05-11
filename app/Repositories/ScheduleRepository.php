@@ -26,11 +26,12 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     }
 
     public function getAllScheduleInWeek($technician_id){
-        $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date)dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
+        $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date) dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
                                     LEFT JOIN orders o ON o.id = s.order_id
                                     LEFT JOIN profiles p ON p.user_id = o.poolowner_id
                                     WHERE DATE(s.date) < (NOW() + INTERVAL 6 DAY)
                                     AND DATE(s.date) > (NOW() - INTERVAL 1 DAY)
+                                    AND s.status NOT IN ("closed")
                                     AND s.technican_id = '.$technician_id.'
                                     ORDER BY `dayOfWeek` ASC
                                     ');
@@ -131,7 +132,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                     $schedule_new = $schedule->replicate();
                     unset($schedule_new->id);
                     $schedule_new->status = "opening";
-                    $schedule_new->date = $schedule->date->modify('+7 day');
+                    $date = $schedule->date->modify('+1 week');
+                    $schedule_new->date = $date->format('Y-m-d H:i:s');
                     $schedule_new->save();
                 }else{
                     $this->company->pausePoolownerService($schedule->order_id, $schedule->company_id);
@@ -141,6 +143,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         }
         return null;
     }
+    
 
     private function chargeForPoolowner($order_id,$status){
         $order = Order::find($order_id)->first();
@@ -154,6 +157,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
+                            AND s.status NOT IN ("closed")
                             ORDER BY `date` DESC
                             ');
                             

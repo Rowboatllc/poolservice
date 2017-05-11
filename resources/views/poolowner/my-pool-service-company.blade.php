@@ -12,7 +12,13 @@
                     <img class="logo" src='{{$company->logo}}' width='100' /> {{$company->name}}
                     <input class="company_id" type="hidden" value="{{$company->id}}">
                 </td>
-                <td valign="middle">every Tuesday starting March 28,2017</td>
+                <td valign="middle">
+                    @if(isset($company->date_available))
+                        Every {{date('l', strtotime($company->date_available))}} starting {{convertDateAvailable($company->date_available)}}
+                    @else
+                        Every day of the week.
+                    @endif
+                </td>
                 <td valign="middle"><span class="stars">{{$company->point}}</span> <span>({{$company->count}})</span></td>
                 <td valign="middle btn-list">
                     <a title="{{ route('select-company', [$company->id]) }}" type="button" class="btn btn-primary btn-choose {{ !isset($company_select) ? '' : 'no_display'}}">Choose</a>
