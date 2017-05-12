@@ -49,9 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'company'], function () {
             //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
             //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
-            //Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
             
             // Ajax
+            Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
             Route::post('change-services-offer', 'Company\ApiCompanyController@changeServiceOffer')->name('dashboard-company-change-services-offer');
             Route::post('list-customer', 'Company\ApiCompanyController@listCustomers')->name('dashboard-company-list-customer');
         });

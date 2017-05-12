@@ -33,6 +33,26 @@ jQuery(document).ready(function () {
             $fieldset.find('.inputerror').removeClass('inputerror');
             //revertEditableFieldValues($fieldset);
         });
+        
+        jQuery('.contenteditable[maxlength]').on('keydown input paste', function(event) {
+            let $me = jQuery(this);
+            let len = parseInt($me.attr('maxlength'));
+            let val = $me.text();
+            
+            if(val.length < len)
+                return;
+            
+            if(event.type=='keydown' && event.keyCode != 8) {
+                event.preventDefault();
+                return;
+            }
+            
+            if(event.type=='paste' || event.type=='input') {
+                $me.text(val.substring(0, len));
+                return;
+            }
+        });
+
     }
 
     globalAssignEvent();
@@ -288,14 +308,14 @@ function checkOneField(field) {
                     jQuery.trim(jQuery(field).val()): 
                     jQuery.trim(jQuery(field).text());
     for(let i=0; i<$needs.length; i++) {
-        if(!checkContent(value, $needs[i]))
+        if(!checkContent(value, $needs[i], field))
             return false;
     }
     jQuery(field).removeClass('inputerror');
     return true;
 }
 
-function checkContent(value, type) {
+function checkContent(value, type, field) {
     switch(type) {
         case 'require':
             return (value!='');
