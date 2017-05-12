@@ -246,6 +246,7 @@ jQuery(document).ready(function () {
         let $coverdiv = jQuery(parent);
         sendData(url, params, 'POST', function(result){
             let list = JSON.parse(result.list);
+            console.log(list.data);
             parseData($coverdiv.find('[type="text/x-jquery-tmpl"]')[0], $coverdiv.find('table')[0], list.data, true);
             parsePaging(Math.ceil(list.total/list.per_page), $coverdiv.find('.pagination')[0], (params.page||''));
         });
@@ -286,7 +287,7 @@ function afterUploadedTechnicianAvatar(form, result) {
 function parseData(tpl, dest, data, append) {
     if(append) 
         jQuery(dest).find('tr:not(:first)').remove();
-    $(tpl).tmpl(data).appendTo(dest);
+    jQuery(tpl).tmpl(data).appendTo(dest);
 }
 
 function parsePaging(totalpage, dest, curpage) {
