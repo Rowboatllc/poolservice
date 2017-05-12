@@ -222,32 +222,34 @@ class CompanyRepository implements CompanyRepositoryInterface {
     }
 
     public function customersListBuilder($company_id) {
-        return DB::table('profiles')
-                        ->whereIn('profiles.user_id', function($query) use ($company_id) {
-                            $query->select('orders.poolowner_id')
-                            ->from('orders')
-                            ->leftJoin('selecteds', 'selecteds.order_id', '=', 'orders.id')
-                            ->leftJoin('companies', 'companies.id', '=', 'selecteds.company_id')
-                            ->where('companies.user_id', $company_id)
-                            ->where('selecteds.status', 'active');
-                        })
-                        ->select('profiles.fullname', 'profiles.address', 'profiles.city', 'profiles.state', 'profiles.zipcode', 'profiles.created_at');
+        return "
+            select orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at,
+            max(case when schedules.status ='opening' then schedules.date end) as nextserveddate,
+            max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end) as lastserveddate
+            from profiles
+            left join orders on orders.poolowner_id = profiles.user_id
+            left join schedules on schedules.order_id = orders.id
+            left join companies on companies.id = schedules.company_id
+            where companies.user_id = $company_id :where
+            group by orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at
+            :orderby
+        ";
     }
 
     public function getCustomers($company_id, $data = []) {
         $list = $this->customersListBuilder($company_id);
-        return $this->common->pagingSort($list, $data);
+        return $this->common->pagingSort($list, $data, true);
     }
 
     public function listCustomers($company_id, $data) {
         $list = $this->customersListBuilder($company_id);
-        return $this->common->pagingSort($list, $data)->toJson();
+        return $this->common->pagingSort($list, $data, true, ['city','state','fullname','profiles.created_at','profiles.zipcode',"(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end)"])->toJson();
     }
 
     public function getServiceOffers($user_id) {
         $results = $this->company->where('user_id', $user_id)->select('services')->first();
         return $results->services;
-        $offers = DB::select("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
+        /*$offers = DB::select("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
         left join selecteds on selecteds.order_id = orders.id
         left join companies on companies.id = selecteds.company_id
         where companies.user_id = " . $user_id . " and selecteds.status <> 'inactive'");
@@ -257,7 +259,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                 $offers[$i]->zipcode = json_decode($offers[$i]->zipcode)[0];
             }
         }
-        return $offers;
+        return $offers;*/
     }
 
     /* public function changeOfferStatus($data) {

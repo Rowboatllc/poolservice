@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Storage;
 use Request;
 use Auth;
 use Mail;
-use DateTime;
 use DateInterval;
 use DatePeriod;
+//use  Illuminate\Pagination\LengthAwarePaginator as Paginator ;
+use App\Common\Pagination;
 
 class Common {
-
+    use Pagination;
     public function __construct() {}
 
     public function getEloquentById($eloquent, $id) {
@@ -117,36 +118,6 @@ class Common {
             $arr[] = $all[$item];
         }
         return implode(' | ',$arr);
-    }
-    
-    public function pagingSort($list, $data) {
-        $list = $this->search($list, $data);
-        if(!empty($data['orderfield'])) {
-            $field = $data['orderfield'];
-            $direction = (empty($data['orderdir']) ? 'asc' : $data['orderdir']);
-            $list = $list->orderBy($field, $direction);
-        }
-        return $list->paginate(5);
-    }
-
-    public function search($list, $data) {
-        $searchvalue = empty($data['searchvalue']) ? '' : $data['searchvalue'];
-        $searchfield = empty($data['searchfield']) ? '' : $data['searchfield'];
-        if($searchvalue=='')
-            return $list;
-        if($searchfield!='')
-            return $list->where($searchfield, 'like', '%' . $searchvalue . '%' );
-        if($searchfield==''){
-            for($i=0; $i<count($list->columns); $i++) {
-                if($i==0) {
-                    $list->where($list->columns[$i], 'like', '%' . $searchvalue . '%' );
-                    continue;
-                }
-                $list->orWhere($list->columns[$i], 'like', '%' . $searchvalue . '%' );
-            }
-            return $list; 
-        }
-        return $list;
     }
     
     public function formatDate($date){
