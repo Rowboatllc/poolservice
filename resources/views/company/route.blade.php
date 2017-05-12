@@ -34,9 +34,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="name-{{$key}}">{{$user->name}}</label>
+                                        <label class="hidden not-asign-{{$key}}">Not asigned</label>
                                     </div>
                                     <div class="form-group">
-                                        <select id="select_{{$key}}" name="pool_service_list_{{$key}}">
+                                        <select id="{{$key}}" name="pool_service_list_{{$key}}">
                                             <option selected="selected">Chose pool service professional</option>
                                             @foreach ($listTechnicians as $tech)
                                                 <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>

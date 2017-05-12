@@ -100,8 +100,8 @@ class CompanyController extends Controller {
     {
         $id=$request['id'];
         $date=$request['date'];
-        $schedule=$this->user->getUserSchedule($id,$date);
-        dd($schedule);
+        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
         if($schedule)
         {
             return response()->json(['success' => true,'message' => $schedule],200);
