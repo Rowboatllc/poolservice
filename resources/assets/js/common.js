@@ -1,4 +1,34 @@
 jQuery(document).ready(function () {
+
+    $('div[contenteditable]').keypress(function(e) {
+        let limit = $(this).attr("maxlength");
+        let value = (jQuery(this).is(':input')) ? 
+                    jQuery.trim(jQuery(this).val()): 
+                    jQuery.trim(jQuery(this).text());
+        value = value + String.fromCharCode(e.which);            
+        if(!checkOneFieldWithValue(this, value))
+            return false;
+        if(!isNaN(limit))
+            return this.innerHTML.length < parseInt(limit);
+        
+        }).on({
+        'paste': function(e) {
+            let limit = $(this).attr("maxlength");
+            let value = e.originalEvent.clipboardData.getData('text');
+			value = value + String.fromCharCode(e.which);            
+			if(!checkOneFieldWithValue(this, value))
+				return false;
+			if(!isNaN(limit))
+				return this.innerHTML.length < parseInt(limit);
+			this.innerHTML += cp.substring(0, limit - len);
+			return false;
+        },
+        'drop': function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
@@ -310,6 +340,19 @@ function checkOneField(field) {
     for(let i=0; i<$needs.length; i++) {
         if(!checkContent(value, $needs[i], field))
             return false;
+    }
+    jQuery(field).removeClass('inputerror');
+    return true;
+}
+
+function checkOneFieldWithValue(field, value) {
+    let $needs = jQuery(field).data('validate');
+    $needs = $needs.split('|');
+    for(let i=0; i<$needs.length; i++) {
+        if(!checkContent(value, $needs[i], field)){
+            jQuery(field).addClass('inputerror');
+            return false;
+        } 
     }
     jQuery(field).removeClass('inputerror');
     return true;
