@@ -2,14 +2,14 @@
 jQuery(document).ready(function () {
     function assignEvent() {
         // company-offered-service
-        /*jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
             let $me = jQuery(this);
             let data = $me.data();
             let url = $me.parents('[data-updateurl]');
             url = url.data('updateurl');
             if(data=='')
                 return;
-            sendDataWithToken(url, data, 'POST', function (result) {
+            sendData(url, data, 'POST', function (result) {
                 if(result.success!=true)
                     return;
                 $me.parents('tr').find('.status').text(data.status);
@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
                 console.log('something wrong');
             });
         });
-        */
+        
         jQuery('.company_service_offers input[type="checkbox"]').bind('click', function(){
             toggleSaveButton();
         });

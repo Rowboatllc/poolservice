@@ -22,7 +22,7 @@
             <div class="fieldset" method="POST" action="{{route('dashboard-poolowner-save-email')}}">
                 <div class="col-md-3 text-right col"> <span class="labeltext">Email:</span> </div>
                 <div class="col-md-9 col">
-                    <div name="email" class="contenteditable" contenteditable="true">{{ $profile->email }}</div>
+                    <div name="email" class="contenteditable" contenteditable="true" data-validate="require|email" maxlength="190">{{ $profile->email }}</div>
                     <span class="glyphicon glyphicon-pencil editfieldset icon badge"></span>
                     <span class="glyphicon glyphicon-floppy-save savefieldset icon badge no_display"></span>
                     <span class="glyphicon glyphicon-remove cancel-editfieldset icon badge no_display"></span>
