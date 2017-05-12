@@ -2324,8 +2324,6 @@ function bar_progress(progress_line_object, direction) {
 	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
 }
 
-// Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
-
 function stripeResponseHandler(status, response) {
 	if (response.error) {
 		$('input#hdf_stripeToken').val('');
@@ -2920,14 +2918,14 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success===true)
 				{
-					$("#notifyModal #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+					$("#serviceNotifyModal #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
 				}
 				else
 				{
-					$("#notifyModal #get_your_email").text(data.message);
+					$("#serviceNotifyModal #get_your_email").text(data.message);
 				}
 				
-				$("#notifyModal").modal();
+				$("#serviceNotifyModal").modal();
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
 				$('#frmPoolSubscriber .btn-previous').prop('disabled', 'disabled');	
 			}
@@ -2935,37 +2933,6 @@ $(document).ready(function() {
 		
         return false;
     });
-	// $('select[multiple]').multiselect({
-	// 	// text to use in dummy input
-	// 	placeholder   : '',   
-	// 	// how many columns should be use to show options
-	// 	columns       : 1, 
-	// 	// include option search box 
-	// 	search        : false,  
-	// 	// search filter options
-	// 	searchOptions : {
-	// 	default      : 'Search', // search input placeholder text
-	// 	showOptGroups: false     // show option group titles if no options remaining
-	// 	},   
-	// 	// add select all option
-	// 	selectAll     : false,
-	// 	// select entire optgroup 
-	// 	selectGroup   : false, 
-	// 	// minimum height of option overlay
-	// 	minHeight     : 200,  
-	// 	// maximum height of option overlay
-	// 	maxHeight     : null, 
-	// 	// display the checkbox to the user
-	// 	showCheckbox  : true, 
-	// 	// options for jquery.actual
-	// 	jqActualOpts  : {},  
-	// 	// maximum width of option overlay (or selector)
-	// 	maxWidth      : null,
-	// 	// minimum number of items that can be selected
-	// 	minSelect     : false,
-	// 	// maximum number of items that can be selected
-	// 	maxSelect     : false,
-	// });
 });
 
 $(function(){
