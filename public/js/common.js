@@ -115,14 +115,14 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
     function assignEvent() {
         // company-offered-service
-        /*jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
             let $me = jQuery(this);
             let data = $me.data();
             let url = $me.parents('[data-updateurl]');
             url = url.data('updateurl');
             if(data=='')
                 return;
-            sendDataWithToken(url, data, 'POST', function (result) {
+            sendData(url, data, 'POST', function (result) {
                 if(result.success!=true)
                     return;
                 $me.parents('tr').find('.status').text(data.status);
@@ -131,7 +131,7 @@ jQuery(document).ready(function () {
                 console.log('something wrong');
             });
         });
-        */
+        
         jQuery('.company_service_offers input[type="checkbox"]').bind('click', function(){
             toggleSaveButton();
         });
@@ -381,6 +381,26 @@ jQuery(document).ready(function () {
             $fieldset.find('.inputerror').removeClass('inputerror');
             //revertEditableFieldValues($fieldset);
         });
+        
+        jQuery('.contenteditable[maxlength]').on('keydown input paste', function(event) {
+            let $me = jQuery(this);
+            let len = parseInt($me.attr('maxlength'));
+            let val = $me.text();
+            
+            if(val.length < len)
+                return;
+            
+            if(event.type=='keydown' && event.keyCode != 8) {
+                event.preventDefault();
+                return;
+            }
+            
+            if(event.type=='paste' || event.type=='input') {
+                $me.text(val.substring(0, len));
+                return;
+            }
+        });
+
     }
 
     globalAssignEvent();
@@ -636,14 +656,14 @@ function checkOneField(field) {
                     jQuery.trim(jQuery(field).val()): 
                     jQuery.trim(jQuery(field).text());
     for(let i=0; i<$needs.length; i++) {
-        if(!checkContent(value, $needs[i]))
+        if(!checkContent(value, $needs[i], field))
             return false;
     }
     jQuery(field).removeClass('inputerror');
     return true;
 }
 
-function checkContent(value, type) {
+function checkContent(value, type, field) {
     switch(type) {
         case 'require':
             return (value!='');

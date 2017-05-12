@@ -2324,8 +2324,6 @@ function bar_progress(progress_line_object, direction) {
 	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
 }
 
-// Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
-
 function stripeResponseHandler(status, response) {
 	if (response.error) {
 		$('input#hdf_stripeToken').val('');
@@ -2907,14 +2905,14 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.success===true)
 				{
-					$("#notifyModal #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
+					$("#poolNotifyModal #get_your_email").text('You are almost done! Please check your email at (' + data.message + ') and follow the instruction to completed the sign up process');
 				}
 				else
 				{
-					$("#notifyModal #get_your_email").text(data.message);
+					$("#poolNotifyModal #get_your_email").text(data.message);
 				}
 				
-				$("#notifyModal").modal();
+				$("#poolNotifyModal").modal();
 				$('#frmPoolSubscriber .btn-submit').prop('disabled', 'disabled');	
 				$('#frmPoolSubscriber .btn-previous').prop('disabled', 'disabled');		
 			}

@@ -264,29 +264,31 @@
 </div>
 <div class="modal-wait" id="divModel"></div>
 
-<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">        
-                <form role="form">
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <label id="get_your_email"></label>  
-                    </div>
-                    <div class="form-group">
-                        <button type="button" id="btnOkGotIt" class="btn btn-success">OK Got It</button>
-                    </div>            
-                </form>  
-            </div>
+<div class="modal fade" id="serviceNotifyModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">System Message</h4>
         </div>
+        <div class="modal-body">
+          <p id="get_your_email"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">OK Got It</button>
+        </div>
+      </div>      
     </div>
-</div>
+  </div>
 
 @endsection
 
 @section('lib')
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"rel="stylesheet" type="text/css" />    
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"rel="stylesheet" type="text/css" />  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
         <link href="{{ asset('css/jquery.multiselect.css') }}"rel="stylesheet" type="text/css" />         
         <script src="http://parsleyjs.org/dist/parsley.js"></script>    
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
