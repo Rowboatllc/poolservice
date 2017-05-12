@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3 text-right">
             <div class="fieldset">
-                <img class="img_profile" data-selectfile=".form_upload .avatar" path="{{ config('app.url').'../storage/app/' }}" src="{{ config('app.url').'../storage/app/'.$profile->avatar }}" width="100px" height="auto" />
+                <img class="img_profile" data-selectfile=".form_upload .avatar" path="{{ config('filesystems.disks.uploads.url') }}" src="{{ config('filesystems.disks.uploads.url').$profile->avatar }}" width="100px" height="auto" />
                 <div class="form_upload">
                     <form id="form_upload" name="form_upload" action="{{ route('ajax-upload-file') }}" enctype="multipart/form-data" method="POST" 
                           onsubmit="return ajaxUploadFile.submit(this, {'onComplete': function () {

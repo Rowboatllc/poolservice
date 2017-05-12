@@ -9,7 +9,6 @@ use Auth;
 use Mail;
 use DateInterval;
 use DatePeriod;
-//use  Illuminate\Pagination\LengthAwarePaginator as Paginator ;
 use App\Common\Pagination;
 
 class Common {
@@ -44,9 +43,9 @@ class Common {
         //resize
         //$result = Image::make($avatarFolder.'/'.$image_name)->resize(100, 100)->save($avatarFolder.'/'.$image_name);
         try {
-            if (Storage::exists($filename))
-                Storage::delete($filename);
-            $result = Storage::putFileAs($imageFolder, $file, $image_name);
+            if (Storage::disk('uploads')->exists($filename))
+                Storage::disk('uploads')->delete($filename);
+            $result = Storage::disk('uploads')->putFileAs($imageFolder, $file, $image_name);
             return $filename;
         } catch (Exception $e) {
             return false;
@@ -63,9 +62,9 @@ class Common {
             return false;
         }
         try {
-            if (Storage::exists($filename))
-                Storage::delete($filename);
-            $result = Storage::putFileAs($imageFolder, $file, $image_name);
+            if (Storage::disk('uploads')->exists($filename))
+                Storage::disk('uploads')->delete($filename);
+            $result = Storage::disk('uploads')->putFileAs($imageFolder, $file, $image_name);
             return $filename;
         } catch (Exception $e) {
             return false;

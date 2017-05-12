@@ -16,7 +16,7 @@
             <tr>
                 <td>
                     <span class="fa fa-check-circle fa-6 status {{$technician->status}}" aria-hidden="true"></span>
-                    <span class="avatar" style="background-image: url({{ config('app.url').'storage/app/'.$technician->avatar }})"></span>
+                    <span class="avatar" style="background-image: url({{ config('filesystems.disks.uploads.url').$technician->avatar }})"></span>
                 </td>
                 <td>{{$technician->fullname}}</td>
                 <td>{{$technician->phone}}</td>
@@ -33,7 +33,7 @@
             <tr>
                 <td>
                     <span class="fa fa-check-circle fa-6 status ${status}" aria-hidden="true"></span>
-                    <span class="avatar" style="background-image: url({{ config('app.url').'storage/app/' }}${avatar})"></span>
+                    <span class="avatar" style="background-image: url({{ config('filesystems.disks.uploads.url') }}${avatar})"></span>
                 </td>
                 <td>${fullname}</td>
                 <td>${phone}</td>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <img class="technician-img" alt="Upload a photo" name="avatar" path="{{ config('app.url').'storage/app/' }}" src="" />
+                        <img class="technician-img" alt="Upload a photo" name="avatar" path="{{ config('filesystems.disks.uploads.url') }}" src="" />
                     </div>
                     <form name="form_upload" class="form_technician-avatar"  action="{{ route('ajax-upload-an-image', ['uploads', 'file-avatar']) }}" enctype="multipart/form-data" method="POST" 
                         onsubmit="return ajaxUploadFile.submit(this, {'onComplete': function () { ajaxUploadFile.resetUpload('.form_technician-avatar', afterUploadedTechnicianAvatar) }})" >
