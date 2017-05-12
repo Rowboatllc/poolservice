@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group">
                                         <select id="{{$key}}" name="pool_service_list_{{$key}}">
-                                            <option selected="selected">Chose pool service professional</option>
+                                            <option value="0" selected="selected">Chose pool service professional</option>
                                             @foreach ($listTechnicians as $tech)
                                                 <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
                                             @endforeach                            
@@ -46,7 +46,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>{{count($value)}} pools</label>
+                                        <label id="count_route">{{count($value)}} pools</label>
                                     </div>
                                 </div>
                             </div> 

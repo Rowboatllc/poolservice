@@ -209,8 +209,9 @@ $(document).ready(function() {
             method: "GET",
             data: { id : this.value,date:date},
             success: function (data) {
-                if(data.success===true && data.message.length>0)
+                if(data.success===true)
                 {
+                    $('#count_route').text(data.message.length + " pools");
                     $('.table-route-'+date+' tr').remove();
                     let table=$('.table-route-'+date+'');
 
