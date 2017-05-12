@@ -48,7 +48,7 @@
     <script>
         $(document).ready(function() {
             if(typeof Stripe != 'undefined'){
-                Stripe.setPublishableKey("{{ config('services.stripe.key') }}");
+                Stripe.setPublishableKey("{{ env('KEY_STRIPE') }}");
             }else{
                 console.log('Stripe undefined');
             }
