@@ -153,7 +153,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name="phone" required placeholder="Telephone" class="f1-telephone form-control" id="f1-telephone">
+                    <input type="text" name="phone" maxlength="15" required placeholder="Telephone" class="f1-telephone form-control" id="f1-telephone">
                 </div>
 
                 <div class="f1-buttons">

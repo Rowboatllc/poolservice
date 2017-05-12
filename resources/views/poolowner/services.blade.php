@@ -36,6 +36,9 @@
                                 <label style="font-size: 1em" class="btn-status btn-unable {{$sc->status == 'unable' ? '' : 'no_display'}} ">
                                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Service uncomplete
                                 </label>
+                                <label style="font-size: 1em" class="btn-status btn-cancle {{$sc->status == 'closed' ? '' : 'no_display'}} ">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Service cancel
+                                </label>
                             </td>
                         </tr>
                     @endforeach

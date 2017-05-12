@@ -45,4 +45,13 @@
 
         @yield('lib')
     </body>
+    <script>
+        $(document).ready(function() {
+            if(typeof Stripe != 'undefined'){
+                Stripe.setPublishableKey("{{ env('KEY_STRIPE') }}");
+            }else{
+                console.log('Stripe undefined');
+            }
+        });
+    </script>
 </html>

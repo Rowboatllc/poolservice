@@ -3,7 +3,7 @@ $(document).ready(function() {
 		
 	globalAssignEventBilling();
 });
-Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
+// Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
 
 function saveEditableDataBilling($obj, callback) {
 	var data_billing = getEditableFieldValues( $obj );

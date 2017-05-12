@@ -26,6 +26,7 @@ class UserRepository
         $this->user = $user;
         $this->profile = $profile;
         $this->company=$com;
+        \Stripe\Stripe::setApiKey(env('SECRET_STRIPE'));
     }
 
 	public function AddNewPoolOwnerSubscriber(array $array)
@@ -62,6 +63,15 @@ class UserRepository
             $bill->state=$array['billing_state'];
             $bill->zipcode=intval($array['zipcode']);
         }		
+
+        if($array['stripeToken']){
+            $customer = \Stripe\Customer::create(array(
+                "email" => $array['email'],
+                "source" => $array['stripeToken'],
+            ));	
+
+            $bill->customer_id=$customer->id;
+        }
         
         $bill->name_card=$array['card_name'];
         $bill->expiration_date=$array['expiration_date'];
@@ -153,8 +163,17 @@ class UserRepository
             $bill->city=$array['billing_city'];
             $bill->state=$array['billing_state'];
             $bill->zipcode=intval($array['zipcode']);
-        }		
+        }	
         
+        if($array['stripeToken']){
+            $customer = \Stripe\Customer::create(array(
+                "email" => $array['email'],
+                "source" => $array['stripeToken'],
+            ));	
+
+            $bill->customer_id=$customer->id;
+        }
+
         $bill->name_card=$array['card_name'];
         $bill->expiration_date=$array['expiration_date'];
         $bill->card_last_digits=substr($array['card_number'], -4);
