@@ -3,23 +3,30 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
+
+
 use Auth;
-use App\Common\Common;
-use App\Repositories\CompanyRepositoryInterface;
 use DateTime;
 use DateInterval;
 use DatePeriod;
 
+use Illuminate\Http\Request;
+use App\Common\Common;
+use App\Repositories\CompanyRepositoryInterface;
+use App\Repositories\BillingInfoRepositoryInterface;
+use App\Repositories\UserRepository;
+
 class CompanyController extends Controller {
 
-    private $user;
+    private $user;    
+    protected $billing;
 
-    public function __construct(UserRepository $user, CompanyRepositoryInterface $company) 
+
+    public function __construct(UserRepository $user, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
     {
         $this->user = $user;
         $this->company = $company;
+        $this->billing = $billing;
     }
 
     public function index() 
@@ -35,8 +42,12 @@ class CompanyController extends Controller {
         $currentDate=Common::getCurrentDay(new Datetime());        
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
+
+        //Billing Info
+        $billing_info = $this->billing->getBillingInfo($user->id);
+
         return view('company.index', 
-        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians']));
+        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians','billing_info']));
     }
 
     public function addCompanyProfile(Request $request) 

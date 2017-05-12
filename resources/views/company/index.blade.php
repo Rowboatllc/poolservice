@@ -22,8 +22,7 @@
                 @include('company.profile')
             </div>
             <div id="sectionD" class="tab-pane fade">
-                <h4>Dropdown 2</h4>
-                <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
+                @include('poolowner.billing-info')
             </div>
             <div id="sectionE" class="tab-pane fade">
                 @include('company.technician')
@@ -69,4 +68,10 @@
     <script  async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK630V18YqZgaQbViFBkYveJ_pVTfNnzI&callback=initMap" type="text/javascript">
     </script>
+
+
+    <script src="http://parsleyjs.org/dist/parsley.js"></script>    
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="{{ asset('/js/billinginfo.js') }}"></script>
 @endsection
