@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive', 'billing_error'))->default('pending');
+            $table->enum('status', array('pending', 'active', 'inactive'))->default('pending');
             $table->rememberToken()->nullable();
             $table->string('confirmation_code')->nullable();
             $table->string('name')->nullable();
