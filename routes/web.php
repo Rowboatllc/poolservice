@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
             
             // Ajax
             Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
+            Route::post('accept-deny-offer', 'Company\ApiCompanyController@acceptDenyOffer')->name('dashboard-company-accept-deny-offer');
             Route::post('change-services-offer', 'Company\ApiCompanyController@changeServiceOffer')->name('dashboard-company-change-services-offer');
             Route::post('list-customer', 'Company\ApiCompanyController@listCustomers')->name('dashboard-company-list-customer');
 
