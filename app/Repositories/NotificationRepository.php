@@ -31,7 +31,12 @@ class NotificationRepository implements NotificationRepositoryInterface {
     }
     
     public function getItem($id, $data) {
-        return $this->listBuilder($id)->where('technicians.user_id', $data['id'])->first();
+        $obj = $this->notification->find($data['id']);
+        if(!empty($data['isOpened'])) {
+           $obj->opened = 1;
+           $obj->save();
+        }
+        return $obj;
     }
     
     public function saveItem($user_id, $content, $opened) {
