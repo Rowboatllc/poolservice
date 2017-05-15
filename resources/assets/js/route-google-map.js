@@ -58,10 +58,14 @@ function initMap() {
     //     position: uluru,
     //     map: map
     // });
+    var map = jQuery(document.getElementById("route-map"));
+    if(map.length==0)
+        return;
+    
     var myOptions = {
     mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("route-map"), myOptions);
+    map = new google.maps.Map(map[0], myOptions);
         
     // init directions service
     var dirService = new google.maps.DirectionsService();

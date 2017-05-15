@@ -118,14 +118,15 @@ jQuery(document).ready(function () {
         jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
             let $me = jQuery(this);
             let data = $me.data();
-            let url = $me.parents('[data-updateurl]');
-            url = url.data('updateurl');
+            let url = $me.closest('table');
+            url = url.data('url');
             if(data=='')
                 return;
             sendData(url, data, 'POST', function (result) {
                 if(result.success!=true)
                     return;
-                $me.parents('tr').find('.status').text(data.status);
+                $me.closest('tr').find('.offer_status').addClass(data.status);
+                $me.closest('td').find('.icon').addClass('no_display');
                 console.log('saved');
             }, function () {
                 console.log('something wrong');

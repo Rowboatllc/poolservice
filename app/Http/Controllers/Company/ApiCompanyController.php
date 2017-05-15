@@ -19,17 +19,13 @@ class ApiCompanyController extends Controller {
         $this->common = app('App\Common\Common');
     }
 
-    /*public function acceptOffer(Request $request) {
-        return $this->common->responseJson($this->company->changeOfferStatus($request->all()));
+    public function acceptDenyOffer(Request $request) {
+        return $this->common->responseJson($this->company->acceptDenyOffer($request->all()));
     }
-    
-    public function denyOffer(Request $request) {
-        return $this->common->responseJson($this->company->changeOfferStatus($request->all()));
-    }*/
-    
+    /*
     public function changeOfferStatus(Request $request) {
         return $this->common->responseJson($this->company->changeOfferStatus($request->all()));
-    }
+    }*/
     
     public function listTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
