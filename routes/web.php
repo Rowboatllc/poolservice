@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
     
-    //Route::group(['middleware' => ['permission']], function () {
+    Route::group(['middleware' => ['permission']], function () {
 
         Route::group(['prefix' => 'poolowner'], function () {
             Route::get('', array('uses' => 'PoolOwner\PoolOwnerController@index'))->name('pool-owner');
@@ -47,30 +47,33 @@ Route::group(['middleware' => ['auth']], function () {
         });
         
         Route::group(['prefix' => 'company'], function () {
-            // Ajax
-            Route::post('accept-deny-offer', 'Company\ApiCompanyController@acceptDenyOffer')->name('dashboard-company-accept-deny-offer');
-            Route::post('change-services-offer', 'Company\ApiCompanyController@changeServiceOffer')->name('dashboard-company-change-services-offer');
-            Route::post('list-customer', 'Company\ApiCompanyController@listCustomers')->name('dashboard-company-list-customer');
-        });
-
-        Route::get('/load-pool-owner/{id?}/{date?}', array('uses' => 'Company\CompanyController@loadPoolOwner'))->name('load-pool-owner');
-        Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
-        
-        Route::group(['prefix' => 'service-company'], function () {
             Route::get('', array('uses' => 'Company\CompanyController@index'))->name('service-company');
             
-        });
-        Route::group(['prefix' => 'technician'], function () {
-            Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
-            Route::get('enroute/{chedule_id}', array('uses' => 'TechnicianController@enroute'))->name('technician-enroute');
-            Route::post('complete-steps', array('uses' => 'TechnicianController@completeSteps'))->name('technician-complete-steps');
-            Route::post('unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
+            //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
+            //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
+            
             // Ajax
+            Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
+            Route::post('change-services-offer', 'Company\ApiCompanyController@changeServiceOffer')->name('dashboard-company-change-services-offer');
+            Route::post('list-customer', 'Company\ApiCompanyController@listCustomers')->name('dashboard-company-list-customer');
+
+             // Ajax Technician
             Route::post('list-technician', 'Company\ApiCompanyController@listTechnician')->name('dashboard-company-list-technician');
             Route::post('get-technician', 'Company\ApiCompanyController@getTechnician')->name('dashboard-company-get-technician');
             Route::post('save-technician', 'Company\ApiCompanyController@saveTechnician')->name('dashboard-company-save-technician');
             Route::post('remove-technician', 'Company\ApiCompanyController@removeTechnician')->name('dashboard-company-remove-technician');
             Route::post('ajax-upload-image/{folder}/{name}', 'Company\ApiCompanyController@uploadAvatar')->name('ajax-upload-an-image');
+        });
+
+        Route::get('/load-pool-owner/{id?}/{date?}', array('uses' => 'Company\CompanyController@loadPoolOwner'))->name('load-pool-owner');
+        Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
+ 
+        Route::group(['prefix' => 'technician'], function () {
+            Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');
+            Route::get('enroute/{chedule_id}', array('uses' => 'TechnicianController@enroute'))->name('technician-enroute');
+            Route::post('complete-steps', array('uses' => 'TechnicianController@completeSteps'))->name('technician-complete-steps');
+            Route::post('unable-steps', array('uses' => 'TechnicianController@unableSteps'))->name('technician-unable-steps');
+           
         });
         Route::group(['prefix' => 'admin'], function () {
             Route::get('', array('uses' => 'Admin\DashboardController@index'))->name('admin-administrator');
@@ -90,7 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('ajax-upload-file', 'PoolOwner\ApiPoolOwnerController@uploadResizeAvatar')->name('ajax-upload-file');
             Route::post('ajax-upload-image/{folder}', 'ApiController@uploadImage')->name('ajax-upload-image');
         });
-    //});
+    });
 });
 
 

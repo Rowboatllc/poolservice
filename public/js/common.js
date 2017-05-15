@@ -154,10 +154,16 @@ jQuery(document).ready(function () {
        
         //technician-professionnal-service
         jQuery('.technician-professionnal-service').on('click','.new-item', function() {
+        //jQuery('.dashboard .content-block').on('click','.new-item', function() {
             let modal = jQuery(this).data('target');
             let names = ['fullname', 'phone', 'email', 'id', 'avatar', 'is_owner'];
             setElementValues(modal, names, '');
-        }).on('click','.save-item', function() {
+        }).on('click', '.technician-img', function(event) {
+            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
+        });
+        
+        // Global dashboard
+        jQuery('.dashboard .content-block').on('click','.save-item', function() {
             let $me = jQuery(this);
             let $form = $me.closest('form');
             if(!isValidate($form))
@@ -165,7 +171,8 @@ jQuery(document).ready(function () {
             saveForm($form, function(result){
                 $form.closest('.modal').modal('hide');
                 let params = $form.closest('.content-block').find('.table-responsive').data();
-                reloadTechnicianPage(params, params.url);
+                //reloadTechnicianPage(params, params.url);
+                reloadCurrentPage($me.closest('.content-block')[0], params, params.url);
             });
         }).on('click', '.remove-item-list', function() {
             if(!confirm("Do you really want to delete?"))
@@ -175,7 +182,7 @@ jQuery(document).ready(function () {
             let id = $me.data('id');
             sendData(url, {id:id}, 'POST', function (result) {
                 let params = $me.closest('.table-responsive').data();
-                reloadTechnicianPage(params, params.url);
+                reloadCurrentPage($me.closest('.content-block')[0], params, params.url);
             });
         }).on('click', '.edit-item-list', function() {
             let $me = jQuery(this);
@@ -191,8 +198,6 @@ jQuery(document).ready(function () {
                         setElementValue(jQuery(this), result.item[key]);
                 });
             });
-        }).on('click', '.technician-img', function(event) {
-            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
         });
         
         // paging, sorting
@@ -243,16 +248,6 @@ jQuery(document).ready(function () {
         
     }
     
-    function reloadCurrentPage(parent, params, url, callback) {
-        let $coverdiv = jQuery(parent);
-        sendData(url, params, 'POST', function(result){
-            let list = JSON.parse(result.list);
-            console.log(list.data);
-            parseData($coverdiv.find('[type="text/x-jquery-tmpl"]')[0], $coverdiv.find('table')[0], list.data, true);
-            parsePaging(Math.ceil(list.total/list.per_page), $coverdiv.find('.pagination')[0], (params.page||''));
-        });
-    }
-    
     function reloadTechnicianPage(params, url, callback) {
         reloadCurrentPage(".technician-professionnal-service", params, url, callback)
     }
@@ -283,6 +278,17 @@ function afterUploadedTechnicianAvatar(form, result) {
     jQuery('.technician-professionnal-service input[name="avatar"]').val(result.path);
     document.querySelector(form).reset();
     jQuery('#'+ajaxUploadFile.frameName).remove();
+}
+
+
+function reloadCurrentPage(parent, params, url, callback) {
+    let $coverdiv = jQuery(parent);
+    sendData(url, params, 'POST', function(result){
+        let list = JSON.parse(result.list);
+       // console.log(list.data, $coverdiv, $coverdiv.find('[type="text/x-jquery-tmpl"]')[0]); return;
+        parseData($coverdiv.find('[type="text/x-jquery-tmpl"]')[0], $coverdiv.find('table')[0], list.data, true);
+        parsePaging(Math.ceil(list.total/list.per_page), $coverdiv.find('.pagination')[0], (params.page||''));
+    });
 }
 
 function parseData(tpl, dest, data, append) {

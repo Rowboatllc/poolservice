@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PageSeeder::class);
         $this->call(OptionSeeder::class);
         $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(StartSeeder::class);
         $this->call(ZipcodeSeeder::class);
     }

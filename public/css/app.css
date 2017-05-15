@@ -9164,6 +9164,10 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   content: "\e090";
 }
 
+.dashboard-notification .notopened {
+  font-weight: bold;
+}
+
 .my-pool-service-company tr td {
   vertical-align: middle !important;
 }

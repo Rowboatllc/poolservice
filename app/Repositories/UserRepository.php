@@ -20,12 +20,14 @@ class UserRepository
     protected $user;
     protected $profile;
 	protected $company;
+    protected $poolowner;
 
-    public function __construct(User $user, Profile $profile,Company $com)
+    public function __construct(User $user, Profile $profile,Company $com,Poolowner $poolowner)
     {
         $this->user = $user;
         $this->profile = $profile;
         $this->company=$com;
+        $this->poolowner=$poolowner;
         \Stripe\Stripe::setApiKey(env('SECRET_STRIPE'));
     }
 
@@ -99,10 +101,11 @@ class UserRepository
 
         // add pool_owners info
         $poolOwner=new Poolowner();
-		$poolOwner->user_id='pending'; 
+		$poolOwner->pool_status='pending'; 
         // add user to user_group
         $userGroup=new UserGroup();
-        $userGroup->group_id=2;
+        $group=self::getUserGroupByName('pool-owner');
+        $userGroup->group_id=$group->id;
         try {
             // using transaction to save data to database
             DB::transaction(function() use ($user, $profile,$bill,$pool,$poolOwner,$userGroup)
@@ -197,7 +200,8 @@ class UserRepository
         $company->cpa='';
         // add user to user_group
         $userGroup=new UserGroup();
-        $userGroup->group_id=3;
+        $group=self::getUserGroupByName('service-company');
+        $userGroup->group_id=$group->id;
         try {
             // using transaction to save data to database
             DB::transaction(function() use ($user, $profile,$bill,$company,$userGroup)
@@ -233,7 +237,7 @@ class UserRepository
         if(empty($zipcode)) return [];
 
         $results = DB::select('SELECT c.id FROM `companies` as c 
-            WHERE c.status = "active" and JSON_CONTAINS(c.zipcodes, "['.$zipcode.']")');
+            WHERE c.status = "active-verified" and JSON_CONTAINS(c.zipcodes, "['.$zipcode.']")');
 
         return $results;         
     }
@@ -250,6 +254,22 @@ class UserRepository
         return $user->save();
     }
 
+    private function getUserGroup($id) {
+        $result = DB::table('users')->select('groups.name')
+                ->join('user_group', 'user_group.user_id','=','users.id')
+                ->join('groups', 'groups.id','=','user_group.group_id')
+                ->where(['users.id' => $id])
+                ->first();
+        return empty($result->name) ? '' : $result->name;
+    }
+
+    private function getUserGroupByName($name) {
+        $result = DB::table('groups')->select('groups.id')
+                ->where(['groups.name' => $name])
+                ->first();
+        return $result;
+    }
+
     public function confirmPoolAccount($confirmCode)
     {
         $user=$this->user->where('confirmation_code', $confirmCode)->first();
@@ -258,8 +278,24 @@ class UserRepository
             return $user;
         }
         
+        $val=self::getUserGroup($user->id);
+        switch ($val) {
+            case "pool-owner": 
+                $this->poolowner->where('user_id', $user->id)
+                    ->update([
+                    'pool_status' => 'unclaimed'
+                ]);
+                break;
+            case "service-company":                
+                $company=$this->company->where('user_id', $user->id)->first(); 
+                $company->forceFill([
+                    'status' => 'active-unverified',
+                ])->save();
+                break;
+        }
+
         return $user->forceFill([
-            'status' => 'unclaimed',
+            'status' => 'active',
         ])->save();
     }
 
