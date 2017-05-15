@@ -35,11 +35,7 @@
                 @include('company.offered-accept-deny')
             </div>
         </div>
-        </div>
-        
-    </div>
-
-    
+    </div>    
 </div>
 <div class="modal-wait" id="divModelPoolService"></div>
 

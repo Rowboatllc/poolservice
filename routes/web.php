@@ -92,3 +92,12 @@ Route::group(['middleware' => ['auth']], function () {
         });
     //});
 });
+
+
+Route::group(['prefix' => 'notification'], function () {
+    Route::get('', 'NotificationController@getList')->name('dashboard-notification-list');
+    Route::post('get-item', 'NotificationController@getItem')->name('dashboard-notification-get-item');
+    Route::post('save-item', 'NotificationController@saveItem')->name('dashboard-notification-save-item');
+    Route::post('remove-item', 'NotificationController@removeItem')->name('dashboard-notification-remove-item');
+    Route::post('get-list', 'NotificationController@listItems')->name('dashboard-notification-get-list');
+});
