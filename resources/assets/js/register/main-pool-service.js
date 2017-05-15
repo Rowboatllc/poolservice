@@ -212,8 +212,8 @@ $(document).ready(function() {
                 if(data.success===true)
                 {
                     $('#count_route').text(data.message.length + " pools");
-                    $('.table-route-'+date+' tr').remove();
-                    let table=$('.table-route-'+date+'');
+                    $('.table-route-'+date+' tbody tr').remove();
+                    let table=$('.table-route-'+date+' tbody');
 
                     jQuery.each(data.message, function(index, item) {
                         let n=parseInt(index) +1;
