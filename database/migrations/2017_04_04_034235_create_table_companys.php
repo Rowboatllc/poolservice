@@ -24,7 +24,7 @@ class CreateTableCompanys extends Migration
             $table->string('wq');
             $table->string('driver_license');
             $table->string('cpa')->nullable();
-            $table->enum('status', array('pending', 'unclaimed', 'active', 'inactive'))->default('pending');
+            $table->enum('status', array('pending', 'active-unverified', 'active-verified','suspended', 'inactive'))->default('pending');
             $table->string('website');        
             $table->timestamps();            
         });

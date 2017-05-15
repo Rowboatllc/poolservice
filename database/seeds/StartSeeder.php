@@ -28,8 +28,10 @@ class StartSeeder extends Seeder
                 $i++;
             }
             $com->zipcodes = $zipcodes;
-            $com->status = 'active';
+            $ran = array('pending', 'active-unverified', 'active-verified','suspended', 'inactive');
+            $com->status = array_rand($ran, 1);
             $com->save();
+            
             return $com;
         });
 
@@ -49,6 +51,7 @@ class StartSeeder extends Seeder
                 $i++;
             }
             $com_new->zipcodes = $zipcodes;
+            $com_new->status = 'active-verified';
             $com_new->save();
         });
         
@@ -75,10 +78,9 @@ class StartSeeder extends Seeder
                 'company_id' => $company->id,
             ]);
         }
-
-        $random = rand(5,10);
+        
         $date = new \DateTime();
-        for($i=0;$i<$random;$i++){
+        for($i=0;$i<100;$i++){
             $status = 'opening';
             $ran = array ('opening', 'checkin', 'unable', 'billing_success', 'billing_error');
             if($i==0){

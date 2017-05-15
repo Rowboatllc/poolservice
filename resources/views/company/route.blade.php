@@ -64,10 +64,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($value as $route)
+                                            @foreach ($value as $key_route => $route)
                                                 <tr>	
                                                     <td><input type="checkbox" checked></input></td>
-                                                    <td>{{$route->address}}</td>
+                                                    <td>{{$key_route+1}}</td>
                                                     <td>{{$route->address}}</td>
                                                     <td>{{$route->city}}</td>
                                                     <td>{{$route->zipcode}}</td>
