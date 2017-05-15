@@ -34,7 +34,7 @@ class StartSeeder extends Seeder
             
             return $com;
         });
-
+        
         $company = DB::table('companies')->first();
 
         DB::table('selecteds')->insert(
@@ -51,7 +51,8 @@ class StartSeeder extends Seeder
                 $i++;
             }
             $com_new->zipcodes = $zipcodes;
-            $com_new->status = 'active-verified';
+            $ran = array('pending', 'active-unverified', 'active-verified','suspended', 'inactive');
+            $com_new->status = $ran[array_rand($ran, 1)];
             $com_new->save();
         });
         
