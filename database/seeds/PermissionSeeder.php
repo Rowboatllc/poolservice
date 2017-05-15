@@ -87,11 +87,15 @@ class PermissionSeeder extends Seeder
                 'dashboard-company-list-technician',
                 'dashboard-company-save-technician',
                 'dashboard-company-remove-technician',
+                
+                'dashboard-company-list-customer',
+                'dashboard-company-accept-deny-offer',
 
                 'ajax-upload-file',
                 'ajax-upload-image',
                 'load-pool-owner',
-                'upload-company-profile'
+                'upload-company-profile',
+                'ajax-upload-an-image'
             ],
             'techician'=>[
                 'technician',

@@ -1,5 +1,4 @@
 @extends('layouts.template')
-
 @section('content')
 <div class="container panel dashboard">
     <div class="box-body no-padding dashboard-notification content-block">
@@ -18,6 +17,7 @@
                         <td>{{$item->subject}}</td>
                         <td>
                             <span class="glyphicon glyphicon-trash icon remove-item-list" aria-hidden="true" data-id="{{$item->id}}"></span>
+                            <span class="glyphicon glyphicon-eye-open icon view-item-list" aria-hidden="true" data-id="{{$item->id}}"></span>
                         </td>
                     </tr>
                 @endforeach
@@ -34,7 +34,20 @@
                 </tr>
             </script>
         </div>
-        
+        <div class="modal fade notification-serviceModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close" data-dismiss="modal">&times;</span>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <span name="subject"></span><br />
+                        <span name="content"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>

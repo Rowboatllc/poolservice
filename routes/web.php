@@ -49,9 +49,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'company'], function () {
             Route::get('', array('uses' => 'Company\CompanyController@index'))->name('service-company');
             
-            //Route::post('accept-offer/{id}', 'Company\ApiCompanyController@acceptOffer')->name('dashboard-company-accept-offer');
-            //Route::post('deny-offer/{id}', 'Company\ApiCompanyController@denyOffer')->name('dashboard-company-deny-offer');
-            
             // Ajax
             Route::post('change-status-offer', 'Company\ApiCompanyController@changeOfferStatus')->name('dashboard-company-update-offer');
             Route::post('accept-deny-offer', 'Company\ApiCompanyController@acceptDenyOffer')->name('dashboard-company-accept-deny-offer');
@@ -95,13 +92,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('ajax-upload-image/{folder}', 'ApiController@uploadImage')->name('ajax-upload-image');
         });
     });
-});
+    
+    Route::group(['prefix' => 'notification'], function () {
+        Route::get('', 'NotificationController@getList')->name('dashboard-notification-list');
+        Route::post('get-item', 'NotificationController@getItem')->name('dashboard-notification-get-item');
+        Route::post('save-item', 'NotificationController@saveItem')->name('dashboard-notification-save-item');
+        Route::post('remove-item', 'NotificationController@removeItem')->name('dashboard-notification-remove-item');
+        Route::post('get-list', 'NotificationController@listItems')->name('dashboard-notification-get-list');
+    });
 
-
-Route::group(['prefix' => 'notification'], function () {
-    Route::get('', 'NotificationController@getList')->name('dashboard-notification-list');
-    Route::post('get-item', 'NotificationController@getItem')->name('dashboard-notification-get-item');
-    Route::post('save-item', 'NotificationController@saveItem')->name('dashboard-notification-save-item');
-    Route::post('remove-item', 'NotificationController@removeItem')->name('dashboard-notification-remove-item');
-    Route::post('get-list', 'NotificationController@listItems')->name('dashboard-notification-get-list');
 });

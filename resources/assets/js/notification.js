@@ -1,15 +1,24 @@
 jQuery(document).ready(function () {
+    // dashboard notification
     function assignEvent() {
-        // dashboard notification
-        jQuery('.dashboard-notification').on('click','.view-item', function() {
-        //jQuery('.dashboard .content-block').on('click','.new-item', function() {
-            let modal = jQuery(this).data('target');
-            let names = ['fullname', 'phone', 'email', 'id', 'avatar', 'is_owner'];
-            setElementValues(modal, names, '');
-        }).on('click', '.technician-img', function(event) {
-            jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
+        jQuery('.dashboard-notification').on('click','.view-item-list', function() {
+            let $me = jQuery(this);
+            let url = $me.closest('table').data('getitemurl');
+            let params = {id:$me.data('id')};
+            if($me.closest('tr').is('.notopened'))
+                params.isOpened = 1;
+            $modal = $me.closest('.content-block').find('.modal');
+            $modal.modal();
+            sendData(url, params, 'POST', function(result){
+                $items = $modal.find('[name]');
+                $items.each(function(){
+                    let key = jQuery(this).attr('name');
+                    if(typeof result.item[key] != 'undefined')
+                        setElementValue(jQuery(this), result.item[key]);
+                    $me.closest('tr').removeClass('notopened');
+                });
+            });
         });
     }
-    
     assignEvent();
 });
