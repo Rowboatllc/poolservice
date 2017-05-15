@@ -9,7 +9,6 @@ use App\Models\Rating;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\DB;
 use Mail;
 
@@ -48,11 +47,11 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                                             AND s.order_id IN (
                                                                 SELECT id FROM(
                                                                         SELECT o1.id FROM orders as o1
-                                                                        WHERE JSON_CONTAINS(o1.zipcode, "['.$zipcode.']")
+                                                                        WHERE JSON_CONTAINS(o1.zipcode, "[' . $zipcode . ']")
                                                                 ) as arbitraryTableName
                                                             )
                                                             
-                                    WHERE o.poolowner_id = '.$user_id.'
+                                    WHERE o.poolowner_id = ' . $user_id . '
                                     AND c.status = "active"
                                     GROUP BY c.id
                                     ');
@@ -106,10 +105,10 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return [];
     }
 
-    public function pausePoolownerService($order_id, $company_id){
+    public function pausePoolownerService($order_id, $company_id) {
         DB::statement('UPDATE `selecteds` SET `status`= "pause"
-                        WHERE order_id = '.$order_id.'
-                        AND company_id = '.$company_id.'
+                        WHERE order_id = ' . $order_id . '
+                        AND company_id = ' . $company_id . '
                             ');
     }
 
@@ -139,7 +138,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return false;
     }
 
-    public function removeAllScheduleCompanyByPoolowner($poolowner_id, $company_id){
+    public function removeAllScheduleCompanyByPoolowner($poolowner_id, $company_id) {
         return DB::statement('UPDATE `schedules` SET `status`= "closed"
                         WHERE `id` IN(
                             SELECT id FROM(
@@ -147,11 +146,11 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                 LEFT JOIN orders o ON o.id = s.order_id
                                 WHERE s.date >= CURDATE()
                                 AND s.status = "checkin" OR s.status = "opening"
-                                AND s.company_id = '.$company_id.'
-                                AND o.poolowner_id = '.$poolowner_id.'
+                                AND s.company_id = ' . $company_id . '
+                                AND o.poolowner_id = ' . $poolowner_id . '
                             ) as arbitraryTableName
                         )'
-                        );
+        );
     }
 
     public function selectCompany($user_id, $company_id, $status = 'pending') {
@@ -243,46 +242,53 @@ class CompanyRepository implements CompanyRepositoryInterface {
 
     public function listCustomers($company_id, $data) {
         $list = $this->customersListBuilder($company_id);
-        return $this->common->pagingSort($list, $data, true, ['city','state','fullname','profiles.created_at','profiles.zipcode',"(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end)"])->toJson();
+        return $this->common->pagingSort($list, $data, true, ['city', 'state', 'fullname', 'profiles.created_at', 'profiles.zipcode', "(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end)"])->toJson();
     }
 
     public function getServiceOffers($user_id) {
         $results = $this->company->where('user_id', $user_id)->select('services')->first();
         return $results->services;
-        /*$offers = DB::select("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
-        left join selecteds on selecteds.order_id = orders.id
-        left join companies on companies.id = selecteds.company_id
-        where companies.user_id = " . $user_id . " and selecteds.status <> 'inactive'");
+    }
+
+    public function OfferFromPoolowner($user_id) {
+        $offers = DB::select(DB::raw("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
+          left join selecteds on selecteds.order_id = orders.id
+          left join companies on companies.id = selecteds.company_id
+          where companies.user_id = $user_id and selecteds.status <> 'inactive'"));
+        //dd($offers);
         if ($offers) {
             for ($i = 0; $i < count($offers); $i++) {
                 $offers[$i]->services = $this->common->getServiceByKeys(json_decode($offers[$i]->services));
                 $offers[$i]->zipcode = json_decode($offers[$i]->zipcode)[0];
             }
         }
-        return $offers;*/
+        return $offers;
     }
 
-    /* public function changeOfferStatus($data) {
-      $user = $this->common->getUserByToken();
-      $emailPoolOwner = $this->getPoolownerFromOffer($data['id']);
-      $emailPoolOwner = $emailPoolOwner[0]->email;
-      $obj = $this->selected->find($data['id']);
-      $obj->status = $data['status'];
-      try {
-      $obj->update();
-      $data = [
-      'email' => [$user->email, $emailPoolOwner],
-      'subject' => 'Service Notification',
-      'data' => ['status' => $obj->status]
-      ];
-      $this->common->sendmail('emails.offer-notification', $data);
-      $this->notification->saveNotification($user->id, 'Offer from '. $emailPoolOwner . ' was ' .$obj->status, 0);
-      return true;
-      } catch (Exception $e) {
-      return false;
-      }
-      return false;
-      } */
+    public function acceptDenyOffer($data) {
+        $user = Auth::user();
+        $poolowner = $this->getPoolownerFromOffer($data['id'])->first();
+        $obj = $this->selected->find($data['id']);
+        $obj->status = $data['status'];
+        DB::beginTransaction();
+        try {
+            $obj->update();
+            if($obj->status=='denied') {
+                $data = [
+                    'email' => [$user->email, $poolowner->email],
+                    'subject' => 'Service Notification',
+                    'data' => ['status' => $obj->status]
+                ];
+                $this->common->sendmail('emails.offer-notification', $data);
+            }
+            $this->notification->saveNotification($user->id, 'Offer from ' . $poolowner->email . ' was ' . $obj->status, 0);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollback();
+            return false;
+        }
+    }
 
     /*
       services: ["weekly_cleaning", "deep_cleaning", "pool_spa_repair"]
@@ -296,11 +302,11 @@ class CompanyRepository implements CompanyRepositoryInterface {
     }
 
     public function getPoolownerFromOffer($id) {
-        return DB::select("
-            select users.* from users
-            left join orders on orders.poolowner_id = users.id
-            left join selecteds on selecteds.order_id = orders.id
-            where selecteds.status <> 'inactive' limit 0,1");
+        return DB::table('users')
+            ->leftJoin('orders', 'orders.poolowner_id', 'users.id')
+            ->leftJoin('selecteds', 'selecteds.order_id', 'orders.id')
+            ->where('selecteds.id', $id)
+            ->where('selecteds.status', 'pending');
     }
 
 }
