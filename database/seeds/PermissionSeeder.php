@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class PermissionSeeder extends Seeder
 {
@@ -163,6 +164,12 @@ class PermissionSeeder extends Seeder
         $arr = [
             'poolowner' => [
                 'pool-owner',
+                'update-billing-info',
+                'select-company',
+                'select-new-company',
+                'rating-company',
+                'get-point-rating-company',
+
                 'dashboard-poolowner-save-email',
                 'dashboard-poolowner-save-password',
                 'dashboard-poolowner-save-profile',
@@ -170,22 +177,30 @@ class PermissionSeeder extends Seeder
             ],
             'company' => [
                 'service-company',
-                'dashboard-company-change-services-offer'
-            ],
-            'techician'=>[
-                'technician',
+                'update-billing-info',
+                'dashboard-company-change-services-offer',
+
                 'dashboard-company-list-technician',
                 'dashboard-company-save-technician',
                 'dashboard-company-remove-technician'
+            ],
+            'techician'=>[
+                'technician',
+                'technician-enroute',
+                'technician-complete-steps',
+                'technician-unable-steps'
             ]
         ];
 
         foreach($arr as $group => $ps){
             foreach($ps as $k => $p){
-                $pms = factory(App\Models\Permission::class)->create([
-                    'name' => $p,
-                    'alias' => $p
-                ]);
+                $pms = DB::table('permissions')->where('alias',$p)->first();
+                if(!isset($pms)){
+                    $pms = factory(App\Models\Permission::class)->create([
+                        'name' => $p,
+                        'alias' => $p
+                    ]);
+                }
                 switch($group) {
                     case 'poolowner':
                         $group_pool_owner->permissions()->attach($pms);
@@ -193,8 +208,11 @@ class PermissionSeeder extends Seeder
                     case 'company':
                         $group_service_company->permissions()->attach($pms);
                         break;
-                    case '':
+                    case 'techician':
                         $group_technician->permissions()->attach($pms);
+                        break;
+                    case '':
+                        $group_admin->permissions()->attach($pms);
                         break;
                 }
             }
