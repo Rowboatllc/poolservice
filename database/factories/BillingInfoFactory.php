@@ -20,7 +20,7 @@ $factory->define(App\Models\BillingInfo::class, function (Faker\Generator $faker
         'customer_id' => 'cus_AchK8Pnbxxwr5H',
         'expiration_date' => $faker->creditCardExpirationDateString,
         'card_last_digits' => intval(substr($faker->creditCardNumber,-4)),
-        'address' => $faker->address,
+        'address' => $faker->streetAddress,
         'city' => $faker->city,
         'state' => $faker->state,
         'zipcode' => array(intval(substr($faker->postcode,0,5)))

@@ -99,11 +99,17 @@ class CompanyController extends Controller {
     }
 
     public function loadPoolOwner(Request $request)
-    {
+    {        
         $id=$request['id'];
+        if(intval($id)<=0)
+        {
+            $user=Auth::user();
+            $id=$user->id;
+        }
+
         $date=$request['date'];
-        $schedule=$this->user->getUserSchedule($id,$date);
-        dd($schedule);
+        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
         if($schedule)
         {
             return response()->json(['success' => true,'message' => $schedule],200);

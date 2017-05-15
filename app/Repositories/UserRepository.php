@@ -339,7 +339,7 @@ class UserRepository
         return $dates;
     }
 
-    private function getUserScheduleByDate($id,$date)
+    public function getUserScheduleByDate($id,$date)
     {
         $comProfile = DB::table('schedules')
                 ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
@@ -365,11 +365,14 @@ class UserRepository
     }
 
     public function getListTechnician($id) {
-        return DB::table('companies')
-            ->join('technicians', 'technicians.company_id', '=', 'companies.id')
-            ->join('profiles', 'technicians.user_id', '=', 'profiles.user_id')            
-            ->where('companies.user_id', $id)
-            ->select('profiles.fullname', 'profiles.user_id')->get();
+
+        $schedules = DB::select('SELECT p.fullname,p.user_id  FROM technicians as t
+                                    LEFT JOIN companies c ON c.id = t.company_id
+                                    LEFT JOIN profiles p ON p.user_id = t.user_id
+                                    WHERE t.company_id in (select id from companies co where co.user_id='.$id.')
+                                    ');
+
+        return $schedules;
     }
 
     public function getListZipcode()

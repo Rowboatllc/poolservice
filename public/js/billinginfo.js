@@ -1,10 +1,74 @@
 
 $(document).ready(function() {
-		
 	globalAssignEventBilling();
-});
-// Stripe.setPublishableKey('pk_test_S8LYhESxrcuH15YYm7gXBRyH');
 
+	$('#expiration_date').keypress(function(e) {
+		let input = String.fromCharCode(e.which);
+		if(!jQuery.isNumeric(input))
+			return false;
+        let value = (jQuery(this).is(':input')) ? 
+                    jQuery.trim(jQuery(this).val()): 
+                    jQuery.trim(jQuery(this).text());
+		if(value.length<2){
+			value += input;
+			if(parseInt(value)>12){
+				return false;
+			}
+		}else if(value.length==2){
+			value += '/';
+			value += input;
+        	this.innerHTML = value;
+			placeCaretAtEnd(this);
+			return true;
+		}else if(value.length>=7){
+			return false;
+		}
+        }).on({
+        'paste': function(e) {
+
+        },
+        'drop': function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+});
+function checkDate(date) {
+	var minMonth = new Date().getMonth() + 1;
+	var minYear = new Date().getFullYear();
+	var res = date.split("/");
+
+	var $month = res[0];
+	var $year = res[1];
+
+	var month = parseInt($month, 10);
+	var year = parseInt($year, 10);
+	
+	if ((year < minYear) || ((year === minYear) && (month < minMonth)) || (year > minYear+40)) {
+		return false;
+	} else {
+		return true;
+	}			
+}
+
+function placeCaretAtEnd(el) {
+    el.focus();
+    if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse(false);
+        textRange.select();
+    }
+}
 function saveEditableDataBilling($obj, callback) {
 	var data_billing = getEditableFieldValues( $obj );
 

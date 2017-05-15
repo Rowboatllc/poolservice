@@ -34,10 +34,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="name-{{$key}}">{{$user->name}}</label>
+                                        <label class="hidden not-asign-{{$key}}">Not asigned</label>
                                     </div>
                                     <div class="form-group">
-                                        <select id="select_{{$key}}" name="pool_service_list_{{$key}}">
-                                            <option selected="selected">Chose pool service professional</option>
+                                        <select id="{{$key}}" name="pool_service_list_{{$key}}">
+                                            <option value="0" selected="selected">Chose pool service professional</option>
                                             @foreach ($listTechnicians as $tech)
                                                 <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
                                             @endforeach                            
@@ -45,7 +46,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>{{count($value)}} pools</label>
+                                        <label id="count_route">{{count($value)}} pools</label>
                                     </div>
                                 </div>
                             </div> 
@@ -53,22 +54,26 @@
                             <div>
                                 <div class="col-md-7">
                                     <table class="table table-hover table-route-{{$key}}">
-                                        <tr>
-                                            <th></th>
-                                            <th><a>Order</a></th>
-                                            <th><a>Street Address</a></th>
-                                            <th><a>City</a></th>
-                                            <th><a>Zipcode</a></th>
-                                        </tr>
-                                        @foreach ($value as $route)
-                                            <tr>	
-                                                <td><input type="checkbox" checked></input></td>
-                                                <td>{{$route->address}}</td>
-                                                <td>{{$route->address}}</td>
-                                                <td>{{$route->city}}</td>
-                                                <td>{{$route->zipcode}}</td>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th><a>Order</a></th>
+                                                <th><a>Street Address</a></th>
+                                                <th><a>City</a></th>
+                                                <th><a>Zipcode</a></th>
                                             </tr>
-                                        @endforeach
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($value as $route)
+                                                <tr>	
+                                                    <td><input type="checkbox" checked></input></td>
+                                                    <td>{{$route->address}}</td>
+                                                    <td>{{$route->address}}</td>
+                                                    <td>{{$route->city}}</td>
+                                                    <td>{{$route->zipcode}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
                                 </div> 
                                 <div class="col-md-5 route-map-{{$key}}">

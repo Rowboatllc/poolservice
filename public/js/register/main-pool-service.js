@@ -201,24 +201,38 @@ $(document).ready(function() {
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
     });
 
-    $('select').on('change', function(e) {
-        let request = $.ajax({
+    $('.company-route-service select').on('change', function(e) {
+        let date=this.id;
+        $.ajax({ 
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: "service-company/load-pool-owner",
+            url: "load-pool-owner",
             method: "GET",
-            data: { id : this.value,date:this.id},
-            dataType: "html"
-        });
-        
-        request.done(function( msg ) {
-            // $( "#log" ).html( msg );
-            // alert(msg.message);
-            alert('hahahahahahahahahahahahahaha');
-        });
-        
-        request.fail(function( jqXHR, textStatus ) {
-            // alert( "Request failed: " + textStatus );
-        });
+            data: { id : this.value,date:date},
+            success: function (data) {
+                if(data.success===true)
+                {
+                    $('#count_route').text(data.message.length + " pools");
+                    $('.table-route-'+date+' tbody tr').remove();
+                    let table=$('.table-route-'+date+' tbody');
+
+                    jQuery.each(data.message, function(index, item) {
+                        let n=parseInt(index) +1;
+                        let row="<tr>";
+                        row+="<td><input type='checkbox' checked></input></td>";
+                        row+="<td>"+ n +"</td>";
+                        row+="<td>"+item.address+"</td>";
+                        row+="<td>"+item.city+"</td>";
+                        row+="<td>"+item.zipcode+"</td>";
+                        row+="</tr>";
+
+                        table.append(row);
+                    });
+                }
+            },
+            error: function (ajaxContext) {
+                console.log(ajaxContext.responseText);
+            }
+        });	
     })
 
     $('.chk-not-available').on('change',function(e){
@@ -226,10 +240,12 @@ $(document).ready(function() {
         if($(this).prop('checked')){            
             $('.avatar-'+date+'').addClass('hidden');
             $('.name-'+date+'').addClass('hidden');
+            $('.not-asign-'+date+'').removeClass('hidden');
             $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
         }else{
             $('.avatar-'+date+'').removeClass('hidden');
             $('.name-'+date+'').removeClass('hidden');
+            $('.not-asign-'+date+'').addClass('hidden');
             $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
         }        
     });

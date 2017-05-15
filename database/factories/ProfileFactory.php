@@ -18,7 +18,7 @@ $factory->define(App\Models\Profile::class, function (Faker\Generator $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'fullname' => $faker->name,
-        'address' => $faker->address,
+        'address' => $faker->streetAddress,
         'city' => $faker->city,
         'state' => $faker->state,
         'zipcode' => intval(substr($faker->postcode,0,5)),
