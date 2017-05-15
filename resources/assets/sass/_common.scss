@@ -533,3 +533,10 @@ span.stars{
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+[contenteditable='true']:before {
+    content: "\feff ";
+}
+[contenteditable=true]:empty:before {
+    content: "\feff " !important;
+}

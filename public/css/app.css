@@ -8384,6 +8384,14 @@ span.stars {
   }
 }
 
+[contenteditable='true']:before {
+  content: "\feff ";
+}
+
+[contenteditable=true]:empty:before {
+  content: "\feff " !important;
+}
+
 /*
  * Custom styles
  */
