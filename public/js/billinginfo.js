@@ -4,19 +4,28 @@ $(document).ready(function() {
 
 	$('#expiration_date').keypress(function(e) {
 		let input = String.fromCharCode(e.which);
-		if(!jQuery.isNumeric(input))
-			return false;
-        let value = (jQuery(this).is(':input')) ? 
+		let value = (jQuery(this).is(':input')) ? 
                     jQuery.trim(jQuery(this).val()): 
                     jQuery.trim(jQuery(this).text());
-		if(value.length<2){
-			value += input;
-			if(parseInt(value)>12){
+		if(!jQuery.isNumeric(input)&&!(input=='/'&&value.length==2))
+			return false;
+        
+		if(value.length==1){
+			let temp = value + input;
+			if(parseInt(temp)>12){
+				value = '0' + value;
+				value += '/';
+				this.innerHTML = value;
+				placeCaretAtEnd(this);
+			}else{
+				value += input;
+				value += '/';
+				this.innerHTML = value;
+				placeCaretAtEnd(this);
 				return false;
 			}
 		}else if(value.length==2){
 			value += '/';
-			value += input;
         	this.innerHTML = value;
 			placeCaretAtEnd(this);
 			return true;

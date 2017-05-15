@@ -34,6 +34,8 @@ class CompanyController extends Controller {
         $user = Auth::user();
         $customers = $this->company->getCustomers($user->id);
         $offers = $this->company->getServiceOffers($user->id);
+        $offerFromPoolowner = $this->company->OfferFromPoolowner($user->id);
+        
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         $technicians = $technicianRepo->getList($user->id);
@@ -47,7 +49,7 @@ class CompanyController extends Controller {
         $billing_info = $this->billing->getBillingInfo($user->id);
 
         return view('company.index', 
-        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians','billing_info']));
+        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians','billing_info','offerFromPoolowner']));
     }
 
     public function addCompanyProfile(Request $request) 

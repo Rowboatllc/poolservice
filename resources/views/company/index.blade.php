@@ -10,6 +10,7 @@
             <li><a data-toggle="tab" href="#sectionD">Billing Info</a></li>
             <li><a data-toggle="tab" href="#sectionE">Pool Service Professionals</a></li>
             <li><a data-toggle="tab" href="#sectionF">My PoolService Customers</a></li>
+             <li><a data-toggle="tab" href="#sectionZ">offered-accept-deny</a></li>
         </ul>
         <div class="tab-content">
             <div id="sectionA" class="tab-pane fade">
@@ -29,6 +30,9 @@
             </div>
             <div id="sectionF" class="tab-pane fade">
                 @include('company.customer')
+            </div>
+            <div id="sectionZ" class="tab-pane fade">
+                @include('company.offered-accept-deny')
             </div>
         </div>
         </div>
@@ -65,11 +69,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
     <script src="{{ asset('js/register/main-pool-service.js') }}"></script>  
     <script src="{{ asset('/js/route-google-map.js') }}"></script>
-    <script  async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK630V18YqZgaQbViFBkYveJ_pVTfNnzI&callback=initMap" type="text/javascript">
-    </script>
-
-
+    <script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK630V18YqZgaQbViFBkYveJ_pVTfNnzI&callback=initMap" type="text/javascript"></script>
     <script src="http://parsleyjs.org/dist/parsley.js"></script>    
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>

@@ -53,6 +53,16 @@
             text-decoration: line-through;
         }
     }
+    span.icon.glyphicon {
+        font-size: 18px;
+        cursor: pointer;
+    }
+    span.icon.glyphicon.glyphicon-ok-circle {
+        color: green;
+    }
+    span.icon.glyphicon.glyphicon-ban-circle {
+        color: red;
+    }
 }
     
 .dashboard-panel {
@@ -222,6 +232,20 @@
     }
 }
 
+.company-offered-service {
+    .offer_status.active {
+        &:before {
+            content: "\e089";
+        }
+    }
+    
+    .offer_status.denied {
+        &:before {
+            content: "\e090";
+        }
+    }
+}
+
 .my-pool-service-company{
     tr td {
         vertical-align: middle !important;
@@ -240,7 +264,6 @@
         height: 50px;
     }
 }
-
 
 .company-profile-service {
     /*  bhoechie tab */

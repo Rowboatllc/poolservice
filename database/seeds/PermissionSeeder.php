@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class PermissionSeeder extends Seeder
 {
@@ -58,111 +59,21 @@ class PermissionSeeder extends Seeder
             'alias' => 'admin-administrator',            
         ]);
 
-        $permission_ajax_upload_file = factory(App\Models\Permission::class)->create([
-            'name' => 'ajax-upload-file',
-            'alias' => 'ajax-upload-file',            
-        ]);
-        
-        $permission_ajax_upload_img = factory(App\Models\Permission::class)->create([
-            'name' => 'ajax-upload-image',
-            'alias' => 'ajax-upload-image',            
-        ]);
-        
-        // set new user admin
-        $user_admin = factory(App\Models\User::class)->create([
-            'name' => 'Admin',
-            'status' => 'active',
-            'email' => 'admin@rowboatsoftware.com',            
-        ]);
-
-        // set new user user_pool
-        $user_pool = factory(App\Models\User::class)->create([
-            'name' => 'Pool',
-            'status' => 'active',            
-            'email' => 'pool@rowboatsoftware.com',            
-        ]);
-
-         factory(App\Models\BillingInfo::class)->create([
-            'user_id' => $user_pool->id
-        ]);
-        $pool_profile =factory(App\Models\Profile::class)->create([
-            'user_id' => $user_pool->id
-        ]);
-        factory(App\Models\Poolowner::class)->create([
-            'user_id' => $user_pool->id
-        ]);
-        factory(App\Models\Order::class)->create([
-            'poolowner_id' => $user_pool->id,
-            'zipcode' =>[$pool_profile->zipcode]
-        ]);
-       
-
-        // set new user user_company
-        $user_company = factory(App\Models\User::class)->create([
-            'name' => 'Company',
-            'status' => 'active',            
-            'email' => 'company@rowboatsoftware.com'          
-        ]);
-        factory(App\Models\BillingInfo::class)->create([
-            'user_id' => $user_company->id
-        ]);
-        factory(App\Models\Profile::class)->create([
-            'user_id' => $user_company->id
-        ]);
-
-        // set new user user_technician
-        $user_technician = factory(App\Models\User::class)->create([
-            'name' => 'Technician',
-            'status' => 'active',            
-            'email' => 'technician@rowboatsoftware.com',            
-        ]);
-        factory(App\Models\BillingInfo::class)->create([
-            'user_id' => $user_technician->id
-        ]);
-        factory(App\Models\Profile::class)->create([
-            'user_id' => $user_technician->id
-        ]);
-
-         // list user poolowner
-        $user_pools = factory(App\Models\User::class, 30)->create([
-            'status' => 'active',   
-        ]);
-        
-        foreach($user_pools as $user_pool_new){
-            factory(App\Models\Poolowner::class)->create([
-                'user_id' => $user_pool_new->id
-            ]);
-            factory(App\Models\Order::class)->create([
-                'poolowner_id' => $user_pool_new->id
-            ]);
-            factory(App\Models\BillingInfo::class)->create([
-                'user_id' => $user_pool_new->id
-            ]);
-            factory(App\Models\Profile::class)->create([
-                'user_id' => $user_pool_new->id
-            ]);
-        }
-
-
         $group_admin->permissions()->attach($permission_admin_manager->id);
         $group_admin->permissions()->attach($permission_admin_option->id);
         $group_admin->permissions()->attach($permission_admin_option_contact->id);
         $group_admin->permissions()->attach( $permission_admin_page->id);
         $group_admin->permissions()->attach( $permission_admin_administrator->id);
-
-        $group_admin->users()->attach( $user_admin->id);
-        $group_pool_owner->users()->attach( $user_pool ->id);
-        $group_service_company->users()->attach( $user_company->id);
-        $group_technician->users()->attach( $user_technician->id);
-        
-        // allow upload 
-        $group_service_company->permissions()->attach($permission_ajax_upload_img->id);
-        $group_service_company->permissions()->attach($permission_ajax_upload_file->id);
-
         
         $arr = [
             'poolowner' => [
                 'pool-owner',
+                'update-billing-info',
+                'select-company',
+                'select-new-company',
+                'rating-company',
+                'get-point-rating-company',
+
                 'dashboard-poolowner-save-email',
                 'dashboard-poolowner-save-password',
                 'dashboard-poolowner-save-profile',
@@ -170,22 +81,33 @@ class PermissionSeeder extends Seeder
             ],
             'company' => [
                 'service-company',
-                'dashboard-company-change-services-offer'
+                'update-billing-info',
+                'dashboard-company-change-services-offer',
+
+                'dashboard-company-list-technician',
+                'dashboard-company-save-technician',
+                'dashboard-company-remove-technician',
+
+                'ajax-upload-file',
+                'ajax-upload-image'
             ],
             'techician'=>[
                 'technician',
-                'dashboard-company-list-technician',
-                'dashboard-company-save-technician',
-                'dashboard-company-remove-technician'
+                'technician-enroute',
+                'technician-complete-steps',
+                'technician-unable-steps'
             ]
         ];
 
         foreach($arr as $group => $ps){
             foreach($ps as $k => $p){
-                $pms = factory(App\Models\Permission::class)->create([
-                    'name' => $p,
-                    'alias' => $p
-                ]);
+                $pms = DB::table('permissions')->where('alias',$p)->first();
+                if(!isset($pms)){
+                    $pms = factory(App\Models\Permission::class)->create([
+                        'name' => $p,
+                        'alias' => $p
+                    ]);
+                }
                 switch($group) {
                     case 'poolowner':
                         $group_pool_owner->permissions()->attach($pms);
@@ -193,8 +115,11 @@ class PermissionSeeder extends Seeder
                     case 'company':
                         $group_service_company->permissions()->attach($pms);
                         break;
-                    case '':
+                    case 'techician':
                         $group_technician->permissions()->attach($pms);
+                        break;
+                    case '':
+                        $group_admin->permissions()->attach($pms);
                         break;
                 }
             }

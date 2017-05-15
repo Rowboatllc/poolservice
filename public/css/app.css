@@ -8935,6 +8935,19 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   text-decoration: line-through;
 }
 
+.dashboard span.icon.glyphicon {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.dashboard span.icon.glyphicon.glyphicon-ok-circle {
+  color: green;
+}
+
+.dashboard span.icon.glyphicon.glyphicon-ban-circle {
+  color: red;
+}
+
 .dashboard-panel .panel-primary > .panel-heading {
   padding: 10px 15px 0px;
   background-color: none;
@@ -9121,6 +9134,14 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
 
 .technician-professionnal-service .status.pending {
   color: gray;
+}
+
+.company-offered-service .offer_status.active:before {
+  content: "\e089";
+}
+
+.company-offered-service .offer_status.denied:before {
+  content: "\e090";
 }
 
 .my-pool-service-company tr td {

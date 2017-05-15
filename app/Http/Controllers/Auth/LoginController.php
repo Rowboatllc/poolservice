@@ -72,16 +72,13 @@ use AuthenticatesUsers;
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $statuss = ['active', 'unclaimed', 'billing_error'];
-        foreach($statuss as $status){
-            $data = [
-                'email' => $email,
-                'password' => $password,
-                'status' => $status
-            ];
-            if (Auth::attempt($data, $remember)) {
-                return $this->sendLoginResponse($request);
-            }
+        $data = [
+            'email' => $email,
+            'password' => $password,
+            'status' => 'active'
+        ];
+        if (Auth::attempt($data, $remember)) {
+            return $this->sendLoginResponse($request);
         }
 
         $this->incrementLoginAttempts($request);
@@ -105,18 +102,11 @@ use AuthenticatesUsers;
         $result = $this->user->confirmTechnicianAccount($request->all());
         if($result){
             $data = [
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'status' => 'active',
+                'email' => $email,
+                'password' => $password,
+                'status' => 'active'
             ];
-
-            $data1 = [
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'status' => 'unclaimed',
-            ];
-
-            if (Auth::attempt($data)||Auth::attempt($data1)) {
+            if (Auth::attempt($data, $remember)) {
                 return $this->sendLoginResponse($request);
             }
         }
