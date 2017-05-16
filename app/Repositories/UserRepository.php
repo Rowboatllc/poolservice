@@ -41,6 +41,11 @@ class UserRepository
         $user->confirmation_code=$array['confirmation_code'];
 		// create new user object 
 		$profile = new Profile();
+        $address=Common::geoCode($array['street']);
+        $profile->lat=$address[0];
+        $profile->lng=$address[1];
+        $profile->title=$address[2];
+
         $profile->first_name=$array['fullname'];
 		$profile->last_name=$array['fullname'];
         $profile->fullname=$array['fullname'];
