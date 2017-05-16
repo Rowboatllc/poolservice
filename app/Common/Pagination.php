@@ -15,9 +15,8 @@ trait Pagination {
         $where = $this->getWhere($data, $searchable);
         $query = $this->bindData($query, [':where'=>$where]);
         
-        $orderBy = $this->getOrderBy($query, $data);
+        $orderBy = $this->getOrderBy($query, $data, $searchable);
         $query = $this->bindData($query, [':orderby'=>$orderBy]);
-        //dd($query);
         $page = empty($data['page']) ? 1 : (int)$data['page'];
         $perPage = $this->perPage;
         return $this->paginate($query, $page, $perPage);
@@ -53,12 +52,14 @@ trait Pagination {
             return $list->where($searchfield, 'like', '%' . $searchvalue . '%' );
         $searchable = (array)$searchable;
         if($searchfield=='' && count($searchable)){
-            for($i=0; $i<count($searchable); $i++) {
+            $i=0;
+            foreach($searchable as $k => $v) {
                 if($i==0) {
-                    $list->where($searchable[$i], 'like', '%' . $searchvalue . '%' );
+                    $list->where($v, 'like', '%' . $searchvalue . '%' );
+                    $i=1;
                     continue;
                 }
-                $list->orWhere($searchable[$i], 'like', '%' . $searchvalue . '%' );
+                $list->orWhere($v, 'like', '%' . $searchvalue . '%' );
             }
             return $list; 
         }
@@ -75,27 +76,37 @@ trait Pagination {
         
         if($searchvalue=='')
             return '';
-        if($searchfield!='')
+        if($searchfield!='') {
+            if( in_array($searchfield, array_keys($searchable)) && (!empty($searchable[$searchfield])) )
+                $searchfield = $searchable[$searchfield];
             return ' and '. $searchfield. " like '%$searchvalue%' ";
+        }
         $searchable = (array)$searchable;
         $where = '';
         if($searchfield=='' && count($searchable)){
-            for($i=0; $i<count($searchable); $i++) {
+            $i=0;
+            foreach($searchable as $k => $v) {
                 if($i==0) {
-                    $where = $where . ' and '. $searchable[$i]. " like '%$searchvalue%' ";
+                    $where = $where . ' and '. $v. " like '%$searchvalue%' ";
+                    $i=1;
                     continue;
                 }
-                $where = $where . ' or '. $searchable[$i]. " like '%$searchvalue%' ";
+                $where = $where . ' or '. $v. " like '%$searchvalue%' ";
             }
             return $where; 
         }
         return '';
     }
     
-    public function getOrderBy($query, $data) {
+    public function getOrderBy($query, $data, $searchable) {
         if(empty($data['orderfield']))
             return '';
         $field = $data['orderfield'];
+        if(in_array($field, array_keys($searchable))) {
+            if(!empty($searchable[$field]))
+                $field = $searchable[$field];
+            // else $field=key 
+        }
         $direction = (empty($data['orderdir']) ? 'asc' : $data['orderdir']);
         return  ' order by '. $field .' '. $direction;
     }
