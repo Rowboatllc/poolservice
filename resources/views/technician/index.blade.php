@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('head')
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="{{ asset('/js/lib/jquery.validate.min.js') }}"></script>
 @endsection
 
 @section('content')
@@ -36,4 +36,7 @@
 
     <script src="{{ asset('/js/technician.js') }}"></script>
     <script src="{{ asset('/js/map.js') }}"></script>
+    <script>
+        var schedules = <?php echo json_encode($schedules); ?>;
+    </script>
 @endsection

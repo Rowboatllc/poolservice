@@ -26,7 +26,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     }
 
     public function getAllScheduleInWeek($technician_id){
-        $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date) dayOfWeek, p.address, p.city, p.zipcode  FROM schedules as s
+        $schedules = DB::select('SELECT s.*, DAYOFWEEK(s.date) dayOfWeek, p.address, p.city, p.zipcode, p.lat, p.lng, p.fullname  FROM schedules as s
                                     LEFT JOIN orders o ON o.id = s.order_id
                                     LEFT JOIN profiles p ON p.user_id = o.poolowner_id
                                     WHERE DATE(s.date) < (NOW() + INTERVAL 6 DAY)

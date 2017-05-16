@@ -133,7 +133,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
                             <center>
                                 <!--<h4 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h4>-->
                                 <h4 style="margin-top: 0;color:#55518a">Upload your W-q</h4>
-                                <h4 style="margin-top: 0;color:#55518a">https:www.irs.gov/pub/irs-pdf/fwq.pdf</h4>
+                                <h4 style="margin-top: 0;color:#55518a"></h4>
                                 <input type="text" name="wq" required placeholder="Upload your W-q..." class="form-control" id="wq">
                                 <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
                                 <h4 style="margin-top: 0;color:#55518a">You are considered a subcontractor of PoolService.com and will receive a </h4>

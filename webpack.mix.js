@@ -43,6 +43,10 @@ mix.combine(['resources/assets/js/route-google-map.js'], 'public/js/route-google
 mix.combine(['resources/assets/js/technician.js'], 'public/js/technician.js');
 mix.combine(['resources/assets/js/map.js'], 'public/js/map.js');
 
+//lib
+mix.combine(['resources/assets/js/lib/parsley.js'], 'public/js/lib/parsley.js');
+mix.combine(['resources/assets/js/lib/jquery.validate.min.js'], 'public/js/lib/jquery.validate.min.js');
+mix.combine(['resources/assets/js/lib/jquery-ui.js'], 'public/js/lib/jquery-ui.js');
 
 // Sass
 
