@@ -23,6 +23,8 @@ $factory->define(App\Models\Profile::class, function (Faker\Generator $faker) {
         'state' => $faker->state,
         'zipcode' => intval(substr($faker->postcode,0,5)),
         'phone' => $faker->phoneNumber,
-        'avatar' => $faker->imageUrl
+        'avatar' => $faker->imageUrl,
+        'lat' => $faker->latitude,
+        'lng' => $faker->longitude
     ];
 });

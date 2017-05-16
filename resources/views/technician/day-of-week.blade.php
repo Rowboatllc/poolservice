@@ -19,7 +19,8 @@
                                 <input type="hidden" name="date" value="{{$sc->dateFormat}}">
                                 <input type="hidden" name="cleaning_steps" value="{{$sc->cleaning_steps}}">                                
                                 <input type="hidden" name="comment" value="{{$sc->comment}}">                           
-                                <input type="hidden" name="status" value="{{$sc->status}}" style="width: 95px; ">                           
+                                <input type="hidden" name="status" value="{{$sc->status}}">                           
+                                <input type="hidden" name="address" value="{{$sc->address}}">                           
                             </td>
                             <td valign="middle"><span>{{$sc->city}}</span></td>
                             <td valign="middle"><span>{{$sc->zipcode}}</span></td>

@@ -31,7 +31,7 @@
 
 @section('lib')
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBryrrkxzanAKewPE3p9-XK2XTPYwpyKeU&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBryrrkxzanAKewPE3p9-XK2XTPYwpyKeU">
     </script>
 
     <script src="{{ asset('/js/technician.js') }}"></script>

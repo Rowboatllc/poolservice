@@ -52,7 +52,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                                             )
                                                             
                                     WHERE o.poolowner_id = ' . $user_id . '
-                                    AND c.status = "active"
+                                    AND c.status = "active-verified"
                                     GROUP BY c.id
                                     ');
             usort($companys, array($this, "cmp"));
@@ -97,7 +97,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                         WHERE o.poolowner_id = ' . $user_id . '
                                         AND s.status = "pending" OR s.status = "active" OR s.status = "pause"
                                     )
-                                    AND c.status = "active"
+                                    AND c.status = "active-verified"
                                     GROUP BY c.id
                                     ');
             return $companys;
