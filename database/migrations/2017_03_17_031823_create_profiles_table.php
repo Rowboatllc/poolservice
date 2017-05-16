@@ -22,6 +22,8 @@ class CreateProfilesTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->integer('zipcode')->nullable();
+            $table->float('lat')->nullable();
+            $table->float('lng')->nullable();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();

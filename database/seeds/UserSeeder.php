@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Group;
+use App\Models\Zipcode;
 
 class UserSeeder extends Seeder
 {
@@ -35,8 +36,10 @@ class UserSeeder extends Seeder
         factory(App\Models\BillingInfo::class)->create([
             'user_id' => $user_pool->id
         ]);
+
         $pool_profile =factory(App\Models\Profile::class)->create([
-            'user_id' => $user_pool->id
+            'user_id' => $user_pool->id,
+            'zipcode' => Zipcode::inRandomOrder()->first()->zipcode
         ]);
         factory(App\Models\Poolowner::class)->create([
             'user_id' => $user_pool->id
@@ -57,9 +60,10 @@ class UserSeeder extends Seeder
             'user_id' => $user_company->id
         ]);
         factory(App\Models\Profile::class)->create([
-            'user_id' => $user_company->id
+            'user_id' => $user_company->id,
+            'zipcode' => Zipcode::inRandomOrder()->first()->zipcode            
         ]);
-
+        
         // set new user user_technician
         $user_technician = factory(App\Models\User::class)->create([
             'name' => 'Technician',
@@ -70,7 +74,8 @@ class UserSeeder extends Seeder
             'user_id' => $user_technician->id
         ]);
         factory(App\Models\Profile::class)->create([
-            'user_id' => $user_technician->id
+            'user_id' => $user_technician->id,
+            'zipcode' => Zipcode::inRandomOrder()->first()->zipcode            
         ]);
 
          // list user poolowner
@@ -89,7 +94,9 @@ class UserSeeder extends Seeder
                 'user_id' => $user_pool_new->id
             ]);
             factory(App\Models\Profile::class)->create([
-                'user_id' => $user_pool_new->id
+                'user_id' => $user_pool_new->id,
+                'zipcode' => Zipcode::inRandomOrder()->first()->zipcode
+                
             ]);
         }
        

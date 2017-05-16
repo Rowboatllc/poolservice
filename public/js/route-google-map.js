@@ -1,87 +1,80 @@
-// function initMap() {
-//     var map = new google.maps.Map(document.getElementById('route-map'), {
-//         zoom: 3,
-//         center: {lat: 0, lng: -180},
-//         mapTypeId: 'terrain'
-//     });
-
-//     var flightPlanCoordinates = [
-//         {lat: 37.772, lng: -122.214},
-//         {lat: 21.291, lng: -157.821},
-//         {lat: -18.142, lng: 178.431},
-//         {lat: -27.467, lng: 153.027}
-//     ];
-//     var flightPath = new google.maps.Polyline({
-//         path: flightPlanCoordinates,
-//         geodesic: true,
-//         strokeColor: '#FF0000',
-//         strokeOpacity: 1.0,
-//         strokeWeight: 2
-//     });
-
-//     flightPath.setMap(map);
-// }
-
-// $(document).ready(function () {
-//     var map;
-//     var elevator;
-//     var myOptions = {
-//         zoom: 1,
-//         center: new google.maps.LatLng(0, 0),
-//         mapTypeId: 'terrain'
-//     };
-//     map = new google.maps.Map($('#route-map'), myOptions);
-
-//     var addresses = ['Norway', 'Africa', 'Asia','North America','South America'];
-
-//     for (var x = 0; x < addresses.length; x++) {
-//         $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[x]+'&sensor=false', null, function (data) {
-//             var p = data.results[0].geometry.location
-//             var latlng = new google.maps.LatLng(p.lat, p.lng);
-//             new google.maps.Marker({
-//                 position: latlng,
-//                 map: map
-//             });
-
-//         });
-//     }
-
-// }); 
+let MapPoints = '[{"address":{"address":"plac Grzybowski, Warszawa, Polska","lat":"52.2360592","lng":"21.002903599999968"},"title":"Warszawa"},{"address":{"address":"Jana Paw\u0142a II, Warszawa, Polska","lat":"52.2179967","lng":"21.222655600000053"},"title":"Wroc\u0142aw"},{"address":{"address":"Wawelska, Warszawa, Polska","lat":"52.2166692","lng":"20.993677599999955"},"title":"O\u015bwi\u0119cim"}]';
+let MY_MAPTYPE_ID = 'custom_style';
+let directionsDisplay;
+let directionsService = new google.maps.DirectionsService();
+let map;
 
 function initMap() {
-    // var uluru = {lat: -25.363, lng: 131.044};
-    // var map = new google.maps.Map(document.getElementById('route-map'), {
-    //     zoom: 4,
-    //     center: uluru
-    // });
-    // var marker = new google.maps.Marker({
-    //     position: uluru,
-    //     map: map
-    // });
-    var map = jQuery(document.getElementById("route-map"));
-    if(map.length==0)
-        return;
-    
-    var myOptions = {
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(map[0], myOptions);
-        
-    // init directions service
-    var dirService = new google.maps.DirectionsService();
-    var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    dirRenderer.setMap(map);
+    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
 
-    // highlight a street
-    var request = {
-    origin: "48.1252,11.5407",
-    destination: "48.13376,11.5535",
-    //waypoints: [{location:"48.12449,11.5536"}, {location:"48.12515,11.5569"}],
-    travelMode: google.maps.TravelMode.DRIVING
-    };
-    dirService.route(request, function(result, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-        dirRenderer.setDirections(result);
+    if (jQuery('#route-map').length > 0) {
+
+        let locations = jQuery.parseJSON(MapPoints);
+
+        map = new google.maps.Map(document.getElementById('route-map'), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+        });
+        directionsDisplay.setMap(map);
+        
+        let infowindow = new google.maps.InfoWindow();
+        let flightPlanCoordinates = [];
+        let bounds = new google.maps.LatLngBounds();
+
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
+                map: map
+            });
+            flightPlanCoordinates.push(marker.getPosition());
+            bounds.extend(marker.position);
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(locations[i]['title']);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        map.fitBounds(bounds);
+        // directions service
+        let start = flightPlanCoordinates[0];
+        let end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
+        let waypts = [];
+        for (let i = 1; i < flightPlanCoordinates.length - 1; i++) {
+            waypts.push({
+                location: flightPlanCoordinates[i],
+                stopover: true
+            });
+        }
+        calcRoute(start, end, waypts);
     }
+}
+
+function calcRoute(start, end, waypts) {
+    let request = {
+        origin: start,
+        destination: end,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            let route = response.routes[0];
+            let summaryPanel = document.getElementById('directions_panel');
+            summaryPanel.innerHTML = '';
+            // For each route, display summary information.
+            for (let i = 0; i < route.legs.length; i++) {
+                let routeSegment = i + 1;
+                summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
+        }
     });
 }
+google.maps.event.addDomListener(window, 'load', initMap);

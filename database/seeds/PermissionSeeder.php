@@ -94,6 +94,8 @@ class PermissionSeeder extends Seeder
 
                 'ajax-upload-file',
                 'ajax-upload-image',
+                'load-pool-owner',
+                'upload-company-profile',
                 'ajax-upload-an-image'
             ],
             'techician'=>[

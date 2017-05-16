@@ -60,13 +60,14 @@
 @endsection
 
 @section('lib')
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+    <script src="{{ asset('js/lib/jquery-ui.js') }}"></script> 
     <script src="{{ asset('js/register/main-pool-service.js') }}"></script>  
     <script src="{{ asset('/js/route-google-map.js') }}"></script>
-    <script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK630V18YqZgaQbViFBkYveJ_pVTfNnzI&callback=initMap" type="text/javascript"></script>
-    <script src="http://parsleyjs.org/dist/parsley.js"></script>    
+    
+    <script src="{{ asset('/js/lib/parsley.js') }}"></script>        
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script src="{{ asset('/js/billinginfo.js') }}"></script>
