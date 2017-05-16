@@ -470,7 +470,7 @@ function parseData(tpl, dest, data, append) {
 }
 
 function parsePaging(totalpage, dest, curpage) {
-    let str='', nextbtn='', prevbtn='', btnLeftMore = '', btnRightMore = '', activeClass, arrbtns=[], noOfsideMember = 1;
+    let str='', nextbtn='', prevbtn='', btnLeftMore = '', btnRightMore = '', activeClass, arrbtns=[], noOfsideMember = 2;
     if(curpage=='') curpage = 1;
     prevbtn = (curpage==1) ? '' : '<li><span data-page=0> << </span></li><li><span data-page='+ (parseInt(curpage)-1) +'> < </span></li>';
     nextbtn = (curpage==totalpage) ? '' : '<li><span data-page='+ (parseInt(curpage)+1) +'> > </span></li><li><span data-page='+ totalpage +'> >> </span></li>';

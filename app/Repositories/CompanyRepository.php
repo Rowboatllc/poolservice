@@ -129,7 +129,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                     $message->subject($content);
                     $message->to($company->email);
                 });
-                $this->notification->saveNotification($company->user_id, $content, false);
+                $this->notification->saveItem($company->user_id, $content, false);
             }
             return true;
         } catch (Exception $e) {
@@ -178,7 +178,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                     $message->subject($content);
                     $message->to($company->email);
                 });
-                $this->notification->saveNotification($company->user_id, $content, false);
+                $this->notification->saveItem($company->user_id, $content, false);
                 return true;
             }
         } catch (Exception $e) {
@@ -305,7 +305,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                 ];
                 $this->common->sendmail('emails.offer-notification', $data);
             }
-            $this->notification->saveNotification($user->id, 'Offer from ' . $poolowner->email . ' was ' . $obj->status, 0);
+            $this->notification->saveItem($user->id, 'Offer from ' . $poolowner->email . ' was ' . $obj->status, 0);
             DB::commit();
             return true;
         } catch (Exception $e) {

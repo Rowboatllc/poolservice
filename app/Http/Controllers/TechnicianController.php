@@ -51,7 +51,7 @@ class TechnicianController extends Controller {
                     $message->subject($content);
                     $message->to($user->email);
                 });
-                $this->notification->saveNotification($user->id, $content, false);
+                $this->notification->saveItem($user->id, $content, false);
             }
             return $this->common->responseJson(true);
         }
