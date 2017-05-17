@@ -3,14 +3,16 @@ let directionsService = new google.maps.DirectionsService();
 let map;
 
 $(document).ready(function(){
-    $(".sectionB1 div.route-tab-menu>div.list-group>a").on('click',function(e) {
+    
+    $(".sectionB1 div.route-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();        
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
         let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
-        reloadMap($(this).text()); 
+        $("div.title-route-map").text($(this).text() + " Route Map");
+        reloadMap($(this).text());         
     });
 
     $('.company-route-service select').on('change', function(e) {

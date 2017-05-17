@@ -1,7 +1,7 @@
 <div class="company-route-service">    
     <div class="sectionB1">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="col-xs-11 route-tab-container">
+        <div class="col-xs-12 route-tab-container">
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
                 <div class="list-group">
                     @foreach ($dates as $key => $value)
@@ -80,15 +80,13 @@
                 @endforeach
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <div class="panel">
-                    <div class="text-center header">Route Map</div>
-                    <div class="panel-body text-center">
-                        <div id="route-map" style="width: 100%; height: 400px; display:loat;border: 1px solid #3872ac;" class="route-map"></div>
-                        <div id="directions_panel"></div>
-                    </div>
+            <div class="panel">
+                <div class="text-center header title-route-map">{{$currentDate}} Route Map</div>
+                <div class="panel-body text-center">
+                    <div id="route-map" style="width: 100%; height: 400px; display:loat;border: 1px solid #3872ac;" class="route-map"></div>
+                    <div id="directions_panel"></div>
                 </div>
-            <div>
+            </div>
         </div>
     </div>
 </div>
