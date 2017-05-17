@@ -11,7 +11,7 @@
                 <option value="state">State</option>
                 <option value="fullname">Name</option>
                 <option value="profiles.created_at">Date sign up</option>
-                <option value="last_served_date">Date of last service</option>
+                <option value="lastserveddate">Date of last service</option>
                 <option value="profiles.zipcode">Zipcode</option>
             </select>
             <span class="btn btn-primary glyphicon glyphicon-search search"></span>

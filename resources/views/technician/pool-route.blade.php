@@ -25,7 +25,7 @@
             <div class="panel panel-default">
                 <div class="text-center header">Maps</div>
                 <div class="panel-body text-center">
-                    <div id="map" class="map"></div>
+                    <div id="map_poolservices" class="map"></div>
                     &nbsp;
                     <div id="warnings-panel"></div>
                 </div>

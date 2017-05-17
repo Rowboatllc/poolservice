@@ -22,6 +22,14 @@ class ApiCompanyController extends Controller {
     public function acceptDenyOffer(Request $request) {
         return $this->common->responseJson($this->company->acceptDenyOffer($request->all()));
     }
+    
+    public function listOffers(Request $request) {
+        $user = Auth::user();
+        $result = $this->company->listOffers($user->id, $request->all());
+        if ($result)
+            return $this->common->responseJson(true, 200, '', ['list' => $result]);
+        return $this->common->responseJson(false);
+    }
     /*
     public function changeOfferStatus(Request $request) {
         return $this->common->responseJson($this->company->changeOfferStatus($request->all()));

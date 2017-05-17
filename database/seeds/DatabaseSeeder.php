@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ClearDataSeeder::class);
+        $this->call(ZipcodeSeeder::class);
         $this->call(PageSeeder::class);
         $this->call(OptionSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(StartSeeder::class);
-        $this->call(ZipcodeSeeder::class);
     }
 }

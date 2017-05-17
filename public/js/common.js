@@ -278,15 +278,12 @@ jQuery(document).ready(function () {
             let $me = jQuery(this);
             let len = parseInt($me.attr('maxlength'));
             let val = $me.text();
-            
             if(val.length < len)
                 return;
-            
             if(event.type=='keydown' && event.keyCode != 8) {
                 event.preventDefault();
                 return;
             }
-            
             if(event.type=='paste' || event.type=='input') {
                 $me.text(val.substring(0, len));
                 return;
@@ -351,7 +348,7 @@ jQuery(document).ready(function () {
         }).on('click', '.pagination li span', function(event) {
             event.preventDefault();
             let $me = jQuery(this);
-            let page = $me.text();
+            let page = $me.is('[data-page]')?$me.data('page'):$me.text();
             $me.closest('.table-responsive').data('page', page);
             let params = $me.closest('.table-responsive').data();
             reloadCurrentPage($me.closest('.table-responsive')[0], params, params.url);
@@ -522,14 +519,6 @@ ajaxUploadFile = {
     }
 }
 
-// $(document).ajaxStop(function () {
-//     $('#loading').hide();
-// });
-
-// $(document).ajaxStart(function () {
-//     $('#loading').show();
-// });
-
 function showLoading() {
     $('#loading').show();
 }
@@ -692,15 +681,24 @@ function parseData(tpl, dest, data, append) {
 }
 
 function parsePaging(totalpage, dest, curpage) {
-    let str=''; 
-    let activeClass;
-    if(curpage=='') curpage=1;
-    if(totalpage>1) {
-        for(let i=1; i<=totalpage; i++) {
-            activeClass = (i==curpage) ? 'active' : '';
-            str = str + '<li class="'+activeClass+'"><span>'+ i +'</span></li>';
-        }
+    let str='', nextbtn='', prevbtn='', btnLeftMore = '', btnRightMore = '', activeClass, arrbtns=[], noOfsideMember = 2;
+    if(curpage=='') curpage = 1;
+    prevbtn = (curpage==1) ? '' : '<li><span data-page=0> << </span></li><li><span data-page='+ (parseInt(curpage)-1) +'> < </span></li>';
+    nextbtn = (curpage==totalpage) ? '' : '<li><span data-page='+ (parseInt(curpage)+1) +'> > </span></li><li><span data-page='+ totalpage +'> >> </span></li>';
+    
+    for(let i=(parseInt(curpage)-noOfsideMember); i<=(parseInt(curpage)+noOfsideMember); i++) {
+        if(i<=0 || i>totalpage)
+            continue;
+        activeClass = (i==curpage) ? 'active' : '';
+        str = str + '<li class="'+activeClass+'"><span data-page='+ i +'> '+ i +' </span></li>';
     }
+    
+    if( (parseInt(curpage)-noOfsideMember) > 1)
+        btnLeftMore = '<li><span data-page='+(parseInt(curpage)-noOfsideMember-1)+'> ... </span></li>';
+    if( (parseInt(curpage)+noOfsideMember) < totalpage)
+        btnRightMore = '<li><span data-page='+(parseInt(curpage)+noOfsideMember+1)+'> ... </span></li>';
+    
+    str = prevbtn + btnLeftMore + str + btnRightMore + nextbtn;
     jQuery(dest).html('').append(str);
 }
 

@@ -42,7 +42,7 @@
 @endsection
 
 @section('lib')
-    <script src="http://parsleyjs.org/dist/parsley.js"></script>    
+    <script src="{{ asset('/js/lib/parsley.js') }}"></script>    
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
 

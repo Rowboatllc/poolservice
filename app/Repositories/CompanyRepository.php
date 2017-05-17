@@ -52,7 +52,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                                             )
                                                             
                                     WHERE o.poolowner_id = ' . $user_id . '
-                                    AND c.status = "active"
+                                    AND c.status = "active-verified"
                                     GROUP BY c.id
                                     ');
             usort($companys, array($this, "cmp"));
@@ -97,7 +97,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                         WHERE o.poolowner_id = ' . $user_id . '
                                         AND s.status = "pending" OR s.status = "active" OR s.status = "pause"
                                     )
-                                    AND c.status = "active"
+                                    AND c.status = "active-verified"
                                     GROUP BY c.id
                                     ');
             return $companys;
@@ -129,7 +129,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                     $message->subject($content);
                     $message->to($company->email);
                 });
-                $this->notification->saveNotification($company->user_id, $content, false);
+                $this->notification->saveItem($company->user_id, $content, false);
             }
             return true;
         } catch (Exception $e) {
@@ -178,7 +178,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                     $message->subject($content);
                     $message->to($company->email);
                 });
-                $this->notification->saveNotification($company->user_id, $content, false);
+                $this->notification->saveItem($company->user_id, $content, false);
                 return true;
             }
         } catch (Exception $e) {
@@ -222,9 +222,10 @@ class CompanyRepository implements CompanyRepositoryInterface {
 
     public function customersListBuilder($company_id) {
         return "
-            select orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at,
-            max(case when schedules.status ='opening' then schedules.date end) as nextserveddate,
-            max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end) as lastserveddate
+            select 
+                orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at,
+                max(case when schedules.status ='opening' then schedules.date end) as nextserveddate,
+                max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end) as lastserveddate
             from profiles
             left join orders on orders.poolowner_id = profiles.user_id
             left join schedules on schedules.order_id = orders.id
@@ -242,7 +243,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
 
     public function listCustomers($company_id, $data) {
         $list = $this->customersListBuilder($company_id);
-        return $this->common->pagingSort($list, $data, true, ['city', 'state', 'fullname', 'profiles.created_at', 'profiles.zipcode', "(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end)"])->toJson();
+        return $this->common->pagingSort($list, $data, true, ['city', 'state', 'fullname', 'profiles.created_at', 'profiles.zipcode', "lastserveddate" => "(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end)"])->toJson();
     }
 
     public function getServiceOffers($user_id) {
@@ -250,19 +251,42 @@ class CompanyRepository implements CompanyRepositoryInterface {
         return $results->services;
     }
 
-    public function OfferFromPoolowner($user_id) {
-        $offers = DB::select(DB::raw("select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
+    /* services: ["weekly_cleaning", "deep_cleaning", "pool_spa_repair"] */
+    public function changeServiceOffer($data) {
+        $user = Auth::user();
+        $company = $this->company->where('user_id', $user->id)->first();
+        $company->services = $data['services'];
+        return $company->save();
+    }
+
+    // Offer from customers
+    public function listOfferFromPoolownerBuilder($user_id) {
+        return "select orders.*, selecteds.id as offer_id, selecteds.status as offer_status from orders 
           left join selecteds on selecteds.order_id = orders.id
           left join companies on companies.id = selecteds.company_id
-          where companies.user_id = $user_id and selecteds.status <> 'inactive'"));
-        //dd($offers);
-        if ($offers) {
-            for ($i = 0; $i < count($offers); $i++) {
-                $offers[$i]->services = $this->common->getServiceByKeys(json_decode($offers[$i]->services));
-                $offers[$i]->zipcode = json_decode($offers[$i]->zipcode)[0];
+          where companies.user_id = $user_id and selecteds.status <> 'inactive' :orderby";
+    }
+    
+    public function convertOfferObject($obj) {
+        if ($obj) {
+            for ($i = 0; $i < count($obj); $i++) {
+                $obj[$i]->services = $this->common->getServiceByKeys(json_decode($obj[$i]->services));
+                $obj[$i]->zipcode = json_decode($obj[$i]->zipcode)[0];
             }
         }
-        return $offers;
+        return $obj;
+    }
+    
+    public function getOfferFromPoolowner($user_id, $data = []) {
+        $obj = $this->listOfferFromPoolownerBuilder($user_id);
+        $obj = $this->common->pagingSort($obj, $data, true);
+        return $this->convertOfferObject($obj);
+    }
+    
+    public function listOffers($id, $data) {
+        $obj = $this->listOfferFromPoolownerBuilder($id);
+        $obj = $this->common->pagingSort($obj, $data, true, ['zipcode'=>'json_extract(orders.zipcode,\'$[0]\')', 'services'=>'json_extract(orders.services,\'$\')']);
+        return $this->convertOfferObject($obj)->toJson();
     }
 
     public function acceptDenyOffer($data) {
@@ -281,7 +305,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
                 ];
                 $this->common->sendmail('emails.offer-notification', $data);
             }
-            $this->notification->saveNotification($user->id, 'Offer from ' . $poolowner->email . ' was ' . $obj->status, 0);
+            $this->notification->saveItem($user->id, 'Offer from ' . $poolowner->email . ' was ' . $obj->status, 0);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -289,18 +313,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
             return false;
         }
     }
-
-    /*
-      services: ["weekly_cleaning", "deep_cleaning", "pool_spa_repair"]
-     */
-
-    public function changeServiceOffer($data) {
-        $user = Auth::user(); //$this->common->getUserByToken();
-        $company = $this->company->where('user_id', $user->id)->first();
-        $company->services = $data['services'];
-        return $company->save();
-    }
-
+    
     public function getPoolownerFromOffer($id) {
         return DB::table('users')
             ->leftJoin('orders', 'orders.poolowner_id', 'users.id')

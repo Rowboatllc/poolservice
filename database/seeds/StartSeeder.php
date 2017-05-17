@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
  
 use Faker\Factory as Faker;
+use App\Models\Zipcode;
 
 class StartSeeder extends Seeder
 {
@@ -22,14 +23,13 @@ class StartSeeder extends Seeder
             $faker = Faker::create();
             $random = rand(1, 3);
             $com->services = ["weekly_learning", "pool_spa_repair", "deep_cleaning"];
-            $i=1; $zipcodes = json_decode($com->zipcodes);
-            while($i<=$random){
-                $zipcodes[] = intval(substr($faker->postcode,0,5));
-                $i++;
-            }
+
+            $random_zipcode = rand(5,20);
+            $zipcodes = Zipcode::inRandomOrder()->take($random_zipcode)->pluck('zipcode')->toArray();
+            $zipcodes [] = json_decode($com->zipcodes);
             $com->zipcodes = $zipcodes;
-            $ran = array('pending', 'active-unverified', 'active-verified','suspended', 'inactive');
-            $com->status = array_rand($ran, 1);
+
+            $com->status = 'active-verified';
             $com->save();
             
             return $com;
@@ -45,12 +45,12 @@ class StartSeeder extends Seeder
             $faker = Faker::create();
             $random = rand(1, 3);
             $com_new->services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
-            $i=1; $zipcodes = json_decode($com_new->zipcodes);
-            while($i<=$random){
-                $zipcodes[] = intval(substr($faker->postcode,0,5));
-                $i++;
-            }
+            
+             $random_zipcode = rand(5,20);
+            $zipcodes = Zipcode::inRandomOrder()->take($random_zipcode)->pluck('zipcode')->toArray();
+            $zipcodes [] = json_decode($com_new->zipcodes);
             $com_new->zipcodes = $zipcodes;
+
             $ran = array('pending', 'active-unverified', 'active-verified','suspended', 'inactive');
             $com_new->status = $ran[array_rand($ran, 1)];
             $com_new->save();

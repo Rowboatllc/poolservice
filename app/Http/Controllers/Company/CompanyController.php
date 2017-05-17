@@ -34,7 +34,7 @@ class CompanyController extends Controller {
         $user = Auth::user();
         $customers = $this->company->getCustomers($user->id);
         $offers = $this->company->getServiceOffers($user->id);
-        $offerFromPoolowner = $this->company->OfferFromPoolowner($user->id);
+        $offerFromPoolowner = $this->company->getOfferFromPoolowner($user->id);
         
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;

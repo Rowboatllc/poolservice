@@ -8,6 +8,7 @@
                     <th></th>
                     <th><span data-orderfield="id">Id</span></th>
                     <th><span data-orderfield="subject">Subject</span></th>
+                    <th><span data-orderfield="created_at">Date</span></th>
                     <th></th>
                 </tr>
                 @foreach ($notifications as $item)
@@ -15,6 +16,7 @@
                         <td></td>
                         <td>{{$item->id}}</td>
                         <td>{{$item->subject}}</td>
+                        <td>{{$item->created_at}}</td>
                         <td>
                             <span class="glyphicon glyphicon-trash icon remove-item-list" aria-hidden="true" data-id="{{$item->id}}"></span>
                             <span class="glyphicon glyphicon-eye-open icon view-item-list" aria-hidden="true" data-id="{{$item->id}}"></span>
@@ -28,8 +30,10 @@
                     <td></td>
                     <td>${id}</td>
                     <td>${subject}</td>
+                    <td>${created_at}</td>
                     <td>
                         <span class="glyphicon glyphicon-trash icon remove-item-list" aria-hidden="true" data-id="${id}"></span>
+                        <span class="glyphicon glyphicon-eye-open icon view-item-list" aria-hidden="true" data-id="${id}"></span>
                     </td>
                 </tr>
             </script>

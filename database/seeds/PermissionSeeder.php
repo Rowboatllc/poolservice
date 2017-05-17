@@ -90,6 +90,7 @@ class PermissionSeeder extends Seeder
                 
                 'dashboard-company-list-customer',
                 'dashboard-company-accept-deny-offer',
+                'dashboard-company-getlist-offer',
 
                 'ajax-upload-file',
                 'ajax-upload-image',
