@@ -33,7 +33,7 @@ function showPosition(position) {
 	let longitude = position.coords.longitude;
 
 	// defaul arizona 
-	latitude = 33.451658; longitude = -112.064610;
+	// latitude = 33.451658; longitude = -112.064610;
 
 	origin += latitude + "," + longitude;
 
