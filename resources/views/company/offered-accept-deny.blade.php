@@ -44,10 +44,8 @@
                     <span class="glyphicon offer_status icon" aria-hidden="true"></span>
                 </td>
                 <td>
-                    <?php //echo '{{if $offer_status=="pending"}}' ?>
-                        <span class="glyphicon glyphicon-ban-circle icon deny-service-offer" aria-hidden="true" data-id="${offer_id}" data-status="denied"></span>
-                        <span class="glyphicon glyphicon-ok-circle icon accept-service-offer" aria-hidden="true" data-id="${offer_id}" data-status="active"></span>
-                   <?php //echo '{{/if}}' ?>
+                    <span class="glyphicon glyphicon-ban-circle icon deny-service-offer" aria-hidden="true" data-id="${offer_id}" data-status="denied"></span>
+                    <span class="glyphicon glyphicon-ok-circle icon accept-service-offer" aria-hidden="true" data-id="${offer_id}" data-status="active"></span>
                 </td>
             </tr>
         </script>
