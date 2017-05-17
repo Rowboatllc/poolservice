@@ -129,12 +129,17 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             $schedule->date = new \DateTime();
             if($schedule->save()){
                 if($status=='billing_success'){
-                    $schedule_new = $schedule->replicate();
-                    unset($schedule_new->id);
-                    $schedule_new->status = "opening";
-                    $date = $schedule->date->modify('+1 week');
-                    $schedule_new->date = $date->format('Y-m-d H:i:s');
-                    $schedule_new->save();
+                    $order = Order::find($schedule->order_id);
+                    if(isset($order)){
+                        if (in_array("weekly_learning", $order->services)){                            
+                            $schedule_new = $schedule->replicate();
+                            unset($schedule_new->id);
+                            $schedule_new->status = "opening";
+                            $date = $schedule->date->modify('+1 week');
+                            $schedule_new->date = $date->format('Y-m-d H:i:s');
+                            $schedule_new->save();
+                        }
+                    }
                 }else{
                     $this->company->pausePoolownerService($schedule->order_id, $schedule->company_id);
                 }

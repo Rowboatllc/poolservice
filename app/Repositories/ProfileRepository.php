@@ -43,6 +43,11 @@ class ProfileRepository {
         $obj->state = $data['state'];
         $obj->zipcode = $data['zipcode'];
         $obj->city = $data['city'];
+
+        $address=$this->common->geoCode($obj->address);
+        $obj->lat=$address[0];
+        $obj->lng=$address[1];
+
         return $obj->save();
     }
     
