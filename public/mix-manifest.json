@@ -1,8 +1,8 @@
 {
-  "/js/common.js": "/js/common.js",
   "/js/app.js": "/js/app.js",
   "/css/admin.css": "/css/admin.css",
   "/css/app.css": "/css/app.css",
+  "/js/common.js": "/js/common.js",
   "/js/admin/admin.js": "/js/admin/admin.js",
   "/js/register/register-pool-owner.js": "/js/register/register-pool-owner.js",
   "/js/register/register-pool-service.js": "/js/register/register-pool-service.js",
@@ -11,8 +11,5 @@
   "/js/poolowner.js": "/js/poolowner.js",
   "/js/route-google-map.js": "/js/route-google-map.js",
   "/js/technician.js": "/js/technician.js",
-  "/js/map.js": "/js/map.js",
-  "/js/lib/parsley.js": "/js/lib/parsley.js",
-  "/js/lib/jquery.validate.min.js": "/js/lib/jquery.validate.min.js",
-  "/js/lib/jquery-ui.js": "/js/lib/jquery-ui.js"
+  "/js/map.js": "/js/map.js"
 }

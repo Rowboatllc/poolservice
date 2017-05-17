@@ -385,7 +385,7 @@ class UserRepository
     public function getUserScheduleByDate($id,$date)
     {
         $comProfile = DB::table('schedules')
-                ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
+                ->select('schedules.technican_id as user_id','schedules.status','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
                 ->where(['schedules.technican_id' => $id])
