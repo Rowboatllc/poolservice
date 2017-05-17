@@ -20,6 +20,8 @@
                                 <input type="hidden" name="cleaning_steps" value="{{$sc->cleaning_steps}}">                                
                                 <input type="hidden" name="comment" value="{{$sc->comment}}">                           
                                 <input type="hidden" name="status" value="{{$sc->status}}">
+                                <input type="hidden" name="lat" value="{{$sc->lat}}">
+                                <input type="hidden" name="lng" value="{{$sc->lng}}">
                             </td>
                             <td valign="middle"><span>{{$sc->city}}</span></td>
                             <td valign="middle"><span>{{$sc->zipcode}}</span></td>
