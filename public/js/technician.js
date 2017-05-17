@@ -53,7 +53,12 @@ jQuery(document).ready(function() {
         sendData(link,[],'GET', function (result) {
             (jQuery.noop)(result);
             if(result.success){
-                self.find('.btn-technician').toggleClass('no_display');                
+                self.find('.btn-technician').toggleClass('no_display');
+                let lat = self.find('[name="lat"]').val(); 
+                let lng = self.find('[name="lng"]').val();
+                let destination = lat + "," + lng;
+                removeDirectionsDisplay();
+                directionsMap(destination);               
             }
         }, function (result) {});
     });
@@ -70,6 +75,7 @@ jQuery(document).ready(function() {
     technician.find('.schedule_weekday').bind('click', function() {
         let key = $(this).attr('title');
         removeMarkers();
+        removeDirectionsDisplay();
         setMarker(key);
     });
 

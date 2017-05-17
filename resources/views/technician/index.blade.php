@@ -33,10 +33,10 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBryrrkxzanAKewPE3p9-XK2XTPYwpyKeU">
     </script>
-
-    <script src="{{ asset('/js/map.js') }}"></script>
-    <script src="{{ asset('/js/technician.js') }}"></script>
     <script>
         var schedules = <?php echo json_encode($schedules); ?>;
     </script>
+    <script src="{{ asset('/js/map.js') }}"></script>
+    <script src="{{ asset('/js/technician.js') }}"></script>
+    
 @endsection

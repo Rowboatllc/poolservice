@@ -15,7 +15,7 @@
 $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
     $random = rand(1, 6);
     $cleaning_steps = $faker->randomElements([1,2,3,4,5,6], $random);
-    $date = $faker->dateTimeBetween($startDate = '-6 days', $endDate = '+6 days');
+    $date = $faker->dateTimeBetween($startDate = '-7 days', $endDate = '+7 days');
     $now = new \DateTime();
     if($date < $now){
         $status = $faker->randomElement(array ('unable', 'billing_success', 'billing_error'));        
