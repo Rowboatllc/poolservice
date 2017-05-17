@@ -3,14 +3,16 @@
 		<!-- tabs left -->
 		<div class="tabbable">
 			<ul class="nav nav-pills nav-stacked col-md-2">
-				@foreach($schedules as $schedule)
-					<li class="{{ $schedule['name'] == getdate()['weekday'] ? ' active' : ''}}"><a href="#{{$schedule['name']}}" data-toggle="tab">{{$schedule['name']}}</a></li>
+				@foreach($schedules as $key => $schedule)
+					<li class="{{ $schedule['name'] == getdate()['weekday'] ? ' active' : ''}}" >
+						<a class="schedule_weekday" title="{{$key}}" href="#{{$schedule['name']}}" data-toggle="tab">{{$schedule['name']}}</a>
+					</li>
 				@endforeach
 				<div class="clearfix"></div>
 
 			</ul>
 			<br />
-			<div class="tab-content col-md-10">
+			<div class="tab-content col-md-10" style=" padding-top: 0px; margin-top: -20px; ">
 				@foreach($schedules as $schedule)
 					<div class="tab-pane {{ $schedule['name'] == getdate()['weekday'] ? ' active' : ''}}" id="{{$schedule['name']}}">   
 						@include('technician.day-of-week', $schedule)

@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
         ]);
 
          // list user poolowner
-        $user_pools = factory(App\Models\User::class, 30)->create([
+        $user_pools = factory(App\Models\User::class, 100)->create([
             'status' => 'active',   
         ]);
         
