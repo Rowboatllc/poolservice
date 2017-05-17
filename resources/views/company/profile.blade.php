@@ -48,7 +48,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 profile-tab-container">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 profile-tab-menu">
-                    <div class="list-group">
+                    <div class="list-group-profile">
                         <a href="#" class="list-group-item active text-center is-disabled">
                             <h4 class="glyphicon glyphicon-plane"></h4><br/>Company Logo
                         </a>

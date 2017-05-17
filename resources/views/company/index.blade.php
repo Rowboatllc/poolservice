@@ -4,13 +4,13 @@
 <div class="container panel dashboard">
     <div class="form-box">
         <ul class="nav nav-tabs">
-            <li><a data-toggle="tab"  href="#sectionA">Services Offered</a></li>
-            <li class="active"><a data-toggle="tab" href="#sectionB">Pool Routes</a></li>
-            <li><a data-toggle="tab" href="#sectionC">Company Profile</a></li>
-            <li><a data-toggle="tab" href="#sectionD">Billing Info</a></li>
-            <li><a data-toggle="tab" data-lazyload="companyTechnician" href="#sectionE">Pool Service Professionals</a></li>
-            <li><a data-toggle="tab" data-lazyload="comanyCustomer" href="#sectionF">My PoolService Customers</a></li>
-            <li><a data-toggle="tab" data-lazyload="companyOfferFromPoolowner" href="#sectionZ">offered-accept-deny</a></li>
+            <li><a data-toggle="tab" role="tab" href="#sectionA">Services Offered</a></li>
+            <li class="active"><a data-toggle="tab" role="tab" href="#sectionB">Pool Routes</a></li>
+            <li><a data-toggle="tab" role="tab" href="#sectionC">Company Profile</a></li>
+            <li><a data-toggle="tab" role="tab" href="#sectionD">Billing Info</a></li>
+            <li><a data-toggle="tab" role="tab" data-lazyload="companyTechnician" href="#sectionE">Pool Service Professionals</a></li>
+            <li><a data-toggle="tab" role="tab" data-lazyload="comanyCustomer" href="#sectionF">My PoolService Customers</a></li>
+            <li><a data-toggle="tab" role="tab" data-lazyload="companyOfferFromPoolowner" href="#sectionZ">offered-accept-deny</a></li>
         </ul>
         <div class="tab-content">
             <div id="sectionA" class="tab-pane fade">

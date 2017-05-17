@@ -294,32 +294,32 @@
         padding-left: 0;
         padding-bottom: 0;
     }
-    div.profile-tab-menu div.list-group{
+    div.profile-tab-menu div.list-group-profile{
         margin-bottom: 0;
     }
-    div.profile-tab-menu div.list-group>a{
+    div.profile-tab-menu div.list-group-profile>a{
         margin-bottom: 0;
     }
-    div.profile-tab-menu div.list-group>a .glyphicon,
-    div.profile-tab-menu div.list-group>a .fa {
+    div.profile-tab-menu div.list-group-profile>a .glyphicon,
+    div.profile-tab-menu div.list-group-profile>a .fa {
         color: #5A55A3;
     }
-    div.bhoechie-tab-menu div.list-group>a:first-child{
+    div.bhoechie-tab-menu div.list-group-profile>a:first-child{
         border-top-right-radius: 0;
         -moz-border-top-right-radius: 0;
     }
-    div.profile-tab-menu div.list-group>a:last-child{
+    div.profile-tab-menu div.list-group-profile>a:last-child{
         border-bottom-right-radius: 0;
         -moz-border-bottom-right-radius: 0;
     }
-    div.profile-tab-menu div.list-group>a.active,
-    div.profile-tab-menu div.list-group>a.active .glyphicon,
-    div.profile-tab-menu div.list-group>a.active .fa{
+    div.profile-tab-menu div.list-group-profile>a.active,
+    div.profile-tab-menu div.list-group-profile>a.active .glyphicon,
+    div.profile-tab-menu div.list-group-profile>a.active .fa{
         background-color: #5A55A3;
         background-image: #5A55A3;
         color: #ffffff;
     }
-    div.profile-tab-menu div.list-group>a.active:after{
+    div.profile-tab-menu div.list-group-profile>a.active:after{
         content: '';
         position: absolute;
         left: 100%;
@@ -383,32 +383,32 @@
         padding-left: 0;
         padding-bottom: 0;
     }
-    div.route-tab-menu div.list-group{
+    div.route-tab-menu div.list-group-route{
         margin-bottom: 0;
     }
-    div.route-tab-menu div.list-group>a{
+    div.route-tab-menu div.list-group-route>a{
         margin-bottom: 0;
     }
-    div.route-tab-menu div.list-group>a .glyphicon,
-    div.route-tab-menu div.list-group>a .fa {
+    div.route-tab-menu div.list-group-route>a .glyphicon,
+    div.route-tab-menu div.list-group-route>a .fa {
         color: #5A55A3;
     }
-    div.route-tab-menu div.list-group>a:first-child{
+    div.route-tab-menu div.list-group-route>a:first-child{
         border-top-right-radius: 0;
         -moz-border-top-right-radius: 0;
     }
-    div.route-tab-menu div.list-group>a:last-child{
+    div.route-tab-menu div.list-group-route>a:last-child{
         border-bottom-right-radius: 0;
         -moz-border-bottom-right-radius: 0;
     }
-    div.route-tab-menu div.list-group>a.active,
-    div.route-tab-menu div.list-group>a.active .glyphicon,
-    div.route-tab-menu div.list-group>a.active .fa{
+    div.route-tab-menu div.list-group-route>a.active,
+    div.route-tab-menu div.list-group-route>a.active .glyphicon,
+    div.route-tab-menu div.list-group-route>a.active .fa{
         background-color: #5A55A3;
         background-image: #5A55A3;
         color: #ffffff;
     }
-    div.route-tab-menu div.list-group>a.active:after{
+    div.route-tab-menu div.list-group-route>a.active:after{
         content: '';
         position: absolute;
         left: 100%;

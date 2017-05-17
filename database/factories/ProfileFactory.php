@@ -24,7 +24,7 @@ $factory->define(App\Models\Profile::class, function (Faker\Generator $faker) {
         'zipcode' => intval(substr($faker->postcode,0,5)),
         'phone' => $faker->phoneNumber,
         'avatar' => $faker->imageUrl,
-        'lat' => $faker->latitude,
-        'lng' => $faker->longitude
+        'lat' => $faker->latitude($min = 33.298891, $max = 33.784414),
+        'lng' => $faker->longitude($min = -112.191725, $max = -111.949924)
     ];
 });
