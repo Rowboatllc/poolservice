@@ -53,7 +53,7 @@
 
                             <div>
                                 <div class="col-md-7">
-                                    <table class="table table-hover table-route-{{$key}}">
+                                    <table class="table table-hover table-route-{{$key}} {{$key==$currentDate? 'table-active': ''}}">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -68,9 +68,12 @@
                                                 <tr>	
                                                     <td><input type="checkbox" checked></input></td>
                                                     <td>{{$key_route+1}}</td>
-                                                    <td>{{$route->address}}</td>
+                                                    <td class="address-to-route">{{$route->address}}</td>
                                                     <td>{{$route->city}}</td>
                                                     <td>{{$route->zipcode}}</td>
+                                                    <td class="fullname-to-route hidden">{{$route->fullname}}</td>
+                                                    <td class="lat-to-route hidden">{{$route->lat}}</td>
+                                                    <td class="lng-to-route hidden">{{$route->lng}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

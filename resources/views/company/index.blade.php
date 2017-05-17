@@ -61,7 +61,7 @@
 
 <script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
 @section('lib')
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK630V18YqZgaQbViFBkYveJ_pVTfNnzI" type="text/javascript"></script>
     <script src="{{ asset('js/register/jquery.validate.min.js') }}"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{ asset('js/lib/jquery-ui.js') }}"></script> 

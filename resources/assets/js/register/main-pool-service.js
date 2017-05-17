@@ -65,8 +65,7 @@ $(document).ready(function() {
         $( "<span>", {
           style: item.element.attr( "data-style" ),
           "class": "ui-icon " + item.element.attr( "data-class" )
-        })
-          .appendTo( wrapper );
+        }).appendTo( wrapper );
  
         return li.append( wrapper ).appendTo( ul );
       }

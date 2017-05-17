@@ -44,7 +44,6 @@ class UserRepository
         $address=Common::geoCode($array['street']);
         $profile->lat=$address[0];
         $profile->lng=$address[1];
-        $profile->title=$address[2];
 
         $profile->first_name=$array['fullname'];
 		$profile->last_name=$array['fullname'];
@@ -148,6 +147,9 @@ class UserRepository
         $user->confirmation_code=$array['confirmation_code'];
 		// create new user object 
 		$profile = new Profile();
+        $address=Common::geoCode($array['street']);
+        $profile->lat=$address[0];
+        $profile->lng=$address[1];
         $profile->first_name=$array['fullname'];
 		$profile->last_name=$array['fullname'];
         $profile->fullname=$array['fullname'];
@@ -371,7 +373,7 @@ class UserRepository
         return $comProfile;
     }
 
-    public function getUserSchedule($id){
+    public function getUserSchedule($id){  
         $dates=Common::getKeyDatesFromRange(new Datetime(),6);
         foreach($dates as $key => $value)
         {      
@@ -383,7 +385,7 @@ class UserRepository
     public function getUserScheduleByDate($id,$date)
     {
         $comProfile = DB::table('schedules')
-                ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address')                
+                ->select('schedules.technican_id as user_id','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
                 ->join('orders', 'schedules.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')
                 ->where(['schedules.technican_id' => $id])
