@@ -4,13 +4,13 @@ let map;
 
 $(document).ready(function(){
     $(".sectionB1 div.route-tab-menu>div.list-group>a").on('click',function(e) {
-        e.preventDefault();
-        reloadMap($(this).text()) 
+        e.preventDefault();        
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
         let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
+        reloadMap($(this).text()); 
     });
 
     $('.company-route-service select').on('change', function(e) {
@@ -67,10 +67,9 @@ function reloadMap(route_date)
 {    
     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
     if ($('#route-map').length > 0) {
-        let locations=[];
-        
-        console.log(route_date);
-        $('.table-route-Thursday > tbody  > tr').each(function() {    
+        let locations=[];        
+        let class_tr=".table.table-route-"+ $.trim(route_date)+" > tbody  > tr";
+        $(class_tr).each(function() {
             let name='';
             var myObject = new Object();
             var obj = new Object();
@@ -102,7 +101,8 @@ function reloadMap(route_date)
 
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
+            scrollwheel: true,
+            zoom: 10
         });
         directionsDisplay.setMap(map);
         
@@ -179,7 +179,8 @@ function initMap()
         // let locations = bigArr;//jQuery.parseJSON(mapPoints);
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
+            scrollwheel: true,
+            zoom: 10
         });
         directionsDisplay.setMap(map);
         
