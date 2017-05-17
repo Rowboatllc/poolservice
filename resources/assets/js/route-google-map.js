@@ -1,16 +1,47 @@
-let MapPoints = '[{"address":{"address":"plac Grzybowski, Warszawa, Polska","lat":"52.2360592","lng":"21.002903599999968"},"title":"Warszawa"},{"address":{"address":"Jana Paw\u0142a II, Warszawa, Polska","lat":"52.2179967","lng":"21.222655600000053"},"title":"Wroc\u0142aw"},{"address":{"address":"Wawelska, Warszawa, Polska","lat":"52.2166692","lng":"20.993677599999955"},"title":"O\u015bwi\u0119cim"}]';
+let mapPoints = '[{"address":{"address":"plac Grzybowski, Warszawa, Polska","lat":"52.2360592","lng":"21.002903599999968"},"title":"Warszawa"},{"address":{"address":"Jana Paw\u0142a II, Warszawa, Polska","lat":"52.2179967","lng":"21.222655600000053"},"title":"Wroc\u0142aw"},{"address":{"address":"Wawelska, Warszawa, Polska","lat":"52.2166692","lng":"20.993677599999955"},"title":"O\u015bwi\u0119cim"}]';
 let MY_MAPTYPE_ID = 'custom_style';
 let directionsDisplay;
 let directionsService = new google.maps.DirectionsService();
 let map;
 
 function initMap() {
+
     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
 
-    if (jQuery('#route-map').length > 0) {
+    if ($('#route-map').length > 0) {
+        let bigArr=[];
+        $('.table-active > tbody  > tr').each(function() {    
+            let name='';
+            var myObject = new Object();
+            var obj = new Object();
+            $(this).find('td').each (function() {
+                
+                if($(this).hasClass("address-to-route"))
+                {
+                    obj.address=$(this).text();
+                }
+                if($(this).hasClass("lat-to-route"))
+                {
+                    obj.lat=$(this).text();
+                }
+                if($(this).hasClass("lng-to-route"))
+                {
+                    obj.lng=$(this).text();
+                }
 
-        let locations = jQuery.parseJSON(MapPoints);
+                if($(this).hasClass("fullname-to-route"))
+                {
+                    name=$(this).text();
+                }
+            });  
 
+            myObject.title=name;
+            myObject.address=obj;
+            bigArr.push(myObject);
+        });
+        
+        let locations = bigArr;//jQuery.parseJSON(mapPoints);
+        console.log(bigArr);
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: false
