@@ -162,7 +162,52 @@ jQuery(document).ready(function () {
             let params = $parent.data();
             reloadCurrentPage($parent[0], params, params.url);
         });
+        
+        // Lazyload
+        jQuery('.dashboard [data-lazyload][data-toggle="tab"]').bind('click', function(){
+            var $me = jQuery(this);
+            var data = $me.data();
+            //var action = getTabAction(data.lazyload);
+            var table = jQuery($me.attr('href')).find('.table-responsive');
+            if( !isChanged() && (data.loaded==true) )
+                return;
+            $me.data('loaded', true)
+            lazyLoadList(table);
+            /*if(typeof action=='function')
+                action(table);
+            */
+        })
 
+    }
+    
+    /*var tabActions = {
+        comanyCustomer: function(table){
+            lazyLoadList(table);
+            //zyLoadList('.company-customer.content-block .table-responsive');
+        },
+        companyOfferFromPoolowner: function(table){
+            lazyLoadList(table);
+            //lazyLoadList('.company-offered-service.content-block .table-responsive');
+        },
+        companyTechnician: function(table){
+            lazyLoadList(table);
+            //lazyLoadList('.content-block.content-block .table-responsive');
+        }
+    }*/
+    
+    // This function will detect if need to reload this page
+    function isChanged() {
+        return false;
+    }
+    
+    /*function getTabAction(myvar) {
+        return eval('tabActions.'+myvar)
+    }*/
+    
+    function lazyLoadList(obj) {
+        $coverTable = jQuery(obj);
+        let params = $coverTable.data();
+        reloadCurrentPage($coverTable[0], params, params.url);
     }
 
     var dboptionMethods = {
@@ -470,6 +515,10 @@ function parseData(tpl, dest, data, append) {
 }
 
 function parsePaging(totalpage, dest, curpage) {
+    if(totalpage==1) {
+        jQuery(dest).html('');
+        return;
+    }
     let str='', nextbtn='', prevbtn='', btnLeftMore = '', btnRightMore = '', activeClass, arrbtns=[], noOfsideMember = 2;
     if(curpage=='') curpage = 1;
     prevbtn = (curpage==1) ? '' : '<li><span data-page=0> << </span></li><li><span data-page='+ (parseInt(curpage)-1) +'> < </span></li>';

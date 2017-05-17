@@ -365,7 +365,7 @@ class UserRepository
     public function getCompanyProfile($id)
     {
         $comProfile = DB::table('companies')
-                ->select('companies.name','companies.website','companies.logo','companies.approved','profiles.address','profiles.fullname','profiles.phone','companies.wq','companies.cpa','companies.driver_license')
+                ->select('companies.id', 'companies.name','companies.website','companies.logo','companies.approved','profiles.address','profiles.fullname','profiles.phone','companies.wq','companies.cpa','companies.driver_license')
                 ->join('profiles', 'companies.user_id','=','profiles.user_id')
                 ->where(['companies.user_id' => $id])
                 ->first();

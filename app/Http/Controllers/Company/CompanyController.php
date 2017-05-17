@@ -32,13 +32,13 @@ class CompanyController extends Controller {
     public function index() 
     {
         $user = Auth::user();
-        $customers = $this->company->getCustomers($user->id);
         $offers = $this->company->getServiceOffers($user->id);
-        $offerFromPoolowner = $this->company->getOfferFromPoolowner($user->id);
+        //$customers = $this->company->getCustomers($user->id);
+        //$offerFromPoolowner = $this->company->getOfferFromPoolowner($user->id);
+        //$technicians = $technicianRepo->getList($user->id);
         
         $comProfile=$this->user->getCompanyProfile($user->id);
         $technicianRepo = new \App\Repositories\TechnicianRepository;
-        $technicians = $technicianRepo->getList($user->id);
         
         $user=$this->user->getUserInfo($user->id);
         $currentDate=Common::getCurrentDay(new Datetime());        
@@ -49,7 +49,7 @@ class CompanyController extends Controller {
         $billing_info = $this->billing->getBillingInfo($user->id);
 
         return view('company.index', 
-        compact(['customers', 'offers', 'technicians','comProfile','user','dates','currentDate','listTechnicians','billing_info','offerFromPoolowner']));
+            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info']));
     }
 
     public function addCompanyProfile(Request $request) 
