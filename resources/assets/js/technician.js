@@ -66,6 +66,13 @@ jQuery(document).ready(function() {
         change(this,'complete');
     });
 
+    let technician = jQuery('.technician');
+    technician.find('.schedule_weekday').bind('click', function() {
+        let key = $(this).attr('title');
+        removeMarkers();
+        setMarker(key);
+    });
+
     function change(me, status){        
         let frm = $('#form-confirm-steps');
         if(frm.valid()){
