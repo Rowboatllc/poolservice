@@ -57,4 +57,3 @@
     </div>
     @endif
 </div>
-<script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
