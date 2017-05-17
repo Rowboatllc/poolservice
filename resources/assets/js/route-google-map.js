@@ -110,47 +110,52 @@ function reloadMap(route_date)
             locations.push(myObject);
         });
 
-        if(locations.length<2) return;
-
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: true,
             zoom: 10
         });
-        directionsDisplay.setMap(map);
-        
-        let infowindow = new google.maps.InfoWindow();
+
         let flightPlanCoordinates = [];
-        let bounds = new google.maps.LatLngBounds();
+        if(locations.length<2){
+            for(i=0; i<flightPlanCoordinates.length; i++){
+                flightPlanCoordinates[i].setMap(null);
+            }      
 
-        for (i = 0; i < locations.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
-                map: map
-            });
-            flightPlanCoordinates.push(marker.getPosition());
-            bounds.extend(marker.position);
+            $('#directions_panel').empty();
+        } else{            
+            directionsDisplay.setMap(map);            
+            let infowindow = new google.maps.InfoWindow();            
+            let bounds = new google.maps.LatLngBounds();
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
+                    map: map
+                });
+                flightPlanCoordinates.push(marker.getPosition());
+                bounds.extend(marker.position);
 
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(locations[i]['title']);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locations[i]['title']);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+
+            map.fitBounds(bounds);
+            // directions service
+            let start = flightPlanCoordinates[0];
+            let end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
+            let waypts = [];
+            for (let i = 1; i < flightPlanCoordinates.length - 1; i++) {
+                waypts.push({
+                    location: flightPlanCoordinates[i],
+                    stopover: true
+                });
+            }
+            calcRoute(start, end, waypts);
         }
-
-        map.fitBounds(bounds);
-        // directions service
-        let start = flightPlanCoordinates[0];
-        let end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
-        let waypts = [];
-        for (let i = 1; i < flightPlanCoordinates.length - 1; i++) {
-            waypts.push({
-                location: flightPlanCoordinates[i],
-                stopover: true
-            });
-        }
-        calcRoute(start, end, waypts);
     }
 }
 

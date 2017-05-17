@@ -16,8 +16,11 @@
                     <div class="form-group route-tab-content {{$key==$currentDate? 'active': ''}}">                                         
                         <div class="col-md-12">
                             <div class="col-sm-8">
-                                <h4 style="margin-top: 0;color:#55518a">You currently have no routes list on {{$key}}</h4>
-                                <h4 style="margin-top: 0;color:#55518a">If you are not available to service pool on {{$key}}, check "Not available" box</h4>
+                                @if(count($value)<=0)
+                                    <h4>You currently have no routes list on {{$key}}</h4>
+                                @else
+                                    <h4>If you are not available to service pool on {{$key}}, check "Not available" box</h4>
+                                @endif
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group" >                        
@@ -86,7 +89,7 @@
             <div class="panel">
                 <div class="text-center header title-route-map">{{$currentDate}} Route Map</div>
                 <div class="panel-body text-center">
-                    <div id="route-map" style="width: 100%; height: 400px; display:loat;border: 1px solid #3872ac;" class="route-map"></div>
+                    <div id="route-map" class="route-map"></div>
                     <div id="directions_panel"></div>
                 </div>
             </div>
