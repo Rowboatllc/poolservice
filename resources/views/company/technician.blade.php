@@ -1,9 +1,7 @@
 <div class="box-body no-padding technician-professionnal-service content-block">
     <div class="text-right"><span class="btn btn-primary new-technician new-item" data-toggle="modal" data-target=".technician-professionnal-serviceModal">Add new pool service professional</span></div>
-    @if (count($technicians) == 0)
-    You currently have no service technician listed in your account
-    @else
-    <div class="table-responsive" data-totalpage="{{ceil($technicians->total()/$technicians->perPage())}}" data-page="{{$technicians->currentPage()}}" data-url="{{ route('dashboard-company-list-technician') }}" >
+    
+    <div class="table-responsive" data-url="{{ route('dashboard-company-list-technician') }}" >
         <table class="table table-hover table-list" data-getitemurl="{{ route('dashboard-company-get-technician') }}" data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-company-remove-technician') }}" >
             <tr>
                 <th width="70px"></th>
@@ -12,21 +10,6 @@
                 <th width="30%"><span data-orderfield="email">Email address</span></th>
                 <th></th>
             </tr>
-            @foreach ($technicians as $technician)
-            <tr>
-                <td>
-                    <span class="fa fa-check-circle fa-6 status {{$technician->status}}" aria-hidden="true"></span>
-                    <span class="avatar" style="background-image: url({{ config('filesystems.disks.uploads.url').$technician->avatar }})"></span>
-                </td>
-                <td>{{$technician->fullname}}</td>
-                <td>{{$technician->phone}}</td>
-                <td>{{$technician->email}}</td>
-                <td>
-                    <span class="glyphicon glyphicon-pencil icon edit-item-list" data-id="{{$technician->id}}"></span> | 
-                    <span class="glyphicon glyphicon-trash icon text-danger remove-item-list" data-id="{{$technician->id}}"></span>
-                </td>
-            </tr>
-            @endforeach
         </table>
         <ul class="pagination"></ul>
         <script class="rowtpl" type="text/x-jquery-tmpl">
@@ -45,7 +28,6 @@
             </tr>
         </script>
     </div>
-    @endif
 
     <div class="modal fade technician-professionnal-serviceModal" role="dialog">
         <div class="modal-dialog">
@@ -72,7 +54,7 @@
                             <input name="fullname" type="text" class="form-control" placeholder="first and last name" data-validate="require" />
                             <input name="phone" type="text" class="form-control" placeholder="mobile phone" data-validate="require|number" />
                             <input name="email" type="text" class="form-control" placeholder="email address"  data-validate="require|email" />
-                            <input type="hidden" name="company_id" value="{{$technician->company_id or 0}}" />
+                            <input type="hidden" name="company_id" value="{{$comProfile->id or 0 }}" />
                             <input type="hidden" name="id" />
                             <input type="hidden" name="avatar" />
                         </div>
