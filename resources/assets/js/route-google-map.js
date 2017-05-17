@@ -4,7 +4,7 @@ let map;
 
 $(document).ready(function(){
     
-    $(".sectionB1 div.route-tab-menu>div.list-group>a").click(function(e) {
+    $(".sectionB1 div.route-tab-menu>div.list-group-route>a").click(function(e) {
         e.preventDefault();        
         $(this).siblings('a.active').removeClass("active");
         $(this).addClass("active");
@@ -69,7 +69,16 @@ function reloadMap(route_date)
 {    
     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
     if ($('#route-map').length > 0) {
-        let locations=[];        
+        let user=new Object();
+        let user_nest=new Object();
+        user_nest.address=$('.user-name-'+ $.trim(route_date)).text();
+        user_nest.lat=$('.user-lat-'+ $.trim(route_date)).text();
+        user_nest.lng=$('.user-lng-'+ $.trim(route_date)).text();
+        user.title=$('.user-address-'+ $.trim(route_date)).text();
+        user.address=user_nest;
+        console.log(user);
+        let locations=[]; 
+        locations.push(user); 
         let class_tr=".table.table-route-"+ $.trim(route_date)+" > tbody  > tr";
         $(class_tr).each(function() {
             let name='';
@@ -101,6 +110,8 @@ function reloadMap(route_date)
             locations.push(myObject);
         });
 
+        if(locations.length<2) return;
+
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: true,
@@ -143,11 +154,48 @@ function reloadMap(route_date)
     }
 }
 
+function calcRoute(start, end, waypts) 
+{
+    let request = {
+        origin: start,
+        destination: end,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            let route = response.routes[0];
+            let summaryPanel = document.getElementById('directions_panel');
+            summaryPanel.innerHTML = '';
+            // For each route, display summary information.
+            for (let i = 0; i < route.legs.length; i++) {
+                let routeSegment = i + 1;
+                summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
+        }
+    });
+}
+
 function initMap() 
 {
     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
     if ($('#route-map').length > 0) {
-        let locations=[];        
+        let date=$('div.list-group-route a.active').text();        
+        date=$.trim(date);
+        let user=new Object();
+        let user_nest=new Object();
+        user_nest.address=$('.user-name-'+ date).text();
+        user_nest.lat=$('.user-lat-'+ date).text();
+        user_nest.lng=$('.user-lng-'+ date).text();
+        user.title=$('.user-address-'+ date).text();
+        user.address=user_nest;
+        let locations=[]; 
+        locations.push(user);    
         $('.table-active > tbody  > tr').each(function() {    
             let name='';
             var myObject = new Object();
@@ -177,8 +225,9 @@ function initMap()
             myObject.address=obj;
             locations.push(myObject);
         });
+
+        if(locations.length<2) return;
         
-        // let locations = bigArr;//jQuery.parseJSON(mapPoints);
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: true,
@@ -221,29 +270,5 @@ function initMap()
     }
 }
 
-function calcRoute(start, end, waypts) {
-    let request = {
-        origin: start,
-        destination: end,
-        waypoints: waypts,
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.DRIVING
-    };
-    directionsService.route(request, function (response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-            let route = response.routes[0];
-            let summaryPanel = document.getElementById('directions_panel');
-            summaryPanel.innerHTML = '';
-            // For each route, display summary information.
-            for (let i = 0; i < route.legs.length; i++) {
-                let routeSegment = i + 1;
-                summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-                summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-            }
-        }
-    });
-}
+
 google.maps.event.addDomListener(window, 'load', initMap);

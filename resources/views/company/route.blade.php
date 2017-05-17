@@ -3,9 +3,9 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="col-xs-12 route-tab-container">
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
-                <div class="list-group">
+                <div class="list-group-route">
                     @foreach ($dates as $key => $value)
-                        <a href="#" id="tab_{{$key}}" class="list-group-item {{$key==$currentDate? 'active': ''}}  text-center">
+                        <a href="#" id="tab_{{$key}}" class="list-group-item text-center {{$key==$currentDate? 'active': ''}}">
                             {{$key}}
                         </a>
                     @endforeach
@@ -32,7 +32,10 @@
                                     <img class="circle-image avatar-{{$key}}" src="/company-image/1.png">
                                 </div>
                                 <div class="form-group">
-                                    <label class="name-{{$key}}">{{$user->name}}</label>
+                                    <label class="user-name-{{$key}}">{{$user->name}}</label>
+                                    <label class="hidden user-address-{{$key}}">{{$user->address}}</label>
+                                    <label class="hidden user-lat-{{$key}}">{{$user->lat}}</label>
+                                    <label class="hidden user-lng-{{$key}}">{{$user->lng}}</label>
                                     <label class="hidden not-asign-{{$key}}">Not asigned</label>
                                 </div>
                                 <div class="form-group">
