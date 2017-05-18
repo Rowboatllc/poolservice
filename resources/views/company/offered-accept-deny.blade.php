@@ -22,7 +22,7 @@
                 <td>${water}</td>
                 <td>${price}</td>
                 <td class="status">
-                    <span class="glyphicon offer_status icon" aria-hidden="true"></span>
+                    <span class="glyphicon offer_status ${offer_status} icon" aria-hidden="true"></span>
                 </td>
                 <td>
                     <?php echo '{{if offer_status=="pending"}}' ?>
