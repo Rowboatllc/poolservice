@@ -39,6 +39,10 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('select-new-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@selectNewCompany'))->name('select-new-company');
             Route::post('rating-company', array('uses' => 'PoolOwner\PoolOwnerController@ratingCompany'))->name('rating-company');
             Route::get('get-point-rating-company/{company_id}', array('uses' => 'PoolOwner\PoolOwnerController@getPointRatingCompany'))->name('get-point-rating-company');
+            Route::get('services1', array('uses' => 'PoolOwner\PoolOwnerController@getAllScheduleByPoolowner1'))->name('getAllScheduleByPoolowner1');
+            Route::post('services2', array('uses' => 'PoolOwner\PoolOwnerController@getAllScheduleByPoolowner2'))->name('getAllScheduleByPoolowner2');
+            
+
             // Ajax
             Route::post('save-email', 'PoolOwner\ApiPoolOwnerController@saveNewEmail')->name('dashboard-poolowner-save-email');
             Route::post('save-password', 'PoolOwner\ApiPoolOwnerController@saveNewPassword')->name('dashboard-poolowner-save-password');

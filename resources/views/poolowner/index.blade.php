@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="poolowner index pooltab">
+<div class="poolowner index pooltab dashboard">
     <div class="container">
         <div class="row">
             <div class="col-xs">
