@@ -113,7 +113,7 @@ function globalAssignEventBilling() {
 	jQuery('.fieldset')
 		.on('click', '.editfieldset_billing', function () {
 		$fieldset = $(this).parents('.fieldset');
-		$fieldset.find('.contenteditable').toggleClass('active');
+		$fieldset.find('.contenteditable').toggleClass('active').attr('contenteditable', true);
 		$fieldset.find('.icon.badge').toggleClass('no_display');
 		$('#billing_ccv').css("display", "inline");
 		$("#ccv_number").text(' ');
@@ -130,7 +130,7 @@ function globalAssignEventBilling() {
 				$("#payment-errors").css("display", "block");
 				$('#billing_ccv').css("display", "inline");
 			}else{
-				$fieldset.find('.contenteditable').toggleClass('active');
+				$fieldset.find('.contenteditable').toggleClass('active').attr('contenteditable', false);
 				$fieldset.find('.icon.badge').toggleClass('no_display');
 				$('#billing_ccv').css("display", "none");
 				$("#payment-errors").html("update your billing info success.");

@@ -534,9 +534,14 @@ span.stars{
   100% { transform: rotate(360deg); }
 }
 
+[contenteditable='true'] {
+    min-height: 34px;
+}
+
+/*
 [contenteditable='true']:before {
     content: "\feff ";
 }
 [contenteditable=true]:empty:before {
     content: "\feff " !important;
-}
+}*/

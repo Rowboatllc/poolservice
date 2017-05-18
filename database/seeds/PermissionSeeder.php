@@ -77,7 +77,9 @@ class PermissionSeeder extends Seeder
                 'dashboard-poolowner-save-email',
                 'dashboard-poolowner-save-password',
                 'dashboard-poolowner-save-profile',
-                'dashboard-poolowner-save-poolinfo'
+                'dashboard-poolowner-save-poolinfo',
+                'ajax-upload-file',
+                'ajax-upload-an-image'
             ],
             'company' => [
                 'service-company',
@@ -87,6 +89,8 @@ class PermissionSeeder extends Seeder
                 'dashboard-company-list-technician',
                 'dashboard-company-save-technician',
                 'dashboard-company-remove-technician',
+                
+                'dashboard-company-get-technician',
                 
                 'dashboard-company-list-customer',
                 'dashboard-company-accept-deny-offer',

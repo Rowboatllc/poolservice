@@ -63,6 +63,9 @@
     span.icon.glyphicon.glyphicon-ban-circle {
         color: red;
     }
+    .table tbody tr th {
+        border-top: 0px;
+    }
 }
     
 .dashboard-panel {
@@ -266,7 +269,7 @@
         border: 0px !important;
     }
     img.logo{
-        width: 100px;
+        width: auto;
         height: 50px;
     }
 }
