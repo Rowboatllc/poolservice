@@ -74,7 +74,7 @@
                                                 <td class="address-to-route">{{$route->address}}</td>
                                                 <td>{{$route->city}}</td>
                                                 <td>{{$route->zipcode}}</td>
-                                                <td class="fa fa-check-circle fa-6 status">{{$route->status}}</td>
+                                                <td ><i class="fa fa-check-square  {{$route->status=='billing_error'|| $route->status=='billing_success'?'icon-success':''}}" aria-hidden="true"></i></td>
                                                 <td class="fullname-to-route hidden">{{$route->fullname}}</td>
                                                 <td class="lat-to-route hidden">{{$route->lat}}</td>
                                                 <td class="lng-to-route hidden">{{$route->lng}}</td>

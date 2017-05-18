@@ -9052,6 +9052,11 @@ span.stars {
   background-position-y: 25%;
 }
 
+.company-route-service .icon-success {
+  color: #5CB85C;
+  border: 1px;
+}
+
 /*!
  * bootstrap-star-rating v4.0.2
  * http://plugins.krajee.com/star-rating

@@ -9198,6 +9198,11 @@ button.btn.btn-previous:active:focus, button.btn.btn-previous.active:focus {
   background-position-y: 25%;
 }
 
+.company-route-service .icon-success {
+  color: #5CB85C;
+  border: 1px;
+}
+
 .technician .schedule-day-of-week tr th {
   border-top: 0px !important;
 }
