@@ -177,8 +177,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-        Laravel\Cashier\CashierServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
