@@ -8403,14 +8403,17 @@ span.stars {
   }
 }
 
+[contenteditable='true'] {
+  min-height: 34px;
+}
+
+/*
 [contenteditable='true']:before {
-  content: "\feff ";
+    content: "\feff ";
 }
-
 [contenteditable=true]:empty:before {
-  content: "\feff " !important;
-}
-
+    content: "\feff " !important;
+}*/
 /*
  * Custom styles
  */
@@ -8567,6 +8570,10 @@ span.stars {
 
 .dashboard span.icon.glyphicon.glyphicon-ban-circle {
   color: red;
+}
+
+.dashboard .table tbody tr th {
+  border-top: 0px;
 }
 
 .dashboard-panel .panel-primary > .panel-heading {
@@ -8786,7 +8793,7 @@ span.stars {
 }
 
 .my-pool-service-company img.logo {
-  width: 100px;
+  width: auto;
   height: 50px;
 }
 
@@ -8889,6 +8896,11 @@ span.stars {
   width: 30px;
 }
 
+.company-profile-service h4 {
+  margin-top: 0;
+  color: #55518a;
+}
+
 .company-route-service {
   /*  bhoechie tab */
   /* select with custom icons */
@@ -8902,7 +8914,7 @@ span.stars {
   border-radius: 4px;
   -moz-border-radius: 4px;
   border: 1px solid #ddd;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-left: 0px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -8971,6 +8983,13 @@ span.stars {
   display: none;
 }
 
+.company-route-service div.route-map {
+  width: 100%;
+  height: 400px;
+  display: loat;
+  border: 0px solid #3872ac;
+}
+
 .company-route-service .is-disabled {
   pointer-events: none;
 }
@@ -8992,6 +9011,11 @@ span.stars {
 
 .company-route-service h2 {
   margin: 30px 0 0 0;
+}
+
+.company-route-service h4 {
+  margin-top: 0;
+  color: #55518a;
 }
 
 .company-route-service fieldset {
@@ -9052,6 +9076,11 @@ span.stars {
   background-image: url("images/pool-repair.png");
   display: block;
   background-position-y: 25%;
+}
+
+.company-route-service .icon-success {
+  color: #5CB85C;
+  border: 1px;
 }
 
 /*!

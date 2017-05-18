@@ -5,24 +5,26 @@ use DB;
 
 trait Pagination {
     
-    private $perPage = 5;
+    public $perPage = 5;
     
-    public function pagingSort($list, $data, $isCustomQuery = false, $searchable=[]) {
-        return $isCustomQuery ? $this->pagingSortCustom($list, $data, $searchable) : $this->pagingSortEloquent($list, $data, $searchable);
+    public function pagingSort($list, $data, $isCustomQuery = false, $searchable=[], $perPage = 0) {
+        if($perPage <= 0){
+            $perPage = $this->perPage;
+        }
+        return $isCustomQuery ? $this->pagingSortCustom($list, $data, $searchable, $perPage) : $this->pagingSortEloquent($list, $data, $searchable, $perPage);
     }
     
-    public function pagingSortCustom($query, $data, $searchable) {
+    public function pagingSortCustom($query, $data, $searchable, $perPage) {
         $where = $this->getWhere($data, $searchable);
         $query = $this->bindData($query, [':where'=>$where]);
         
         $orderBy = $this->getOrderBy($query, $data, $searchable);
         $query = $this->bindData($query, [':orderby'=>$orderBy]);
         $page = empty($data['page']) ? 1 : (int)$data['page'];
-        $perPage = $this->perPage;
         return $this->paginate($query, $page, $perPage);
     }
     
-    public function pagingSortEloquent($list, $data, $searchable) {
+    public function pagingSortEloquent($list, $data, $searchable, $perPage) {
         $list = $this->search($list, $data, $searchable);
         if(!empty($data['orderfield'])) {
             $field = $data['orderfield'];

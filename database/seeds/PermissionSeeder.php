@@ -79,7 +79,8 @@ class PermissionSeeder extends Seeder
                 'dashboard-poolowner-save-profile',
                 'dashboard-poolowner-save-poolinfo',
                 'ajax-upload-file',
-                'ajax-upload-an-image'
+                'ajax-upload-an-image',
+                'get-all-services-of-poolowner'
             ],
             'company' => [
                 'service-company',

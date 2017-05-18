@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row content-block">
     <div class="col-md-12">
         <div class="well well-sm">
-            <div class="box-body table-responsive no-padding services" style='overflow:visible;'>
+            <div class="box-body table-responsive no-padding services" style='overflow:visible;' data-totalpage="{{ceil($schedules->total()/$schedules->perPage())}}" data-page="{{$schedules->currentPage()}}"  data-url="{{ route('get-all-services-of-poolowner') }}" >
                 <table class="table table-hover">
                     <tr>
                         <th class="text-center" width="350px"><a style='cursor:pointer;'>Service(s)</a></th>
@@ -24,8 +24,11 @@
                             <td valign="middle" width="150px" class="text-center" ><span>{{$sc->dateFormat}}</span></td>
                             <td valign="middle" width="150px" class="text-center" ><span>{{$sc->price}}</span></td>
                             <td valign="middle">
+                                <label style="font-size: 1em" class="btn-status btn-upcoming {{ $sc->status == 'not_services' ? '' : 'no_display'}} ">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> Not serviced
+                                </label>
                                 <label style="font-size: 1em" class="btn-status btn-upcoming {{ $sc->status == 'checkin' || $sc->status == 'opening' ? '' : 'no_display'}} ">
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ date("Y-m-d",strtotime($sc->date)) < date("Y-m-d",strtotime($time_now)) ? 'Not serviced' : 'Service upcoming'}}
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i> Service upcoming
                                 </label>
                                 <label style="font-size: 1em" class="btn-status btn-billing-success {{$sc->status == 'billing_success' ? '' : 'no_display'}} ">
                                     <i class="fa fa-check-square-o" aria-hidden="true"></i> Billing success
@@ -43,6 +46,42 @@
                         </tr>
                     @endforeach
                 </table>
+                <ul class="pagination"></ul>
+                <script class="rowtpl" type="text/x-jquery-tmpl">
+                    <tr class="item schedule item-schedule-poolowner" data-target="#cleaningStepsInfoModal" data-toggle="modal">
+                        <td valign="middle" class="service_name text-center" width="350px">
+                            <span>${service_name}</span>                           
+                            <input type="hidden" name="date" value="${date}">
+                            <input type="hidden" name="dateFormat" value="${dateFormat}">
+                            <input type="hidden" name="now" value="{{$time_now}}">
+                            <input type="hidden" name="cleaning_steps" value="${cleaning_steps}">                                
+                            <input type="hidden" name="comment" value="${comment}">                           
+                            <input type="hidden" name="status" value="${status}" style="width: 95px; ">                           
+                        </td>
+                        <td valign="middle" width="150px" class="text-center" ><span>${dateFormat}</span></td>
+                        <td valign="middle" width="150px" class="text-center" ><span>${price}</span></td>
+                        <td valign="middle">
+                            <label style="font-size: 1em" class="btn-status btn-upcoming ${status == 'not_services' ? '' : 'no_display'} ">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i> Not serviced
+                            </label>
+                            <label style="font-size: 1em" class="btn-status btn-upcoming ${status == 'checkin' || status == 'opening' ? '' : 'no_display'} ">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i> Service upcoming
+                            </label>
+                            <label style="font-size: 1em" class="btn-status btn-billing-success ${status == 'billing_success' ? '' : 'no_display'} ">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i> Billing success
+                            </label>
+                            <label style="font-size: 1em" class="btn-status btn-billing-error ${status == 'billing_error' ? '' : 'no_display'} ">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Billing error
+                            </label>
+                            <label style="font-size: 1em" class="btn-status btn-unable ${status == 'unable' ? '' : 'no_display'} ">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Service uncomplete
+                            </label>
+                            <label style="font-size: 1em" class="btn-status btn-cancle ${status == 'closed' ? '' : 'no_display'} ">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Service cancel
+                            </label>
+                        </td>
+                    </tr>
+                </script>
             </div>
         </div>
     </div>

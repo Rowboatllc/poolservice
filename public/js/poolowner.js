@@ -82,11 +82,11 @@ jQuery(document).ready(function () {
             console.log('changed');
             $fieldset.find('.contenteditable').toggleClass('active');
             $fieldset.find('.icon.badge').toggleClass('no_display');
+            $fieldset.find('.contenteditable.password').text('');
             $ownerProfile.find('.cover_change_pwd').toggleClass('no_display');
         });
     });
 });
-
 
 // My Pool Service company
 jQuery(document).ready(function () {
@@ -105,8 +105,6 @@ jQuery(document).ready(function () {
     $(function() {
         $('span.stars').stars();
     });
-
-    
 
     let company = jQuery('.my-pool-service-company .list-company');
 
@@ -188,7 +186,7 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
 
     let services = jQuery('.poolowner .services');
-    services.find('.item-schedule-poolowner').bind('click', function() {
+    services.on('click','.item-schedule-poolowner', function() {
         services.selected = $(this);     
         let date = $(this).find('[name="date"]').val();
         let now = $(this).find('[name="now"]').val();

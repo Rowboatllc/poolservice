@@ -129,12 +129,17 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             $schedule->date = new \DateTime();
             if($schedule->save()){
                 if($status=='billing_success'){
-                    $schedule_new = $schedule->replicate();
-                    unset($schedule_new->id);
-                    $schedule_new->status = "opening";
-                    $date = $schedule->date->modify('+1 week');
-                    $schedule_new->date = $date->format('Y-m-d H:i:s');
-                    $schedule_new->save();
+                    $order = Order::find($schedule->order_id);
+                    if(isset($order)){
+                        if (in_array("weekly_learning", $order->services)){                            
+                            $schedule_new = $schedule->replicate();
+                            unset($schedule_new->id);
+                            $schedule_new->status = "opening";
+                            $date = $schedule->date->modify('+1 week');
+                            $schedule_new->date = $date->format('Y-m-d H:i:s');
+                            $schedule_new->save();
+                        }
+                    }
                 }else{
                     $this->company->pausePoolownerService($schedule->order_id, $schedule->company_id);
                 }
@@ -153,20 +158,35 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return false;
     }
 
-    public function getAllScheduleByPoolowner($user_id){
-        $services = DB::select('SELECT s.*, o.services, o.price  FROM schedules as s
+    public function getQueryScheduleByPoolowner($user_id){
+        return 'SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
                             AND s.status NOT IN ("closed")
                             ORDER BY `date` DESC
-                            ');
-                            
+                            ';
+    }
+
+    public function getAllScheduleByPoolownerNotJson($user_id, $data=[]) {
+        $list = $this->getQueryScheduleByPoolowner($user_id);
+        return $this->convertData($this->common->pagingSort($list, $data, true, [], 10));
+    }
+
+    public function getAllScheduleByPoolowner($user_id, $data) {
+        $list = $this->getQueryScheduleByPoolowner($user_id);
+        return $this->convertData($this->common->pagingSort($list, $data, true, [], 10))->toJson();
+    }
+
+    private function convertData($services){
         if(isset($services)){
             foreach($services as $service){
                 $keys = json_decode($service->services, true);
                 $service->service_name = $this->common->getServiceByKeys($keys);
-
                 $service->dateFormat = $this->common->formatDate($service->date);
+                if($service->status == 'checkin' || $service->status == 'opening')
+                    if(date("Y-m-d",strtotime($service->date)) < date("Y-m-d",strtotime('now'))){
+                        $service->status = 'not_services';
+                    }
             }
             return $services;
         }

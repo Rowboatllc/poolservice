@@ -3,6 +3,27 @@ let directionsService = new google.maps.DirectionsService();
 let map;
 
 $(document).ready(function(){
+
+    $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click',function(){
+        $('.company-route-service #viewHistoryModal').modal();      
+    });
+
+    $('.company-route-service i.btn-history-route').on('click',function(){
+        if($(this).hasClass('glyphicon-calendar'))
+        {
+            $('.company-route-service div.route-calendar').removeClass('hidden');
+            $('.company-route-service div.route-tab-container').addClass('hidden');
+            $(this).removeClass('glyphicon-calendar');
+            $(this).addClass('glyphicon-th-list');
+            $('#lbl_history').text('Daily View');
+        }else{
+            $('.company-route-service div.route-calendar').addClass('hidden');
+            $('.company-route-service div.route-tab-container').removeClass('hidden');
+            $(this).removeClass('glyphicon-th-list');
+            $(this).addClass('glyphicon-calendar');
+            $('#lbl_history').text('History');
+        }  
+    });
     
     $(".sectionB1 div.route-tab-menu>div.list-group-route>a").click(function(e) {
         e.preventDefault();        
@@ -110,47 +131,52 @@ function reloadMap(route_date)
             locations.push(myObject);
         });
 
-        if(locations.length<2) return;
-
         map = new google.maps.Map(document.getElementById('route-map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: true,
             zoom: 10
         });
-        directionsDisplay.setMap(map);
-        
-        let infowindow = new google.maps.InfoWindow();
+
         let flightPlanCoordinates = [];
-        let bounds = new google.maps.LatLngBounds();
+        if(locations.length<2){
+            for(i=0; i<flightPlanCoordinates.length; i++){
+                flightPlanCoordinates[i].setMap(null);
+            }      
 
-        for (i = 0; i < locations.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
-                map: map
-            });
-            flightPlanCoordinates.push(marker.getPosition());
-            bounds.extend(marker.position);
+            $('#directions_panel').empty();
+        } else{            
+            directionsDisplay.setMap(map);            
+            let infowindow = new google.maps.InfoWindow();            
+            let bounds = new google.maps.LatLngBounds();
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
+                    map: map
+                });
+                flightPlanCoordinates.push(marker.getPosition());
+                bounds.extend(marker.position);
 
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(locations[i]['title']);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locations[i]['title']);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+
+            map.fitBounds(bounds);
+            // directions service
+            let start = flightPlanCoordinates[0];
+            let end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
+            let waypts = [];
+            for (let i = 1; i < flightPlanCoordinates.length - 1; i++) {
+                waypts.push({
+                    location: flightPlanCoordinates[i],
+                    stopover: true
+                });
+            }
+            calcRoute(start, end, waypts);
         }
-
-        map.fitBounds(bounds);
-        // directions service
-        let start = flightPlanCoordinates[0];
-        let end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
-        let waypts = [];
-        for (let i = 1; i < flightPlanCoordinates.length - 1; i++) {
-            waypts.push({
-                location: flightPlanCoordinates[i],
-                stopover: true
-            });
-        }
-        calcRoute(start, end, waypts);
     }
 }
 

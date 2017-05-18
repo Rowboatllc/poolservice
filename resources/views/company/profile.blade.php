@@ -19,7 +19,7 @@
             <img src="{{ $comProfile->logo }}">
         </div>
         <div class="address-data col-sm-4">
-            <table class="table table-hover table-bordered" id="infoTable">
+            <table class="table table-hover table-bordered table-striped" id="infoTable">
                 <tr>
                     <td>Company Name</td>
                     <td>{{$comProfile->name}}</td>
@@ -68,11 +68,11 @@
                     <div class="form-group profile-tab-content active">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-plane" style="font-size:14em;color:#55518a"></h4>-->
-                            <h4 style="margin-top: 0;color:#55518a">Upload your company logo</h4>
+                            <h4>Upload your company logo</h4>
                             <input type="file" id="file_logo" required name="logo" value="" required placeholder="upload your logo..." class="form-control">
                             <span class="portrait" id="preview_logo"></span>
-                            <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
-                            <h4 style="margin-top: 0;color:#55518a">it's not but it help you stand out from the crowd</h4>
+                            <h4>Why is this necessary?</h4>
+                            <h4>it's not but it help you stand out from the crowd</h4>
                             <div class="buttons">
                                 <button type="button" class="btn btn-next-info">Next</button>
                             </div>
@@ -82,13 +82,13 @@
                     <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h4>-->
-                            <h4 style="margin-top: 0;color:#55518a">Upload your W-q</h4>
-                            <h4 style="margin-top: 0;color:#55518a">https:www.irs.gov/pub/irs-pdf/fwq.pdf</h4>
+                            <h4>Upload your W-q</h4>
+                            <h4>https:www.irs.gov/pub/irs-pdf/fwq.pdf</h4>
                             <input type="file" required name="wq" value="" required placeholder="Upload your W-q..." class="form-control" id="file_wq">
                             <span class="portrait" id="preview_wq"></span>
-                            <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
-                            <h4 style="margin-top: 0;color:#55518a">You are considered a subcontractor of PoolService.com and will receive a </h4>
-                            <h4 style="margin-top: 0;color:#55518a">MISC-1099 from PoolService.com after the end of the year</h4>
+                            <h4>Why is this necessary?</h4>
+                            <h4>You are considered a subcontractor of PoolService.com and will receive a </h4>
+                            <h4>MISC-1099 from PoolService.com after the end of the year</h4>
                             <div class="buttons">
                                 <button type="button" class="btn btn-previous">Back</button>
                                 <button type="button" class="btn btn-next-info">Next</button>
@@ -100,11 +100,11 @@
                     <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h4>-->
-                            <h4 style="margin-top: 0;color:#55518a">Upload a scan og your driver's license</h4>
+                            <h4>Upload a scan og your driver's license</h4>
                             <input type="file" required name="driven_license" value="" required placeholder="Upload your driven license..." class="form-control" id="file_driven_license">
                             <span class="portrait" id="preview_driven_license"></span>
-                            <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
-                            <h4 style="margin-top: 0;color:#55518a">This helps us to verify who you say you are.</h4>
+                            <h4>Why is this necessary?</h4>
+                            <h4>This helps us to verify who you say you are.</h4>
                             <div class="buttons">
                                 <button type="button" class="btn btn-previous">Back</button>
                                 <button type="button" class="btn btn-next-info">Next</button>
@@ -114,12 +114,12 @@
                     <div class="form-group profile-tab-content">
                         <center>
                             <!--<h4 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h4>-->
-                            <h4 style="margin-top: 0;color:#55518a">Upload a scan of CPA certification</h4>
+                            <h4>Upload a scan of CPA certification</h4>
                             <input type="file" name="cpa" value="" required placeholder="Upload your CPA..." class="form-control" id="file_cpa">
                             <span class="portrait" id="preview_cpa"></span>
-                            <h4 style="margin-top: 0;color:#55518a">Why is this necessary?</h4>
-                            <h4 style="margin-top: 0;color:#55518a">This is optional. In order to service commercial pools, you must be CPA certified.</h4>
-                            <h4 style="margin-top: 0;color:#55518a">If you are not CPA certified, you can skip this step.</h4>
+                            <h4>Why is this necessary?</h4>
+                            <h4>This is optional. In order to service commercial pools, you must be CPA certified.</h4>
+                            <h4>If you are not CPA certified, you can skip this step.</h4>
                             <div class="buttons">
                                 <button type="button" class="btn btn-previous">Back</button>
                                 <button type="submit" class="btn btn-submit">Submit</button>
