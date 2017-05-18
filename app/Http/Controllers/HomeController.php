@@ -26,7 +26,6 @@ class HomeController extends Controller
     public function index()
     {
         $this->loadHeadInPage('home');
-        dd( 'db host', env('DB_HOST'), 'port', env('DB_PORT'), 'DB_DATABASE', env('DB_DATABASE'), 'DB_USERNAME',env('DB_USERNAME'),'DB_PASSWORD',env('DB_PASSWORD') );
         return view('home');
     }
 
