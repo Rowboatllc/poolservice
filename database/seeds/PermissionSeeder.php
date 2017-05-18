@@ -77,7 +77,8 @@ class PermissionSeeder extends Seeder
                 'dashboard-poolowner-save-email',
                 'dashboard-poolowner-save-password',
                 'dashboard-poolowner-save-profile',
-                'dashboard-poolowner-save-poolinfo'
+                'dashboard-poolowner-save-poolinfo',
+                'getAllScheduleByPoolowner2'
             ],
             'company' => [
                 'service-company',

@@ -188,7 +188,7 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
 
     let services = jQuery('.poolowner .services');
-    services.find('.item-schedule-poolowner').bind('click', function() {
+    services.on('click','.item-schedule-poolowner', function() {
         services.selected = $(this);     
         let date = $(this).find('[name="date"]').val();
         let now = $(this).find('[name="now"]').val();
