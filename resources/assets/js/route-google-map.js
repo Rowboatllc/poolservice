@@ -3,6 +3,22 @@ let directionsService = new google.maps.DirectionsService();
 let map;
 
 $(document).ready(function(){
+
+    $('.company-route-service i.btn-history-route').on('click',function(){
+        console.log($(this));
+        if($(this).hasClass('glyphicon-calendar'))
+        {
+            $('.company-route-service div.route-calendar').removeClass('hidden');
+            $('.company-route-service div.route-tab-container').addClass('hidden');
+            $(this).removeClass('glyphicon-calendar');
+            $(this).addClass('glyphicon-th-list');
+        }else{
+            $('.company-route-service div.route-calendar').addClass('hidden');
+            $('.company-route-service div.route-tab-container').removeClass('hidden');
+            $(this).removeClass('glyphicon-th-list');
+            $(this).addClass('glyphicon-calendar');
+        }        
+    });
     
     $(".sectionB1 div.route-tab-menu>div.list-group-route>a").click(function(e) {
         e.preventDefault();        
