@@ -21,7 +21,7 @@
         
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
-        <script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
+        <script type="text/javascript" src="{{ config('app.url') }}/js/lib/jquery.tmpl.js" ></script>
         @yield('head')        
     </head>
     <body>

@@ -478,7 +478,8 @@ jQuery(document).ready(function () {
     globalAssignEvent();
     autoPaging('.dashboard');
     jQuery('img').on( "error", function(){
-        jQuery(this).attr('src', 'images/shim.png');
+        var url = $('base').attr('href');
+        jQuery(this).attr('src', url+'/images/shim.png');
     })
 });
 
