@@ -1,6 +1,6 @@
 <div class="company-route-service">  
     <div class="sectionB1">
-        <div align="right">History <i class="glyphicon glyphicon-calendar btn-history-route"></i></div>
+        <div align="right"><span id="lbl_history">History</span> <i class="glyphicon glyphicon-calendar btn-history-route"></i></div>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="col-xs-12 route-tab-container">
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
@@ -55,8 +55,8 @@
                                     <label id="count_route">{{count($value)}} pools</label>
                                 </div>
                             </div>
-                            <div>
-                                <table class="table table-striped table-hover table-route-{{$key}} {{$key==$currentDate? 'table-active': ''}}">
+                            <div class="panel panel-default">
+                                <table class="table table-hover table-route-{{$key}} {{$key==$currentDate? 'table-active': ''}}">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -82,7 +82,9 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>                                
+                                </table>  
+                                <div class="panel-footer text-center">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
+                                </div>                              
                             </div>  
                         @endif                
                     </div>
@@ -107,20 +109,31 @@
                             <tr>
                                 <td class="fc-header-left">
                                     <div class="btn-group">
-                                        <button type="button" class="fc-button-prev fc-corner-left btn btn-default btn-sm"> <i class="fa fa-chevron-left"></i>
-
+                                        <button type="button" class="fc-button-prev fc-corner-left btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-left"></i>
                                         </button>
-                                        <button type="button" class="btn btn-default btn-sm"> <i class="fa fa-chevron-right"></i>
-
+                                        <button type="button" class="btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-right"></i>
                                         </button>
-                                    </div> <span class="fc-button fc-button-prev fc-state-default fc-corner-left" unselectable="on"><span class="fc-text-arrow">‹</span></span> <span class="fc-button fc-button-next fc-state-default fc-corner-right" unselectable="on"><span class="fc-text-arrow">›</span></span> <span class="fc-header-space"></span><span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right fc-state-disabled" unselectable="on">today</span>
-
+                                    </div> 
+                                        <span class="fc-button fc-button-prev fc-state-default fc-corner-left" unselectable="on">
+                                            <span class="fc-text-arrow">‹</span>
+                                        </span> 
+                                        <span class="fc-button fc-button-next fc-state-default fc-corner-right" unselectable="on">
+                                            <span class="fc-text-arrow">›</span>
+                                        </span> 
+                                        <span class="fc-header-space"></span>
+                                        <span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right fc-state-disabled" unselectable="on">today</span>
                                 </td>
-                                <td class="fc-header-center"> <span class="fc-header-title">          <h2>January 2014</h2>          </span>
-
+                                <td class="fc-header-center">
+                                    <span class="fc-header-title"> 
+                                        <h2>January 2014</h2>
+                                    </span>
                                 </td>
-                                <td class="fc-header-right"> <span class="fc-button fc-button-month fc-state-default fc-corner-left fc-state-active" unselectable="on">month</span><span class="fc-button fc-button-agendaWeek fc-state-default" unselectable="on">week</span><span class="fc-button fc-button-agendaDay fc-state-default fc-corner-right" unselectable="on">day</span>
-
+                                <td class="fc-header-right"> 
+                                    <span class="fc-button fc-button-month fc-state-default fc-corner-left fc-state-active" unselectable="on">month</span>
+                                    <span class="fc-button fc-button-agendaWeek fc-state-default" unselectable="on">week</span>
+                                    <span class="fc-button fc-button-agendaDay fc-state-default fc-corner-right" unselectable="on">day</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -129,10 +142,10 @@
                         <div class="fc-view fc-view-month fc-grid" style="position: relative; min-height: 1px;" unselectable="on">
                             <div style="position:absolute;z-index:8;top:0;left:0">
                                 <div class="fc-event fc-event-hori fc-event-draggable fc-event-start fc-event-end ui-draggable" style="position: absolute; z-index: 8; left: 495px; top: 60px;" unselectable="on">
-                                    <div class="fc-event-inner"> <span class="fc-event-title" style="position:relative; left:18px; top:10px;font-size:20px;">3</span>
-
+                                    <div class="fc-event-inner"> 
+                                        <span class="fc-event-title" style="position:relative; left:18px; top:10px;font-size:20px;">3</span>
                                     </div>
-                                    <div class="ui-resizable-handle ui-resizable-e">   </div>
+                                    <div class="ui-resizable-handle ui-resizable-e"></div>
                                 </div>
                                 <div class="fc-event fc-event-hori fc-event-draggable fc-event-start" style="position: absolute; z-index: 8; left: 804px; width: 304px; top: 352px;">
                                     <div class="fc-event-inner"> <span class="fc-event-title" style="position:relative; left:18px; top:10px;font-size:20px;">5</span>
@@ -521,4 +534,156 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="viewHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                     <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-unlock"></i> Unlock Calendar</h4>
+
+                </div>
+                <div class="modal-body">
+                    <p class="h3 text-center text-primary"><i class="fa fa-thumbs-up"></i> Woop!</p>
+                    <p class="lead text-center">Here's what happens when you unlock your calendar:</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+
+                        </div>
+                        <div class="col-xs-11">You'll instantly get access to all <strong class="text-primary">67 shared assignments</strong> on your calendar.</div>
+                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+
+                        </div>
+                        <div class="col-xs-11">You'll be <strong>notified</strong> whenever a shared assignment is <strong>updated or edited</strong> throughout the semester.</div>
+                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+
+                        </div>
+                        <div class="col-xs-11">You'll be able to <strong>share your own calendar assignments</strong> with your class, which means you can start making money instantly.</div>
+                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+
+                        </div>
+                        <div class="col-xs-11">You'll gain access to special features of mchp, such as <strong>calendar integration</strong> in your College Pulse and in each of your class's activity sections.</div>
+                    </div>
+                    <hr>
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <!-- Table -->
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Class Name</th>
+                                    <th># of Assignments</th>
+                                    <th>Unlock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fa fa-book"></i> ECON 200</td>
+                                    <td><strong class="text-primary"><i class="fa fa-calendar"></i> 15 now</strong> + all future</td>
+                                    <td><i class="fa fa-check-circle text-success"> yes</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-book"></i> ACCT 210</td>
+                                    <td><strong class="text-primary"><i class="fa fa-calendar"></i> 22 now</strong> + all future</td>
+                                    <td><i class="fa fa-check-circle text-success"> yes</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-book"></i> MGMT 310</td>
+                                    <td><strong class="text-primary"><i class="fa fa-calendar"></i> 30 now</strong> + all future</td>
+                                    <td> <i class="fa fa-check-circle text-success"> yes</i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="panel-footer text-center">You're unlocking: <strong>3 classes</strong> for <strong>300 points</strong>
+                        </div>
+                    </div>
+                    <!-- Begin Carousel -- <div id="carousel-example-generic" class="carousel slide">
+                  
+  <!-- Indicators 
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  </ol>-->
+                    <!-- Wrapper for slides -- <div class="carousel-inner">
+    <div class="item ">
+        <div class="custom-content">
+      <div class="media">
+  <a class="pull-left" href="#">
+    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">Poop Assignments</h4>
+    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
+  </div>
+</div>
+            </div>
+      
+    </div>
+    
+  </div>
+                  
+                  
+                  <div class="carousel-inner">
+    <div class="item ">
+        <div class="custom-content">
+      <div class="media">
+  <a class="pull-left" href="#">
+    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">Poop Assignments</h4>
+    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
+  </div>
+</div>
+            </div>
+      
+    </div>
+    
+  </div>
+                  
+                  
+  <div class="carousel-inner">
+    <div class="item active">
+        <div class="custom-content">
+      <div class="media">
+  <a class="pull-left" href="#">
+    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">Shared Assignments</h4>
+    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
+  </div>
+</div>
+            </div>
+      
+    </div>
+    
+  </div>
+      
+      
+
+
+  <!-- Controls --
+    <p class="pull-right">
+        <a class="" href="#carousel-example-generic" data-slide="prev"><i class="fa fa-hand-o-left fa-lg"></i></a> 
+        <a class="" href="#carousel-example-generic" data-slide="next"><i class="fa fa-hand-o-right fa-lg"></i></a> 
+        
+    </p>    
+</div>
+                      
+              <!-- End Carousel --></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Unlock!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 </div>

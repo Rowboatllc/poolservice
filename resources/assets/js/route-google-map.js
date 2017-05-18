@@ -4,20 +4,25 @@ let map;
 
 $(document).ready(function(){
 
+    $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click',function(){
+        $('.company-route-service #viewHistoryModal').modal();      
+    });
+
     $('.company-route-service i.btn-history-route').on('click',function(){
-        console.log($(this));
         if($(this).hasClass('glyphicon-calendar'))
         {
             $('.company-route-service div.route-calendar').removeClass('hidden');
             $('.company-route-service div.route-tab-container').addClass('hidden');
             $(this).removeClass('glyphicon-calendar');
             $(this).addClass('glyphicon-th-list');
+            $('#lbl_history').text('Daily View');
         }else{
             $('.company-route-service div.route-calendar').addClass('hidden');
             $('.company-route-service div.route-tab-container').removeClass('hidden');
             $(this).removeClass('glyphicon-th-list');
             $(this).addClass('glyphicon-calendar');
-        }        
+            $('#lbl_history').text('History');
+        }  
     });
     
     $(".sectionB1 div.route-tab-menu>div.list-group-route>a").click(function(e) {
