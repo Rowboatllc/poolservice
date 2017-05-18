@@ -1,7 +1,7 @@
 <div class="row content-block">
     <div class="col-md-12">
         <div class="well well-sm">
-            <div class="box-body table-responsive no-padding services" style='overflow:visible;' data-totalpage="{{ceil($schedules->total()/$schedules->perPage())}}" data-page="{{$schedules->currentPage()}}"  data-url="{{ route('getAllScheduleByPoolowner2') }}" >
+            <div class="box-body table-responsive no-padding services" style='overflow:visible;' data-totalpage="{{ceil($schedules->total()/$schedules->perPage())}}" data-page="{{$schedules->currentPage()}}"  data-url="{{ route('get-all-services-of-poolowner') }}" >
                 <table class="table table-hover">
                     <tr>
                         <th class="text-center" width="350px"><a style='cursor:pointer;'>Service(s)</a></th>

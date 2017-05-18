@@ -1,4 +1,4 @@
-<div class="poolowner_profile">
+<div class="poolowner_profile billing-info">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div role="form" class="fieldset" method="POST" action="{{route('update-billing-info')}}" id="form-billing-info">

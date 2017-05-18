@@ -158,7 +158,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return false;
     }
 
-    public function getAllScheduleByPoolowner($user_id){
+    public function getQueryScheduleByPoolowner($user_id){
         return 'SELECT s.*, o.services, o.price  FROM schedules as s
                             LEFT JOIN orders o ON o.id = s.order_id
                             WHERE o.poolowner_id = '.$user_id.'
@@ -167,13 +167,13 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                             ';
     }
 
-    public function getAllScheduleByPoolowner1($user_id, $data=[]) {
-        $list = $this->getAllScheduleByPoolowner($user_id);
+    public function getAllScheduleByPoolownerNotJson($user_id, $data=[]) {
+        $list = $this->getQueryScheduleByPoolowner($user_id);
         return $this->convertData($this->common->pagingSort($list, $data, true, [], 10));
     }
 
-    public function getAllScheduleByPoolowner2($user_id, $data) {
-        $list = $this->getAllScheduleByPoolowner($user_id);
+    public function getAllScheduleByPoolowner($user_id, $data) {
+        $list = $this->getQueryScheduleByPoolowner($user_id);
         return $this->convertData($this->common->pagingSort($list, $data, true, [], 10))->toJson();
     }
 
