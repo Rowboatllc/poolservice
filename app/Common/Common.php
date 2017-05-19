@@ -9,6 +9,7 @@ use Auth;
 use Mail;
 use DateInterval;
 use DatePeriod;
+use DateTime;
 use App\Common\Pagination;
 
 class Common {
@@ -159,6 +160,65 @@ class Common {
         } else {
             return date('Y-m-d', strtotime($day) - 604800);
         }
+    }
+
+    public static function getAllDayOfCurrentYearMonth($month,$year)
+    {
+        $list=array();
+        $start_date = "01-".$month."-".$year;
+        $start_time = strtotime($start_date);
+        $end_time = strtotime("+1 month", $start_time);
+        for($i=$start_time; $i<$end_time; $i+=86400){
+            $list[] = date('Y-m-d-D', $i);
+        }
+
+        return $list;
+    }
+
+    public static function getDayWeeksOfMonth($month,$year)
+    {
+        $month = intval($month);				//force month to single integer if '0x'
+        $suff = array('st','nd','rd','th','th','th'); 		//week suffixes
+        $end = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31
+        $start = date('w',mktime(0,0,0,$month,1,$year)); 	//1st day of month: 0 - 6 (Sun - Sat)
+        $last = 7 - $start; 					//get last day date (Sat) of first week
+        $noweeks = ceil((($end - ($last + 1))/7) + 1);		//total no. weeks in month
+        // $output = "";	
+        $arr=array();					//initialize string		
+        $monthlabel = str_pad($month, 2, '0', STR_PAD_LEFT);
+        for($x=1;$x<$noweeks+1;$x++){	
+            if($x == 1){
+                $startdate = "$year-$monthlabel-01";
+                $day = $last - 6;
+            }else{
+                $day = $last + 1 + (($x-2)*7);
+                $day = str_pad($day, 2, '0', STR_PAD_LEFT);
+                $startdate = "$year-$monthlabel-$day";
+            }
+            if($x == $noweeks){
+                var_dump($end);
+                $enddate = "$year-$monthlabel-$end";
+            }else{
+                $dayend = $day + 6;
+                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);
+                $enddate = "$year-$monthlabel-$dayend";
+            }
+
+            $days_between=[];
+            $start    = new DateTime($startdate);
+            $end      = (new DateTime($enddate))->modify('+1 day');
+            $interval = new DateInterval('P1D');
+            $period   = new DatePeriod($start, $interval, $end);
+            
+            foreach ($period as $dt) {
+                $days_between[]=$dt->format("Y-m-d");
+            }
+            
+            $arr[$x]= $days_between;
+            // $output .= "{$x}{$suff[$x-1]} week -> Start date=$startdate End date=$enddate <br />";	
+        }
+        
+        return $arr;
     }
 
     public static function getKeyDatesFromRange($start, $end, $format = 'Y-m-d') {
