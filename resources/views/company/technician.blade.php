@@ -52,7 +52,7 @@
                         </div>
                         <div class="form-group">
                             <input name="fullname" type="text" class="form-control" placeholder="first and last name" data-validate="require" />
-                            <input name="phone" type="text" class="form-control" placeholder="mobile phone" data-validate="require|number" />
+                            <input name="phone" type="text" class="form-control" placeholder="mobile phone" data-validate="require|phonenumber" />
                             <input name="email" type="text" class="form-control" placeholder="email address"  data-validate="require|email" />
                             <input type="hidden" name="company_id" value="{{$comProfile->id or 0 }}" />
                             <input type="hidden" name="id" />

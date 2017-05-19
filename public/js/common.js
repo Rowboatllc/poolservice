@@ -139,7 +139,8 @@ jQuery(document).ready(function () {
 jQuery(document).ready(function () {
     function assignEvent() {
         // Company accept/deny offer from Pool owner
-        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+        jQuery('.company-offered-service').on('click', '.accept-service-offer, .deny-service-offer', function() {
+            
             let $me = jQuery(this);
             let data = $me.data();
             let url = $me.closest('table');
@@ -210,52 +211,22 @@ function afterUploadedTechnicianAvatar(form, result) {
     jQuery('#'+ajaxUploadFile.frameName).remove();
 }
 jQuery(document).ready(function () {
-    $('div[contenteditable]').keypress(function(e) {
-        let limit = $(this).attr("maxlength");
-        let value = (jQuery(this).is(':input')) ? 
-                    jQuery.trim(jQuery(this).val()): 
-                    jQuery.trim(jQuery(this).text());
-        value = value + String.fromCharCode(e.which);            
-        if(!checkOneFieldWithValue(this, value))
-            return false;
-        if(!isNaN(limit))
-            return this.innerHTML.length < parseInt(limit);
-        
-        }).on({
-        'paste': function(e) {
-            let limit = $(this).attr("maxlength");
-            let value = e.originalEvent.clipboardData.getData('text');
-			value = value + String.fromCharCode(e.which);            
-			if(!checkOneFieldWithValue(this, value))
-				return false;
-			if(!isNaN(limit))
-				return this.innerHTML.length < parseInt(limit);
-			this.innerHTML += cp.substring(0, limit - len);
-			return false;
-        },
-        'drop': function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    });
-
+   
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
             let $fieldset = $(this).closest('.fieldset');
-            $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.contenteditable').toggleClass('active').attr('contenteditable', true);
             $fieldset.find('.icon.badge').toggleClass('no_display');
         }).on('click', '.savefieldset', function () {
             let $fieldset = $(this).closest('.fieldset');
-            //console.log(isValidate($fieldset), $fieldset);
-            //return;
             if(!isValidate($fieldset))
                 return;
             saveEditableContent($fieldset, function(result){
                 if(result.success!=true)
                     return;
                 console.log('changed');
-                $fieldset.find('.contenteditable').toggleClass('active');
+                $fieldset.find('.contenteditable').toggleClass('active').attr('contenteditable', false);
                 $fieldset.find('.icon.badge').toggleClass('no_display');
             });
         }).on('click', '.upload-imagefieldset', function () {
@@ -269,7 +240,7 @@ jQuery(document).ready(function () {
         }).on('click', '.cancel-editfieldset', function () {
             let $fieldset = $(this).closest('.fieldset');
             $fieldset.find('.icon.badge').toggleClass('no_display');
-            $fieldset.find('.contenteditable').toggleClass('active');
+            $fieldset.find('.contenteditable').toggleClass('active').attr('contenteditable', false);
             $fieldset.find('.inputerror').removeClass('inputerror');
             //revertEditableFieldValues($fieldset);
         });
@@ -508,7 +479,8 @@ jQuery(document).ready(function () {
     globalAssignEvent();
     autoPaging('.dashboard');
     jQuery('img').on( "error", function(){
-        jQuery(this).attr('src', 'images/shim.png');
+        var url = $('base').attr('href');
+        jQuery(this).attr('src', url+'/images/shim.png');
     })
 });
 
@@ -692,11 +664,14 @@ function checkContent(value, type, field) {
             return (value!='');
         break;
         case 'email':
-            let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
             return re.test(value); 
         break;
         case 'number':
             return jQuery.isNumeric(value);
+        case 'phonenumber':
+           var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+           return re.test(value); 
         break;
     }
 }

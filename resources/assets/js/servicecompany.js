@@ -2,7 +2,8 @@
 jQuery(document).ready(function () {
     function assignEvent() {
         // Company accept/deny offer from Pool owner
-        jQuery('.company-offered-service').find('.accept-service-offer, .deny-service-offer').bind('click', function() {
+        jQuery('.company-offered-service').on('click', '.accept-service-offer, .deny-service-offer', function() {
+            
             let $me = jQuery(this);
             let data = $me.data();
             let url = $me.closest('table');

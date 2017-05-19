@@ -69,7 +69,7 @@ class PoolOwnerController extends Controller {
             $company_select = $company_select_arr[0];
             $point = $this->company->getRatingCompany($user->id, $company_select->id);
         }
-        $schedules = $this->schedule->getAllScheduleByPoolowner1($user->id);
+        $schedules = $this->schedule->getAllScheduleByPoolownerNotJson($user->id);
         $time_not_use = $this->schedule->getTimePoolownerNotuse($user->id);
 
         $now = new \DateTime();
@@ -77,14 +77,9 @@ class PoolOwnerController extends Controller {
         return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info', 'schedules', 'poolinfo', 'time_now', 'time_not_use']));
     }
 
-    public function getAllScheduleByPoolowner1() {
+    public function getAllScheduleByPoolowner(Request $request) {
         $user = Auth::user();
-        return $this->schedule->getAllScheduleByPoolowner1($user->id);
-    }
-
-    public function getAllScheduleByPoolowner2(Request $request) {
-        $user = Auth::user();
-        $result = $this->schedule->getAllScheduleByPoolowner2($user->id,$request->all());
+        $result = $this->schedule->getAllScheduleByPoolowner($user->id,$request->all());
         return $this->common->responseJson(true, 200, '', ['list' => $result]);
     }
 
