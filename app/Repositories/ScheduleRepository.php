@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Models\Schedule;
+use App\Models\Selected;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BillingInfoRepositoryInterface;
@@ -15,14 +16,16 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     protected $common;
     protected $billing;    
     protected $company;    
+    protected $selected;    
 
-    public function __construct(Schedule $schedule, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company)
+    public function __construct(Schedule $schedule, Selected $selected, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company)
     {
         $this->schedule = $schedule;        
         $this->common = app('App\Common\Common');
         $this->billing = $billing;
         $this->company = $company;
-
+        $this->selected = $selected;
+        
     }
 
     public function getAllScheduleInWeek($technician_id){
@@ -216,6 +219,42 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         if($time==5)
             return 0;
         return 4-$time;
+    }
+
+    public function getAllPoolownerNotAssigned($company_id){
+        return DB::table('profiles')
+            ->join('orders', 'orders.poolowner_id', '=', 'profiles.user_id')
+            ->join('selecteds', 'selecteds.order_id', '=', 'orders.id')
+            ->where('selecteds.company_id', $company_id)
+            ->where('selecteds.status', 'active')
+            ->where('orders.status', 'active')
+            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id');
+    }
+
+    public function updateStatusSelected($selected_id, $status = 'active', $dayofweek = null, $company_id = null){
+        $selected = $this->selected->find($selected_id);
+        if(isset($selected)){
+            if($dayofweek){
+                $selected->dayofweek = $dayofweek;
+            }
+            if($company_id){
+                $selected->company_id = $company_id;
+            }
+            $selected->status = $status;
+            return $selected->save();
+        }
+        return false;
+    }
+
+    public function createNewSchedule($technican_id, $order_id, $company_id, $date, $status = 'opening'){
+        $sechedule = new Schedule;
+        $sechedule->technican_id = $technican_id;
+        $sechedule->order_id = $order_id;
+        $sechedule->company_id = $company_id;
+        $sechedule->date = $date;
+        $sechedule->status = $status;
+
+        return $schedule->save();
     }
 
 }

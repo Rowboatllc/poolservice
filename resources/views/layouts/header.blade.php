@@ -27,7 +27,7 @@
                                                 document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
-                                <a href="{{ route('dashboard-notification-list') }}"> Notification <span class="text-danger">({{ $numberOfNotification or 0 }})</span></a>
+                                <a href="{{ route('dashboard-notification-list') }}"> Notification (<span class="text-danger numberofnotification">{{ $numberOfNotification or 0 }}</span>)</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form>

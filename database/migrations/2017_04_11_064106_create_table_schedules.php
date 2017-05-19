@@ -19,11 +19,11 @@ class CreateTableSchedules extends Migration
             $table->integer('order_id');         
             $table->integer('company_id');                          
             $table->datetime('date');
-            $table->string('img_before');   
-            $table->string('img_after');  
+            $table->string('img_before')->nullable();  
+            $table->string('img_after')->nullable();  
             $table->enum('status', array('opening', 'checkin', 'unable', 'billing_success', 'billing_error', 'closed'))->default('opening');
-            $table->json('cleaning_steps');   
-            $table->string('comment');
+            $table->json('cleaning_steps')->nullable();     
+            $table->string('comment')->nullable();  
             $table->timestamps();
         });
     }
