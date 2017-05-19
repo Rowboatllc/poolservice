@@ -17,7 +17,9 @@ class CreateTableSelecteds extends Migration
             $table->increments('id');
             $table->integer('order_id');         
             $table->integer('company_id');
-            $table->enum('status', array('pending', 'active', 'inactive', 'denied', 'pause'))->default('pending');
+            $table->enum('status', array('pending', 'active', 'inactive', 'denied', 'pause', 'assigned'))->default('pending');
+            $table->integer('dayofweek')->nullable();
+            $table->integer('technican_id')->nullable();          
             $table->timestamps();
         });
     }
