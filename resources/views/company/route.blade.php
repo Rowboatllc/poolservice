@@ -83,10 +83,10 @@
                                         @endforeach
                                     </tbody>
                                 </table>  
-                                <div class="panel-footer text-center">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
+                                <div class="panel-footer text-center total-route-date">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
                                 </div>                              
                             </div>  
-                        @endif                
+                        @endif             
                     </div>
                 @endforeach
             </div>

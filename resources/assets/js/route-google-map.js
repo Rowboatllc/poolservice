@@ -49,7 +49,7 @@ $(document).ready(function(){
                     $('#count_route').text(data.message.length + " pools");
                     $('.table-route-'+date+' tbody tr').remove();
                     let table=$('.table-route-'+date+' tbody');
-
+                    let m=0;
                     jQuery.each(data.message, function(index, item) {
                         let n=parseInt(index) +1;
                         let row="<tr>";
@@ -58,10 +58,26 @@ $(document).ready(function(){
                         row+="<td>"+item.address+"</td>";
                         row+="<td>"+item.city+"</td>";
                         row+="<td>"+item.zipcode+"</td>";
+                        if(item.status=='billing_error' || item.status=='billing_success')
+                        {
+                            row+="<td ><i class='fa fa-check-square icon-success' aria-hidden='true'></i></td>";
+                        }
+                        else
+                        {
+                            row+="<td ><i class='fa fa-check-square' aria-hidden='true'></i></td>";
+                        }
+                        
                         row+="</tr>";
-
                         table.append(row);
+                        m=m+1;
                     });
+                    if(m>0)
+                    {
+                        $('div.total-route-date strong').first().text(m + ' routes');
+                    }else
+                    {
+                        $('div.total-route-date strong').first().text(m + ' route');
+                    }                    
                 }
             },
             error: function (ajaxContext) {
@@ -72,17 +88,17 @@ $(document).ready(function(){
 
     $('.chk-not-available').on('change',function(e){
         let date=$(this).attr('date');
-        if($(this).prop('checked')){            
-            $('.avatar-'+date+'').addClass('hidden');
-            $('.name-'+date+'').addClass('hidden');
-            $('.not-asign-'+date+'').removeClass('hidden');
-            $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
-        }else{
-            $('.avatar-'+date+'').removeClass('hidden');
-            $('.name-'+date+'').removeClass('hidden');
-            $('.not-asign-'+date+'').addClass('hidden');
-            $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
-        }        
+        // if($(this).prop('checked')){            
+        //     $('.avatar-'+date+'').addClass('hidden');
+        //     $('.name-'+date+'').addClass('hidden');
+        //     $('.not-asign-'+date+'').removeClass('hidden');
+        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
+        // }else{
+        //     $('.avatar-'+date+'').removeClass('hidden');
+        //     $('.name-'+date+'').removeClass('hidden');
+        //     $('.not-asign-'+date+'').addClass('hidden');
+        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
+        // }        
     });
 });
 

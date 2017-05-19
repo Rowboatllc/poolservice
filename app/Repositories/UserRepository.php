@@ -382,12 +382,6 @@ class UserRepository
         return $dates;
     }
 
-    /*select * from schedules s 
-join orders o on s.order_id=o.id
-join profiles p on o.poolowner_id=p.user_id
-where s.technican_id>0*/
-
-
     public function getUserScheduleByDate($id,$date)
     {
         $comProfile = DB::table('schedules')
