@@ -223,9 +223,9 @@ class CompanyRepository implements CompanyRepositoryInterface {
     public function customersListBuilder($company_id) {
         return "
             select 
-                orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at,
-                max(case when schedules.status ='opening' then schedules.date end) as nextserveddate,
-                max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then schedules.date end) as lastserveddate
+                orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, DATE_FORMAT(profiles.created_at, '%Y-%m-%d') as created_at,
+                max(case when schedules.status ='opening' then DATE_FORMAT(schedules.date, '%Y-%m-%d') end) as nextserveddate,
+                max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then DATE_FORMAT(schedules.date, '%Y-%m-%d') end) as lastserveddate
             from profiles
             left join orders on orders.poolowner_id = profiles.user_id
             left join schedules on schedules.order_id = orders.id
@@ -272,6 +272,7 @@ class CompanyRepository implements CompanyRepositoryInterface {
             for ($i = 0; $i < count($obj); $i++) {
                 $obj[$i]->services = $this->common->getServiceByKeys(json_decode($obj[$i]->services));
                 $obj[$i]->zipcode = json_decode($obj[$i]->zipcode)[0];
+                $obj[$i]->time = date('Y-m-d',strtotime($obj[$i]->time));
             }
         }
         return $obj;
