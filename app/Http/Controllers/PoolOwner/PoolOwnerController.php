@@ -74,6 +74,8 @@ class PoolOwnerController extends Controller {
 
         $now = new \DateTime();
         $time_now = date_format($now, 'Y-m-d H:i:s');
+        // Get number of notifications
+        $this->getNumberOfNotification();
         return view('poolowner.index', compact(['tab', 'companys', 'company_select', 'point', 'profile', 'billing_info', 'schedules', 'poolinfo', 'time_now', 'time_not_use']));
     }
 

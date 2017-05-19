@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-
-
 use Auth;
 use DateTime;
 use DateInterval;
@@ -15,6 +13,7 @@ use App\Common\Common;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
+use App\Repositories\PageRepositoryInterface;
 
 class CompanyController extends Controller {
 
@@ -22,11 +21,20 @@ class CompanyController extends Controller {
     protected $billing;
 
 
-    public function __construct(UserRepository $user, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    public function __construct(PageRepositoryInterface $page, UserRepository $user, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
     {
+        parent::__construct($page);
         $this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
+        // $this->middleware('auth');
+        
+        /*$notification = new \App\Common\Common;
+        $notification = $notification->numberOfNotification();
+        dd($notification);
+        */
+        
+        //view()->share('numberOfNotification', $notification);
     }
 
     public function index() 
@@ -51,7 +59,8 @@ class CompanyController extends Controller {
         // $daysInCurrentMonth=Common::getAllDayOfCurrentYearMonth(date('m'),date('Y'));
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
-
+        // Get number of notifications
+        $this->getNumberOfNotification();
         return view('company.index', 
             compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysInCurrentMonth']));
     }
