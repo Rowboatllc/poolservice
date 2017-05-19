@@ -113,7 +113,6 @@ function reloadMap(route_date)
         user_nest.lng=$('.user-lng-'+ $.trim(route_date)).text();
         user.title=$('.user-address-'+ $.trim(route_date)).text();
         user.address=user_nest;
-        console.log(user);
         let locations=[]; 
         locations.push(user); 
         let class_tr=".table.table-route-"+ $.trim(route_date)+" > tbody  > tr";

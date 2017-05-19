@@ -427,4 +427,16 @@ class UserRepository
             ->orderBy('zipcodes.zipcode')
             ->get();
     }
+
+
+    // public function getOrderNotAsignYet()
+    // {
+    //     $comProfile = DB::table('orders')
+    //             ->select('users.id','users.name','profiles.avatar','profiles.lat','profiles.lng','profiles.address')
+    //             ->join('profiles', 'profiles.user_id','=','users.id')
+    //             ->where(['users.id' => $id])
+    //             ->first();
+
+    //     return $comProfile;
+    // }
 }

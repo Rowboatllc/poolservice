@@ -179,11 +179,10 @@ class Common {
     {
         $month = intval($month);				//force month to single integer if '0x'
         $suff = array('st','nd','rd','th','th','th'); 		//week suffixes
-        $end = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31
+        $end_date = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31 
         $start = date('w',mktime(0,0,0,$month,1,$year)); 	//1st day of month: 0 - 6 (Sun - Sat)
         $last = 7 - $start; 					//get last day date (Sat) of first week
-        $noweeks = ceil((($end - ($last + 1))/7) + 1);		//total no. weeks in month
-        // $output = "";	
+        $noweeks = ceil((($end_date - ($last + 1))/7) + 1);		//total no. weeks in month
         $arr=array();					//initialize string		
         $monthlabel = str_pad($month, 2, '0', STR_PAD_LEFT);
         for($x=1;$x<$noweeks+1;$x++){	
@@ -196,26 +195,42 @@ class Common {
                 $startdate = "$year-$monthlabel-$day";
             }
             if($x == $noweeks){
-                var_dump($end);
-                $enddate = "$year-$monthlabel-$end";
+                $enddate = "$year-$monthlabel-$end_date";
             }else{
                 $dayend = $day + 6;
-                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);
+                
+                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);                
                 $enddate = "$year-$monthlabel-$dayend";
             }
 
-            $days_between=[];
+            $days_between=array();
             $start    = new DateTime($startdate);
             $end      = (new DateTime($enddate))->modify('+1 day');
             $interval = new DateInterval('P1D');
             $period   = new DatePeriod($start, $interval, $end);
             
+            $count_period=iterator_count($period);
+
+            if($count_period<7 && $x < $noweeks)
+            {
+                for($i=0;$i<7-$count_period;$i++)
+                {
+                    $days_between[]='';
+                }
+            }
+
             foreach ($period as $dt) {
-                $days_between[]=$dt->format("Y-m-d");
+                $n=(int)$dt->format("d");                
+                $days_between[$n]=$dt->format("Y-m-d");
+                if($x == $noweeks){
+                    while(count($days_between)<7)
+                    {
+                        $days_between[++$n]='';
+                    }
+                }
             }
             
             $arr[$x]= $days_between;
-            // $output .= "{$x}{$suff[$x-1]} week -> Start date=$startdate End date=$enddate <br />";	
         }
         
         return $arr;
