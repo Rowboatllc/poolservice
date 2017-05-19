@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-item', 'NotificationController@saveItem')->name('dashboard-notification-save-item');
         Route::post('remove-item', 'NotificationController@removeItem')->name('dashboard-notification-remove-item');
         Route::post('get-list', 'NotificationController@listItems')->name('dashboard-notification-get-list');
+        Route::post('get-new-notifications', 'NotificationController@getNewItems')->name('get-new-notifications');
     });
 
 });

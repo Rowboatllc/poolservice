@@ -46,4 +46,10 @@ class NotificationController extends Controller {
     public function removeItem(Request $request) {
         return $this->common->responseJson($this->notification->removeItem($request->all()));
     }
+    
+    public function getNewItems(Request $request) {
+        $user = Auth::user();
+        $result = $this->notification->getNewItems($user->id, $request->all());
+        return $this->common->responseJson($result);
+    }
 }

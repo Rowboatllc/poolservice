@@ -47,6 +47,7 @@
         @yield('lib')
     </body>
     <script>
+        window.notificationUrl = '{{ route('get-new-notifications') }}' ;
         $(document).ready(function() {
             if(typeof Stripe != 'undefined'){
                 Stripe.setPublishableKey("{{ env('KEY_STRIPE') }}");
