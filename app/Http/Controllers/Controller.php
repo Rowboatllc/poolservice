@@ -19,6 +19,7 @@ class Controller extends BaseController
      * @return void
      */
     protected $page;
+    
     public function __construct(PageRepositoryInterface $page)
     {
         $this->page=$page;
@@ -37,8 +38,9 @@ class Controller extends BaseController
     }
     
     public function getNumberOfNotification(){
-        $notification = new \App\Common\Common;
-        $notification = $notification->numberOfNotification();
+        $user = \Auth::user();
+        $notification = app('App\Repositories\NotificationRepositoryInterface');
+        $notification = $notification->totalUnread($user->id);
         return view()->share('numberOfNotification', $notification);
     }
     

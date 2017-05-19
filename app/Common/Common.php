@@ -28,18 +28,6 @@ class Common {
         }
         return $eloquent;
     }
-    
-    public function numberOfNotification() {
-        $user = Auth::user();
-        $result = \DB::table('notifications')
-            ->where([
-                ['user_id', $user->id],
-                ['opened', 0]
-            ])
-            ->select(\DB::raw('count(id) as n'))
-            ->first();
-        return $result->n;
-    }
 
     public function uploadResizeImage($imageFolder, $inputname="avatar") {
         //$imageFolder = 'uploads/profile';

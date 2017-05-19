@@ -27,14 +27,6 @@ class CompanyController extends Controller {
         $this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
-        // $this->middleware('auth');
-        
-        /*$notification = new \App\Common\Common;
-        $notification = $notification->numberOfNotification();
-        dd($notification);
-        */
-        
-        //view()->share('numberOfNotification', $notification);
     }
 
     public function index() 
