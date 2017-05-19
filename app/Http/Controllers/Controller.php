@@ -21,7 +21,6 @@ class Controller extends BaseController
     protected $page;
     public function __construct(PageRepositoryInterface $page)
     {
-       // $this->middleware('auth');
         $this->page=$page;
     }
     public function getPageParams() {
@@ -35,6 +34,12 @@ class Controller extends BaseController
         view()->share('content', $page->content);
         view()->share('keywords', $page->keywords);
         view()->share('description', $page->descrption);
+    }
+    
+    public function getNumberOfNotification(){
+        $notification = new \App\Common\Common;
+        $notification = $notification->numberOfNotification();
+        return view()->share('numberOfNotification', $notification);
     }
     
 }

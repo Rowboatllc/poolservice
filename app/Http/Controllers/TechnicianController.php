@@ -36,6 +36,8 @@ class TechnicianController extends Controller {
         $user = Auth::user();
         $company = $this->company->getCompanyProfile($user->id);
         $schedules = $this->schedule->getAllScheduleInWeek($user->id);
+        // Get number of notifications
+        $this->getNumberOfNotification();
         return view('technician.index',compact(['user', 'schedules', 'company']));
     }
 
