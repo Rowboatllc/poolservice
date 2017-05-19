@@ -44,12 +44,16 @@ class CompanyController extends Controller {
         $currentDate=Common::getCurrentDay(new Datetime());        
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
+        // dd(Common::getDayWeeksOfMonth(5,date('Y')));
+        // Common::firstDayOfWeek('2017-05-18');
+        // dd(Common::getWeekForDate('2017-04-18'));
 
+        // $daysInCurrentMonth=Common::getAllDayOfCurrentYearMonth(date('m'),date('Y'));
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
 
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info']));
+            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysInCurrentMonth']));
     }
 
     public function addCompanyProfile(Request $request) 
