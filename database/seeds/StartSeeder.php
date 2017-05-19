@@ -15,6 +15,7 @@ class StartSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
         $user = DB::table('users')->where('email','pool@rowboatsoftware.com')->first();
         $order = DB::table('orders')->where('poolowner_id',$user->id)->first();
 
@@ -25,8 +26,8 @@ class StartSeeder extends Seeder
             $com->services = ["weekly_learning", "pool_spa_repair", "deep_cleaning"];
 
             $random_zipcode = rand(5,20);
-            $zipcodes = Zipcode::inRandomOrder()->take($random_zipcode)->pluck('zipcode')->toArray();
-            $zipcodes [] = json_decode($com->zipcodes);
+            $zipcodes = Zipcode::get()->pluck('zipcode')->toArray();
+            // $zipcodes [] = json_decode($com->zipcodes);
             $com->zipcodes = $zipcodes;
 
             $com->status = 'active-verified';
@@ -37,10 +38,6 @@ class StartSeeder extends Seeder
         
         $company = DB::table('companies')->first();
 
-        DB::table('selecteds')->insert(
-            ['order_id' => $order->id, 'company_id' => $company->id, 'status' =>'pending']
-        );
-
         factory(App\Models\Company::class, 10)->make(['zipcodes' => $order->zipcode])->each(function ($com_new){
             $faker = Faker::create();
             $random = rand(1, 3);
@@ -48,7 +45,7 @@ class StartSeeder extends Seeder
             
              $random_zipcode = rand(5,20);
             $zipcodes = Zipcode::inRandomOrder()->take($random_zipcode)->pluck('zipcode')->toArray();
-            $zipcodes [] = json_decode($com_new->zipcodes);
+            $zipcodes [] = json_decode($com_new->zipcodes)[0];
             $com_new->zipcodes = $zipcodes;
 
             $ran = array('pending', 'active-unverified', 'active-verified','suspended', 'inactive');
@@ -71,13 +68,29 @@ class StartSeeder extends Seeder
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
 
+        DB::table('selecteds')->insert(
+            ['order_id' => $order->id, 'company_id' => $company->id, 'status' => 'active', 'dayofweek' => 2, 'technican_id' => $user_technician->id]
+        );
+
         $orders = DB::table('orders')->where('poolowner_id','<>', $user->id)->get();
         foreach($orders as $order_new){
-            $schedule = factory(App\Models\Schedule::class)->create([
-                'technican_id' => $user_technician->id, 
-                'order_id' => $order_new->id, 
-                'company_id' => $company->id,
-            ]);
+            $status_selected = $faker->randomElements(['pending', 'active', 'inactive', 'denied', 'pause', 'assigned'], 1);
+            if($status_selected[0] =='active'){
+                $date_selected = $faker->randomElements([2,3,4,5,6], 1);
+                DB::table('selecteds')->insert(
+                    ['order_id' => $order_new->id, 'company_id' => $company->id, 'status' => $status_selected[0], 'dayofweek' => $date_selected[0], 'technican_id' => $user_technician->id]
+                );
+                $schedule = factory(App\Models\Schedule::class)->create([
+                    'technican_id' => $user_technician->id, 
+                    'order_id' => $order_new->id, 
+                    'company_id' => $company->id,
+                ]);
+            }else{
+                DB::table('selecteds')->insert(
+                    ['order_id' => $order_new->id, 'company_id' => $company->id, 'status' => $status_selected[0]]
+                );
+            }
+            
         }
         
         $date = new \DateTime();

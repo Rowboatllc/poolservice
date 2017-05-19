@@ -2,6 +2,7 @@
 @section('content')
 <div class="container panel dashboard">
     <div class="box-body no-padding dashboard-notification content-block">
+        @if (count($notifications) != 0)
         <div class="table-responsive" data-totalpage="{{ceil($notifications->total()/$notifications->perPage())}}" data-page="{{$notifications->currentPage()}}" data-url="{{ route('dashboard-notification-get-list') }}" >
             <table class="table table-hover table-list" data-getitemurl="{{ route('dashboard-notification-get-item') }}"  data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-notification-remove-item') }}" >
                 <tr>
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 <script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>

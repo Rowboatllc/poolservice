@@ -62,7 +62,7 @@ class NotificationRepository implements NotificationRepositoryInterface {
     }
     
     public function totalUnread($id) {
-        return count($this->listBuilder($id)->get());
+        return count($this->listBuilder($id)->where('opened',0)->get());
     }
 
 }

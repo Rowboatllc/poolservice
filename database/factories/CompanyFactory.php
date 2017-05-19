@@ -21,7 +21,7 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'name' => $faker->company,
         'services' => $services,
         'zipcodes' => $zipcodes,
-        'logo' => $faker->imageUrl($width = 640, $height = 480),
+        'logo' => 'images/company.png',
         'status' => $faker->randomElement(array('pending', 'active-unverified', 'active-verified','suspended', 'inactive')),
         'website' => $faker->url,
         'wq'=>'abc.jpg',
