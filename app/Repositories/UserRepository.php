@@ -427,4 +427,81 @@ class UserRepository
             ->orderBy('zipcodes.zipcode')
             ->get();
     }
+
+
+    public function getOrderNotAsignYet()
+    {
+        $comProfile = DB::table('orders')
+                ->select('users.id','users.name','profiles.avatar','profiles.lat','profiles.lng','profiles.address')
+                ->join('profiles', 'profiles.user_id','=','users.id')
+                ->where(['users.id' => $id])
+                ->first();
+
+        return $comProfile;
+    }
+
+    public function getDayWeeksOfMonth($id,$month,$year)
+    {
+        $month = intval($month);				//force month to single integer if '0x'
+        $suff = array('st','nd','rd','th','th','th'); 		//week suffixes
+        $end_date = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31 
+        $start = date('w',mktime(0,0,0,$month,1,$year)); 	//1st day of month: 0 - 6 (Sun - Sat)
+        $last = 7 - $start; 					//get last day date (Sat) of first week
+        $noweeks = ceil((($end_date - ($last + 1))/7) + 1);		//total no. weeks in month
+        $arr=array();					//initialize string		
+        $monthlabel = str_pad($month, 2, '0', STR_PAD_LEFT);
+        for($x=1;$x<$noweeks+1;$x++){	
+            if($x == 1){
+                $startdate = "$year-$monthlabel-01";
+                $day = $last - 6;
+            }else{
+                $day = $last + 1 + (($x-2)*7);
+                $day = str_pad($day, 2, '0', STR_PAD_LEFT);
+                $startdate = "$year-$monthlabel-$day";
+            }
+            if($x == $noweeks){
+                $enddate = "$year-$monthlabel-$end_date";
+            }else{
+                $dayend = $day + 6;
+                
+                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);                
+                $enddate = "$year-$monthlabel-$dayend";
+            }
+
+            $days_between=array();
+            $start    = new DateTime($startdate);
+            $end      = (new DateTime($enddate))->modify('+1 day');
+            $interval = new DateInterval('P1D');
+            $period   = new DatePeriod($start, $interval, $end);
+            
+            $count_period=iterator_count($period);
+
+            if($count_period<7 && $x < $noweeks)
+            {
+                for($i=0;$i<7-$count_period;$i++)
+                {                    
+                    $days_between[]='';
+                }
+            }
+
+            foreach ($period as $dt) {
+                $n=(int)$dt->format("d"); 
+                $pool=self::getUserScheduleByDate($id,$dt->format("Y-m-d"));
+                $dateArr=array();   
+                $dateArr['date']=$dt->format("Y-m-d");  
+                $dateArr['pool']=count($pool);          
+                $days_between[$n]=$dateArr;
+                if($x == $noweeks){
+                    while(count($days_between)<7)
+                    {
+                        $days_between[++$n]='';
+                    }
+                }
+            }
+            
+            $arr[$x]= $days_between;
+        }
+        
+        return $arr;
+    }
 }
