@@ -161,9 +161,7 @@ class Common {
         }
 
         return $list;
-    }
-
-    
+    }    
 
     public static function getKeyDatesFromRange($start, $end, $format = 'Y-m-d') {
         $days   = array();
@@ -208,6 +206,11 @@ class Common {
     public static function getCurrentDay($date,$format = 'Y-m-d')
     {
         return date('l', strtotime($date->format($format)));
+    }
+
+    public static function getCurrentDayYear($date,$format = 'Y-m-d')
+    {
+        return date('F Y', strtotime($date->format($format)));
     }
 
     // function to geocode address, it will return false if unable to geocode address

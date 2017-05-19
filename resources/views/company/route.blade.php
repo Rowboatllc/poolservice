@@ -104,23 +104,12 @@
         <div class="panel panel-default route-calendar hidden">
             <div class="panel-body">
                 <div class="calendar fc fc-ltr">
-                    <table class="fc-header" style="width:100%">
-                        <tbody>
-                            <tr>
-                                <td class="fc-header-left">
-                                    
-                                </td>
-                                <td class="fc-header-center">
-                                    <span class="fc-header-title"> 
-                                        <h2>January 2014</h2>
-                                    </span>
-                                </td>
-                                <td class="fc-header-right"> 
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div align="center">  
+                        <ul class="list-inline">
+                            <li><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></li>
+                            <li><h2>{{$currentMonthYear}}</h2></li>
+                        </ul>
+                    </div> 
                     <div class="fc-content" style="position: relative; min-height: 1px;">
                         <div class="fc-view fc-view-month fc-grid" style="position: relative; min-height: 1px;" unselectable="on">
                             

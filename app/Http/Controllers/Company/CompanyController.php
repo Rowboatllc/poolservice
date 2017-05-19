@@ -41,17 +41,17 @@ class CompanyController extends Controller {
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         
         $user=$this->user->getUserInfo($user->id);
-        $currentDate=Common::getCurrentDay(new Datetime());        
+        $currentDate=Common::getCurrentDay(new Datetime()); 
+        $currentMonthYear=Common::getCurrentDayYear(new Datetime());
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
         $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
-        // dd($daysOfWeekMonth);
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth']));
+            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear']));
     }
 
     public function addCompanyProfile(Request $request) 
