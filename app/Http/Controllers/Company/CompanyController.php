@@ -44,7 +44,8 @@ class CompanyController extends Controller {
         $currentDate=Common::getCurrentDay(new Datetime());        
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
-        $daysOfWeekMonth=Common::getDayWeeksOfMonth(date('m'),date('Y'));
+        $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
+        // dd($daysOfWeekMonth);
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications

@@ -684,7 +684,6 @@ function saveForm($form, callback) {
     })
 }
 
-
 function reloadCurrentPage(parent, params, url, callback) {
     let $coverdiv = jQuery(parent);
     sendData(url, params, 'POST', function(result){
@@ -701,7 +700,7 @@ function parseData(tpl, dest, data, append) {
 }
 
 function parsePaging(totalpage, dest, curpage) {
-    if(totalpage==1) {
+    if(totalpage<=1 ) {
         jQuery(dest).html('');
         return;
     }
