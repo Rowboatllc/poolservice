@@ -163,7 +163,7 @@ class Common {
         return $list;
     }    
 
-    public static function getKeyDatesFromRange($start, $end, $format = 'Y-m-d') {
+    public static function getDateInWeek($start, $end, $format = 'Y-m-d') {
         $days   = array();
         $period = new DatePeriod(
             $start, // Start date of the period

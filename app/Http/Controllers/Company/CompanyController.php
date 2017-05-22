@@ -21,7 +21,8 @@ class CompanyController extends Controller {
     protected $billing;
 
 
-    public function __construct(PageRepositoryInterface $page, UserRepository $user, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    public function __construct(PageRepositoryInterface $page, UserRepository $user, 
+        CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
     {
         parent::__construct($page);
         $this->user = $user;
@@ -110,7 +111,7 @@ class CompanyController extends Controller {
         }
 
         $date=$request['date'];
-        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        $dates=Common::getDateInWeek(new Datetime(),6);
         $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
         if($schedule)
         {
@@ -119,5 +120,22 @@ class CompanyController extends Controller {
         else{
             return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
         }        
+    }
+
+    public function loadServiceLastMonth(Request $request)
+    {
+        dd('hahahahahahahahaha');
+        // $id=Auth::user()->id;
+
+        // $date=$request['date'];
+        // $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        // $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
+        // if($schedule)
+        // {
+        //     return response()->json(['success' => true,'message' => $schedule],200);
+        // }
+        // else{
+        //     return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
+        // }      
     }
 }

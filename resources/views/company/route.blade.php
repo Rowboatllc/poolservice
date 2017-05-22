@@ -106,14 +106,14 @@
                 <div class="calendar fc fc-ltr">
                     <div align="center">  
                         <ul class="list-inline">
-                            <li><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></li>
-                            <li><h2>{{$currentMonthYear}}</h2></li>
+                            <li><i class="fa fa-chevron-circle-left btn-last-month-view" aria-hidden="true"></i></li>
+                            <li><h2 id="current-month-year">{{$currentMonthYear}}</h2></li>
                         </ul>
                     </div> 
                     <div class="fc-content" style="position: relative; min-height: 1px;">
                         <div class="fc-view fc-view-month fc-grid" style="position: relative; min-height: 1px;" unselectable="on">
                             
-                            <table class="fc-border-separate" style="width:100%" cellspacing="0">
+                            <table class="fc-border-separate table-calendar-history" style="width:100%" cellspacing="0">
                                 <thead>
                                     <tr class="fc-first fc-last">
                                         <th class="fc-day-header fc-sun fc-widget-header fc-first" style="width: 158px;">Sun</th>
