@@ -25,9 +25,8 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
         $status = $faker->randomElement(array ('opening', 'checkin', 'unable', 'billing_success', 'billing_error'));                
     }
     return [
-        'technican_id' => 1, 
-        'order_id' => 1, 
-        'company_id' => 1, 
+        'selected_id' => 1,
+        'technician_id' => 1, 
         'date' => $date, 
         'img_before' => $faker->imageUrl($width = 640, $height = 480),
         'img_after' => $faker->imageUrl($width = 640, $height = 480),

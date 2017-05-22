@@ -42,14 +42,15 @@ class CompanyRepository implements CompanyRepositoryInterface {
                                                         
                                     LEFT JOIN ratings r ON r.company_id = c.id
 
-                                    LEFT JOIN schedules s ON s.company_id = c.id 
-                                                            AND s.status NOT IN ("closed")
-                                                            AND s.order_id IN (
+                                    LEFT JOIN selecteds se ON se.company_id = c.id 
+                                                            AND se.order_id IN (
                                                                 SELECT id FROM(
                                                                         SELECT o1.id FROM orders as o1
                                                                         WHERE JSON_CONTAINS(o1.zipcode, "[' . $zipcode . ']")
                                                                 ) as arbitraryTableName
                                                             )
+
+                                    LEFT JOIN schedules s ON s.selected_id = se.id
                                                             
                                     WHERE o.poolowner_id = ' . $user_id . '
                                     AND c.status = "active-verified"
@@ -143,10 +144,11 @@ class CompanyRepository implements CompanyRepositoryInterface {
                         WHERE `id` IN(
                             SELECT id FROM(
                                 SELECT s.id FROM schedules as s
-                                LEFT JOIN orders o ON o.id = s.order_id
+                                LEFT JOIN selecteds se ON se.id = s.selected_id
+                                LEFT JOIN orders o ON o.id = se.order_id
                                 WHERE s.date >= CURDATE()
                                 AND s.status = "checkin" OR s.status = "opening"
-                                AND s.company_id = ' . $company_id . '
+                                AND se.company_id = ' . $company_id . '
                                 AND o.poolowner_id = ' . $poolowner_id . '
                             ) as arbitraryTableName
                         )'
@@ -228,8 +230,9 @@ class CompanyRepository implements CompanyRepositoryInterface {
                 max(case when schedules.status ='billing_success' or schedules.status ='billing_failed' then DATE_FORMAT(schedules.date, '%Y-%m-%d') end) as lastserveddate
             from profiles
             left join orders on orders.poolowner_id = profiles.user_id
-            left join schedules on schedules.order_id = orders.id
-            left join companies on companies.id = schedules.company_id
+            left join selecteds on selecteds.order_id = orders.id
+            left join schedules on schedules.selected_id = selecteds.id
+            left join companies on companies.id = selecteds.company_id
             where companies.user_id = $company_id :where
             group by orders.id, profiles.fullname, profiles.address, profiles.city, profiles.state, profiles.zipcode, profiles.created_at
             :orderby
