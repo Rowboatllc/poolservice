@@ -8,7 +8,7 @@ class Selected extends Model {
 
     protected $table = 'selecteds';
     protected $fillable = [
-        'order_id', 'company_id', 'status', 'dayofweek', 'techinician_id'
+        'order_id', 'company_id', 'status', 'dayofweek', 'technician_id'
     ];
 
 }

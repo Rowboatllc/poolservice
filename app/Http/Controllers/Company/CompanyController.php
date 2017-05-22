@@ -21,7 +21,8 @@ class CompanyController extends Controller {
     protected $billing;
 
 
-    public function __construct(PageRepositoryInterface $page, UserRepository $user, CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    public function __construct(PageRepositoryInterface $page, UserRepository $user, 
+        CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
     {
         parent::__construct($page);
         $this->user = $user;
@@ -41,17 +42,17 @@ class CompanyController extends Controller {
         $technicianRepo = new \App\Repositories\TechnicianRepository;
         
         $user=$this->user->getUserInfo($user->id);
-        $currentDate=Common::getCurrentDay(new Datetime());        
+        $currentDate=Common::getCurrentDay(new Datetime()); 
+        $currentMonthYear=Common::getCurrentDayYear(new Datetime());
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
         $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
-        // dd($daysOfWeekMonth);
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth']));
+            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear']));
     }
 
     public function addCompanyProfile(Request $request) 
@@ -110,7 +111,7 @@ class CompanyController extends Controller {
         }
 
         $date=$request['date'];
-        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        $dates=Common::getDateInWeek(new Datetime(),6);
         $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
         if($schedule)
         {
@@ -119,5 +120,22 @@ class CompanyController extends Controller {
         else{
             return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
         }        
+    }
+
+    public function loadServiceLastMonth(Request $request)
+    {
+        dd('hahahahahahahahaha');
+        // $id=Auth::user()->id;
+
+        // $date=$request['date'];
+        // $dates=Common::getKeyDatesFromRange(new Datetime(),6);
+        // $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
+        // if($schedule)
+        // {
+        //     return response()->json(['success' => true,'message' => $schedule],200);
+        // }
+        // else{
+        //     return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
+        // }      
     }
 }

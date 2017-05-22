@@ -211,7 +211,6 @@ function afterUploadedTechnicianAvatar(form, result) {
     jQuery('#'+ajaxUploadFile.frameName).remove();
 }
 jQuery(document).ready(function () {
-   
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
@@ -478,10 +477,11 @@ jQuery(document).ready(function () {
     jQuery.fn.dboption('assignEvent');
     globalAssignEvent();
     autoPaging('.dashboard');
+    displayNotifications(false, 60000);
     jQuery('img').on( "error", function(){
         var url = $('base').attr('href');
         jQuery(this).attr('src', url+'/images/shim.png');
-    })
+    });
 });
 
 // Upload ajax
@@ -700,6 +700,8 @@ function parseData(tpl, dest, data, append) {
 }
 
 function parsePaging(totalpage, dest, curpage) {
+    if(typeof totalpage=='undefined')
+        return;
     if(totalpage<=1 ) {
         jQuery(dest).html('');
         return;
@@ -768,6 +770,51 @@ function setElementValues(cover_div, names, val) {
         }
     });
 }
+
+//var intervalShowNotice = 
+function displayNotifications(wanaShowInScreen, time) {
+    var notifyInScreen = function(notification) {
+        if(window.Notification && Notification.permission == "denied")
+            return;
+        Notification.requestPermission(function(status) {
+            var n = new Notification(notification.subject, { 
+                body: notification.content,
+                icon: jQuery('base').attr('href') + '/images/favicon.ico'
+            }); 
+        });
+    }
+    setInterval(function(){
+        url = window.notificationUrl;
+        var $coverNumber = jQuery('.numberofnotification');
+        var total = $coverNumber.text();
+        jQuery.ajax({
+            url: window.notificationUrl,
+            method: 'POST',
+            data: {},
+            dataType: "json",
+            headers: {
+                "X-CSRF-Token": jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (result) {
+                /*
+                console.log(result);
+                if(result.msg=='timeout')
+                clearInterval(intervalShowNotice);
+                if(result.total<=total)
+                    return;
+                */
+                $coverNumber.text(result.total);
+                if(!wanaShowInScreen)
+                    return;
+                //notifyInScreen(result);
+            },
+            error: function (result) {
+                (error || jQuery.noop)(result);
+            }
+        });
+    }, time );
+}
+
 /*!
  * bootstrap-star-rating v4.0.2
  * http://plugins.krajee.com/star-rating

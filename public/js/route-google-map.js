@@ -100,6 +100,24 @@ $(document).ready(function(){
         //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
         // }        
     });
+
+
+    $('i.btn-last-month-view').bind('click',function(){
+        let date=$('#current-month-year').text();
+        alert(date);
+        $.ajax({ 
+            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: "load-last-month-view",
+            method: "GET",
+            data: {date:date},
+            success: function (data) {
+                
+            },
+            error: function (ajaxContext) {
+                console.log(ajaxContext.responseText);
+            }
+        });	
+    });
 });
 
 function reloadMap(route_date) 

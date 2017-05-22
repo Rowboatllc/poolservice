@@ -68,32 +68,46 @@ class StartSeeder extends Seeder
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
 
-        DB::table('selecteds')->insert(
-            ['order_id' => $order->id, 'company_id' => $company->id, 'status' => 'active', 'dayofweek' => 2, 'technican_id' => $user_technician->id]
-        );
-
         $orders = DB::table('orders')->where('poolowner_id','<>', $user->id)->get();
         foreach($orders as $order_new){
-            $status_selected = $faker->randomElements(['pending', 'active', 'inactive', 'denied', 'pause', 'assigned'], 1);
+            $status_selected = $faker->randomElements(['active', 'assigned'], 1);
             if($status_selected[0] =='assigned'){
                 $date_selected = $faker->randomElements([2,3,4,5,6], 1);
-                DB::table('selecteds')->insert(
-                    ['order_id' => $order_new->id, 'company_id' => $company->id, 'status' => $status_selected[0], 'dayofweek' => $date_selected[0], 'technican_id' => $user_technician->id]
-                );
-                $schedule = factory(App\Models\Schedule::class)->create([
-                    'technican_id' => $user_technician->id, 
-                    'order_id' => $order_new->id, 
+
+                $selected = factory(App\Models\Selected::class)->create([
+                    'order_id' => $order_new->id,
                     'company_id' => $company->id,
+                    'status' => $status_selected[0],
+                    'dayofweek' => $date_selected[0],
+                    'technician_id' => $user_technician->id
+                ]);
+                
+                $schedule = factory(App\Models\Schedule::class)->create([
+                    'selected_id' => $selected->id, 
+                    'technician_id' => $user_technician->id, 
                 ]);
             }else{
-                DB::table('selecteds')->insert(
-                    ['order_id' => $order_new->id, 'company_id' => $company->id, 'status' => $status_selected[0]]
-                );
+
+                factory(App\Models\Selected::class)->create([
+                    'order_id' => $order_new->id, 
+                    'company_id' => $company->id, 
+                    'status' => $status_selected[0]
+                ]);
             }
             
         }
-        
+
         $date = new \DateTime();
+        $dayofweek = $date->format('N');
+        $dayofweek ++;
+        $selected = factory(App\Models\Selected::class)->create([
+            'order_id' => $order->id,
+            'company_id' => $company->id,
+            'status' => 'active',
+            'dayofweek' => $dayofweek,
+            'technician_id' => $user_technician->id
+        ]);
+
         for($i=0;$i<100;$i++){
             $status = 'opening';
             $ran = array ('opening', 'checkin', 'unable', 'billing_success', 'billing_error');
@@ -106,9 +120,8 @@ class StartSeeder extends Seeder
             $status = $ran[array_rand($ran, 1)];
 
             factory(App\Models\Schedule::class)->create([
-                'technican_id' => $user_technician->id, 
-                'order_id' => $order->id, 
-                'company_id' => $company->id,
+                'selected_id' => $selected->id, 
+                'technician_id' => $user_technician->id, 
                 'date' => $date,
                 'status' => $status
             ]);
