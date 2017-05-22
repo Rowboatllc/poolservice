@@ -38,6 +38,7 @@ class TechnicianController extends Controller {
         $schedules = $this->schedule->getAllScheduleInWeek($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
+        dd($this->schedule->getAllPoolownerNotAssigned(1));
         return view('technician.index',compact(['user', 'schedules', 'company']));
     }
 

@@ -236,7 +236,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             ->where('selecteds.company_id', $company_id)
             ->where('selecteds.status', 'active')
             ->where('orders.status', 'active')
-            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id');
+            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id')
+            ->get();
     }
 
     public function updateStatusSelected($selected_id, $status = 'active', $dayofweek = null, $technician_id = null){
@@ -254,15 +255,92 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return false;
     }
 
-    public function createNewSchedule($technician_id, $order_id, $company_id, $date, $status = 'opening'){
-        $sechedule = new Schedule;
-        $sechedule->technician_id = $technician_id;
-        $sechedule->order_id = $order_id;
-        $sechedule->company_id = $company_id;
-        $sechedule->date = $date;
-        $sechedule->status = $status;
+// date format string Y-m-d
+    public function assignTechnicianToPoolowner($selected_id, $technician_id, $date){
+        try{
+            $selected = $this->selected->find($selected_id);
+            if(isset($selected)){
+                if(!$selected->technician_id){
 
-        return $schedule->save();
+                    $schedules = DB::table('schedules')
+                                    ->where('technician_id', $technician_id)
+                                    ->whereDate('date', $date)
+                                    ->get();
+                    if(count($schedules)<16){
+                        $datetime = new \DateTime($date);
+                        $dayofweek = $datetime->format('N');
+                        $dayofweek ++;
+                        $selected->technician_id = $technician_id;
+                        $selected->dayofweek = $dayofweek;
+                        $selected->status = 'assigned';
+
+                        if($selected->save()){
+                            $sechedule = new Schedule;
+                            $sechedule->selected_id = $selected_id;
+                            $sechedule->technician_id = $technician_id;
+                            $sechedule->date = $date;
+                            $sechedule->status = "opening";
+
+                            return $sechedule->save();
+                        }
+                    }
+                }          
+            }
+        }catch (Exception $e) {
+            return false;
+        }
+        return false;
+        
+    }
+
+// date format string Y-m-d
+    public function notAvailable($technician_id, $date){
+        try{
+
+            $selecteds = DB::table('selecteds')
+                    ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                    ->where('schedules.technician_id', $technician_id)
+                    ->whereIn('schedules.status', ['opening','checkin'])
+                    ->whereDate('schedules.date', $date)
+                    ->update(['selecteds.status' => "active"]);
+
+            $schedules = DB::table('schedules')
+                    ->where('technician_id', $technician_id)
+                    ->whereDate('date', $date)
+                    ->whereIn('status', ['opening','checkin'])
+                    ->update(['status' => "closed"]);
+
+            if($selecteds>0 &&$schedules){
+                return true;
+            }
+
+        }catch (Exception $e) {
+            return false;
+        }
+        return false;
+    }
+
+    public function notAssignOnePoolowner($schedule_id){
+        try{
+            $schedule = $this->schedule->find($schedule_id);
+            if(isset($schedule)){
+                   $schedule->status = "closed";
+                   if($schedule->save()){
+                       $selected = $this->selected->find($schedule->selected_id);
+                       if(isset($selected)){
+                           $selected->status = "active";
+                           $selected->dayofweek = null;
+                           $selected->technician_id = null;
+
+                           return $selected->save();
+                       }
+                   }
+            }
+        }catch (Exception $e) {
+            return false;
+        }
+        return false;
+        
     }
 
 }

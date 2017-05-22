@@ -17,8 +17,6 @@ $factory->define(App\Models\Selected::class, function (Faker\Generator $faker) {
     return [
         'order_id' => 1,
         'company_id' => 1,
-        'status' => 'active',
-        'dayofweek' => 2,
-        'technician_id' => 4
+        'status' => 'active'
     ];
 });
