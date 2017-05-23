@@ -136,11 +136,11 @@ class CompanyController extends Controller {
         if($type==1){
             $lastDate=$dt->modify( 'last day of previous month' );
             $arr['date']=$lastDate->format('M Y');
-            $schedule=$this->user->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+            $schedule=$this->schedule->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
         }else if($type==2){
             $lastDate=$dt->modify( 'last day of next month' );
             $arr['date']=$lastDate->format('M Y');
-            $schedule=$this->user->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+            $schedule=$this->schedule->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
         }
         if($schedule)
         {

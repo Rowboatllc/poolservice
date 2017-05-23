@@ -128,7 +128,7 @@ $(document).ready(function(){
                             if(val==""){
                                 row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool();'>";
                             }else{
-                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool(" + val['date']+ ");'>";
+                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool(`" + val['date']+ "`);'>";
                             }
                             
                             row+="<div style='min-height: 80px;'>";    
@@ -165,7 +165,7 @@ $(document).ready(function(){
 });
 
 function getDayOfPool(element) {
-    // alert(element);
+    alert(element);
     $('.company-route-service #viewHistoryModal').modal();
     // alert("row" + element.parentNode.parentNode.rowIndex + 
     // " - column" + element.parentNode.cellIndex);

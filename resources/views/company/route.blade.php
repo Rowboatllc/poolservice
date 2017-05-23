@@ -206,42 +206,33 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                     <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-unlock"></i> Unlock Calendar</h4>
-
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><h4>x</h4></button>
+                     <h4 class="modal-title" id="myModalLabel"><input type="text" value="Wednesday, May 3, 2017"></input></h4>
                 </div>
                 <div class="modal-body">
-                    <p class="h3 text-center text-primary"><i class="fa fa-thumbs-up"></i> Woop!</p>
-                    <p class="lead text-center">Here's what happens when you unlock your calendar:</p>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+                    <div class="row">    
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <img class="circle-image avatar" src="">
+                            </div>
+                            <div class="form-group">
+                                <label class="user-name">Teo Nguyen Van</label>
+                            </div>
 
+                            <div class="form-group" align="right">
+                                <label id="count_route">50 pools</label>
+                            </div>
                         </div>
-                        <div class="col-xs-11">You'll instantly get access to all <strong class="text-primary">67 shared assignments</strong> on your calendar.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll be <strong>notified</strong> whenever a shared assignment is <strong>updated or edited</strong> throughout the semester.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll be able to <strong>share your own calendar assignments</strong> with your class, which means you can start making money instantly.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll gain access to special features of mchp, such as <strong>calendar integration</strong> in your College Pulse and in each of your class's activity sections.</div>
                     </div>
-                    <hr>
                     <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <!-- Table -->
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Class Name</th>
-                                    <th># of Assignments</th>
-                                    <th>Unlock</th>
+                                    <th>Name</th>
+                                    <th>Street address</th>
+                                    <th>City</th>
+                                    <th>Zipcode</th>
+                                    <th>Service completed</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -250,103 +241,33 @@
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 15 now</strong> + all future</td>
                                     <td><i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-book"></i> ACCT 210</td>
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 22 now</strong> + all future</td>
                                     <td><i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-book"></i> MGMT 310</td>
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 30 now</strong> + all future</td>
                                     <td> <i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="panel-footer text-center">You're unlocking: <strong>3 classes</strong> for <strong>300 points</strong>
                         </div>
-                    </div>
-                    <!-- Begin Carousel -- <div id="carousel-example-generic" class="carousel slide">
-                  
-  <!-- Indicators 
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-  </ol>-->
-                    <!-- Wrapper for slides -- <div class="carousel-inner">
-    <div class="item ">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Poop Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-                  
-                  
-                  <div class="carousel-inner">
-    <div class="item ">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Poop Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-                  
-                  
-  <div class="carousel-inner">
-    <div class="item active">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Shared Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-      
-      
-
-
-  <!-- Controls --
-    <p class="pull-right">
-        <a class="" href="#carousel-example-generic" data-slide="prev"><i class="fa fa-hand-o-left fa-lg"></i></a> 
-        <a class="" href="#carousel-example-generic" data-slide="next"><i class="fa fa-hand-o-right fa-lg"></i></a> 
-        
-    </p>    
-</div>
-                      
-              <!-- End Carousel --></div>
+                    </div> 
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Unlock!</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
