@@ -15,7 +15,7 @@ class CreateTableDayoff extends Migration
     {
         Schema::create('dayoff', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('technican_id');         
+            $table->integer('technician_id');         
             $table->dateTime('date');
             $table->string('comment');   
             $table->timestamps();

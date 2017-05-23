@@ -19,7 +19,7 @@ class NotificationController extends Controller {
     public function getList() {
         $user = Auth::user();
         $notifications = $this->notification->getList($user->id);
-        //dd($notifications);
+        $this->getNumberOfNotification();
         return view('notification', compact(['notifications']));
     }
     
@@ -47,9 +47,9 @@ class NotificationController extends Controller {
         return $this->common->responseJson($this->notification->removeItem($request->all()));
     }
     
-    public function getNewItems(Request $request) {
+    public function totalUnread(Request $request) {
         $user = Auth::user();
-        $result = $this->notification->getNewItems($user->id, $request->all());
-        return $this->common->responseJson($result);
+        $result = $this->notification->totalUnread($user->id, $request->all());
+        return $this->common->responseJson(true, 200, '', ['total'=>$result]);
     }
 }

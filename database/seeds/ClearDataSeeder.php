@@ -11,26 +11,26 @@ class ClearDataSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('pages')->delete();
-        DB::table('options')->delete();
+        DB::table('pages')->truncate();
+        DB::table('options')->truncate();
 
 
-        DB::table('groups')->delete();
-        DB::table('permissions')->delete();
-        DB::table('users')->delete();
-        DB::table('group_permission')->delete();
-        DB::table('user_group')->delete();
+        DB::table('groups')->truncate();
+        DB::table('permissions')->truncate();
+        DB::table('users')->truncate();
+        DB::table('group_permission')->truncate();
+        DB::table('user_group')->truncate();
 
-        DB::table('companies')->delete();
-        DB::table('poolowners')->delete();
-        DB::table('profiles')->delete();
-        DB::table('ratings')->delete();
-        DB::table('selecteds')->delete();
-        DB::table('orders')->delete();
-        DB::table('schedules')->delete();
-        DB::table('notifications')->delete();
-        DB::table('billing_info')->delete();
-        DB::table('technicians')->delete();
-        DB::table('zipcodes')->delete();
+        DB::table('companies')->truncate();
+        DB::table('poolowners')->truncate();
+        DB::table('profiles')->truncate();
+        DB::table('ratings')->truncate();
+        DB::table('selecteds')->truncate();
+        DB::table('orders')->truncate();
+        DB::table('schedules')->truncate();
+        DB::table('notifications')->truncate();
+        DB::table('billing_info')->truncate();
+        DB::table('technicians')->truncate();
+        DB::table('zipcodes')->truncate();
     }
 }

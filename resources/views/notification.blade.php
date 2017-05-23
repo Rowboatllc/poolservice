@@ -7,15 +7,15 @@
             <table class="table table-hover table-list" data-getitemurl="{{ route('dashboard-notification-get-item') }}"  data-updateurl="{{ route('dashboard-company-save-technician') }}" data-removeurl="{{ route('dashboard-notification-remove-item') }}" >
                 <tr>
                     <th></th>
-                    <th><span data-orderfield="id">Id</span></th>
-                    <th><span data-orderfield="subject">Subject</span></th>
-                    <th><span data-orderfield="created_at">Date</span></th>
-                    <th></th>
+                    <th width="10%"><span data-orderfield="id"></span></th>
+                    <th width="60%"><span data-orderfield="subject">Subject</span></th>
+                    <th width="20%"><span data-orderfield="created_at">Date</span></th>
+                    <th width="10%"></th>
                 </tr>
                 @foreach ($notifications as $item)
-                    <tr class="{{ $item->opened=='0' ? 'notopened' : '' }}">	
-                        <td></td>
-                        <td>{{$item->id}}</td>
+                    <tr class="{{ $item->opened=='0' ? 'notopened' : '' }}">
+                        <td></td>       
+                        <td> <span class="avatar" style="background-image: url({{ config('filesystems.disks.uploads.url') }}{{$item->avatar}})"></span> </td>
                         <td>{{$item->subject}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
@@ -29,7 +29,7 @@
             <script type="text/x-jquery-tmpl">
                 <tr class="">	
                     <td></td>
-                    <td>${id}</td>
+                    <td> <span class="avatar" style="background-image: url({{ config('filesystems.disks.uploads.url') }}${avatar})"></span> </td>
                     <td>${subject}</td>
                     <td>${created_at}</td>
                     <td>
@@ -44,10 +44,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <span class="close" data-dismiss="modal">&times;</span>
-                        <h4 class="modal-title"></h4>
+                        <h4 class="modal-title"><span name="subject"></span></h4>
                     </div>
                     <div class="modal-body">
-                        <span name="subject"></span><br />
                         <span name="content"></span>
                     </div>
                 </div>
@@ -56,5 +55,4 @@
         @endif
     </div>
 </div>
-<script type="text/javascript" src="{{ config('app.url') }}js/lib/jquery.tmpl.js" ></script>
 @endsection

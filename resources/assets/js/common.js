@@ -1,5 +1,4 @@
 jQuery(document).ready(function () {
-//    showNotifications(true);
     function globalAssignEvent() {
         jQuery('.fieldset')
           .on('click', '.editfieldset', function () {
@@ -266,10 +265,11 @@ jQuery(document).ready(function () {
     jQuery.fn.dboption('assignEvent');
     globalAssignEvent();
     autoPaging('.dashboard');
+    displayNotifications(false, 60000);
     jQuery('img').on( "error", function(){
         var url = $('base').attr('href');
         jQuery(this).attr('src', url+'/images/shim.png');
-    })
+    });
 });
 
 // Upload ajax
@@ -560,35 +560,45 @@ function setElementValues(cover_div, names, val) {
 }
 
 //var intervalShowNotice = 
-function showNotifications(wanaShowInScreen) {
+function displayNotifications(wanaShowInScreen, time) {
+    var notifyInScreen = function(notification) {
+        if(window.Notification && Notification.permission == "denied")
+            return;
+        Notification.requestPermission(function(status) {
+            var n = new Notification(notification.subject, { 
+                body: notification.content,
+                icon: jQuery('base').attr('href') + '/images/favicon.ico'
+            }); 
+        });
+    }
     setInterval(function(){
         url = window.notificationUrl;
         var $coverNumber = jQuery('.numberofnotification');
         var total = $coverNumber.text();
-        sendData(url, {}, 'POST', function(result){
-            console.log(result);
-         //   if(result.msg=='timeout')
-         //       clearInterval(intervalShowNotice);
-            if(result.total<=total)
-                return;
-            $coverNumber.text(result.total);
-            if(!wanaShowInScreen)
-                return;
-            Notification.requestPermission().then(function(n) {
-                console.log(n);
-            });
-            notifyInScreen(result);
+        jQuery.ajax({
+            url: window.notificationUrl,
+            method: 'POST',
+            data: {},
+            dataType: "json",
+            headers: {
+                "X-CSRF-Token": jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (result) {
+                /*
+                console.log(result);
+                if(result.msg=='timeout')
+                clearInterval(intervalShowNotice);
+                if(result.total<=total)
+                    return;
+                */
+                $coverNumber.text(result.total);
+                if(!wanaShowInScreen)
+                    return;
+                //notifyInScreen(result);
+            },
+            error: function (result) {
+                (error || jQuery.noop)(result);
+            }
         });
-    }, 5000 );
-}
-
-function notifyInScreen(notification) {
-    if(window.Notification && Notification.permission == "denied")
-        return;
-    Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
-            var n = new Notification(notification.subject, { 
-                    body: notification.content,
-                    //icon: '/path/to/icon.png' // optional
-            }); 
-    });
+    }, time );
 }

@@ -16,18 +16,22 @@ class NotificationRepository implements NotificationRepositoryInterface {
     }
 
     public function listBuilder($id) {
-        return DB::table('notifications')->where('user_id', $id);
+        return DB::table('notifications')->where('notifications.user_id', $id);
     }
     
     public function getList($id, $data=[]) {
-        $list = $this->listBuilder($id);
+        $list = $this->listBuilder($id)
+                     ->leftJoin('profiles', 'profiles.user_id', 'notifications.sender_id')
+                     ->select('notifications.id', 'notifications.user_id', 
+                             'notifications.subject', 'notifications.content','notifications.opened', 
+                             DB::raw('DATE_FORMAT(notifications.created_at, \'%Y-%m-%d\') as created_at'),
+                             'profiles.avatar');
         return $this->common->pagingSort($list, $data);
     }
 
     // Ajax from here
     public function listItems($id, $data) {
-        $list = $this->listBuilder($id);
-        return $this->common->pagingSort($list, $data)->toJson();
+        return $this->getList($id, $data)->toJson();   
     }
     
     public function getItem($id, $data) {
@@ -62,10 +66,6 @@ class NotificationRepository implements NotificationRepositoryInterface {
     }
     
     public function totalUnread($id) {
-        return count($this->listBuilder($id)->where('opened',0)->get());
-    }
-    
-    public function getNewItems($id) {
         return count($this->listBuilder($id)->where('opened',0)->get());
     }
 }

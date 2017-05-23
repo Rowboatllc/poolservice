@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.dashboard.template')
 @section('head')
     <script src="{{ asset('/js/lib/jquery.validate.min.js') }}"></script>
 @endsection

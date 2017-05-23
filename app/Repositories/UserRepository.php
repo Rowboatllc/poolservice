@@ -401,8 +401,9 @@ class UserRepository
     {
         $comProfile = DB::table('schedules')
                 ->select('profiles.user_id as user_id','schedules.status','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
-                ->join('companies', 'schedules.company_id','=','companies.id')
-                ->join('orders', 'schedules.order_id','=','orders.id')
+                ->join('selecteds', 'schedules.selected_id','=','selecteds.id')
+                ->join('companies', 'selecteds.company_id','=','companies.id')
+                ->join('orders', 'selecteds.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')  
                 ->where(['companies.user_id' => $id])
                 ->whereDate('schedules.date','>=', $from)

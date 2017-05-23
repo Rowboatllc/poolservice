@@ -4448,8 +4448,30 @@ Custom BS3
   color: red;
 }
 
-.dashboard .table tbody tr th {
+.dashboard .table.table-list tbody tr {
+  height: 45px;
+}
+
+.dashboard .table.table-list tbody tr th {
   border-top: 0px;
+}
+
+.dashboard .table.table-list tbody tr td {
+  position: relative;
+}
+
+.dashboard .table.table-list tbody tr td span.avatar {
+  padding-right: 36px;
+  padding-bottom: 36px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% auto;
+  border-radius: 18px;
+  border: 1px solid rgba(51, 122, 183, 0.2);
+  display: inline-block;
+  position: absolute;
+  left: 30px;
+  top: 3px;
 }
 
 .dashboard-panel .panel-primary > .panel-heading {
@@ -4585,10 +4607,6 @@ Custom BS3
   margin-top: 10px;
 }
 
-.technician-professionnal-service table tr {
-  height: 45px;
-}
-
 .technician-professionnal-service table tr:even {
   background-color: gray;
 }
@@ -4606,20 +4624,6 @@ Custom BS3
 
 .technician-professionnal-service form.form_technician-avatar {
   display: none;
-}
-
-.technician-professionnal-service span.avatar {
-  padding-right: 36px;
-  padding-bottom: 36px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% auto;
-  border-radius: 18px;
-  border: 1px solid rgba(51, 122, 183, 0.2);
-  display: inline-block;
-  position: absolute;
-  left: 30px;
-  top: 3px;
 }
 
 .technician-professionnal-service .status {

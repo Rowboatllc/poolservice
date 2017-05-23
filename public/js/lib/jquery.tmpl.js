@@ -374,11 +374,6 @@
 
         var depreciated_parse = function() {
             if($.tmpl.tag[arguments[2]]) {
-                console.group("Depreciated");
-                console.info(markup);
-                console.info('Markup has old style indicators, use {% %} instead of {{ }}');
-                console.info(arguments[0]);
-                console.groupEnd("Depreciated");
                 return parse_tag.apply(this, arguments);
             } else {
                 return "');__.push('{{" + arguments[2] + "}}');__.push('";
