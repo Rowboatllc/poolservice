@@ -14,6 +14,5 @@
   "/js/map.js": "/js/map.js",
   "/js/lib/parsley.js": "/js/lib/parsley.js",
   "/js/lib/jquery.validate.min.js": "/js/lib/jquery.validate.min.js",
-  "/js/lib/jquery-ui.js": "/js/lib/jquery-ui.js",
-  "/js/company-route.js": "/js/company-route.js"
+  "/js/lib/jquery-ui.js": "/js/lib/jquery-ui.js"
 }

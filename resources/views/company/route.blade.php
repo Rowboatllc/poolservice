@@ -39,7 +39,7 @@
                                     <label class="user-name-{{$key}}">{{$user->name}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <select id="{{$key}}" class="pool-service-technician-list" name="pool-service-list-{{$key}}">
+                                    <select id="{{$key}}" class="pool-service-technician-list-{{$key}}" name="pool-service-technician-list-{{$key}}">
                                         <option value="0" selected="selected">Chose pool service professional</option>
                                         @foreach ($listTechnicians as $tech)
                                             <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>

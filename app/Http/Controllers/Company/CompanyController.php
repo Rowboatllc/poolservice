@@ -158,10 +158,10 @@ class CompanyController extends Controller {
     {
         $id=$request['id'];
         $date=$request['date'];
+
         if($id=="" || $date=="") return;
 
         $dates=Common::getDateInWeek(new Datetime(),6);
-        dd($dates[$date]);
         $val=$this->schedule->notAvailable($id,$dates[$date]);
 
         return response()->json(['success' => $val]);

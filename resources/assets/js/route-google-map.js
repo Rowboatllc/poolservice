@@ -85,8 +85,9 @@ $(document).ready(function(){
     })
 
     $('.company-route-service input.chk-not-available').on('change',function(e){
-        let selected = $('.company-route-service select.pool-service-technician-list').find(":selected").val();
         let date=$(this).attr('date');
+        let selected = $('.company-route-service select.pool-service-technician-list-'+date+'').find(":selected").val();
+        
         if($(this).prop('checked')){   
             $.ajax({ 
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
