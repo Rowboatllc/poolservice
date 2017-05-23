@@ -70,14 +70,18 @@ class StartSeeder extends Seeder
 
         $orders = DB::table('orders')->where('poolowner_id','<>', $user->id)->get();
         foreach($orders as $order_new){
-            $status_selected = $faker->randomElements(['active', 'assigned'], 1);
-            if($status_selected[0] =='assigned'){
+            $status_selected = 'active';
+            $random = rand(1,10); 
+            if($random<=8){
+                $status_selected = 'assigned';
+            }
+            if($status_selected =='assigned'){
                 $date_selected = $faker->randomElements([2,3,4,5,6], 1);
 
                 $selected = factory(App\Models\Selected::class)->create([
                     'order_id' => $order_new->id,
                     'company_id' => $company->id,
-                    'status' => $status_selected[0],
+                    'status' => $status_selected,
                     'dayofweek' => $date_selected[0],
                     'technician_id' => $user_technician->id
                 ]);
@@ -91,7 +95,7 @@ class StartSeeder extends Seeder
                 factory(App\Models\Selected::class)->create([
                     'order_id' => $order_new->id, 
                     'company_id' => $company->id, 
-                    'status' => $status_selected[0]
+                    'status' => $status_selected
                 ]);
             }
             
