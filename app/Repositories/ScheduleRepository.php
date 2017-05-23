@@ -301,8 +301,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 
 // date format string Y-m-d
     public function notAvailable($technician_id, $date){
+            // var_dump($technician_id, $date);
         try{
-
             $selecteds = DB::table('selecteds')
                     ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
                     ->where('schedules.technician_id', $technician_id)
@@ -316,7 +316,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                     ->whereIn('status', ['opening','checkin'])
                     ->update(['status' => "closed"]);
 
-            if($selecteds>0 &&$schedules){
+            if($selecteds>0 && $schedules>0){
                 return true;
             }
 
@@ -355,7 +355,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $to=Carbon::now()->addDay(6);
         $dates=Common::getDateInWeek($from,6);
         $schedules=self::getUserScheduleBetweenDate($id,$from,$to);      
-          
+
         foreach($dates as $key => $value)
         {      
             $arr=array();
@@ -386,6 +386,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                 ->where(['technicians.user_id' => $user_id])
                 ->whereDate('schedules.date','>=', $from)
                 ->whereDate('schedules.date','<=', $to)
+                ->whereNotIn('schedules.status',['closed'])                
                 ->orderBy('schedules.date')
                 ->get();
 
