@@ -22,7 +22,7 @@ class CompanyController extends Controller {
 
 
     public function __construct(PageRepositoryInterface $page, UserRepository $user, 
-        CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
     {
         parent::__construct($page);
         $this->user = $user;
@@ -46,6 +46,7 @@ class CompanyController extends Controller {
         $currentMonthYear=Common::getCurrentDayYear(new Datetime());
         $dates=$this->user->getUserSchedule($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
+        // $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
         $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
@@ -111,7 +112,7 @@ class CompanyController extends Controller {
         }
 
         $date=$request['date'];
-        $dates=Common::getDateInWeek(new Datetime(),6);
+        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
         $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
         if($schedule)
         {
@@ -124,18 +125,28 @@ class CompanyController extends Controller {
 
     public function loadServiceLastMonth(Request $request)
     {
-        dd('hahahahahahahahaha');
-        // $id=Auth::user()->id;
+        $arr=array();
+        $id=Auth::user()->id;
+        $date=$request['date'];
+        $type=$request['type'];
+        $dt=new DateTime('1 ' . $date);
 
-        // $date=$request['date'];
-        // $dates=Common::getKeyDatesFromRange(new Datetime(),6);
-        // $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
-        // if($schedule)
-        // {
-        //     return response()->json(['success' => true,'message' => $schedule],200);
-        // }
-        // else{
-        //     return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
-        // }      
+        if($type==1){
+            $lastDate=$dt->modify( 'last day of previous month' );
+            $arr['date']=$lastDate->format('M Y');
+            $schedule=$this->user->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+        }else if($type==2){
+            $lastDate=$dt->modify( 'last day of next month' );
+            $arr['date']=$lastDate->format('M Y');
+            $schedule=$this->user->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+        }
+        if($schedule)
+        {
+            $arr['schedule']=$schedule;
+            return response()->json(['success' => true,'message' => $arr],200);
+        }
+        else{
+            return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
+        }      
     }
 }

@@ -490,21 +490,20 @@ class UserRepository
             }
 
             $days_between=array();
+            for($i=1;$i<=7;$i++)
+            {       
+                $days_between[$i]='';
+            }            
+
             $start    = new DateTime($startdate);
             $end      = (new DateTime($enddate))->modify('+1 day');
             $interval = new DateInterval('P1D');
             $period   = new DatePeriod($start, $interval, $end);
             
-            $count_period=iterator_count($period);
+            $count_period=iterator_count($period); 
 
-            if($count_period<7 && $x < $noweeks)
+            foreach ($period as $dt) 
             {
-                for($i=0;$i<7-$count_period;$i++)
-                {                    
-                    $days_between[]='';
-                }
-            }
-            foreach ($period as $dt) {
                 $n=(int)$dt->format("d");
                 $dateArr=array();   
                 $dateArr['date']=$dt->format("Y-m-d");
@@ -516,19 +515,44 @@ class UserRepository
                         $count=$count+1;
                     }
                 }
-
-                $dateArr['pool']=$count;          
-                $days_between[$n]=$dateArr;
-                if($x == $noweeks){
-                    while(count($days_between)<7)
-                    {
-                        $days_between[++$n]='';
-                    }
-                }
+                
+                $dateArr['pool']=$count; 
+                $dateArr['number']=$n;
+                $timestamp = strtotime($dt->format('Y-m-d'));
+                $day = date('D', $timestamp);
+                $num=self::getDayNumber($day);
+                $days_between[$num]=$dateArr;
             }
             
             $arr[$x]= $days_between;
         }
         return $arr;
+    }
+
+    public function getDayNumber($day)
+    {
+        switch ($day) {
+            case 'Mon':
+                return 2;
+                break;
+            case 'Tue':
+                return 3;
+                break;
+            case 'Wed':
+                return 4;
+                break;
+            case 'Thu':
+                return 5;
+                break;
+            case 'Fri':
+                return 6;
+                break;
+            case 'Sat':
+                return 7;
+                break;
+            case 'Sun':
+                return 1;
+                break;
+        }
     }
 }

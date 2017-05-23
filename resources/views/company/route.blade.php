@@ -106,14 +106,15 @@
                 <div class="calendar fc fc-ltr">
                     <div align="center">  
                         <ul class="list-inline">
-                            <li><i class="fa fa-chevron-circle-left btn-last-month-view" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-chevron-circle-left btn-load-monthly-view last-month" aria-hidden="true"></i></li>
                             <li><h2 id="current-month-year">{{$currentMonthYear}}</h2></li>
+                            <li><i class="fa fa-chevron-circle-right btn-load-monthly-view next-month" aria-hidden="true"></i></li>
                         </ul>
                     </div> 
                     <div class="fc-content" style="position: relative; min-height: 1px;">
                         <div class="fc-view fc-view-month fc-grid" style="position: relative; min-height: 1px;" unselectable="on">
                             
-                            <table class="fc-border-separate table-calendar-history" style="width:100%" cellspacing="0">
+                            <table class="fc-border-separate" id="table-calendar-history" style="width:100%" cellspacing="0">
                                 <thead>
                                     <tr class="fc-first fc-last">
                                         <th class="fc-day-header fc-sun fc-widget-header fc-first" style="width: 158px;">Sun</th>
@@ -129,9 +130,9 @@
                                     @foreach ($daysOfWeekMonth as $days)
                                         <tr class="fc-week fc-first">
                                             @foreach ($days as $id => $val)
-                                                <td class="fc-day fc-sun fc-widget-content fc-other-month fc-first" data-date="{{$val==''?'':$val['date']}}">
+                                                <td class="fc-day fc-sun fc-widget-content fc-other-month fc-first" onclick="getDayOfPool('{{$val==''?'':$val['date']}}');">
                                                     <div style="min-height: 80px;">
-                                                        <div class="fc-day-number">{{ $val==''?'': $id}}</div>
+                                                        <div class="fc-day-number">{{ $val==''?'': $val['number']}}</div>
                                                         <div class="fc-event-inner">
                                                             @if($val!='')
                                                                 @if($val['pool']!='')

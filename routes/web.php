@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/load-pool-owner/{id?}/{date?}', array('uses' => 'Company\CompanyController@loadPoolOwner'))->name('load-pool-owner');
         Route::post('/upload-company-profile', array('uses' => 'Company\CompanyController@addCompanyProfile'))->name('upload-company-profile');
-        Route::post('/load-last-month-view', array('uses' => 'Company\CompanyController@loadServiceLastMonth'))->name('load-last-month-view');
+        Route::get('/load-last-month-view', array('uses' => 'Company\CompanyController@loadServiceLastMonth'))->name('load-last-month-view');
  
         Route::group(['prefix' => 'technician'], function () {
             Route::get('', array('uses' => 'TechnicianController@index'))->name('technician');

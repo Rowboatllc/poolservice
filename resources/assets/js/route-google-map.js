@@ -4,9 +4,12 @@ let map;
 
 $(document).ready(function(){
 
-    $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click',function(){
-        $('.company-route-service #viewHistoryModal').modal();      
-    });
+    // $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click','td',function(){
+    //     // alert($( this ).attr('data-date'));
+    //     $('.company-route-service #viewHistoryModal').modal();      
+    // });
+
+    
 
     $('.company-route-service i.btn-history-route').on('click',function(){
         if($(this).hasClass('glyphicon-calendar'))
@@ -101,24 +104,72 @@ $(document).ready(function(){
         // }        
     });
 
-
-    $('i.btn-last-month-view').bind('click',function(){
+    $('i.btn-load-monthly-view').bind('click',function(){
+        let type=1;//last-month
+        if($(this).hasClass('next-month')){
+            type=2;//next month
+        }
         let date=$('#current-month-year').text();
-        alert(date);
         $.ajax({ 
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: "load-last-month-view",
             method: "GET",
-            data: {date:date},
+            data: {date:date,type:type},
             success: function (data) {
-                
+                if(data.success===true)
+                {
+                    $('.company-route-service #current-month-year').text(data.message['date']);
+                    $('.company-route-service #table-calendar-history tbody tr').remove();
+                    let table=$('.company-route-service #table-calendar-history tbody');
+                    $.each(data.message['schedule'], function (i, dates) {
+                        let row="<tr>";
+                        $.each(dates, function (id, val) {
+                            debugger;
+                            if(val==""){
+                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool();'>";
+                            }else{
+                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool(" + val['date']+ ");'>";
+                            }
+                            
+                            row+="<div style='min-height: 80px;'>";    
+                            if(val==""){
+                                row+="<div class='fc-day-number'></div>";
+                            }   else{
+                                row+="<div class='fc-day-number'>"+ val['number'] +"</div>";
+                            }
+                            
+                            row+="<div class='fc-event-inner'>";
+                            if(val!="" && val['pool']!="")
+                            {
+                                row+="<div style='position: relative; height: 25px;'>"+val['pool'] +" pools</div>";
+                            }else{
+                                row+="<div style='position: relative; height: 25px;'></div>";
+                            }                   
+                                                                                   
+                            row+="</div>";
+                            row+="</div>";
+                            row+="</td>";
+                        });                        
+                        row+="</tr>";
+                        debugger;
+                        table.append(row);
+                    });     
+                }
             },
             error: function (ajaxContext) {
                 console.log(ajaxContext.responseText);
             }
         });	
     });
+    
 });
+
+function getDayOfPool(element) {
+    // alert(element);
+    $('.company-route-service #viewHistoryModal').modal();
+    // alert("row" + element.parentNode.parentNode.rowIndex + 
+    // " - column" + element.parentNode.cellIndex);
+}
 
 function reloadMap(route_date) 
 {    
