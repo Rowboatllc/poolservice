@@ -35,7 +35,7 @@ $(document).ready(function(){
         let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
-        $("div.title-route-map").text($(this).text() + " Route Map");
+        $("div.title-route-map label").text($(this).text());
         reloadMap($(this).text());         
     });
 

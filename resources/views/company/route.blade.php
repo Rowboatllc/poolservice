@@ -120,7 +120,7 @@
                                     <tbody>
                                         @foreach ($scheduleNotAsign as $key_che => $che)
                                             <tr>	
-                                                <td><input type="checkbox" checked></input></td>
+                                                <td><input type="checkbox"></input></td>
                                                 <td>{{$key_che+1}}</td>
                                                 <td class="address-to-route">{{$che->address}}</td>
                                                 <td>{{$che->city}}</td>
@@ -139,7 +139,7 @@
             </div>
 
             <div class="panel">
-                <div class="text-center header title-route-map">{{$currentDate}} Route Map</div>
+                <div class="text-center header title-route-map"><label>{{$currentDate}}</label> Route Map</div>
                 <div class="panel-body text-center">
                     <div id="route-map" class="route-map"></div>
                     <div id="directions_panel"></div>
