@@ -354,7 +354,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $from= Carbon::now();
         $to=Carbon::now()->addDay(6);
         $dates=Common::getDateInWeek($from,6);
-        $schedules=self::getUserScheduleBetweenDate($id,$from,$to);        
+        $schedules=self::getUserScheduleBetweenDate($id,$from,$to);      
+          
         foreach($dates as $key => $value)
         {      
             $arr=array();
@@ -378,10 +379,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $comProfile = DB::table('schedules')
                 ->select('profiles.user_id as user_id','schedules.status','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
                 ->join('selecteds', 'schedules.selected_id','=','selecteds.id')
-                ->join('companies', 'selecteds.company_id','=','companies.id')
+                // ->join('companies', 'selecteds.company_id','=','companies.id')
+                ->join('technicians', 'technicians.user_id','=','schedules.technician_id')
                 ->join('orders', 'selecteds.order_id','=','orders.id')
                 ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')  
-                ->where(['companies.user_id' => $user_id])
+                ->where(['technicians.user_id' => $user_id])
                 ->whereDate('schedules.date','>=', $from)
                 ->whereDate('schedules.date','<=', $to)
                 ->orderBy('schedules.date')

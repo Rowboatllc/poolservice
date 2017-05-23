@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
  
 use Faker\Factory as Faker;
 use App\Models\Zipcode;
+use App\Models\Technician;
 
 class StartSeeder extends Seeder
 {
@@ -43,7 +44,7 @@ class StartSeeder extends Seeder
             $random = rand(1, 3);
             $com_new->services = $faker->randomElements(["weekly_learning", "pool_spa_repair", "deep_cleaning"], $random);
             
-             $random_zipcode = rand(5,20);
+            $random_zipcode = rand(5,20);
             $zipcodes = Zipcode::inRandomOrder()->take($random_zipcode)->pluck('zipcode')->toArray();
             $zipcodes [] = json_decode($com_new->zipcodes)[0];
             $com_new->zipcodes = $zipcodes;
@@ -64,9 +65,19 @@ class StartSeeder extends Seeder
 
         
         $user_technician = DB::table('users')->where('email','technician@rowboatsoftware.com')->first();
+        $user_technician2 = DB::table('users')->where('email','technician2@rowboatsoftware.com')->first();
+
+        DB::table('technicians')->insert([
+            ['user_id' => $user_company->id, 'company_id' => $company->id, 'is_owner'=>1, 'avaliable_days' => new \DateTime()]
+        ]);
         DB::table('technicians')->insert([
             ['user_id' => $user_technician->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
         ]);
+        DB::table('technicians')->insert([
+            ['user_id' => $user_technician2->id, 'company_id' => $company->id, 'is_owner'=>0, 'avaliable_days' => new \DateTime()]
+        ]);
+
+        $technicians = Technician::inRandomOrder()->pluck('user_id')->toArray();
 
         $orders = DB::table('orders')->where('poolowner_id','<>', $user->id)->get();
         foreach($orders as $order_new){
@@ -75,20 +86,22 @@ class StartSeeder extends Seeder
             if($random<=8){
                 $status_selected = 'assigned';
             }
+            
             if($status_selected =='assigned'){
                 $date_selected = $faker->randomElements([2,3,4,5,6], 1);
+                $date_technician_id = $faker->randomElements($technicians, 1);
 
                 $selected = factory(App\Models\Selected::class)->create([
                     'order_id' => $order_new->id,
                     'company_id' => $company->id,
                     'status' => $status_selected,
                     'dayofweek' => $date_selected[0],
-                    'technician_id' => $user_technician->id
+                    'technician_id' => $date_technician_id[0]
                 ]);
                 
                 $schedule = factory(App\Models\Schedule::class)->create([
                     'selected_id' => $selected->id, 
-                    'technician_id' => $user_technician->id, 
+                    'technician_id' => $date_technician_id[0]
                 ]);
             }else{
 

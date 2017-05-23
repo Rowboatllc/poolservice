@@ -78,8 +78,22 @@ class UserSeeder extends Seeder
             'zipcode' => Zipcode::inRandomOrder()->first()->zipcode            
         ]);
 
+        // set new user user_technician2
+        $user_technician2 = factory(App\Models\User::class)->create([
+            'name' => 'Technician2',
+            'status' => 'active',            
+            'email' => 'technician2@rowboatsoftware.com',            
+        ]);
+        factory(App\Models\BillingInfo::class)->create([
+            'user_id' => $user_technician2->id
+        ]);
+        factory(App\Models\Profile::class)->create([
+            'user_id' => $user_technician2->id,
+            'zipcode' => Zipcode::inRandomOrder()->first()->zipcode            
+        ]);
+
          // list user poolowner
-        $user_pools = factory(App\Models\User::class, 100)->create([
+        $user_pools = factory(App\Models\User::class, 200)->create([
             'status' => 'active',   
         ]);
         
@@ -104,6 +118,7 @@ class UserSeeder extends Seeder
         $group_pool_owner->users()->attach( $user_pool ->id);
         $group_service_company->users()->attach( $user_company->id);
         $group_technician->users()->attach( $user_technician->id);
-        
+        $group_technician->users()->attach( $user_technician2->id);
+        $group_technician->users()->attach( $user_company->id);
     }
 }

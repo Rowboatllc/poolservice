@@ -48,6 +48,9 @@ mix.combine(['resources/assets/js/lib/parsley.js'], 'public/js/lib/parsley.js');
 mix.combine(['resources/assets/js/lib/jquery.validate.min.js'], 'public/js/lib/jquery.validate.min.js');
 mix.combine(['resources/assets/js/lib/jquery-ui.js'], 'public/js/lib/jquery-ui.js');
 
+// company
+mix.combine(['resources/assets/js/company-route.js'], 'public/js/company-route.js');
+
 // Sass
 
 // // app
