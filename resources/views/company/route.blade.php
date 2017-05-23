@@ -65,7 +65,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($value as $key_route => $route)
-                                            <tr>	
+                                            <tr class="{{$route->status=='billing_error'|| $route->status=='billing_success'?'tr-billing-success':'tr-billing-error'}}">	
                                                 <td><input type="checkbox" checked></input></td>
                                                 <td>{{$key_route+1}}</td>
                                                 <td class="address-to-route">{{$route->address}}</td>

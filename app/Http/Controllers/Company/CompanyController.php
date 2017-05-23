@@ -107,6 +107,7 @@ class CompanyController extends Controller {
     public function loadPoolOwner(Request $request)
     {        
         $id=$request['id'];
+        if($id=="") return;
         if(intval($id)<=0)
         {
             $user=Auth::user();
@@ -126,13 +127,14 @@ class CompanyController extends Controller {
     }
 
     public function loadServiceLastMonth(Request $request)
-    {
-        $arr=array();
-        $id=Auth::user()->id;
+    {        
         $date=$request['date'];
         $type=$request['type'];
-        $dt=new DateTime('1 ' . $date);
+        if($date=="" || $date=="") return;
 
+        $arr=array();
+        $id=Auth::user()->id;
+        $dt=new DateTime('1 ' . $date);
         if($type==1){
             $lastDate=$dt->modify( 'last day of previous month' );
             $arr['date']=$lastDate->format('M Y');
@@ -150,5 +152,17 @@ class CompanyController extends Controller {
         else{
             return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
         }      
+    }
+
+    public function changeTaskToNotAvailable(Request $request)
+    {
+        $id=$request['id'];
+        $date=$request['date'];
+        if($id=="" || $date=="") return;
+
+        $dates=Common::getDateInWeek(new Datetime(),6);
+        $val=$this->schedule->notAvailable($id,$dates[$date]);
+
+        return response()->json(['success' => $val]);
     }
 }

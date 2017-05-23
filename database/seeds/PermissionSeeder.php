@@ -102,7 +102,8 @@ class PermissionSeeder extends Seeder
                 'load-pool-owner',
                 'upload-company-profile',
                 'ajax-upload-an-image',
-                'load-last-month-view'
+                'load-last-month-view',
+                'change-task-not-available'
             ],
             'techician'=>[
                 'technician',

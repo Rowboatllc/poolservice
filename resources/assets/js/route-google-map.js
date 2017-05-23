@@ -3,14 +3,6 @@ let directionsService = new google.maps.DirectionsService();
 let map;
 
 $(document).ready(function(){
-
-    // $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click','td',function(){
-    //     // alert($( this ).attr('data-date'));
-    //     $('.company-route-service #viewHistoryModal').modal();      
-    // });
-
-    
-
     $('.company-route-service i.btn-history-route').on('click',function(){
         if($(this).hasClass('glyphicon-calendar'))
         {
@@ -92,19 +84,29 @@ $(document).ready(function(){
         });	
     })
 
-    $('.chk-not-available').on('change',function(e){
+    $('.company-route-service input.chk-not-available').on('change',function(e){
+        let selected = $('.company-route-service select.pool-service-technician-list').find(":selected").val();
         let date=$(this).attr('date');
-        // if($(this).prop('checked')){            
-        //     $('.avatar-'+date+'').addClass('hidden');
-        //     $('.name-'+date+'').addClass('hidden');
-        //     $('.not-asign-'+date+'').removeClass('hidden');
-        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
-        // }else{
-        //     $('.avatar-'+date+'').removeClass('hidden');
-        //     $('.name-'+date+'').removeClass('hidden');
-        //     $('.not-asign-'+date+'').addClass('hidden');
-        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
-        // }        
+        if($(this).prop('checked')){   
+            $.ajax({ 
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "change-task-not-available",
+                method: "GET",
+                data: {id:selected,date:date},
+                success: function (data) {
+                    if(data.success===true)
+                    {
+                        $('.company-route-service .table-route-'+date+' tbody tr.tr-billing-error input[type="checkbox"]').prop('checked', false);
+                        let rows=$('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').action();
+                        $('.company-route-service table.table-route-not-asign-'+date+' tbody tr').append(rows);
+                        $('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').remove();
+                    }
+                },
+                error: function (ajaxContext) {
+                    console.log(ajaxContext.responseText);
+                }
+            });	           
+        }     
     });
 
     $('i.btn-load-monthly-view').bind('click',function(){
