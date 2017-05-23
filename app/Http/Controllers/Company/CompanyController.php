@@ -47,7 +47,6 @@ class CompanyController extends Controller {
         $currentDate=Common::getCurrentDay(new Datetime()); 
         $currentMonthYear=Common::getCurrentDayYear(new Datetime());
         $dates=$this->schedule->getUserSchedule($user->id);
-        dd($dates);
         $scheduleNotAsign=$this->schedule->getAllPoolownerNotAssigned($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
         $daysOfWeekMonth=$this->schedule->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
@@ -162,6 +161,7 @@ class CompanyController extends Controller {
         if($id=="" || $date=="") return;
 
         $dates=Common::getDateInWeek(new Datetime(),6);
+        dd($dates[$date]);
         $val=$this->schedule->notAvailable($id,$dates[$date]);
 
         return response()->json(['success' => $val]);

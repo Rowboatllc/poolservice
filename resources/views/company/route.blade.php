@@ -114,7 +114,6 @@
                                             <th><a>Street Address</a></th>
                                             <th><a>City</a></th>
                                             <th><a>Zipcode</a></th>
-                                            <th><a>Service Completed</a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,7 +124,6 @@
                                                 <td class="address-to-route">{{$che->address}}</td>
                                                 <td>{{$che->city}}</td>
                                                 <td>{{$che->zipcode}}</td>
-                                                <td ></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
