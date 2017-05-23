@@ -236,7 +236,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
             ->where('selecteds.company_id', $company_id)
             ->where('selecteds.status', 'active')
             ->where('orders.status', 'active')
-            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id')
+            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id as selected_id')
             ->get();
     }
 
