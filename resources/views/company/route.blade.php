@@ -6,7 +6,7 @@
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
                 <div class="list-group-route">
                     @foreach ($dates as $key => $value)
-                        <a href="#" id="tab_{{$key}}" class="list-group-item text-center {{$key==$currentDate? 'active': ''}}">
+                        <a href="#" id="tab-{{$key}}" class="list-group-item text-center {{$key==$currentDate? 'active': ''}}">
                             {{$key}}
                         </a>
                     @endforeach
@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group" >                        
-                                    <input type="checkbox" name="chk_{{$key}}" date="{{$key}}" id="chk_{{$key}}" class="chk-not-available">
+                                    <input type="checkbox" name="chk-{{$key}}" date="{{$key}}" id="chk-{{$key}}" class="chk-not-available">
                                     <label for="chk-{{$key}}" id=lbl{{$key}}>Not Available</label>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                                     <label class="user-name-{{$key}}">{{$user->name}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <select id="{{$key}}" name="pool_service_list_{{$key}}">
+                                    <select id="{{$key}}" class="pool-service-technician-list" name="pool-service-list-{{$key}}">
                                         <option value="0" selected="selected">Chose pool service professional</option>
                                         @foreach ($listTechnicians as $tech)
                                             <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -90,10 +90,10 @@
                                     
                                 </div>
                                 <div class="form-group">
-                                    <label class="user-name-not-asign-{{$key}}">Not Asigned</label>
+                                    <label class="user-name-not-asign-{{$key}}">Not Assigned</label>
                                 </div>
                                 <div class="form-group">
-                                    <select id="not-asign-{{$key}}" name="pool-service-list-not-asign-{{$key}}">
+                                    <select id="not-asign-{{$key}}" class="pool-service-technician-not-asign-list" name="pool-service-list-not-asign-{{$key}}">
                                         <option value="0" selected="selected">Chose pool service professional</option>
                                         @foreach ($listTechnicians as $tech)
                                             <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -130,7 +130,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>  
-                                <div class="panel-footer text-center total-route-date-not-asign">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not asign <strong>yet</strong>
+                                <div class="panel-footer text-center total-route-date-not-asign">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not assign <strong>yet</strong>
                                 </div>                              
                             </div>  
                         @endif 
@@ -210,16 +210,16 @@
                      <h4 class="modal-title" id="myModalLabel"><input type="text" value="Wednesday, May 3, 2017"></input></h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">    
+                    <div class="panel">    
                         <div class="form-inline">
                             <div class="form-group">
                                 <img class="circle-image avatar" src="">
                             </div>
                             <div class="form-group">
-                                <label class="user-name">Teo Nguyen Van</label>
+                                <label class="user-name">Teo, Nguyen Van</label>
                             </div>
 
-                            <div class="form-group" align="right">
+                            <div class="form-group">
                                 <label id="count_route">50 pools</label>
                             </div>
                         </div>

@@ -114,8 +114,8 @@ class CompanyController extends Controller {
         }
 
         $date=$request['date'];
-        $dates=Common::getKeyDatesFromRange(new Datetime(),6);
-        $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
+        $dates=Common::getDateInWeek(new Datetime(),6);
+        $schedule=$this->schedule->getUserScheduleBetweenDate($id,$dates[$date],$dates[$date]);
         if($schedule)
         {
             return response()->json(['success' => true,'message' => $schedule],200);

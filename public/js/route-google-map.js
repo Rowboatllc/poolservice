@@ -39,7 +39,7 @@ $(document).ready(function(){
         reloadMap($(this).text());         
     });
 
-    $('.company-route-service select').on('change', function(e) {
+    $('.company-route-service select.pool-service-technician-list').on('change', function(e) {        
         let date=this.id;
         $.ajax({ 
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -74,13 +74,16 @@ $(document).ready(function(){
                         table.append(row);
                         m=m+1;
                     });
-                    if(m>0)
+
+                    if(m>1)
                     {
                         $('div.total-route-date strong').first().text(m + ' routes');
                     }else
                     {
                         $('div.total-route-date strong').first().text(m + ' route');
-                    }                    
+                    }   
+
+                    console.log(data.message);                 
                 }
             },
             error: function (ajaxContext) {
@@ -165,7 +168,7 @@ $(document).ready(function(){
 });
 
 function getDayOfPool(element) {
-    alert(element);
+    // alert(element);
     $('.company-route-service #viewHistoryModal').modal();
     // alert("row" + element.parentNode.parentNode.rowIndex + 
     // " - column" + element.parentNode.cellIndex);
