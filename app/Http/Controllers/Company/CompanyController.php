@@ -14,20 +14,22 @@ use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\PageRepositoryInterface;
+use App\Repositories\ScheduleRepositoryInterface;
 
 class CompanyController extends Controller {
 
     private $user;    
     protected $billing;
-
+    protected $schedule;
 
     public function __construct(PageRepositoryInterface $page, UserRepository $user, 
-    CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, ScheduleRepositoryInterface $schedule) 
     {
         parent::__construct($page);
         $this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
+        $this->schedule = $schedule;
     }
 
     public function index() 
@@ -44,16 +46,16 @@ class CompanyController extends Controller {
         $user=$this->user->getUserInfo($user->id);
         $currentDate=Common::getCurrentDay(new Datetime()); 
         $currentMonthYear=Common::getCurrentDayYear(new Datetime());
-        $dates=$this->user->getUserSchedule($user->id);
+        $dates=$this->schedule->getUserSchedule($user->id);
+        $scheduleNotAsign=$this->schedule->getAllPoolownerNotAssigned($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
-        // $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
-        $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
+        $daysOfWeekMonth=$this->schedule->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear']));
+            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear','scheduleNotAsign']));
     }
 
     public function addCompanyProfile(Request $request) 

@@ -33,14 +33,10 @@
                         @if(count($value)>0)   
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <img class="circle-image avatar-{{$key}}" src="/company-image/1.png">
+                                    <img class="circle-image avatar-{{$key}}" src="{{$user->avatar}}">
                                 </div>
                                 <div class="form-group">
                                     <label class="user-name-{{$key}}">{{$user->name}}</label>
-                                    <label class="hidden user-address-{{$key}}">{{$user->address}}</label>
-                                    <label class="hidden user-lat-{{$key}}">{{$user->lat}}</label>
-                                    <label class="hidden user-lng-{{$key}}">{{$user->lng}}</label>
-                                    <label class="hidden not-asign-{{$key}}">Not asigned</label>
                                 </div>
                                 <div class="form-group">
                                     <select id="{{$key}}" name="pool_service_list_{{$key}}">
@@ -86,7 +82,58 @@
                                 <div class="panel-footer text-center total-route-date">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
                                 </div>                              
                             </div>  
-                        @endif             
+                        @endif     
+                        </br>
+                        @if(count($scheduleNotAsign)>0)   
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label class="user-name-not-asign-{{$key}}">Not Asigned</label>
+                                </div>
+                                <div class="form-group">
+                                    <select id="not-asign-{{$key}}" name="pool-service-list-not-asign-{{$key}}">
+                                        <option value="0" selected="selected">Chose pool service professional</option>
+                                        @foreach ($listTechnicians as $tech)
+                                            <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
+                                        @endforeach                            
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label id="count_route-not-asign">{{count($scheduleNotAsign)}} pools</label>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <table class="table table-hover table-route-not-asign-{{$key}}">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th><a>Order</a></th>
+                                            <th><a>Street Address</a></th>
+                                            <th><a>City</a></th>
+                                            <th><a>Zipcode</a></th>
+                                            <th><a>Service Completed</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($scheduleNotAsign as $key_che => $che)
+                                            <tr>	
+                                                <td><input type="checkbox" checked></input></td>
+                                                <td>{{$key_che+1}}</td>
+                                                <td class="address-to-route">{{$che->address}}</td>
+                                                <td>{{$che->city}}</td>
+                                                <td>{{$che->zipcode}}</td>
+                                                <td ></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>  
+                                <div class="panel-footer text-center total-route-date-not-asign">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not asign <strong>yet</strong>
+                                </div>                              
+                            </div>  
+                        @endif 
                     </div>
                 @endforeach
             </div>
