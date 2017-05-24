@@ -55,7 +55,8 @@ class ApiCompanyController extends Controller {
     
     public function saveTechnician(Request $request) {
         $repoTech = new TechnicianRepository;
-        return $this->common->responseJson($repoTech->saveTechnician($request->all()));
+        $user = Auth::user();
+        return $this->common->responseJson($repoTech->saveTechnician($user, $request->all()));
     }
     
     public function removeTechnician(Request $request) {

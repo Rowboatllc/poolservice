@@ -29,6 +29,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/started', array('uses' => 'PoolOwner\PoolOwnerController@started'))->name('started');
+    Route::post('get-current-user-info', 'ProfileController@getCurrentUserInfo')->name('get-current-user-info');
     
     Route::group(['middleware' => ['permission']], function () {
 

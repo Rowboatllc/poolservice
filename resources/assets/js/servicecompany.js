@@ -44,10 +44,35 @@ jQuery(document).ready(function () {
         // technician-professionnal-service
         jQuery('.technician-professionnal-service').on('click','.new-item', function() {
             let modal = jQuery(this).data('target');
+            jQuery(modal).find('input[type="text"]').removeAttr('disabled');
             let names = ['fullname', 'phone', 'email', 'id', 'avatar', 'is_owner'];
             setElementValues(modal, names, '');
         }).on('click', '.technician-img', function(event) {
+            if(jQuery('.technician-professionnal-service [name="is_owner"]')[0].checked==true)
+                return;
             jQuery('.technician-professionnal-service .form_technician-avatar input[type="file"]').trigger('click');
+        }).on('click', '[name="is_owner"]', function(event) {
+            let $me = jQuery(this);
+            // if tech was created => not allow change
+            if(jQuery(this).closest('form').find('input[name="id"]').val() != '') {
+                event.preventDefault();
+                return;
+            }
+            $modal = $me.closest('.content-block').find('.modal');
+            $items = $modal.find('input[type="text"]');
+            // Not need to fill info if is company
+            (this.checked==true) ?  $items.attr('disabled', true) : $items.removeAttr('disabled');
+            
+            let url = 'http://localhost/poolservice/public/get-current-user-info';
+            
+            sendData(url, {}, 'POST', function(result){
+                $items = $modal.find('[name]');
+                $items.each(function(){
+                    let key = jQuery(this).attr('name');
+                    if(typeof result.item[key] != 'undefined')
+                        setElementValue(jQuery(this), result.item[key]);
+                });
+            });
         });
     }
 
