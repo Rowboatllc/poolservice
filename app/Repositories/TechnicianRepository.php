@@ -86,7 +86,6 @@ class TechnicianRepository {
                 if(!empty($data['avatar']))
                     $profileData['avatar'] = $data['avatar'];
                 $profile->create($profileData);
-
                 $this->techinician->create([
                     'user_id' => $result->id,
                     'company_id' => $data['company_id'],

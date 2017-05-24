@@ -3,15 +3,20 @@
 namespace App\Observers;
 
 use App\Models\Technician;
-
+use App\Repositories\AclRepository;
+      
 class TechnicianObserver {
-
-    public function created(Technician $obj) {
-        // Add Teachnician to group
+    private $mygroup = 4;
+    public function creating(Technician $obj) {
+        $acl = new AclRepository;
+        $acl->attachUserToGroup($this->mygroup, $obj->user_id);
     }
 
     public function deleting(Technician $obj) {
-        // Remove Teachnician from group
+        $acl = new AclRepository;
+        $repo = app('App\Repositories\ScheduleRepository');
+        $acl->dettachUserFromGroup($this->mygroup, $obj->user_id);
+        $repo->whenRemoveTechnician($obj->user_id);
     }
 
 }
