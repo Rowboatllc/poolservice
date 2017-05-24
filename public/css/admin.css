@@ -820,6 +820,10 @@ span.stars {
   display: none !important;
 }
 
+.view-as-technician {
+  float: right;
+}
+
 .inputerror {
   border: 1px solid red !important;
 }

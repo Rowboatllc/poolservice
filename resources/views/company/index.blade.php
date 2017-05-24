@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container panel dashboard">
+    <div class="view-as-technician ">
+        <a type="button" class="btn btn-primary {{ isset($checkTechnician) ? '' : 'no_display'}}" href="{{route('technician')}}">View as Technician</a>
+    </div>
     <div class="form-box">
         <ul class="nav nav-tabs">
             <li><a data-toggle="tab" role="tab" href="#sectionA">Services Offered</a></li>

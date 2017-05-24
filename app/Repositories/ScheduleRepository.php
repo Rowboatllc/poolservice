@@ -23,10 +23,10 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     protected $company;    
     protected $selected;    
 
-    public function __construct(Schedule $schedule, Selected $selected, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company)
+    public function __construct(Schedule $schedule, Selected $selected, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company,Common $common)
     {
         $this->schedule = $schedule;        
-        $this->common = app('App\Common\Common');
+        $this->common = $common;
         $this->billing = $billing;
         $this->company = $company;
         $this->selected = $selected;
@@ -303,22 +303,52 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     public function notAvailable($technician_id, $date){
             // var_dump($technician_id, $date);
         try{
-            $selecteds = DB::table('selecteds')
-                    ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
-                    ->where('schedules.technician_id', $technician_id)
-                    ->whereIn('schedules.status', ['opening','checkin'])
-                    ->whereDate('schedules.date', $date)
-                    ->update(['selecteds.status' => "active"]);
+            DB::transaction(function () {
+                $selecteds = DB::table('selecteds')
+                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                        ->where('schedules.technician_id', $technician_id)
+                        ->whereIn('schedules.status', ['opening','checkin'])
+                        ->whereDate('schedules.date', $date)
+                        ->update(['selecteds.status' => "active"]);
 
-            $schedules = DB::table('schedules')
-                    ->where('technician_id', $technician_id)
-                    ->whereDate('date', $date)
-                    ->whereIn('status', ['opening','checkin'])
-                    ->update(['status' => "closed"]);
+                $schedules = DB::table('schedules')
+                        ->where('technician_id', $technician_id)
+                        ->whereDate('date', $date)
+                        ->whereIn('status', ['opening','checkin'])
+                        ->update(['status' => "closed"]);
 
-            if($selecteds>0 && $schedules>0){
-                return true;
-            }
+                if($selecteds>0 && $schedules>0){
+                    return true;
+                }
+            }, 3);
+        }catch (Exception $e) {
+            return false;
+        }
+        return false;
+    }
+
+    private function removeTechnician($technician_id){
+        $now = new \DateTime();
+        $date = $this->common()->formatDate($now, 'Y-m-d');
+        try{
+            DB::transaction(function () {
+                $selecteds = DB::table('selecteds')
+                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                        ->where('schedules.technician_id', $technician_id)
+                        ->whereIn('schedules.status', ['opening','checkin'])
+                        ->whereDate('schedules.date',">=",$date)
+                        ->update(['selecteds.status' => "active"]);
+
+                $schedules = DB::table('schedules')
+                        ->where('technician_id', $technician_id)
+                        ->whereDate('date', ">=", $date)
+                        ->whereIn('status', ['opening','checkin'])
+                        ->update(['status' => "closed"]);
+
+                if($selecteds>=0 && $schedules>=0){
+                    return true;
+                }
+            }, 3);
 
         }catch (Exception $e) {
             return false;
