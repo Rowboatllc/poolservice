@@ -14,20 +14,22 @@ use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\PageRepositoryInterface;
+use App\Repositories\ScheduleRepositoryInterface;
 
 class CompanyController extends Controller {
 
     private $user;    
     protected $billing;
-
+    protected $schedule;
 
     public function __construct(PageRepositoryInterface $page, UserRepository $user, 
-        CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing) 
+    CompanyRepositoryInterface $company, BillingInfoRepositoryInterface $billing, ScheduleRepositoryInterface $schedule) 
     {
         parent::__construct($page);
         $this->user = $user;
         $this->company = $company;
         $this->billing = $billing;
+        $this->schedule = $schedule;
     }
 
     public function index() 
@@ -44,15 +46,20 @@ class CompanyController extends Controller {
         $user=$this->user->getUserInfo($user->id);
         $currentDate=Common::getCurrentDay(new Datetime()); 
         $currentMonthYear=Common::getCurrentDayYear(new Datetime());
-        $dates=$this->user->getUserSchedule($user->id);
+        $dates=$this->schedule->getUserSchedule($user->id);
+        $scheduleNotAsign=$this->schedule->getAllPoolownerNotAssigned($user->id);
         $listTechnicians = $this->user->getListTechnician($user->id);
-        $daysOfWeekMonth=$this->user->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
+        $daysOfWeekMonth=$this->schedule->getDayWeeksOfMonth($user->id,date('m'),date('Y'));
         //Billing Info
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
+
+        //check company is a technician
+        $checkTechnician = $this->company->checkUserIsCompanyAsTechnician($user->id);
+
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear']));
+            compact([ 'checkTechnician', 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear','scheduleNotAsign']));
     }
 
     public function addCompanyProfile(Request $request) 
@@ -104,6 +111,7 @@ class CompanyController extends Controller {
     public function loadPoolOwner(Request $request)
     {        
         $id=$request['id'];
+        if($id=="") return;
         if(intval($id)<=0)
         {
             $user=Auth::user();
@@ -112,7 +120,7 @@ class CompanyController extends Controller {
 
         $date=$request['date'];
         $dates=Common::getDateInWeek(new Datetime(),6);
-        $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
+        $schedule=$this->schedule->getUserScheduleBetweenDate($id,$dates[$date],$dates[$date]);
         if($schedule)
         {
             return response()->json(['success' => true,'message' => $schedule],200);
@@ -123,19 +131,43 @@ class CompanyController extends Controller {
     }
 
     public function loadServiceLastMonth(Request $request)
-    {
-        dd('hahahahahahahahaha');
-        // $id=Auth::user()->id;
+    {        
+        $date=$request['date'];
+        $type=$request['type'];
+        if($date=="" || $date=="") return;
 
-        // $date=$request['date'];
-        // $dates=Common::getKeyDatesFromRange(new Datetime(),6);
-        // $schedule=$this->user->getUserScheduleByDate($id,$dates[$date]);
-        // if($schedule)
-        // {
-        //     return response()->json(['success' => true,'message' => $schedule],200);
-        // }
-        // else{
-        //     return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
-        // }      
+        $arr=array();
+        $id=Auth::user()->id;
+        $dt=new DateTime('1 ' . $date);
+        if($type==1){
+            $lastDate=$dt->modify( 'last day of previous month' );
+            $arr['date']=$lastDate->format('M Y');
+            $schedule=$this->schedule->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+        }else if($type==2){
+            $lastDate=$dt->modify( 'last day of next month' );
+            $arr['date']=$lastDate->format('M Y');
+            $schedule=$this->schedule->getDayWeeksOfMonth($id,$lastDate->format('m'),$lastDate->format('Y'));
+        }
+        if($schedule)
+        {
+            $arr['schedule']=$schedule;
+            return response()->json(['success' => true,'message' => $arr],200);
+        }
+        else{
+            return response()->json(['success' => false,'message' => 'error occured in system !!!'],304);
+        }      
+    }
+
+    public function changeTaskToNotAvailable(Request $request)
+    {
+        $id=$request['id'];
+        $date=$request['date'];
+
+        if($id=="" || $date=="") return;
+
+        $dates=Common::getDateInWeek(new Datetime(),6);
+        $val=$this->schedule->notAvailable($id,$dates[$date]);
+
+        return response()->json(['success' => $val]);
     }
 }

@@ -9,6 +9,11 @@ use App\Models\Selected;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BillingInfoRepositoryInterface;
 use App\Repositories\CompanyRepositoryInterface;
+use App\Common\Common;
+use Carbon\Carbon;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class ScheduleRepository implements ScheduleRepositoryInterface {
 
@@ -18,10 +23,10 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     protected $company;    
     protected $selected;    
 
-    public function __construct(Schedule $schedule, Selected $selected, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company)
+    public function __construct(Schedule $schedule, Selected $selected, BillingInfoRepositoryInterface $billing, CompanyRepositoryInterface $company,Common $common)
     {
         $this->schedule = $schedule;        
-        $this->common = app('App\Common\Common');
+        $this->common = $common;
         $this->billing = $billing;
         $this->company = $company;
         $this->selected = $selected;
@@ -229,14 +234,15 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return 4-$time;
     }
     
-    public function getAllPoolownerNotAssigned($company_id){
+    public function getAllPoolownerNotAssigned($user_id){
         return DB::table('profiles')
             ->join('orders', 'orders.poolowner_id', '=', 'profiles.user_id')
             ->join('selecteds', 'selecteds.order_id', '=', 'orders.id')
-            ->where('selecteds.company_id', $company_id)
+            ->join('companies', 'companies.id', '=', 'selecteds.company_id')
+            ->where('companies.user_id', $user_id)
             ->where('selecteds.status', 'active')
             ->where('orders.status', 'active')
-            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id')
+            ->select('profiles.user_id','profiles.fullname','profiles.address','profiles.city','profiles.state','profiles.zipcode','profiles.lat','profiles.lng','profiles.phone','profiles.avatar', 'selecteds.id as selected_id')
             ->get();
     }
 
@@ -295,24 +301,54 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 
 // date format string Y-m-d
     public function notAvailable($technician_id, $date){
+            // var_dump($technician_id, $date);
         try{
+            DB::transaction(function () {
+                $selecteds = DB::table('selecteds')
+                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                        ->where('schedules.technician_id', $technician_id)
+                        ->whereIn('schedules.status', ['opening','checkin'])
+                        ->whereDate('schedules.date', $date)
+                        ->update(['selecteds.status' => "active"]);
 
-            $selecteds = DB::table('selecteds')
-                    ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
-                    ->where('schedules.technician_id', $technician_id)
-                    ->whereIn('schedules.status', ['opening','checkin'])
-                    ->whereDate('schedules.date', $date)
-                    ->update(['selecteds.status' => "active"]);
+                $schedules = DB::table('schedules')
+                        ->where('technician_id', $technician_id)
+                        ->whereDate('date', $date)
+                        ->whereIn('status', ['opening','checkin'])
+                        ->update(['status' => "closed"]);
 
-            $schedules = DB::table('schedules')
-                    ->where('technician_id', $technician_id)
-                    ->whereDate('date', $date)
-                    ->whereIn('status', ['opening','checkin'])
-                    ->update(['status' => "closed"]);
+                if($selecteds>0 && $schedules>0){
+                    return true;
+                }
+            }, 3);
+        }catch (Exception $e) {
+            return false;
+        }
+        return false;
+    }
 
-            if($selecteds>0 &&$schedules){
-                return true;
-            }
+    private function whenRemoveTechnician($technician_id){
+        $now = new \DateTime();
+        $date = $this->common()->formatDate($now, 'Y-m-d');
+        try{
+            DB::transaction(function () {
+                $selecteds = DB::table('selecteds')
+                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                        ->where('schedules.technician_id', $technician_id)
+                        ->whereIn('schedules.status', ['opening','checkin'])
+                        ->whereDate('schedules.date',">=",$date)
+                        ->update(['selecteds.status' => "active"]);
+
+                $schedules = DB::table('schedules')
+                        ->where('technician_id', $technician_id)
+                        ->whereDate('date', ">=", $date)
+                        ->whereIn('status', ['opening','checkin'])
+                        ->update(['status' => "closed"]);
+
+                if($selecteds>=0 && $schedules>=0){
+                    return true;
+                }
+            }, 3);
 
         }catch (Exception $e) {
             return false;
@@ -343,4 +379,148 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         
     }
 
+    /*Sang add code */
+    public function getUserSchedule($id){  
+        $from= Carbon::now();
+        $to=Carbon::now()->addDay(6);
+        $dates=Common::getDateInWeek($from,6);
+        $schedules=self::getUserScheduleBetweenDate($id,$from,$to);      
+
+        foreach($dates as $key => $value)
+        {      
+            $arr=array();
+            foreach($schedules as $val)
+            {
+                $dt=new datetime($val->date);
+                if($dt->format('Y-m-d')==$value)
+                {
+                    $arr[]=$val;
+                }
+            }
+            
+            $dates[$key]=$arr;
+        }
+
+        return $dates;
+    }
+
+    public function getUserScheduleBetweenDate($user_id,$from,$to)
+    {
+        $comProfile = DB::table('schedules')
+                ->select('profiles.user_id as user_id','schedules.status','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
+                ->join('selecteds', 'schedules.selected_id','=','selecteds.id')
+                // ->join('companies', 'selecteds.company_id','=','companies.id')
+                ->join('technicians', 'technicians.user_id','=','schedules.technician_id')
+                ->join('orders', 'selecteds.order_id','=','orders.id')
+                ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')  
+                ->where(['technicians.user_id' => $user_id])
+                ->whereDate('schedules.date','>=', $from)
+                ->whereDate('schedules.date','<=', $to)
+                ->whereNotIn('schedules.status',['closed'])                
+                ->orderBy('schedules.date')
+                ->get();
+
+        return $comProfile;
+    }
+
+
+    public function getDayWeeksOfMonth($user_id,$month,$year)
+    {
+        $month = intval($month);				//force month to single integer if '0x'
+        $suff = array('st','nd','rd','th','th','th'); 		//week suffixes
+        $end_date = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31 
+        $start = date('w',mktime(0,0,0,$month,1,$year)); 	//1st day of month: 0 - 6 (Sun - Sat)
+        $last = 7 - $start; 					//get last day date (Sat) of first week
+        $noweeks = ceil((($end_date - ($last + 1))/7) + 1);		//total no. weeks in month
+        $arr=array();					//initialize string		
+        $monthlabel = str_pad($month, 2, '0', STR_PAD_LEFT);
+
+        $start_date_month = date("Y-m-d", strtotime($month.'/01/'.$year.' 00:00:00'));
+        $end_date_month = date("Y-m-d", strtotime('-1 second',strtotime('+1 month',strtotime($month.'/01/'.$year.' 00:00:00'))));
+        
+        $pools=self::getUserScheduleBetweenDate($user_id,$start_date_month,$end_date_month);
+        for($x=1;$x<$noweeks+1;$x++){	
+            if($x == 1){
+                $startdate = "$year-$monthlabel-01";
+                $day = $last - 6;
+            }else{
+                $day = $last + 1 + (($x-2)*7);
+                $day = str_pad($day, 2, '0', STR_PAD_LEFT);
+                $startdate = "$year-$monthlabel-$day";
+            }
+            if($x == $noweeks){
+                $enddate = "$year-$monthlabel-$end_date";
+            }else{
+                $dayend = $day + 6;
+                
+                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);                
+                $enddate = "$year-$monthlabel-$dayend";
+            }
+
+            $days_between=array();
+            for($i=1;$i<=7;$i++)
+            {       
+                $days_between[$i]='';
+            }            
+
+            $start    = new DateTime($startdate);
+            $end      = (new DateTime($enddate))->modify('+1 day');
+            $interval = new DateInterval('P1D');
+            $period   = new DatePeriod($start, $interval, $end);
+            
+            $count_period=iterator_count($period); 
+
+            foreach ($period as $dt) 
+            {
+                $n=(int)$dt->format("d");
+                $dateArr=array();   
+                $dateArr['date']=$dt->format("Y-m-d");
+                $count=0;
+                foreach ($pools as $po) {
+                    $dtPool=new DateTime($po->date);
+                    if($dtPool->format('Y-m-d')==$dt->format('Y-m-d'))
+                    {
+                        $count=$count+1;
+                    }
+                }
+                
+                $dateArr['pool']=$count; 
+                $dateArr['number']=$n;
+                $timestamp = strtotime($dt->format('Y-m-d'));
+                $day = date('D', $timestamp);
+                $num=self::getDayNumber($day);
+                $days_between[$num]=$dateArr;
+            }
+            
+            $arr[$x]= $days_between;
+        }
+        return $arr;
+    }
+
+    private function getDayNumber($day)
+    {
+        switch ($day) {
+            case 'Mon':
+                return 2;
+                break;
+            case 'Tue':
+                return 3;
+                break;
+            case 'Wed':
+                return 4;
+                break;
+            case 'Thu':
+                return 5;
+                break;
+            case 'Fri':
+                return 6;
+                break;
+            case 'Sat':
+                return 7;
+                break;
+            case 'Sun':
+                return 1;
+                break;
+        }
+    }
 }

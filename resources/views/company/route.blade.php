@@ -6,7 +6,7 @@
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 route-tab-menu">
                 <div class="list-group-route">
                     @foreach ($dates as $key => $value)
-                        <a href="#" id="tab_{{$key}}" class="list-group-item text-center {{$key==$currentDate? 'active': ''}}">
+                        <a href="#" id="tab-{{$key}}" class="list-group-item text-center {{$key==$currentDate? 'active': ''}}">
                             {{$key}}
                         </a>
                     @endforeach
@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group" >                        
-                                    <input type="checkbox" name="chk_{{$key}}" date="{{$key}}" id="chk_{{$key}}" class="chk-not-available">
+                                    <input type="checkbox" name="chk-{{$key}}" date="{{$key}}" id="chk-{{$key}}" class="chk-not-available">
                                     <label for="chk-{{$key}}" id=lbl{{$key}}>Not Available</label>
                                 </div>
                             </div>
@@ -33,17 +33,13 @@
                         @if(count($value)>0)   
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <img class="circle-image avatar-{{$key}}" src="/company-image/1.png">
+                                    <img class="circle-image avatar-{{$key}}" src="{{$user->avatar}}">
                                 </div>
                                 <div class="form-group">
                                     <label class="user-name-{{$key}}">{{$user->name}}</label>
-                                    <label class="hidden user-address-{{$key}}">{{$user->address}}</label>
-                                    <label class="hidden user-lat-{{$key}}">{{$user->lat}}</label>
-                                    <label class="hidden user-lng-{{$key}}">{{$user->lng}}</label>
-                                    <label class="hidden not-asign-{{$key}}">Not asigned</label>
                                 </div>
                                 <div class="form-group">
-                                    <select id="{{$key}}" name="pool_service_list_{{$key}}">
+                                    <select id="{{$key}}" class="pool-service-technician-list-{{$key}}" name="pool-service-technician-list-{{$key}}">
                                         <option value="0" selected="selected">Chose pool service professional</option>
                                         @foreach ($listTechnicians as $tech)
                                             <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -69,7 +65,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($value as $key_route => $route)
-                                            <tr>	
+                                            <tr class="{{$route->status=='billing_error'|| $route->status=='billing_success'?'tr-billing-success':'tr-billing-error'}}">	
                                                 <td><input type="checkbox" checked></input></td>
                                                 <td>{{$key_route+1}}</td>
                                                 <td class="address-to-route">{{$route->address}}</td>
@@ -86,13 +82,62 @@
                                 <div class="panel-footer text-center total-route-date">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
                                 </div>                              
                             </div>  
-                        @endif             
+                        @endif     
+                        </br>
+                        @if(count($scheduleNotAsign)>0)   
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label class="user-name-not-asign-{{$key}}">Not Assigned</label>
+                                </div>
+                                <div class="form-group">
+                                    <select id="not-asign-{{$key}}" class="pool-service-technician-not-asign-list" name="pool-service-list-not-asign-{{$key}}">
+                                        <option value="0" selected="selected">Chose pool service professional</option>
+                                        @foreach ($listTechnicians as $tech)
+                                            <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
+                                        @endforeach                            
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label id="count_route-not-asign">{{count($scheduleNotAsign)}} pools</label>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <table class="table table-hover table-route-not-asign-{{$key}}">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th><a>Order</a></th>
+                                            <th><a>Street Address</a></th>
+                                            <th><a>City</a></th>
+                                            <th><a>Zipcode</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($scheduleNotAsign as $key_che => $che)
+                                            <tr>	
+                                                <td><input type="checkbox"></input></td>
+                                                <td>{{$key_che+1}}</td>
+                                                <td class="address-to-route">{{$che->address}}</td>
+                                                <td>{{$che->city}}</td>
+                                                <td>{{$che->zipcode}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>  
+                                <div class="panel-footer text-center total-route-date-not-asign">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not assign <strong>yet</strong>
+                                </div>                              
+                            </div>  
+                        @endif 
                     </div>
                 @endforeach
             </div>
 
             <div class="panel">
-                <div class="text-center header title-route-map">{{$currentDate}} Route Map</div>
+                <div class="text-center header title-route-map"><label>{{$currentDate}}</label> Route Map</div>
                 <div class="panel-body text-center">
                     <div id="route-map" class="route-map"></div>
                     <div id="directions_panel"></div>
@@ -106,14 +151,15 @@
                 <div class="calendar fc fc-ltr">
                     <div align="center">  
                         <ul class="list-inline">
-                            <li><i class="fa fa-chevron-circle-left btn-last-month-view" aria-hidden="true"></i></li>
+                            <li><i class="fa fa-chevron-circle-left btn-load-monthly-view last-month" aria-hidden="true"></i></li>
                             <li><h2 id="current-month-year">{{$currentMonthYear}}</h2></li>
+                            <li><i class="fa fa-chevron-circle-right btn-load-monthly-view next-month" aria-hidden="true"></i></li>
                         </ul>
                     </div> 
                     <div class="fc-content" style="position: relative; min-height: 1px;">
                         <div class="fc-view fc-view-month fc-grid" style="position: relative; min-height: 1px;" unselectable="on">
                             
-                            <table class="fc-border-separate table-calendar-history" style="width:100%" cellspacing="0">
+                            <table class="fc-border-separate" id="table-calendar-history" style="width:100%" cellspacing="0">
                                 <thead>
                                     <tr class="fc-first fc-last">
                                         <th class="fc-day-header fc-sun fc-widget-header fc-first" style="width: 158px;">Sun</th>
@@ -129,9 +175,9 @@
                                     @foreach ($daysOfWeekMonth as $days)
                                         <tr class="fc-week fc-first">
                                             @foreach ($days as $id => $val)
-                                                <td class="fc-day fc-sun fc-widget-content fc-other-month fc-first" data-date="{{$val==''?'':$val['date']}}">
+                                                <td class="fc-day fc-sun fc-widget-content fc-other-month fc-first" onclick="getDayOfPool('{{$val==''?'':$val['date']}}');">
                                                     <div style="min-height: 80px;">
-                                                        <div class="fc-day-number">{{ $val==''?'': $id}}</div>
+                                                        <div class="fc-day-number">{{ $val==''?'': $val['number']}}</div>
                                                         <div class="fc-event-inner">
                                                             @if($val!='')
                                                                 @if($val['pool']!='')
@@ -158,42 +204,33 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                     <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-unlock"></i> Unlock Calendar</h4>
-
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><h4>x</h4></button>
+                     <h4 class="modal-title" id="myModalLabel"><input type="text" value="Wednesday, May 3, 2017"></input></h4>
                 </div>
                 <div class="modal-body">
-                    <p class="h3 text-center text-primary"><i class="fa fa-thumbs-up"></i> Woop!</p>
-                    <p class="lead text-center">Here's what happens when you unlock your calendar:</p>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
+                    <div class="panel">    
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <img class="circle-image avatar" src="">
+                            </div>
+                            <div class="form-group">
+                                <label class="user-name">Teo, Nguyen Van</label>
+                            </div>
 
+                            <div class="form-group">
+                                <label id="count_route">50 pools</label>
+                            </div>
                         </div>
-                        <div class="col-xs-11">You'll instantly get access to all <strong class="text-primary">67 shared assignments</strong> on your calendar.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll be <strong>notified</strong> whenever a shared assignment is <strong>updated or edited</strong> throughout the semester.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll be able to <strong>share your own calendar assignments</strong> with your class, which means you can start making money instantly.</div>
-                        <div class="col-xs-1"> <i class="fa fa-fw fa-thumbs-up text-primary"></i>
-
-                        </div>
-                        <div class="col-xs-11">You'll gain access to special features of mchp, such as <strong>calendar integration</strong> in your College Pulse and in each of your class's activity sections.</div>
                     </div>
-                    <hr>
                     <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <!-- Table -->
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Class Name</th>
-                                    <th># of Assignments</th>
-                                    <th>Unlock</th>
+                                    <th>Name</th>
+                                    <th>Street address</th>
+                                    <th>City</th>
+                                    <th>Zipcode</th>
+                                    <th>Service completed</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -202,103 +239,33 @@
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 15 now</strong> + all future</td>
                                     <td><i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-book"></i> ACCT 210</td>
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 22 now</strong> + all future</td>
                                     <td><i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-book"></i> MGMT 310</td>
                                     <td><strong class="text-primary"><i class="fa fa-calendar"></i> 30 now</strong> + all future</td>
                                     <td> <i class="fa fa-check-circle text-success"> yes</i>
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="panel-footer text-center">You're unlocking: <strong>3 classes</strong> for <strong>300 points</strong>
                         </div>
-                    </div>
-                    <!-- Begin Carousel -- <div id="carousel-example-generic" class="carousel slide">
-                  
-  <!-- Indicators 
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-  </ol>-->
-                    <!-- Wrapper for slides -- <div class="carousel-inner">
-    <div class="item ">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Poop Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-                  
-                  
-                  <div class="carousel-inner">
-    <div class="item ">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Poop Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-                  
-                  
-  <div class="carousel-inner">
-    <div class="item active">
-        <div class="custom-content">
-      <div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="https://s3-us-west-2.amazonaws.com/mchpstatic/calendar.svg" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Shared Assignments</h4>
-    <p>Any assignment shared by any of your classmates will be visible to you, and you'll get the option to add it to your own calendar. This includes any assignment that is updated or edited throughout the semester.</p>
-  </div>
-</div>
-            </div>
-      
-    </div>
-    
-  </div>
-      
-      
-
-
-  <!-- Controls --
-    <p class="pull-right">
-        <a class="" href="#carousel-example-generic" data-slide="prev"><i class="fa fa-hand-o-left fa-lg"></i></a> 
-        <a class="" href="#carousel-example-generic" data-slide="next"><i class="fa fa-hand-o-right fa-lg"></i></a> 
-        
-    </p>    
-</div>
-                      
-              <!-- End Carousel --></div>
+                    </div> 
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Unlock!</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

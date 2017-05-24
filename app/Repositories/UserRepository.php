@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Order;
 use App\Models\Poolowner;
 use App\Models\BillingInfo;
+use App\Repositories\SchedulesRepositoryInterface;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class UserRepository
     protected $profile;
 	protected $company;
     protected $poolowner;
-
+    protected $schedule;
     public function __construct(User $user, Profile $profile,Company $com,Poolowner $poolowner)
     {
         $this->user = $user;
@@ -372,47 +373,9 @@ class UserRepository
                 ->first();
         
         return $comProfile;
-    }
+    }    
 
-    public function getUserSchedule($id){  
-        $from= Carbon::now();
-        $to=Carbon::now()->addDay(6);
-        $dates=Common::getDateInWeek($from,6);
-        $schedules=self::getUserScheduleBetweenDate($id,$from,$to);
-        foreach($dates as $key => $value)
-        {      
-            $arr=array();
-            foreach($schedules as $val)
-            {
-                $dt=new datetime($val->date);
-                if($dt->format('Y-m-d')==$value)
-                {
-                    $arr[]=$val;
-                }
-            }
-            
-            $dates[$key]=$arr;
-        }
-
-        return $dates;
-    }
-
-    public function getUserScheduleBetweenDate($id,$from,$to)
-    {
-        $comProfile = DB::table('schedules')
-                ->select('profiles.user_id as user_id','schedules.status','schedules.date','profiles.city as city','profiles.zipcode as zipcode','profiles.address as address','profiles.lat as lat','profiles.lng as lng','profiles.fullname as fullname')                
-                ->join('selecteds', 'schedules.selected_id','=','selecteds.id')
-                ->join('companies', 'selecteds.company_id','=','companies.id')
-                ->join('orders', 'selecteds.order_id','=','orders.id')
-                ->join('profiles', 'orders.poolowner_id','=','profiles.user_id')  
-                ->where(['companies.user_id' => $id])
-                ->whereDate('schedules.date','>=', $from)
-                ->whereDate('schedules.date','<=', $to)
-                ->orderBy('schedules.date')
-                ->get();
-
-        return $comProfile;
-    }
+    
 
     public function getUserInfo($id)
     {
@@ -445,91 +408,4 @@ class UserRepository
             ->get();
     }
 
-
-    public function getOrderNotAsignYet()
-    {
-        $comProfile = DB::table('orders')
-                ->select('users.id','users.name','profiles.avatar','profiles.lat','profiles.lng','profiles.address')
-                ->join('profiles', 'profiles.user_id','=','users.id')
-                ->where(['users.id' => $id])
-                ->first();
-
-        return $comProfile;
-    }
-
-    public function getDayWeeksOfMonth($id,$month,$year)
-    {
-        $month = intval($month);				//force month to single integer if '0x'
-        $suff = array('st','nd','rd','th','th','th'); 		//week suffixes
-        $end_date = date('t',mktime(0,0,0,$month,1,$year)); 		//last date day of month: 28 - 31 
-        $start = date('w',mktime(0,0,0,$month,1,$year)); 	//1st day of month: 0 - 6 (Sun - Sat)
-        $last = 7 - $start; 					//get last day date (Sat) of first week
-        $noweeks = ceil((($end_date - ($last + 1))/7) + 1);		//total no. weeks in month
-        $arr=array();					//initialize string		
-        $monthlabel = str_pad($month, 2, '0', STR_PAD_LEFT);
-
-        $start_date_month = date("Y-m-d", strtotime($month.'/01/'.$year.' 00:00:00'));
-        $end_date_month = date("Y-m-d", strtotime('-1 second',strtotime('+1 month',strtotime($month.'/01/'.$year.' 00:00:00'))));
-        
-        $pools=self::getUserScheduleBetweenDate($id,$start_date_month,$end_date_month);
-        for($x=1;$x<$noweeks+1;$x++){	
-            if($x == 1){
-                $startdate = "$year-$monthlabel-01";
-                $day = $last - 6;
-            }else{
-                $day = $last + 1 + (($x-2)*7);
-                $day = str_pad($day, 2, '0', STR_PAD_LEFT);
-                $startdate = "$year-$monthlabel-$day";
-            }
-            if($x == $noweeks){
-                $enddate = "$year-$monthlabel-$end_date";
-            }else{
-                $dayend = $day + 6;
-                
-                $dayend = str_pad($dayend, 2, '0', STR_PAD_LEFT);                
-                $enddate = "$year-$monthlabel-$dayend";
-            }
-
-            $days_between=array();
-            $start    = new DateTime($startdate);
-            $end      = (new DateTime($enddate))->modify('+1 day');
-            $interval = new DateInterval('P1D');
-            $period   = new DatePeriod($start, $interval, $end);
-            
-            $count_period=iterator_count($period);
-
-            if($count_period<7 && $x < $noweeks)
-            {
-                for($i=0;$i<7-$count_period;$i++)
-                {                    
-                    $days_between[]='';
-                }
-            }
-            foreach ($period as $dt) {
-                $n=(int)$dt->format("d");
-                $dateArr=array();   
-                $dateArr['date']=$dt->format("Y-m-d");
-                $count=0;
-                foreach ($pools as $po) {
-                    $dtPool=new DateTime($po->date);
-                    if($dtPool->format('Y-m-d')==$dt->format('Y-m-d'))
-                    {
-                        $count=$count+1;
-                    }
-                }
-
-                $dateArr['pool']=$count;          
-                $days_between[$n]=$dateArr;
-                if($x == $noweeks){
-                    while(count($days_between)<7)
-                    {
-                        $days_between[++$n]='';
-                    }
-                }
-            }
-            
-            $arr[$x]= $days_between;
-        }
-        return $arr;
-    }
 }

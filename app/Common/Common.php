@@ -120,13 +120,13 @@ class Common {
         return implode(' | ',$arr);
     }
     
-    public function formatDate($date){
+    public function formatDate($date, $format='m-d-Y'){
         if(!isset($date)){
             return null;
         }
 
         $date_new = new \DateTime($date);
-        return $date_new->format('m-d-Y');
+        return $date_new->format($format);
     }
 
     public static function getDateOfWeekDay($day) {

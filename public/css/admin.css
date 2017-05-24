@@ -28,6 +28,7 @@ body {
   background: #333;
   background: rgba(51, 51, 51, 0.3);
   border: 0;
+  -webkit-transition: all .3s;
   transition: all .3s;
 }
 
@@ -818,6 +819,10 @@ span.stars {
 
 .no_display {
   display: none !important;
+}
+
+.view-as-technician {
+  float: right;
 }
 
 .inputerror {

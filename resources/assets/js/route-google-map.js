@@ -3,11 +3,6 @@ let directionsService = new google.maps.DirectionsService();
 let map;
 
 $(document).ready(function(){
-
-    $('.company-route-service div.route-calendar div.fc-content table.fc-border-separate >tbody >tr >td.fc-widget-content').bind('click',function(){
-        $('.company-route-service #viewHistoryModal').modal();      
-    });
-
     $('.company-route-service i.btn-history-route').on('click',function(){
         if($(this).hasClass('glyphicon-calendar'))
         {
@@ -32,11 +27,11 @@ $(document).ready(function(){
         let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
-        $("div.title-route-map").text($(this).text() + " Route Map");
+        $("div.title-route-map label").text($(this).text());
         reloadMap($(this).text());         
     });
 
-    $('.company-route-service select').on('change', function(e) {
+    $('.company-route-service select.pool-service-technician-list').on('change', function(e) {        
         let date=this.id;
         $.ajax({ 
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -71,13 +66,16 @@ $(document).ready(function(){
                         table.append(row);
                         m=m+1;
                     });
-                    if(m>0)
+
+                    if(m>1)
                     {
                         $('div.total-route-date strong').first().text(m + ' routes');
                     }else
                     {
                         $('div.total-route-date strong').first().text(m + ' route');
-                    }                    
+                    }   
+
+                    console.log(data.message);                 
                 }
             },
             error: function (ajaxContext) {
@@ -86,39 +84,98 @@ $(document).ready(function(){
         });	
     })
 
-    $('.chk-not-available').on('change',function(e){
+    $('.company-route-service input.chk-not-available').on('change',function(e){
         let date=$(this).attr('date');
-        // if($(this).prop('checked')){            
-        //     $('.avatar-'+date+'').addClass('hidden');
-        //     $('.name-'+date+'').addClass('hidden');
-        //     $('.not-asign-'+date+'').removeClass('hidden');
-        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', false);
-        // }else{
-        //     $('.avatar-'+date+'').removeClass('hidden');
-        //     $('.name-'+date+'').removeClass('hidden');
-        //     $('.not-asign-'+date+'').addClass('hidden');
-        //     $('.table-route-'+date+' input[type="checkbox"]').prop('checked', true);
-        // }        
+        let selected = $('.company-route-service select.pool-service-technician-list-'+date+'').find(":selected").val();
+        
+        if($(this).prop('checked')){   
+            $.ajax({ 
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "change-task-not-available",
+                method: "GET",
+                data: {id:selected,date:date},
+                success: function (data) {
+                    if(data.success===true)
+                    {
+                        $('.company-route-service .table-route-'+date+' tbody tr.tr-billing-error input[type="checkbox"]').prop('checked', false);
+                        let rows=$('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').action();
+                        $('.company-route-service table.table-route-not-asign-'+date+' tbody tr').append(rows);
+                        $('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').remove();
+                    }
+                },
+                error: function (ajaxContext) {
+                    console.log(ajaxContext.responseText);
+                }
+            });	           
+        }     
     });
 
-
-    $('i.btn-last-month-view').bind('click',function(){
+    $('i.btn-load-monthly-view').bind('click',function(){
+        let type=1;//last-month
+        if($(this).hasClass('next-month')){
+            type=2;//next month
+        }
         let date=$('#current-month-year').text();
-        alert(date);
         $.ajax({ 
             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: "load-last-month-view",
             method: "GET",
-            data: {date:date},
+            data: {date:date,type:type},
             success: function (data) {
-                
+                if(data.success===true)
+                {
+                    $('.company-route-service #current-month-year').text(data.message['date']);
+                    $('.company-route-service #table-calendar-history tbody tr').remove();
+                    let table=$('.company-route-service #table-calendar-history tbody');
+                    $.each(data.message['schedule'], function (i, dates) {
+                        let row="<tr>";
+                        $.each(dates, function (id, val) {
+                            debugger;
+                            if(val==""){
+                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool();'>";
+                            }else{
+                                row+="<td class='fc-day fc-sun fc-widget-content fc-other-month fc-first' onclick='getDayOfPool(`" + val['date']+ "`);'>";
+                            }
+                            
+                            row+="<div style='min-height: 80px;'>";    
+                            if(val==""){
+                                row+="<div class='fc-day-number'></div>";
+                            }   else{
+                                row+="<div class='fc-day-number'>"+ val['number'] +"</div>";
+                            }
+                            
+                            row+="<div class='fc-event-inner'>";
+                            if(val!="" && val['pool']!="")
+                            {
+                                row+="<div style='position: relative; height: 25px;'>"+val['pool'] +" pools</div>";
+                            }else{
+                                row+="<div style='position: relative; height: 25px;'></div>";
+                            }                   
+                                                                                   
+                            row+="</div>";
+                            row+="</div>";
+                            row+="</td>";
+                        });                        
+                        row+="</tr>";
+                        debugger;
+                        table.append(row);
+                    });     
+                }
             },
             error: function (ajaxContext) {
                 console.log(ajaxContext.responseText);
             }
         });	
     });
+    
 });
+
+function getDayOfPool(element) {
+    // alert(element);
+    $('.company-route-service #viewHistoryModal').modal();
+    // alert("row" + element.parentNode.parentNode.rowIndex + 
+    // " - column" + element.parentNode.cellIndex);
+}
 
 function reloadMap(route_date) 
 {    

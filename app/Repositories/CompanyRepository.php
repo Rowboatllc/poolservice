@@ -326,4 +326,17 @@ class CompanyRepository implements CompanyRepositoryInterface {
             ->where('selecteds.status', 'pending');
     }
 
+    public function checkUserIsCompanyAsTechnician($user_id){
+        $result = DB::table('companies')
+            ->leftJoin('technicians', 'technicians.user_id', 'companies.user_id')
+            ->where('technicians.is_owner', 2)
+            ->where('companies.user_id', $user_id)
+            ->select('companies.id')
+            ->get();
+        if(isset($result))
+            if(count($result)>0)
+                return true;
+        return false;
+    }
+
 }
