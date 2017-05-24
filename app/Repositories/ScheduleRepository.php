@@ -327,7 +327,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return false;
     }
 
-    private function removeTechnician($technician_id){
+    private function whenRemoveTechnician($technician_id){
         $now = new \DateTime();
         $date = $this->common()->formatDate($now, 'Y-m-d');
         try{
