@@ -28,6 +28,7 @@ $(document).ready(function(){
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
         $("div.title-route-map label").text($(this).text());
+        reloadTab($(this).text());
         reloadMap($(this).text());         
     });
 
@@ -87,7 +88,6 @@ $(document).ready(function(){
     $('.company-route-service input.chk-not-available').on('change',function(e){
         let date=$(this).attr('date');
         let selected = $('.company-route-service select.pool-service-technician-list-'+date+'').find(":selected").val();
-        
         if($(this).prop('checked')){   
             $.ajax({ 
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -97,9 +97,27 @@ $(document).ready(function(){
                 success: function (data) {
                     if(data.success===true)
                     {
+                        var rowAssign = $('.company-route-service table.table-route-'+date+' tbody tr').length;
+                        var rowNotAssign = $('.company-route-service table.table-route-not-assign-'+date+' tbody tr').length;
+
                         $('.company-route-service .table-route-'+date+' tbody tr.tr-billing-error input[type="checkbox"]').prop('checked', false);
-                        let rows=$('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').action();
-                        $('.company-route-service table.table-route-not-asign-'+date+' tbody tr').append(rows);
+                        var n=0;
+                        $('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').each(function() {
+                            n++;
+                            $(this).find('td.chk-service-status').remove();
+                            $(this).find('td.number-to-route').text(parseInt(rowNotAssign)+n);
+                            $('.company-route-service table.table-route-not-assign-'+date).find('tbody').append($(this));
+                        });
+
+                        // change count of footer table
+                        $('.company-route-service div.total-route-date-'+date+' strong').first().text((parseInt(rowAssign)-n) + " routes ");
+                        $('.company-route-service div.total-route-date-not-assign-'+date).find('strong').first().text((parseInt(rowNotAssign)+n)+ " routes ");     
+
+                        //change count of header table
+                        $('.company-route-service label.count-route-'+date +'').text((parseInt(rowAssign)-n) + " pools ");
+                        $('.company-route-service label.count-route-not-assign-'+date).text((parseInt(rowNotAssign)+n) + " pools ");
+                        
+                        //remove schedule from table assign
                         $('.company-route-service table.table-route-'+date+' tbody tr.tr-billing-error').remove();
                     }
                 },
@@ -169,6 +187,12 @@ $(document).ready(function(){
     });
     
 });
+
+
+function reloadTab(date)
+{
+
+}
 
 function getDayOfPool(element) {
     // alert(element);
