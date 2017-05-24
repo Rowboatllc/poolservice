@@ -327,11 +327,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         return false;
     }
 
-    private function whenRemoveTechnician($technician_id){
+    public function whenRemoveTechnician($technician_id){
         $now = new \DateTime();
-        $date = $this->common()->formatDate($now, 'Y-m-d');
+        $date = $now->format( 'Y-m-d');
         try{
-            DB::transaction(function () {
+            DB::transaction(function() use ($technician_id, $date) {
                 $selecteds = DB::table('selecteds')
                         ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
                         ->where('schedules.technician_id', $technician_id)
