@@ -84,4 +84,11 @@ class ProfileRepository {
         }
         return false;
     }
+    
+    public function getCurrentUserInfo() {
+        $user = Auth::user();
+        $result = $this->profile->find($user->id);
+        $result->email = $user->email;
+        return $result;
+    }
 }

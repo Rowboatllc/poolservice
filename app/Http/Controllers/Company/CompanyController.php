@@ -55,8 +55,12 @@ class CompanyController extends Controller {
         $billing_info = $this->billing->getBillingInfo($user->id);
         // Get number of notifications
         $this->getNumberOfNotification();
+
+        //check company is a technician
+        $checkTechnician = $this->company->checkUserIsCompanyAsTechnician($user->id);
+
         return view('company.index', 
-            compact([ 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear','scheduleNotAsign']));
+            compact([ 'checkTechnician', 'offers', 'comProfile','user','dates','currentDate','listTechnicians','billing_info','daysOfWeekMonth','currentMonthYear','scheduleNotAsign']));
     }
 
     public function addCompanyProfile(Request $request) 

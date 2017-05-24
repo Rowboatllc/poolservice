@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.dashboard.template')
 @section('content')
 <div class="container panel dashboard">
     <div class="box-body no-padding dashboard-notification content-block">

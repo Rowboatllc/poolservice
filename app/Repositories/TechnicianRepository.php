@@ -39,11 +39,12 @@ class TechnicianRepository {
         return $this->listBuilder($id)->where('technicians.user_id', $data['id'])->first();
     }
     
-    public function saveTechnician($data) {
+    public function saveTechnician($currentCompanyUser, $data) {
         $profile = new Profile;
         $user = new User;
         $is_owner = empty($data['is_owner']) ? 0 : 1;
         DB::beginTransaction();
+        // if Technician existed, user existed
         if(!empty($data['id'])) {
             $profile = Profile::find($data['id']);
             $user = User::find($data['id']);
@@ -69,32 +70,43 @@ class TechnicianRepository {
         }
         try {
             $code = str_random(30);
-            $result = $user->create([
-                'email' => $data['email'],
-                'password' => \Hash::make(str_random(9)),
-                'confirmation_code' => $code,
-                'status' => 'pending',
-            ]);
+            if($is_owner==0) {
+                $email = $data['email'];
+                $result = $user->create([
+                    'email' => $email,
+                    'password' => \Hash::make(str_random(9)),
+                    'confirmation_code' => $code,
+                    'status' => 'pending',
+                ]);
+                $profileData = [
+                    'user_id' => $result->id,
+                    'fullname' => $data['fullname'],
+                    'phone' => $data['phone']
+                ];
+                if(!empty($data['avatar']))
+                    $profileData['avatar'] = $data['avatar'];
+                $profile->create($profileData);
+
+                $this->techinician->create([
+                    'user_id' => $result->id,
+                    'company_id' => $data['company_id'],
+                    'is_owner' => $is_owner
+                ]);
+            } else {
+                $email = $currentCompanyUser->email;
+                $this->techinician->create([
+                    'user_id' => $currentCompanyUser->id,
+                    'company_id' => $data['company_id'],
+                    'is_owner' => $is_owner
+                ]);
+            }
             
-            $profileData = [
-                'user_id' => $result->id,
-                'fullname' => $data['fullname'],
-                'phone' => $data['phone']
-            ];
-            if(!empty($data['avatar']))
-                $profileData['avatar'] = $data['avatar'];
-            $profile->create($profileData);
             
-            $this->techinician->create([
-                'user_id' => $result->id,
-                'company_id' => $data['company_id'],
-                'is_owner' => $is_owner
-            ]);
             
             DB::commit();
             //Verify mail
             $data = [
-                'email' => [$data['email']],
+                'email' => [$email],
                 'subject' => 'Verify email',
                 'data' => [
                     'link' => route('technician-verify', $code)
@@ -124,12 +136,9 @@ class TechnicianRepository {
         }
     }
     
-     public function uploadAvatar($folder, $inputname) {
+    public function uploadAvatar($folder, $inputname) {
         $rename = date('YmdHis');
         return $this->common->uploadImage($folder, $inputname, $rename);
-        /*if ($result)
-            return $this->common->responseJson(true, 200, '', ['path' => $result]);
-        return $this->common->responseJson(false);*/
     }
     
 }
