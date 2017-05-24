@@ -48,7 +48,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label id="count_route">{{count($value)}} pools</label>
+                                    <label id="count-route-{{$key}}" class="count-route-{{$key}}">{{count($value)}} pools</label> 
                                 </div>
                             </div>
                             <div class="panel panel-default">
@@ -67,11 +67,11 @@
                                         @foreach ($value as $key_route => $route)
                                             <tr class="{{$route->status=='billing_error'|| $route->status=='billing_success'?'tr-billing-success':'tr-billing-error'}}">	
                                                 <td><input type="checkbox" checked></input></td>
-                                                <td>{{$key_route+1}}</td>
+                                                <td class="number-to-route">{{$key_route+1}}</td>
                                                 <td class="address-to-route">{{$route->address}}</td>
-                                                <td>{{$route->city}}</td>
-                                                <td>{{$route->zipcode}}</td>
-                                                <td ><i class="fa fa-check-square  {{$route->status=='billing_error'|| $route->status=='billing_success'?'icon-success':''}}" aria-hidden="true"></i></td>
+                                                <td class="city-to-route">{{$route->city}}</td>
+                                                <td class="zipcode-to-route">{{$route->zipcode}}</td>
+                                                <td class="chk-service-status"><i class="fa fa-check-square  {{$route->status=='billing_error'|| $route->status=='billing_success'?'icon-success':''}}" aria-hidden="true"></i></td>
                                                 <td class="fullname-to-route hidden">{{$route->fullname}}</td>
                                                 <td class="lat-to-route hidden">{{$route->lat}}</td>
                                                 <td class="lng-to-route hidden">{{$route->lng}}</td>
@@ -79,7 +79,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>  
-                                <div class="panel-footer text-center total-route-date">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
+                                <div class="panel-footer text-center total-route-date-{{$key}}">You have: <strong>{{count($value)}} routes</strong> for <strong>{{$key}}</strong>
                                 </div>                              
                             </div>  
                         @endif     
@@ -90,10 +90,10 @@
                                     
                                 </div>
                                 <div class="form-group">
-                                    <label class="user-name-not-asign-{{$key}}">Not Assigned</label>
+                                    <label class="user-name-not-assign-{{$key}}">Not Assigned</label>
                                 </div>
                                 <div class="form-group">
-                                    <select id="not-asign-{{$key}}" class="pool-service-technician-not-asign-list" name="pool-service-list-not-asign-{{$key}}">
+                                    <select id="not-assign-{{$key}}" class="pool-service-technician-not-assign-{{$key}}" name="pool-service-technician-not-assign-{{$key}}">
                                         <option value="0" selected="selected">Chose pool service professional</option>
                                         @foreach ($listTechnicians as $tech)
                                             <option value="{{$tech->user_id}}" data-class="ui-icon-circle-check">{{$tech->fullname}}</option>
@@ -102,11 +102,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label id="count_route-not-asign">{{count($scheduleNotAsign)}} pools</label>
+                                    <label id="count-route-not-assign-{{$key}}" class="count-route-not-assign-{{$key}}">{{count($scheduleNotAsign)}} pools</label>
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <table class="table table-hover table-route-not-asign-{{$key}}">
+                                <table class="table table-hover table-route-not-assign-{{$key}}" id="table-route-not-assign-{{$key}}">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -121,14 +121,14 @@
                                             <tr>	
                                                 <td><input type="checkbox"></input></td>
                                                 <td>{{$key_che+1}}</td>
-                                                <td class="address-to-route">{{$che->address}}</td>
+                                                <td>{{$che->address}}</td>
                                                 <td>{{$che->city}}</td>
                                                 <td>{{$che->zipcode}}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>  
-                                <div class="panel-footer text-center total-route-date-not-asign">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not assign <strong>yet</strong>
+                                <div class="panel-footer text-center total-route-date-not-assign-{{$key}}" id="total-route-date-not-assign-{{$key}}">You have: <strong>{{count($scheduleNotAsign)}} routes </strong>not assign <strong>yet</strong>
                                 </div>                              
                             </div>  
                         @endif 
