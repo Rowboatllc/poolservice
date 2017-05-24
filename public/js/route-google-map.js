@@ -21,14 +21,15 @@ $(document).ready(function(){
     });
     
     $(".sectionB1 div.route-tab-menu>div.list-group-route>a").click(function(e) {
-        e.preventDefault();        
-        $(this).siblings('a.active').removeClass("active");
+        e.preventDefault();
+        let pre_day=$.trim($(this).siblings('a.active').text());
+        $(this).siblings('a.active').removeClass("active");        
         $(this).addClass("active");
         let index = $(this).index();
         $("div.route-tab>div.route-tab-content").removeClass("active");
         $("div.route-tab>div.route-tab-content").eq(index).addClass("active");
         $("div.title-route-map label").text($(this).text());
-        reloadTab($(this).text());
+        reloadTableNotAssign(pre_day,$.trim($(this).text()));
         reloadMap($(this).text());         
     });
 
@@ -189,9 +190,12 @@ $(document).ready(function(){
 });
 
 
-function reloadTab(date)
+function reloadTableNotAssign(pre_day,to_day)
 {
+    if(pre_day=='' || to_day==''||pre_day==undefined || to_day==undefined) return;
 
+    $('.company-route-service table.table-route-not-assign-'+to_day+' tbody').empty();
+    $('.company-route-service table.table-route-not-assign-'+to_day+' tbody').append($('.company-route-service table.table-route-not-assign-'+pre_day+' tbody tr'));   
 }
 
 function getDayOfPool(element) {

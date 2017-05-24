@@ -303,7 +303,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
     public function notAvailable($technician_id, $date){
             // var_dump($technician_id, $date);
         try{
-            DB::transaction(function () {
+            DB::transaction(function () use($technician_id, $date) {
+                
                 $selecteds = DB::table('selecteds')
                         ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
                         ->where('schedules.technician_id', $technician_id)
@@ -316,7 +317,6 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
                         ->whereDate('date', $date)
                         ->whereIn('status', ['opening','checkin'])
                         ->update(['status' => "closed"]);
-
                 if($selecteds>0 && $schedules>0){
                     return true;
                 }
