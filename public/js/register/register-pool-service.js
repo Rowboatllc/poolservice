@@ -2522,6 +2522,9 @@ function validationInputData()
 			'chk_weekly_pool_company[]':{
 				required: "You must choose at least 1 service."
 			},
+			'chk_weekly_pool':{
+				required: "You must choose at least 1 type of water."
+			},
 			'chk_service_type[]': {
 				required:"Please choose at least 1 service."
 			},
