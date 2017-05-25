@@ -305,22 +305,21 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         try{
             DB::transaction(function () use($technician_id, $date) {
                 
-                $selecteds = DB::table('selecteds')
-                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
-                        ->where('schedules.technician_id', $technician_id)
-                        ->whereIn('schedules.status', ['opening','checkin'])
-                        ->whereDate('schedules.date', $date)
-                        ->update(['selecteds.status' => "active"]);
+                DB::table('selecteds')
+                    ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                    ->where('schedules.technician_id', $technician_id)
+                    ->whereIn('schedules.status', ['opening','checkin'])
+                    ->whereDate('schedules.date', $date)
+                    ->update(['selecteds.status' => "active"]);
 
-                $schedules = DB::table('schedules')
-                        ->where('technician_id', $technician_id)
-                        ->whereDate('date', $date)
-                        ->whereIn('status', ['opening','checkin'])
-                        ->update(['status' => "closed"]);
-                if($selecteds>0 && $schedules>0){
-                    return true;
-                }
+                DB::table('schedules')
+                    ->where('technician_id', $technician_id)
+                    ->whereDate('date', $date)
+                    ->whereIn('status', ['opening','checkin'])
+                    ->update(['status' => "closed"]);
+                
             }, 3);
+            return true;
         }catch (Exception $e) {
             return false;
         }
@@ -332,24 +331,20 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
         $date = $now->format( 'Y-m-d');
         try{
             DB::transaction(function() use ($technician_id, $date) {
-                $selecteds = DB::table('selecteds')
-                        ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
-                        ->where('schedules.technician_id', $technician_id)
-                        ->whereIn('schedules.status', ['opening','checkin'])
-                        ->whereDate('schedules.date',">=",$date)
-                        ->update(['selecteds.status' => "active"]);
+                DB::table('selecteds')
+                    ->leftJoin('schedules', 'schedules.selected_id', '=', 'selecteds.id')
+                    ->where('schedules.technician_id', $technician_id)
+                    ->whereIn('schedules.status', ['opening','checkin'])
+                    ->whereDate('schedules.date',">=",$date)
+                    ->update(['selecteds.status' => "active"]);
 
-                $schedules = DB::table('schedules')
-                        ->where('technician_id', $technician_id)
-                        ->whereDate('date', ">=", $date)
-                        ->whereIn('status', ['opening','checkin'])
-                        ->update(['status' => "closed"]);
-
-                if($selecteds>=0 && $schedules>=0){
-                    return true;
-                }
+                DB::table('schedules')
+                    ->where('technician_id', $technician_id)
+                    ->whereDate('date', ">=", $date)
+                    ->whereIn('status', ['opening','checkin'])
+                    ->update(['status' => "closed"]);                
             }, 3);
-
+            return true;
         }catch (Exception $e) {
             return false;
         }
@@ -358,7 +353,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 
     public function notAssignOnePoolowner($schedule_id){
         try{
-            $schedule = $this->schedule->find($schedule_id);
+            $schedule = $this->schedule->find($schedule_id, $selecteds, $schedules);
             if(isset($schedule)){
                    $schedule->status = "closed";
                    if($schedule->save()){
