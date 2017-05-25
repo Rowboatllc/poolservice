@@ -89,7 +89,7 @@ class UserRepository
         // create PoolSubscriber object
 		$pool=new Order();
 		$pool->services=$array['chk_service_type']; 
-        $weekly_pool = implode(",", $array['chk_weekly_pool']);
+        // $weekly_pool = implode(",", $array['chk_weekly_pool']);
         
 		$pool->cleaning_object=$array['chk_weekly_pool'];
         if(in_array("pool", $array['chk_weekly_pool']))
@@ -195,6 +195,13 @@ class UserRepository
         $company=new Company();
         $company->name=$array['company'];
         $company->services=$array['chk_service_type']; 
+
+        $company->cleaning_object=$array['chk_weekly_pool_company'];
+        if(in_array("pool", $array['chk_weekly_pool_company']))
+        {            
+            $company->water=$array['chk_weekly_pool'];
+        }
+
         $intArray = array_map(
             function($value) { return (int)$value; },
             $array['zipcode']

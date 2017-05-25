@@ -19,6 +19,8 @@ class CreateTableCompanys extends Migration
             $table->string('name');
             $table->json('services');
             $table->json('zipcodes');
+            $table->json('cleaning_object');
+            $table->json('water');
             $table->string('logo');
             $table->boolean('approved')->default(false);
             $table->string('wq');

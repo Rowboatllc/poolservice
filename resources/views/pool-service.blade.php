@@ -80,23 +80,23 @@
             <fieldset id="service">
                 <h4 class="text-center">Weekly cleaning-<span id="weekly_money"></span></h4>
                 <div class="form-group">                        
-                    <input type="checkbox" name="chk_weekly_pool[]" value="pool" id="chk-weekly-pool" class="chk-service-weely">
+                    <input type="checkbox" name="chk_weekly_pool_company[]" value="pool" id="chk-weekly-pool-company" class="chk-service-weely">
                     <input type="hidden" name="price" id="hdf_price">
-                    <label for="chk-weekly-pool">POOL</label>   
+                    <label for="chk-weekly-pool-company">POOL</label>   
                     <div class="row"> 
                         <div class="col-md-4 centered">
-                            <p id="error_weekly_pool">
-                                <input name="rdo_weekly_pool" type="radio" value="salt" id="rdo-salwater" class="require-one"/> 
-                                <label for="rdo-salwater">Salwater</label>
-                                <input name="rdo_weekly_pool" type="radio" value="chlorine" id="rdo-chlorine" class="require-one"/> 
-                                <label for="rdo-chlorine">chlorine</label>
+                            <p id="error_weekly_pool_company">
+                                <input name="chk_weekly_pool" type="checkbox" value="salt" id="chk-salwater" class="require-one"/> 
+                                <label for="chk-salwater">Salwater</label>
+                                <input name="chk_weekly_pool" type="checkbox" value="chlorine" id="chk-chlorine" class="require-one"/> 
+                                <label for="chk-chlorine">chlorine</label>
                             </p>
                         </div>                    
                     </div>                     
                 </div>
                 
                 <div class="form-group" >                        
-                    <input type="checkbox" name="chk_weekly_pool[]" value="spa" id="chk-weekly-spa" class="chk-service-weely">
+                    <input type="checkbox" name="chk_weekly_pool_company[]" value="spa" id="chk-weekly-spa" class="chk-service-weely">
                     <label for="chk-weekly-spa" id=lblSpa>SPA</label>
                 </div>
                 <div class="form-group"> 

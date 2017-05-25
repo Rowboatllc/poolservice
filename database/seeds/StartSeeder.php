@@ -25,7 +25,8 @@ class StartSeeder extends Seeder
             $faker = Faker::create();
             $random = rand(1, 3);
             $com->services = ["weekly_learning", "pool_spa_repair", "deep_cleaning"];
-
+            $com->cleaning_object = ['pool', 'spa'];
+            $com->water = ['salt', 'chlorine'];
             $random_zipcode = rand(5,20);
             $zipcodes = Zipcode::get()->pluck('zipcode')->toArray();
             // $zipcodes [] = json_decode($com->zipcodes);

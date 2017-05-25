@@ -2373,11 +2373,11 @@ function validationInputData()
 			'chk_service_type[]':{
 				required: true,
 			},
-			'chk_weekly_pool[]':{
+			'chk_weekly_pool_company[]':{
 				required: true,				
 			},
-			'rdo_weekly_pool':{
-				required: '#chk-weekly-pool:checked',
+			'chk_weekly_pool':{
+				required: '#chk-weekly-pool-company:checked',
 			},
 			'email':{
 				required: true,
@@ -2519,7 +2519,7 @@ function validationInputData()
 				email: "Provide a valid email address.",
 				remote: jQuery.validator.format("This email is already taken.")
 			},      
-			'chk_weekly_pool[]':{
+			'chk_weekly_pool_company[]':{
 				required: "You must choose at least 1 service."
 			},
 			'chk_service_type[]': {
@@ -2554,12 +2554,12 @@ function validationInputData()
         },
 		errorPlacement: function(error, element) {
 			// console.log(element.attr("name"));
-			if (element.attr("name") == "chk_weekly_pool[]") {					
+			if (element.attr("name") == "chk_weekly_pool_company[]") {					
 				error.insertAfter("#lblSpa");
 			} else if(element.attr("name") == "chk_service_type[]"){
 				error.insertAfter("#lblServiceType");
-			} else if(element.attr("name") == "rdo_weekly_pool"){
-				error.insertAfter("#error_weekly_pool");
+			} else if(element.attr("name") == "chk_weekly_pool"){
+				error.insertAfter("#error_weekly_pool_company");
 			} else if(element.attr("name") == "stripeToken"){
 				error.insertAfter("#error_token");
 			}else{
@@ -2645,7 +2645,7 @@ $(document).ready(function() {
 		$('#frmPoolSubscriber #sum_price').text("$"+$('#hdf_price').val());
 		if ($('.chk-service-weely:checked').length == $('.chk-service-weely').length)
 		{
-			$('#frmPoolSubscriber #sum_service').text("pool: " + $('#rdo_weekly_pool').val()+ ", spa");
+			$('#frmPoolSubscriber #sum_service').text("pool: " + $('#chk_weekly_pool').val()+ ", spa");
 		}
 		else
 		{
